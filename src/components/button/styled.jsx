@@ -1,0 +1,342 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+export const Frame = styled(Link)`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  gap: 16px;
+  text-decoration: none;
+`;
+
+export const LargeButtonNonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #eaeef1;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const LargeButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #716a56;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const LargeButtonActiveContainer2 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #ebe4d2;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const LargeButtonNonActiveLabel = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #a3a2a4;
+`;
+
+export const LargeButtonActiveLabel = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+`;
+
+export const LargeButtonActiveLabel2 = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+`;
+
+export const LargeButtonNonActive = (props) => {
+  return (
+    <LargeButtonNonActiveContainer>
+      <Frame to={props.to}>
+        <LargeButtonNonActiveLabel>{props.text}</LargeButtonNonActiveLabel>
+      </Frame>
+    </LargeButtonNonActiveContainer>
+  );
+};
+
+export const LargeButtonActive = (props) => {
+  return (
+    <LargeButtonActiveContainer>
+      <Frame to={props.to}>
+        <LargeButtonActiveLabel>{props.text}</LargeButtonActiveLabel>
+      </Frame>
+    </LargeButtonActiveContainer>
+  );
+};
+
+export const LargeButtonActive2 = (props) => {
+
+  return (
+    <LargeButtonActiveContainer2>
+      <LargeButtonActiveLabel2>{props.text}</LargeButtonActiveLabel2>
+    </LargeButtonActiveContainer2>
+  );
+};
+
+export const KakaoLoginContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 10px;
+  background: #fae64e;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const KakaoSvg = styled.svg`
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
+`;
+
+export const RiKakaoTalkFill = () => {
+  return (
+    <KakaoSvg
+      width={31}
+      height={31}
+      viewBox="0 0 31 31"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15.5 4.25C22.75 4.25 28.6263 8.83 28.6263 14.4813C28.6263 20.1313 22.75 24.7113 15.5013 24.7113C14.7795 24.7116 14.0584 24.6657 13.3425 24.5738L7.8325 28.1775C7.20625 28.5088 6.985 28.4725 7.2425 27.6613L8.3575 23.0638C4.7575 21.2388 2.37625 18.0763 2.37625 14.4813C2.37625 8.83125 8.25125 4.25 15.5013 4.25H15.5ZM22.885 14.325L24.7225 12.545C24.8285 12.4349 24.8877 12.2879 24.8875 12.1351C24.8873 11.9822 24.8278 11.8354 24.7215 11.7255C24.6152 11.6157 24.4704 11.5513 24.3177 11.5461C24.1649 11.5409 24.0161 11.5952 23.9025 11.6975L21.4925 14.03V12.1025C21.4925 11.946 21.4303 11.796 21.3197 11.6853C21.209 11.5747 21.059 11.5125 20.9025 11.5125C20.746 11.5125 20.596 11.5747 20.4853 11.6853C20.3747 11.796 20.3125 11.946 20.3125 12.1025V15.2987C20.2904 15.3899 20.2904 15.4851 20.3125 15.5763V17.375C20.3125 17.5315 20.3747 17.6815 20.4853 17.7922C20.596 17.9028 20.746 17.965 20.9025 17.965C21.059 17.965 21.209 17.9028 21.3197 17.7922C21.4303 17.6815 21.4925 17.5315 21.4925 17.375V15.6713L22.0263 15.155L23.8113 17.6962C23.8558 17.7597 23.9124 17.8137 23.9779 17.8553C24.0434 17.8969 24.1164 17.9251 24.1927 17.9385C24.2691 17.9518 24.3474 17.95 24.423 17.9331C24.4987 17.9162 24.5703 17.8846 24.6338 17.84C24.6972 17.7954 24.7512 17.7388 24.7928 17.6734C24.8344 17.6079 24.8626 17.5349 24.876 17.4585C24.8893 17.3821 24.8875 17.3039 24.8706 17.2282C24.8537 17.1525 24.8221 17.0809 24.7775 17.0175L22.885 14.3237V14.325ZM19.1875 16.73H17.3625V12.1213C17.3555 11.9696 17.2904 11.8265 17.1806 11.7217C17.0708 11.6169 16.9249 11.5584 16.7731 11.5584C16.6213 11.5584 16.4754 11.6169 16.3656 11.7217C16.2559 11.8265 16.1907 11.9696 16.1838 12.1213V17.32C16.1838 17.645 16.4462 17.91 16.7725 17.91H19.1875C19.344 17.91 19.494 17.8478 19.6047 17.7372C19.7153 17.6265 19.7775 17.4765 19.7775 17.32C19.7775 17.1635 19.7153 17.0135 19.6047 16.9028C19.494 16.7922 19.344 16.73 19.1875 16.73ZM11.8663 15.3662L12.7362 13.2313L13.5338 15.365L11.8663 15.3662ZM15.02 15.975L15.0225 15.955C15.0222 15.8064 14.9655 15.6634 14.8638 15.555L13.5563 12.055C13.5014 11.8882 13.397 11.7421 13.257 11.6362C13.1169 11.5304 12.9479 11.4698 12.7725 11.4625C12.5958 11.4617 12.4231 11.5148 12.2772 11.6146C12.1314 11.7144 12.0195 11.8562 11.9563 12.0212L9.87875 17.115C9.81957 17.2599 9.82037 17.4223 9.88097 17.5666C9.94157 17.7109 10.057 17.8252 10.2019 17.8844C10.3468 17.9436 10.5092 17.9428 10.6535 17.8822C10.7978 17.8216 10.9121 17.7061 10.9713 17.5613L11.3863 16.545H13.9738L14.3463 17.545C14.3717 17.6197 14.4118 17.6886 14.4643 17.7476C14.5169 17.8065 14.5807 17.8543 14.652 17.8882C14.7233 17.922 14.8007 17.9412 14.8796 17.9446C14.9585 17.9479 15.0372 17.9355 15.1112 17.9078C15.1852 17.8802 15.2528 17.8381 15.3102 17.7838C15.3676 17.7296 15.4135 17.6644 15.4452 17.5921C15.4769 17.5198 15.4938 17.4418 15.4948 17.3629C15.4958 17.284 15.481 17.2056 15.4513 17.1325L15.02 15.975ZM10.8675 12.1275C10.8675 11.9712 10.8055 11.8214 10.6951 11.7107C10.5848 11.6001 10.435 11.5378 10.2788 11.5375H6.2225C6.06602 11.5375 5.91595 11.5997 5.80531 11.7103C5.69466 11.821 5.6325 11.971 5.6325 12.1275C5.6325 12.284 5.69466 12.434 5.80531 12.5447C5.91595 12.6553 6.06602 12.7175 6.2225 12.7175H7.6725V17.3875C7.6725 17.544 7.73466 17.694 7.84531 17.8047C7.95595 17.9153 8.10602 17.9775 8.2625 17.9775C8.41898 17.9775 8.56905 17.9153 8.67969 17.8047C8.79034 17.694 8.8525 17.544 8.8525 17.3875V12.7175H10.2775C10.434 12.7175 10.584 12.6553 10.6947 12.5447C10.8053 12.434 10.8675 12.284 10.8675 12.1275Z"
+        fill="black"
+      />
+    </KakaoSvg>
+  );
+};
+
+export const KakaoLoginComponent = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #222;
+`;
+
+export const KakaoLogin = (props) => {
+  return (
+    <KakaoLoginContainer>
+      <Frame to={props.to}>
+        <RiKakaoTalkFill />
+        <KakaoLoginComponent>카카오로 시작</KakaoLoginComponent>
+      </Frame>
+    </KakaoLoginContainer>
+  );
+};
+
+export const TextBtnMediumContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 114px;
+  height: 24px;
+  position: relative;
+  padding: 0px 10px;
+  margin: auto;
+`;
+
+export const TextBtnMediumComponent = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #222;
+`;
+
+export const TextBtnMedium = (props) => {
+  return (
+    <TextBtnMediumContainer>
+      <Frame to={props.to}>
+        <TextBtnMediumComponent>{props.text}</TextBtnMediumComponent>
+      </Frame>
+    </TextBtnMediumContainer>
+  );
+};
+
+export const TextBtnSmallContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 84px;
+  height: 24px;
+  position: relative;
+  padding: 0px 10px;
+`;
+
+export const TextBtnSmallComponent = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #222;
+`;
+
+export const TextBtnSmall = (props) => {
+  return (
+    <TextBtnSmallContainer>
+      <Frame to={props.to}>
+        <TextBtnSmallComponent>{props.text}</TextBtnSmallComponent>
+      </Frame>
+    </TextBtnSmallContainer>
+  );
+};
+
+export const CheckBoxContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 121px;
+  height: 24px;
+  position: relative;
+  padding: 0px 10px;
+`;
+
+export const CheckBoxContainer1 = styled.input`
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border-width: 1.5px;
+  border-color: #a3a2a4;
+  border-style: solid;
+`;
+
+export const CheckBoxTextBtn = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  padding: 0px 10px;
+`;
+
+export const CheckBoxComponent = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+`;
+
+export const CheckBox = (props) => {
+  return (
+    <CheckBoxContainer>
+      <CheckBoxContainer1 type="checkbox"/>
+      <CheckBoxTextBtn>
+        <CheckBoxComponent>{props.text}</CheckBoxComponent>
+      </CheckBoxTextBtn>
+    </CheckBoxContainer>
+  );
+};
