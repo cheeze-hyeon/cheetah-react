@@ -1,8 +1,43 @@
 import styled from "styled-components"
 import { TitleNormal } from "../text/styled";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Close } from "../input/styled";
 
+export const HeaderContainer = styled(Link)`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 390px;
+  height: fit-content;
+  position: relative;
+  padding: 20px 15px;
+`;
+
+export const ModalContainer = styled.div`
+box-sizing: border-box;
+display: flex;
+justify-content: space-between;
+align-items: center;
+align-self: stretch;
+flex-grow: 0;
+flex-shrink: 0;
+width: 100%;
+height: 44px;
+position: relative;
+padding: 10px;
+`;
+
+export const HeaderNone = styled.div`
+  box-sizing: border-box;
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+`;
 
 export const HeaderBackSvg = styled.svg`
 display: block;
@@ -28,27 +63,59 @@ export const HeaderBackArrow = () => {
   );
 };
 
+export const HeaderMenuIcon = () => {
+  return (
+    <MenuSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <mask
+        id="mask0_356_8991"
+        style={{
+          maskType: "alpha",
+        }}
+        maskUnits="userSpaceOnUse"
+        x={0}
+        y={0}
+        width={30}
+        height={30}
+      >
+        <rect width={30} height={30} fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_356_8991)">
+        <path
+          d="M3.75 22.5V20H26.25V22.5H3.75ZM3.75 16.25V13.75H26.25V16.25H3.75ZM3.75 10V7.5H26.25V10H3.75Z"
+          fill="#1C1B1F"
+        />
+      </g>
+    </MenuSvg>
+  );
+};
 
-export const HeaderBackContainer = styled(Link)`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 390px;
-  height: fit-content;
-  position: relative;
-  padding: 20px 15px;
-`;
-
-export const HeaderNone = styled.div`
-  box-sizing: border-box;
+const MenuSvg = styled.svg`
   display: block;
   flex-grow: 0;
   flex-shrink: 0;
   width: 30px;
   height: 30px;
   position: relative;
-  overflow: hidden;
+`;
+
+const HeaderMoreIcon = () => {
+  return (
+    <MoreSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.5 23.75C12.5 25.125 13.625 26.25 15 26.25C16.375 26.25 17.5 25.125 17.5 23.75C17.5 22.375 16.375 21.25 15 21.25C13.625 21.25 12.5 22.375 12.5 23.75ZM12.5 6.25C12.5 7.625 13.625 8.75 15 8.75C16.375 8.75 17.5 7.625 17.5 6.25C17.5 4.875 16.375 3.75 15 3.75C13.625 3.75 12.5 4.875 12.5 6.25ZM12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5C13.625 12.5 12.5 13.625 12.5 15Z"
+        fill="black"
+      />
+    </MoreSvg>
+  );
+};
+
+const MoreSvg = styled.svg`
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
 `;
 
 export const Label = styled.p`
@@ -65,19 +132,51 @@ export const Label = styled.p`
   color: #000;('
 `;
 
-
-
 export const HeaderBack = (props) => {
-  const check = () => {
-    console.log("check!");
-  }
   return (
-    <HeaderBackContainer className="m-auto mt-[47px]">
+    <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
       <TitleNormal>
-        <Label onClick={check}>{props.text}</Label>
+        <Label>{props.text}</Label>
       </TitleNormal>
       <HeaderNone />
-    </HeaderBackContainer>
+    </HeaderContainer>
   );
 };
+
+export const HeaderMenu = (props) => {
+  return (
+    <HeaderContainer className="m-auto mt-[47px]">
+      <HeaderNone />
+      <TitleNormal>
+        <Label>{props.text}</Label>
+      </TitleNormal>
+      <HeaderMenuIcon />
+    </HeaderContainer>
+  );
+};
+
+export const HeaderMore = (props) => {
+  return (
+    <HeaderContainer className="m-auto mt-[47px]">
+      <HeaderBackArrow />
+      <TitleNormal>
+        <Label>{props.text}</Label>
+      </TitleNormal>
+      <HeaderMoreIcon />
+    </HeaderContainer>
+  );
+};
+
+export const HeaderModal = (props) => {
+  return (
+    <ModalContainer className="m-auto mt-[47px]">
+      <HeaderNone />
+      <TitleNormal>
+        <Label>{props.text}</Label>
+      </TitleNormal>
+      <Close />
+    </ModalContainer>
+  );
+};
+

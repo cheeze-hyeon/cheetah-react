@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { TextNormal } from "../text/styled";
 
 export const Frame = styled(Link)`
   box-sizing: border-box;
@@ -77,7 +78,7 @@ export const LargeButtonNonActiveLabel = styled.p`
   color: #a3a2a4;
 `;
 
-export const LargeButtonActiveLabel = styled.p`
+export const LargeLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -92,7 +93,7 @@ export const LargeButtonActiveLabel = styled.p`
   color: #fff;
 `;
 
-export const LargeButtonActiveLabel2 = styled.p`
+export const LargeLabel2 = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -121,17 +122,16 @@ export const LargeButtonActive = (props) => {
   return (
     <LargeButtonActiveContainer>
       <Frame to={props.to}>
-        <LargeButtonActiveLabel>{props.text}</LargeButtonActiveLabel>
+        <LargeLabel>{props.text}</LargeLabel>
       </Frame>
     </LargeButtonActiveContainer>
   );
 };
 
 export const LargeButtonActive2 = (props) => {
-
   return (
     <LargeButtonActiveContainer2>
-      <LargeButtonActiveLabel2>{props.text}</LargeButtonActiveLabel2>
+      <LargeLabel2>{props.text}</LargeLabel2>
     </LargeButtonActiveContainer2>
   );
 };
@@ -161,7 +161,7 @@ export const KakaoSvg = styled.svg`
   position: relative;
 `;
 
-export const RiKakaoTalkFill = () => {
+export const KakaoLogo = () => {
   return (
     <KakaoSvg
       width={31}
@@ -178,7 +178,7 @@ export const RiKakaoTalkFill = () => {
   );
 };
 
-export const KakaoLoginComponent = styled.p`
+export const KakaoLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -197,14 +197,14 @@ export const KakaoLogin = (props) => {
   return (
     <KakaoLoginContainer>
       <Frame to={props.to}>
-        <RiKakaoTalkFill />
-        <KakaoLoginComponent>카카오로 시작</KakaoLoginComponent>
+        <KakaoLogo />
+        <KakaoLabel>카카오로 시작</KakaoLabel>
       </Frame>
     </KakaoLoginContainer>
   );
 };
 
-export const TextBtnMediumContainer = styled.div`
+export const TextBtnMContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -218,7 +218,7 @@ export const TextBtnMediumContainer = styled.div`
   margin: auto;
 `;
 
-export const TextBtnMediumComponent = styled.p`
+export const TextBtnMLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -235,15 +235,15 @@ export const TextBtnMediumComponent = styled.p`
 
 export const TextBtnMedium = (props) => {
   return (
-    <TextBtnMediumContainer>
+    <TextBtnMContainer>
       <Frame to={props.to}>
-        <TextBtnMediumComponent>{props.text}</TextBtnMediumComponent>
+        <TextBtnMLabel>{props.text}</TextBtnMLabel>
       </Frame>
-    </TextBtnMediumContainer>
+    </TextBtnMContainer>
   );
 };
 
-export const TextBtnSmallContainer = styled.div`
+export const TextBtnSContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -256,7 +256,7 @@ export const TextBtnSmallContainer = styled.div`
   padding: 0px 10px;
 `;
 
-export const TextBtnSmallComponent = styled.p`
+export const TextBtnSComponent = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -273,11 +273,11 @@ export const TextBtnSmallComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSmallContainer>
+    <TextBtnSContainer>
       <Frame to={props.to}>
-        <TextBtnSmallComponent>{props.text}</TextBtnSmallComponent>
+        <TextBtnSComponent>{props.text}</TextBtnSComponent>
       </Frame>
-    </TextBtnSmallContainer>
+    </TextBtnSContainer>
   );
 };
 
@@ -294,7 +294,7 @@ export const CheckBoxContainer = styled.div`
   padding: 0px 10px;
 `;
 
-export const CheckBoxContainer1 = styled.input`
+export const CheckBoxInput = styled.input`
   flex-grow: 0;
   flex-shrink: 0;
   width: 16px;
@@ -305,7 +305,7 @@ export const CheckBoxContainer1 = styled.input`
   border-style: solid;
 `;
 
-export const CheckBoxTextBtn = styled.div`
+export const CheckBoxTextContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -316,7 +316,7 @@ export const CheckBoxTextBtn = styled.div`
   padding: 0px 10px;
 `;
 
-export const CheckBoxComponent = styled.p`
+export const CheckBoxLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -333,10 +333,542 @@ export const CheckBoxComponent = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxContainer1 type="checkbox"/>
-      <CheckBoxTextBtn>
-        <CheckBoxComponent>{props.text}</CheckBoxComponent>
-      </CheckBoxTextBtn>
+      <CheckBoxInput type="checkbox" />
+      <CheckBoxTextContainer>
+        <CheckBoxLabel>{props.text}</CheckBoxLabel>
+      </CheckBoxTextContainer>
     </CheckBoxContainer>
   );
 };
+
+const TwoButtonContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  gap: 10px;
+  margin: auto;
+`;
+
+export const TwoButtonActiveContainer1 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 133px;
+  height: 55px;
+  border-radius: 8px;
+  background: #f19a37;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const TwoButtonActiveContainer2 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 204px;
+  height: 55px;
+  border-radius: 8px;
+  background: #716a56;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const TwoButton = (props) => {
+  return (
+    <TwoButtonContainer>
+      <TwoButtonActiveContainer1>
+        <Frame>
+          <LargeLabel>{props.text1}</LargeLabel>
+        </Frame>
+      </TwoButtonActiveContainer1>
+      <TwoButtonActiveContainer2>
+        <Frame>
+          <LargeLabel>{props.text2}</LargeLabel>
+        </Frame>
+      </TwoButtonActiveContainer2>
+    </TwoButtonContainer>
+  );
+};
+
+export const MButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 150px;
+  height: 50px;
+  border-radius: 8px;
+  background: #f19a37;
+  margin: auto;
+`;
+
+const MediumLabel = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+`;
+
+export const MediumButtonActive = (props) => {
+  return (
+    <MButtonActiveContainer>
+      <Frame>
+        <MediumLabel>확인</MediumLabel>
+      </Frame>
+    </MButtonActiveContainer>
+  );
+};
+
+export const MButtonNonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 150px;
+  height: 50px;
+  border-radius: 8px;
+  background: #eaeef1;
+  margin: auto;
+`;
+
+export const MediumLabel2 = styled.p`
+margin: 0;
+white-space: pre-wrap;
+flex-grow: 0;
+flex-shrink: 0;
+font-family: Pretendard;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0px;
+font-weight: 600;
+text-align: center;
+text-transform: uppercase;
+color: #a3a2a4;
+`;
+
+export const MediumButtonNonActive = (props) => {
+  return (
+    <MButtonNonActiveContainer>
+      <MediumLabel2>확인</MediumLabel2>
+    </MButtonNonActiveContainer>
+  );
+};
+
+export const SButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 83px;
+  height: 50px;
+  border-radius: 8px;
+  background: #f19a37;
+  margin: auto;
+`;
+
+export const SmallLabel = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+`;
+
+export const SmallButtonActive = (props) => {
+  return (
+    <SButtonActiveContainer>
+      <Frame>
+        <SmallLabel>확인</SmallLabel>
+      </Frame>
+    </SButtonActiveContainer>
+  );
+};
+
+export const SButtonNonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 83px;
+  height: 50px;
+  border-radius: 8px;
+  background: #eaeef1;
+  margin: auto;
+`;
+
+const SmallLabel2 = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #a3a2a4;
+`;
+
+export const SmallButtonNonActive = (props) => {
+  return (
+    <SButtonNonActiveContainer>
+      <SmallLabel2>확인</SmallLabel2>
+    </SButtonNonActiveContainer>
+  );
+};
+
+export const SlimButtonContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: 40px;
+  padding: 0px 20px;
+  border-radius: 10px;
+  background: #f19a37;
+  margin: auto;
+`;
+
+export const SlimButtonActive = (props) => {
+  return (
+    <SlimButtonContainer>
+      <Frame>
+        <SmallLabel>확인</SmallLabel>
+      </Frame>
+    </SlimButtonContainer>
+  );
+};
+
+export const TagContainer = styled.div`
+  box-sizing: border-box;
+  display: inline-block;
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  // width: 63px;
+  height: 35px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: #ddd;
+  border-width: 2px;
+  border-color: #fff;
+  border-style: solid;
+  box-shadow: 0px 0px 6px 0 rgba(0,0,0,0.2);
+`;
+
+export const TagLabel = styled.p`
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 15px;
+  line-height: 19px;
+  letter-spacing: 0px;
+  font-weight: 500;
+  text-align: left;
+  color: #000;
+`;
+
+export const TagDefault = (props) => {
+  return (
+    <TagContainer>
+      <TextNormal>
+        <TagLabel>{props.text}</TagLabel>
+      </TextNormal>
+    </TagContainer>
+  );
+};
+
+export const TagSelectContainer = styled.div`
+box-sizing: border-box;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-grow: 0;
+flex-shrink: 0;
+width: 63px;
+height: 35px;
+padding: 8px 12px;
+border-radius: 20px;
+background: #ddd;
+border-width: 4px;
+border-color: #fff;
+border-style: solid;
+box-shadow: 0px 0px 4px 0 rgba(0,0,0,0.4);
+`;
+
+export const TagSelect = (props) => {
+  return (
+    <TagSelectContainer>
+      <TextNormal>
+        <TagLabel>{props.text}</TagLabel>
+      </TextNormal>
+    </TagSelectContainer>
+  );
+};
+
+const ResetSvg = styled.svg`
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  position: relative;
+`;
+
+export const IconReset = () => {
+  return (
+    <ResetSvg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M13.773 13.773C13.1469 14.4007 12.4029 14.8986 11.5838 15.2378C10.7647 15.5771 9.8866 15.7512 9 15.75C5.27213 15.75 2.25 12.7279 2.25 9C2.25 5.27213 5.27213 2.25 9 2.25C10.8637 2.25 12.5513 3.00563 13.773 4.227C14.3948 4.84875 15.75 6.375 15.75 6.375"
+        stroke="black"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.75 3V6.375H12.375"
+        stroke="black"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </ResetSvg>
+  );
+};
+
+export const TextBtnSwIconContainer = styled.div`
+box-sizing: border-box;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-grow: 0;
+flex-shrink: 0;
+width: 92px;
+height: 24px;
+position: relative;
+gap: 5px;
+padding: 0px 10px;
+margin: auto;
+`;
+
+export const TextBtnSContainer2 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 49px;
+  height: 24px;
+  position: relative;
+`;
+
+export const TextBtnWIconSmall = (props) => {
+  return (
+    <TextBtnSContainer2>
+      <Frame to={props.to}>
+        <TextBtnSComponent>{props.text}</TextBtnSComponent>
+      </Frame>
+    </TextBtnSContainer2>
+  );
+};
+
+export const TextBtnSmallWithicon = (props) => {
+  return (
+    <TextBtnSwIconContainer>
+      <IconReset />
+      <TextBtnWIconSmall text="되돌리기"></TextBtnWIconSmall>
+    </TextBtnSwIconContainer>
+  );
+};
+
+export const Ellipse4Svg = styled.svg`
+flex-grow: 0;
+flex-shrink: 0;
+`;
+
+const Ellipse4 = () => {
+  return (
+    <Ellipse4Svg
+      width={120}
+      height={120}
+      viewBox="0 0 120 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g filter="url(#filter0_d_10_5147)">
+        <circle cx={60} cy={57} r={30} fill="#F19A37" />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_10_5147"
+          x={0}
+          y={0}
+          width={120}
+          height={120}
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity={0} result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy={3} />
+          <feGaussianBlur stdDeviation={15} />
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0784314 0" />
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_10_5147" />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_10_5147"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </Ellipse4Svg>
+  );
+};
+
+export const ShapeSvg = styled.svg`
+position: absolute;
+left: 15px;
+top: 15px;
+`;
+
+export const Shape = () => {
+  return (
+    <ShapeSvg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M29.8158 14.8158H17.1842V2.18421C17.1842 1.53019 16.654 1 16 1C15.346 1 14.8158 1.53019 14.8158 2.18421V14.8158H2.18421C1.53019 14.8158 1 15.346 1 16C1 16.654 1.53019 17.1842 2.18421 17.1842H14.8158V29.8158C14.8158 30.4698 15.346 31 16 31C16.654 31 17.1842 30.4698 17.1842 29.8158V17.1842H29.8158C30.4698 17.1842 31 16.654 31 16C31 15.346 30.4698 14.8158 29.8158 14.8158Z"
+        fill="white"
+        stroke="white"
+      />
+    </ShapeSvg>
+  );
+};
+
+export const FloatingBtnContainer = styled.div`
+box-sizing: border-box;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-grow: 0;
+flex-shrink: 0;
+width: 60px;
+height: 60px;
+position: relative;
+filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.25));
+`;
+
+export const FloatingBtn = () => {
+  return (
+    <FloatingBtnContainer>
+      <Ellipse4 />
+      <Shape />
+    </FloatingBtnContainer>
+  );
+};
+
+export const ColorBtnContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 37px;
+  height: 37px;
+  position: relative;
+  gap: 10px;
+  padding: 5px;
+`;
+
+export const Color = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 27px;
+  height: 27px;
+  border-radius: 2px;
+  background: #dc8686;
+`;
+
+export const ColorBtnDefault = (props) => {
+  return (
+    <ColorBtnContainer>
+      <Color />
+    </ColorBtnContainer>
+  );
+};
+
+const ColorBtnSelect1 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  gap: 10px;
+  padding: 5px;
+`;
+
+export const ColorBtnSelect = (props) => {
+  return (
+    <ColorBtnContainer>
+      <ColorBtnSelect1>
+        <Color />
+      </ColorBtnSelect1>
+    </ColorBtnContainer>
+  );
+};
+
