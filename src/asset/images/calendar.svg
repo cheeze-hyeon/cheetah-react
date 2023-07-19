@@ -1,0 +1,10 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="solar:calendar-mark-linear">
+<g id="Group">
+<path id="Vector" d="M2.5 15C2.5 10.2863 2.5 7.92875 3.965 6.465C5.42875 5 7.78625 5 12.5 5H17.5C22.2137 5 24.5712 5 26.035 6.465C27.5 7.92875 27.5 10.2863 27.5 15V17.5C27.5 22.2137 27.5 24.5712 26.035 26.035C24.5712 27.5 22.2137 27.5 17.5 27.5H12.5C7.78625 27.5 5.42875 27.5 3.965 26.035C2.5 24.5712 2.5 22.2137 2.5 17.5V15Z" stroke="#DDDDDD" stroke-width="1.875"/>
+<path id="Vector_2" d="M8.75 5V3.125M21.25 5V3.125" stroke="#DDDDDD" stroke-width="1.875" stroke-linecap="round"/>
+<path id="Vector_3" d="M20.625 22.5C21.6605 22.5 22.5 21.6605 22.5 20.625C22.5 19.5895 21.6605 18.75 20.625 18.75C19.5895 18.75 18.75 19.5895 18.75 20.625C18.75 21.6605 19.5895 22.5 20.625 22.5Z" stroke="#DDDDDD" stroke-width="1.875"/>
+<path id="Vector_4" d="M3.125 11.25H26.875" stroke="#DDDDDD" stroke-width="1.875" stroke-linecap="round"/>
+</g>
+</g>
+</svg>
