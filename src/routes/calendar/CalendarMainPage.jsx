@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { addMonths, subMonths } from "date-fns";
 
-import * as s from "./style";
+import * as s from "./styled";
+import * as t from "../../components/text/styled";
 
 import { CalendarTabBar } from "../../components/tabBar";
-import { SpeedButton, FloatingBtn, CalendarHeader, CalendarDays, CalendarCells } from "./index";
+import {
+  SpeedButton,
+  FloatingBtn,
+  CalendarHeader,
+  CalendarDays,
+  CalendarCells,
+} from "./index";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -19,7 +26,7 @@ const CalendarMainPage = () => {
   };
 
   return (
-    <s.main>
+    <>
       <s.calendarMainRoot>
         <s.headerContainer>
           <CalendarHeader
@@ -28,7 +35,7 @@ const CalendarMainPage = () => {
             nextMonth={nextMonth}
           />
           <s.buttonContainer>
-            <s.textNormal>치타 속도 보기 (hour/day)</s.textNormal>
+            <t.TextNormal>치타 속도 보기 (hour/day)</t.TextNormal>
             <SpeedButton />
           </s.buttonContainer>
           <CalendarDays />
@@ -40,7 +47,7 @@ const CalendarMainPage = () => {
         <CalendarTabBar />
         <FloatingBtn />
       </s.calendarMainRoot>
-    </s.main>
+    </>
   );
 };
 

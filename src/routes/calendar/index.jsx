@@ -2,9 +2,11 @@ import { useState } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
-import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
+import { isSameMonth, isSameDay, addDays } from "date-fns";
 import { format } from "date-fns";
-import * as s from "./style";
+import { useNavigate } from "react-router-dom";
+import * as s from "./styled";
+import * as t from "../../components/text/styled";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
@@ -28,8 +30,8 @@ export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     <s.calendarHeader>
       <s.headerIcon src={back} alt="back" onClick={prevMonth} />
       <s.headerTitle>
-        <s.titleNormal>{format(currentMonth, "M")}월,</s.titleNormal>
-        <s.titleNormal>{format(currentMonth, "yyyy")}</s.titleNormal>
+        <t.TitleNormal>{format(currentMonth, "M")}월,</t.TitleNormal>
+        <t.TitleNormal>{format(currentMonth, "yyyy")}</t.TitleNormal>
       </s.headerTitle>
       <s.headerIcon src={forward} alt="forward" onClick={nextMonth} />
     </s.calendarHeader>
@@ -53,16 +55,22 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate, onDateClick }) => {
+export const CalendarCells = ({ currentMonth, selectedDate }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
+  const navigate = useNavigate();
 
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
+
+  const onDateClick = (day) => {
+    const formattedDate = format(day, "yyyy-MM-dd");
+    navigate(`/calendar/${formattedDate}`);
+  };
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -72,7 +80,7 @@ export const CalendarCells = ({ currentMonth, selectedDate, onDateClick }) => {
       const isCurrentMonth = isSameMonth(day, monthStart);
 
       days.push(
-        <s.dateContainer key={day} onClick={() => onDateClick(parse(cloneDay))}>
+        <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
           {isSameDay(day, selectedDate) ? (
             <s.dateToday>{formattedDate}</s.dateToday>
           ) : (

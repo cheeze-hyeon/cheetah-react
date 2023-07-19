@@ -5,6 +5,9 @@
     height: 844px;
     margin: 0 auto;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 }
 
@@ -14,5 +17,9 @@
     width: 100vw;
     height: 100vh;
     aspect-ratio: 390/844;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 }

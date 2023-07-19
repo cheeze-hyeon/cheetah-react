@@ -2,28 +2,31 @@ import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
 import FloatingBtn from "../../asset/images/floatingBtn.png";
 
-export const main = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-`;
 
 export const calendarMainRoot = styled.div`
-  display: inline-flex;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   font-size: var(--default-bold-body-size);
-  color: #010101;
+  color: var(--black);
   font-family: var(--font-pretendard);
   width: 390px;
   height: 844px;
+  overflow: hidden;
+`;
+
+export const headerContainer = styled.div`
+  padding-top: 47px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
+  background: var(--background);
 `;
 
 export const calendarHeader = styled.div`
@@ -50,6 +53,7 @@ export const headerIcon = styled.img`
   height: 30px;
   overflow: hidden;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 export const day = styled.div`
@@ -87,11 +91,12 @@ export const dateContainer = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   width: 56px;
-  height: 95px;
+  height: 105px;
   position: relative;
   overflow: hidden;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const dateToday = styled.span`
@@ -129,10 +134,11 @@ export const week = styled.div`
 `;
 
 export const month = styled.div`
-  margin-top: 193px;
-  padding-bottom: 100px;
+  position: relative;
+  margin-top: 190px;
+  padding-bottom: 30px;
   display: flex;
-  height: 550px;
+  height: 570px;
   flex-direction: column;
   align-items: center;
   overflow: auto;
@@ -148,51 +154,6 @@ export const buttonContainer = styled.div`
   background: var(--background);
 `;
 
-export const titleNormal = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px;
-`;
-
-export const titleHeavy = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px; /* 67.857% */
-`;
-
-export const textHeavy = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px; /* 105.556% */
-`;
-
-export const textNormal = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 19px; /* 126.667% */
-`;
-
-export const textLight = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19px; /* 146.154% */
-`;
-
 export const switchFrame = styled.div`
   box-sizing: border-box;
   display: block;
@@ -201,6 +162,7 @@ export const switchFrame = styled.div`
   width: 80px;
   height: 30px;
   position: relative;
+  cursor: pointer;
 `;
 
 export const track = styled.div`
@@ -246,29 +208,19 @@ export const onOffText = styled.p`
   color: ${(props) => (props.isOff ? "#fff" : "#000")};
 `;
 
-export const headerContainer = styled.div`
-  padding-top: 47px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: fixed;
-  background: var(--background);
-`;
-
 export const floatingBtnContainer = styled.div`
-  left: 38%;
-  bottom: 17%;
-  box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
+  padding-bottom: 30px;
+  position: relative;
+  left: 150px;
+  bottom: 70px;
+  cursor: pointer;
   width: 60px;
   height: 60px;
-  position: relative;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
   background-image: url(${FloatingBtn});
   background-repeat: no-repeat;
   background-size: 60px 60px;
+
 `;
