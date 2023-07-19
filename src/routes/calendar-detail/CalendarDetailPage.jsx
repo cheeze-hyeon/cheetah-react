@@ -8,6 +8,7 @@ import {
 } from ".";
 import { parse } from "date-fns"; // parse 함수를 import 합니다.
 import * as s from "./styled";
+import { ModalOverlay } from "../../components/modal/styled";
 
 const CalendarDetailPage = () => {
   const { selectedDate } = useParams();
@@ -41,9 +42,9 @@ const CalendarDetailPage = () => {
         </s.Container>
       </s.calendarDetailRoot>
       {isCompleteModalOpen && (
-        <s.modalOverlay onClick={showCompleteModal}>
+        <ModalOverlay onClick={showCompleteModal}>
           <TaskCompleteModal showCompleteModal={showCompleteModal} />
-        </s.modalOverlay>
+        </ModalOverlay>
       )}
     </>
   );

@@ -7,6 +7,7 @@ import {
   LargeButtonActive,
 } from "../../components/button/styled";
 import { FieldWithLabel, TodoCheck } from "../../components/input/styled";
+import { ModalHeaderContainer } from "../../components/modal/styled";
 
 import { ko } from "date-fns/locale"; // Import the ko locale
 import { useNavigate } from "react-router-dom";
@@ -85,7 +86,7 @@ export const TaskCompleteModal = ({ showCompleteModal }) => {
   return (
     <s.TaskCompleteModalContainer>
       <s.modalElementContainer>
-        <s.modalHeader>
+        <ModalHeaderContainer>
           <s.headerIconContainer></s.headerIconContainer>
           <t.TitleNormal>멋사 해커톤 기획안 발표</t.TitleNormal>
           <s.headerIconContainer>
@@ -96,7 +97,7 @@ export const TaskCompleteModal = ({ showCompleteModal }) => {
               src={CloseIcon}
             />
           </s.headerIconContainer>
-        </s.modalHeader>
+        </ModalHeaderContainer>
         <s.modalCenter>
           <s.progressLargeContainer>
             <s.progressTopContainer>

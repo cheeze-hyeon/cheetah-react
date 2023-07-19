@@ -221,20 +221,6 @@ export const dueDate = styled(TextLight)`
   opacity: ${({ isHidden }) => (isHidden ? "0.3" : "1")};
 `;
 
-export const modalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%);
-  width: 390px;
-  height: 844px;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-`;
 
 export const TaskCompleteModalContainer = styled.div`
   overflow: auto;
@@ -257,17 +243,6 @@ export const modalElementContainer = styled.div`
   gap: 20px;
   flex: 1 0 0;
   align-self: stretch;
-`;
-
-export const modalHeader = styled.div`
-  position: fixed;
-  display: flex;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-  background: var(--white);
-  width: 327px;
 `;
 
 export const modalCenter = styled.div`
