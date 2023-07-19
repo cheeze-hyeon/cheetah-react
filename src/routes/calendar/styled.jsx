@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
 import FloatingBtn from "../../asset/images/floatingBtn.png";
 
-
 export const calendarMainRoot = styled.div`
   top: 0;
   left: 50%;
@@ -213,6 +212,7 @@ export const floatingBtnContainer = styled.div`
   align-items: center;
   padding-bottom: 30px;
   position: relative;
+  z-index: 999;
   left: 150px;
   bottom: 70px;
   cursor: pointer;
@@ -222,5 +222,25 @@ export const floatingBtnContainer = styled.div`
   background-image: url(${FloatingBtn});
   background-repeat: no-repeat;
   background-size: 60px 60px;
+`;
 
+export const GoalCreateModalContainer = styled.div`
+  display: flex;
+  width: 389px;
+  padding: 10px 15px;
+  align-items: flex-start;
+  gap: 10px;
+  height: 100px;
+  border-radius: 25px 25px 0px 0px;
+  background: var(white);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+`;
+
+export const GoalCreateModalElementContainer = styled.div`
+  display: flex;
+  padding: 10px 0px 35px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  flex: 1 0 0;
 `;

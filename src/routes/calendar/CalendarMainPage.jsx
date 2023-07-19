@@ -7,15 +7,24 @@ import * as t from "../../components/text/styled";
 import { CalendarTabBar } from "../../components/tabBar";
 import {
   SpeedButton,
-  FloatingBtn,
   CalendarHeader,
   CalendarDays,
   CalendarCells,
 } from "./index";
+import { ModalOverlay } from "../../components/modal/styled";
+import { GoalCreateModal } from ".";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
+
+  const showGoalCreateModal = (e) => {
+    if (e.target === e.currentTarget) {
+      setisGoalCreateModalOpen(!isGoalCreateModalOpen);
+    }
+    console.log(isGoalCreateModalOpen);
+  };
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -45,8 +54,14 @@ const CalendarMainPage = () => {
           selectedDate={selectedDate}
         />
         <CalendarTabBar />
-        <FloatingBtn />
+        <s.floatingBtnContainer onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
+      {isGoalCreateModalOpen && (
+        <ModalOverlay
+          className="flex-end"
+          onClick={showGoalCreateModal}
+        ></ModalOverlay>
+      )}
     </>
   );
 };

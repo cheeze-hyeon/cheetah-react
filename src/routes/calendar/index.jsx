@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
+import { HeaderModal } from "../../components/header/styled";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
@@ -19,10 +20,6 @@ export const SpeedButton = () => {
       </s.onOffCircle>
     </s.switchFrame>
   );
-};
-
-export const FloatingBtn = () => {
-  return <s.floatingBtnContainer />;
 };
 
 export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
@@ -96,4 +93,12 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
     days = [];
   }
   return <s.month>{rows}</s.month>;
+};
+
+export const GoalCreateModal = () => {
+  <s.GoalCreateModalContainer>
+    <s.GoalCreateModalElementContainer>
+      <HeaderModal text="목표추가" />
+    </s.GoalCreateModalElementContainer>
+  </s.GoalCreateModalContainer>;
 };
