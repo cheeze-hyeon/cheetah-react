@@ -296,8 +296,8 @@ export const DateFieldContainer = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 140px;
   height: 50px;
+  width: 48%;
   padding: 0px 7px;
   border-radius: 8px;
   background: #fff;
@@ -310,28 +310,22 @@ export const DateFieldContainer = styled.div`
 export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
-      <Frame3668>
-        <TextNormal>
-          <Text>
-            <input type="Date" />
-          </Text>
-        </TextNormal>
-        {/* <CalendarIcon /> */}
-      </Frame3668>
+      <input type="Date" />
+      {/* <CalendarIcon /> */}
     </DateFieldContainer>
   );
 };
 export const TwoDateFieldContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 355px;
+  width: 100%;
   height: 50px;
-  gap: 16px;
+  padding: 0px 2px;
 `;
 
 export const TwoInputDateField = (props) => {
@@ -382,12 +376,12 @@ export const ClockIcon = () => {
 export const TimeFieldContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 325px;
+  width: 100%;
   height: 50px;
   padding: 0px 15px;
   border-radius: 8px;
@@ -401,15 +395,9 @@ export const TimeFieldContainer = styled.div`
 export const InputTimeField = (props) => {
   return (
     <TimeFieldContainer>
-      <Frame3668>
-        <TextNormal>
-          {/* <Text> */}
-          <div className="flex flex-row w-[325px]">
-            <input type="number" className="w-[275px]" />
-            <ClockIcon />
-          </div>
-        </TextNormal>
-      </Frame3668>
+      {/* <Text> */}
+      <input type="number" className="w-[275px]" />
+      <ClockIcon />
     </TimeFieldContainer>
   );
 };

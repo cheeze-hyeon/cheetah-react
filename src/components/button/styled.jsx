@@ -363,7 +363,7 @@ export const TwoButtonActiveContainer1 = styled.div`
   width: 133px;
   height: 55px;
   border-radius: 8px;
-  background: #f19a37;
+  background: var(--brown);
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -379,7 +379,7 @@ export const TwoButtonActiveContainer2 = styled.div`
   width: 204px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: var(--orange);
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -387,12 +387,12 @@ export const TwoButtonActiveContainer2 = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <TwoButtonActiveContainer1>
+      <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
           <LargeLabel>{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
-      <TwoButtonActiveContainer2>
+      <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
           <LargeLabel>{props.text2}</LargeLabel>
         </Frame>

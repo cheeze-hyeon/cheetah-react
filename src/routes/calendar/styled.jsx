@@ -277,3 +277,11 @@ export const TodosWrapper = styled.div`
   align-self: stretch;
   flex-wrap: wrap;
 `;
+
+export const RunDayWrapper = styled.div`
+  display: flex;
+  padding: 0px 5px;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+`;

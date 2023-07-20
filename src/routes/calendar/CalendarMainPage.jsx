@@ -18,12 +18,18 @@ const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
+      setModalStep(1);
     }
     console.log(isGoalCreateModalOpen);
+  };
+
+  const addModalStep = () => {
+    setModalStep(2);
   };
 
   const prevMonth = () => {
@@ -58,7 +64,13 @@ const CalendarMainPage = () => {
       </s.calendarMainRoot>
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
-          <GoalCreateModal clickBtn={showGoalCreateModal}></GoalCreateModal>
+          <GoalCreateModal
+            to1={showGoalCreateModal}
+            to2={addModalStep}
+            step={modalStep}
+            clickBtn={showGoalCreateModal}
+            clickCompleteBtn={showGoalCreateModal}
+          ></GoalCreateModal>
         </ModalOverlay>
       )}
     </>

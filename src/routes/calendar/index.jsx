@@ -12,12 +12,15 @@ import {
   FieldWithLabel,
   InputTextFieldActive,
   TodoWithCloseBtn,
+  TwoInputDateField,
+  InputTimeField,
 } from "../../components/input/styled";
 import {
   TagDefault,
   TagSelect,
   TextBtnSmall,
   TwoButton,
+  LargeButtonActive,
 } from "../../components/button/styled";
 
 export const SpeedButton = () => {
@@ -109,35 +112,78 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
   return <s.month>{rows}</s.month>;
 };
 
-export const GoalCreateModal = ({ clickBtn }) => {
+export const GoalCreateModal = ({
+  clickBtn,
+  step,
+  to1,
+  to2,
+  clickCompleteBtn,
+}) => {
   return (
     <s.GoalCreateModalContainer>
       <s.GoalCreateModalElementContainer>
-        <HeaderModal text="목표추가" clickBtn={clickBtn} />
+        {step === 1 ? (
+          <HeaderModal text="목표추가" clickBtn={clickBtn} />
+        ) : (
+          <HeaderModal text="캘린더에 추가" clickBtn={clickBtn} />
+        )}
         <s.InputContainer>
-          <FieldWithLabel label="태그 선택">
-            <s.TagsWrapper>
-              <TagSelect text="선택한태그" />
-              <TagDefault text="태그2" />
-              <TagDefault text="태그3" />
-              <TagDefault text="태그3" />
-              <TagDefault text="태그3" />
-              <TagDefault text="태그3" />
-            </s.TagsWrapper>
-          </FieldWithLabel>
-          <FieldWithLabel label="일정 제목">
-            <InputTextFieldActive placeholder="제목 입력" />
-          </FieldWithLabel>
-          <FieldWithLabel label="하위 투두">
-            <s.TodosWrapper>
-              <TodoWithCloseBtn defaultvalue="투두1" />
-              <TodoWithCloseBtn defaultvalue="투두1" />
-              <TodoWithCloseBtn defaultvalue="투두1" />
-              <TextBtnSmall text="+ 투두 추가하기" />
-            </s.TodosWrapper>
-          </FieldWithLabel>
+          {step === 1 ? (
+            <>
+              <FieldWithLabel label="태그 선택">
+                <s.TagsWrapper>
+                  <TagSelect text="선택한태그" />
+                  <TagDefault text="태그2" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                </s.TagsWrapper>
+              </FieldWithLabel>
+              <FieldWithLabel label="일정 제목">
+                <InputTextFieldActive placeholder="제목 입력" />
+              </FieldWithLabel>
+              <FieldWithLabel label="하위 투두">
+                <s.TodosWrapper>
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TextBtnSmall text="+ 투두 추가하기" />
+                </s.TodosWrapper>
+              </FieldWithLabel>
+            </>
+          ) : (
+            <>
+              <FieldWithLabel label="시작일/종료일">
+                <TwoInputDateField />
+              </FieldWithLabel>
+              <FieldWithLabel label="달릴 요일">
+                <s.RunDayWrapper>
+                  <TagDefault text="월" />
+                  <TagDefault text="화" />
+                  <TagDefault text="수" />
+                  <TagDefault text="목" />
+                  <TagDefault text="금" />
+                  <TagDefault text="토" />
+                  <TagDefault text="일" />
+                </s.RunDayWrapper>
+              </FieldWithLabel>
+              <FieldWithLabel label="예상 소요시간">
+                <InputTimeField />
+              </FieldWithLabel>
+            </>
+          )}
         </s.InputContainer>
-        <TwoButton text1="완료하기" text2="캘린더에도 추가하기" />
+        {step === 1 ? (
+          <TwoButton
+            text1="완료하기"
+            text2="캘린더에도 추가하기"
+            to1={to1}
+            to2={to2}
+          />
+        ) : (
+          <LargeButtonActive text="완료하기" to={clickCompleteBtn} />
+        )}
       </s.GoalCreateModalElementContainer>
     </s.GoalCreateModalContainer>
   );
