@@ -221,7 +221,6 @@ export const dueDate = styled(TextLight)`
   opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
 
-
 export const TaskCompleteModalContainer = styled.div`
   overflow: auto;
   background: var(--white);
@@ -253,7 +252,7 @@ export const modalCenter = styled.div`
   align-items: center;
   gap: 30px;
   align-self: stretch;
-  padding: 30px 5px 0px 5px;
+  padding: 30px 10px 0px 10px;
   overflow: auto;
 `;
 
@@ -268,8 +267,9 @@ export const progressLargeContainer = styled.div`
 export const progressTopContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   align-self: stretch;
+  padding-right: 15px;
 `;
 
 export const ProgressSlider = muiStyled(Slider)(() => ({
