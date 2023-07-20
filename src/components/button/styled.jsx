@@ -246,11 +246,10 @@ export const TextBtnMedium = (props) => {
 export const TextBtnSContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 84px;
   height: 24px;
   position: relative;
   padding: 0px 10px;
@@ -273,10 +272,8 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer>
-      <Frame to={props.to}>
-        <TextBtnSComponent>{props.text}</TextBtnSComponent>
-      </Frame>
+    <TextBtnSContainer to={props.to}>
+      <TextBtnSComponent>{props.text}</TextBtnSComponent>
     </TextBtnSContainer>
   );
 };
@@ -584,14 +581,12 @@ export const SlimButtonActive = (props) => {
 
 export const TagContainer = styled.div`
   box-sizing: border-box;
-  display: inline-block;
-  // display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  // width: 63px;
-  height: 35px;
+  // height: 35px;
   padding: 8px 12px;
   border-radius: 20px;
   background: #ddd;
@@ -613,14 +608,13 @@ export const TagLabel = styled.p`
   font-weight: 500;
   text-align: left;
   color: #000;
+  align-items: center;
 `;
 
 export const TagDefault = (props) => {
   return (
     <TagContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+      <TextNormal>{props.text}</TextNormal>
     </TagContainer>
   );
 };
@@ -632,23 +626,17 @@ export const TagSelectContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 63px;
-  height: 35px;
   padding: 8px 12px;
   border-radius: 20px;
-  background: #ddd;
-  border-width: 4px;
-  border-color: #fff;
-  border-style: solid;
-  box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.4);
+  border: 4px solid var(--white, #fff);
+  background: var(--gray, #ddd);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 `;
 
 export const TagSelect = (props) => {
   return (
     <TagSelectContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+      <TextNormal>{props.text}</TextNormal>
     </TagSelectContainer>
   );
 };

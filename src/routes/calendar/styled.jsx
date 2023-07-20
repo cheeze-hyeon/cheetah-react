@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
 import FloatingBtn from "../../asset/images/floatingBtn.png";
-import { isValidProp } from "@emotion/is-prop-valid";
 
 export const calendarMainRoot = styled.div`
   top: 0;
@@ -64,8 +63,8 @@ export const day = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  color: ${(props) =>
-    props.$issunday ? "var(--orange)" : "var(--black, #252525)"};
+  color: ${({ $isSunday }) =>
+    $isSunday ? "var(--orange)" : "var(--black, #252525)"};
   text-align: center;
   font-family: Pretendard;
   font-size: 11px;
@@ -123,8 +122,8 @@ export const dateNotToday = styled.span`
   line-height: 125%;
   letter-spacing: 0%;
   text-align: center;
-  color: ${(props) => (props.$issunday ? "#f19A37" : "#252525")};
-  opacity: ${(props) => (props.$iscurrentMonth ? "1" : "0.3")};
+  color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};
+  opacity: ${(props) => (props.$isCurrentMonth ? "1" : "0.3")};
 `;
 
 export const week = styled.div`
@@ -173,7 +172,7 @@ export const track = styled.div`
   top: 0px;
   border-radius: 100px;
   background: ${(props) =>
-    props.$isoff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
+    props.$isOff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
   box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.25);
 `;
 
@@ -185,13 +184,13 @@ export const onOffCircle = styled.div`
   width: 34px;
   height: 26px;
   position: absolute;
-  left: ${(props) => (props.$isoff ? "2px" : "43px")};
+  left: ${(props) => (props.$isOff ? "2px" : "43px")};
   top: 2px;
   overflow: hidden;
   gap: 10px;
   padding: 2px 5px;
   border-radius: 23px;
-  background: ${(props) => (props.$isoff ? "rgba(0,0,0,0.3)" : "#fff")};
+  background: ${(props) => (props.$isOff ? "rgba(0,0,0,0.3)" : "#fff")};
 `;
 
 export const onOffText = styled.p`
@@ -205,7 +204,7 @@ export const onOffText = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: center;
-  color: ${(props) => (props.$isoff ? "#fff" : "#000")};
+  color: ${(props) => (props.$isOff ? "#fff" : "#000")};
 `;
 
 export const floatingBtnContainer = styled.div`
@@ -226,15 +225,17 @@ export const floatingBtnContainer = styled.div`
 `;
 
 export const GoalCreateModalContainer = styled.div`
+  position: fixed;
   display: flex;
   width: 389px;
   padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
-  height: 100px;
+  height: 70%;
   border-radius: 25px 25px 0px 0px;
-  background: var(white);
+  background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  bottom: 0;
 `;
 
 export const GoalCreateModalElementContainer = styled.div`
@@ -244,4 +245,35 @@ export const GoalCreateModalElementContainer = styled.div`
   align-items: center;
   gap: 30px;
   flex: 1 0 0;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  width: 351px;
+  height: 390px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  overflow: auto;
+`;
+
+export const TagsWrapper = styled.div`
+  display: flex;
+  padding: 5px 2px;
+  align-items: center;
+  align-content: flex-start;
+  gap: 15px 10px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+export const TodosWrapper = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  align-items: right;
+  align-content: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  flex-wrap: wrap;
 `;

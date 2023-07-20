@@ -125,21 +125,17 @@ export const InputTextFieldActive = (props) => {
   return (
     <Container>
       <InputTextField>
-        <Frame3668>
-          <TextNormal>
-            <Text>
-              <input
-                className="outline-none"
-                placeholder={props.placeholder}
-                defaultValue={props.defaultvalue}
-                type={props.type}
-                value={props.value}
-                id={props.id}
-                required
-              />
-            </Text>
-          </TextNormal>
-        </Frame3668>
+        <TextNormal>
+          <input
+            className="outline-none"
+            placeholder={props.placeholder}
+            defaultValue={props.defaultvalue}
+            type={props.type}
+            value={props.value}
+            id={props.id}
+            required
+          />
+        </TextNormal>
       </InputTextField>
     </Container>
   );
@@ -485,7 +481,7 @@ export const TodoNormal = (props) => {
   );
 };
 
-export const Close = () => {
+export const Close = ({ onClick }) => {
   return (
     <CloseSvg
       width={20}
@@ -493,6 +489,7 @@ export const Close = () => {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
     >
       <path
         fillRule="evenodd"
@@ -517,12 +514,12 @@ export const TodoWCloseContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 307px;
+  width: 100%;
   height: 38px;
   padding-right: 10px;
   padding-left: 5px;
@@ -543,15 +540,13 @@ export const TodoCheckContainer = styled(TodoWCloseContainer)`
 export const TodoWithCloseBtn = (props) => {
   return (
     <TodoWCloseContainer>
-      <Frame3668>
-        <Frame3672>
-          <CheckTrue />
-          <TextNormal>
-            <input defaultValue={props.defaultvalue} />
-          </TextNormal>
-          <Close />
-        </Frame3672>
-      </Frame3668>
+      <div className="flex flex-row gap-2 w-full items-center">
+        <CheckTrue />
+        <TextNormal>
+          <input defaultValue={props.defaultvalue} />
+        </TextNormal>
+      </div>
+      <Close onClick={props.clickBtn} />
     </TodoWCloseContainer>
   );
 };
@@ -559,17 +554,13 @@ export const TodoWithCloseBtn = (props) => {
 export const TodoCheck = (props) => {
   return (
     <TodoCheckContainer>
-      <Frame3668>
-        <Frame3672>
-          <div className="flex flex-row gap-2 w-full items-center">
-            <CheckTrue />
-            <TextNormal className="w-5/6">
-              <input className="w-full" defaultValue={props.defaultvalue} />
-            </TextNormal>
-          </div>
-          <Close />
-        </Frame3672>
-      </Frame3668>
+      <div className="flex flex-row gap-2 w-full items-center">
+        <CheckTrue />
+        <TextNormal className="w-5/6">
+          <input className="w-full" defaultValue={props.defaultvalue} />
+        </TextNormal>
+      </div>
+      <Close onClick={props.clickBtn} />
     </TodoCheckContainer>
   );
 };

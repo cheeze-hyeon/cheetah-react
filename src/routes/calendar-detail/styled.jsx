@@ -161,7 +161,7 @@ export const task_top_left = styled.div`
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
-  opacity: ${(props) => (props.$ishidden ? "0.3" : "1")};
+  opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
 
 export const taskTitle = styled(TextNormal)`
@@ -218,8 +218,9 @@ export const task_bottom = styled.div`
 `;
 
 export const dueDate = styled(TextLight)`
-  opacity: ${(props) => (props.$ishidden ? "0.3" : "1")};
+  opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
+
 
 export const TaskCompleteModalContainer = styled.div`
   overflow: auto;

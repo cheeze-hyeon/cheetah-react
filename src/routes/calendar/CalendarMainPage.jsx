@@ -57,10 +57,9 @@ const CalendarMainPage = () => {
         <s.floatingBtnContainer onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
       {isGoalCreateModalOpen && (
-        <ModalOverlay
-          className="flex-end"
-          onClick={showGoalCreateModal}
-        ></ModalOverlay>
+        <ModalOverlay onClick={showGoalCreateModal}>
+          <GoalCreateModal clickBtn={showGoalCreateModal}></GoalCreateModal>
+        </ModalOverlay>
       )}
     </>
   );

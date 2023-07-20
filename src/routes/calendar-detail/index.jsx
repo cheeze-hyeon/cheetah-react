@@ -54,12 +54,13 @@ export const Task = () => {
 
   const onClickTaskBtn = () => {
     !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+    console.log(isHidden);
   };
 
   return (
     <s.task>
       <s.task_top>
-        <s.task_top_left $ishidden={isHidden}>
+        <s.task_top_left $isHidden={isHidden}>
           <s.taskTitle>죽과이 중간보고서 제출</s.taskTitle>
           <s.taskInfo>
             <s.tag>죽과이</s.tag>
@@ -75,7 +76,7 @@ export const Task = () => {
         </s.taskBtnContainer>
       </s.task_top>
       <s.task_bottom>
-        <s.dueDate $ishidden={isHidden}>언제까지 달리기</s.dueDate>
+        <s.dueDate $isHidden={isHidden}>언제까지 달리기</s.dueDate>
       </s.task_bottom>
     </s.task>
   );
