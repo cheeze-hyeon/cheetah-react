@@ -117,8 +117,9 @@ export const GoalCreateModal = ({
   step,
   to1,
   to2,
-  clickCompleteBtn,
+  clickCompleteBtn, tags
 }) => {
+
   return (
     <s.GoalCreateModalContainer>
       <s.GoalCreateModalElementContainer>
@@ -132,12 +133,9 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="태그 선택">
                 <s.TagsWrapper>
-                  <TagSelect text="선택한태그" />
-                  <TagDefault text="태그2" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
+                  {tags.map((tag)=>(
+                    <TagDefault text={tag.title}/>
+                  ))}
                 </s.TagsWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">

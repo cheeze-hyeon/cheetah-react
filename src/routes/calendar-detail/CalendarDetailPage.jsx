@@ -9,6 +9,8 @@ import {
 import { parse } from "date-fns"; // parse 함수를 import 합니다.
 import * as s from "./styled";
 import { ModalOverlay } from "../../components/modal/styled";
+import goals from "../../data/goals";
+import tags from "../../data/tags";
 
 const CalendarDetailPage = () => {
   const { selectedDate } = useParams();
