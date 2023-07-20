@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
 import FloatingBtn from "../../asset/images/floatingBtn.png";
+import { isValidProp } from "@emotion/is-prop-valid";
 
 export const calendarMainRoot = styled.div`
   top: 0;
@@ -63,8 +64,8 @@ export const day = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  color: ${({ isSunday }) =>
-    isSunday ? "var(--orange)" : "var(--black, #252525)"};
+  color: ${(props) =>
+    props.$issunday ? "var(--orange)" : "var(--black, #252525)"};
   text-align: center;
   font-family: Pretendard;
   font-size: 11px;
@@ -122,8 +123,8 @@ export const dateNotToday = styled.span`
   line-height: 125%;
   letter-spacing: 0%;
   text-align: center;
-  color: ${(props) => (props.isSunday ? "#f19A37" : "#252525")};
-  opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.3")};
+  color: ${(props) => (props.$issunday ? "#f19A37" : "#252525")};
+  opacity: ${(props) => (props.$iscurrentMonth ? "1" : "0.3")};
 `;
 
 export const week = styled.div`
@@ -172,7 +173,7 @@ export const track = styled.div`
   top: 0px;
   border-radius: 100px;
   background: ${(props) =>
-    props.isOff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
+    props.$isoff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
   box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.25);
 `;
 
@@ -184,13 +185,13 @@ export const onOffCircle = styled.div`
   width: 34px;
   height: 26px;
   position: absolute;
-  left: ${(props) => (props.isOff ? "2px" : "43px")};
+  left: ${(props) => (props.$isoff ? "2px" : "43px")};
   top: 2px;
   overflow: hidden;
   gap: 10px;
   padding: 2px 5px;
   border-radius: 23px;
-  background: ${(props) => (props.isOff ? "rgba(0,0,0,0.3)" : "#fff")};
+  background: ${(props) => (props.$isoff ? "rgba(0,0,0,0.3)" : "#fff")};
 `;
 
 export const onOffText = styled.p`
@@ -204,7 +205,7 @@ export const onOffText = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: center;
-  color: ${(props) => (props.isOff ? "#fff" : "#000")};
+  color: ${(props) => (props.$isoff ? "#fff" : "#000")};
 `;
 
 export const floatingBtnContainer = styled.div`

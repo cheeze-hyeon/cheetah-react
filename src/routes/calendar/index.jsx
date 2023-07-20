@@ -14,9 +14,9 @@ export const SpeedButton = () => {
 
   return (
     <s.switchFrame onClick={() => setIsOff(!isOff)}>
-      <s.track isOff={isOff} />
-      <s.onOffCircle isOff={isOff}>
-        <s.onOffText isOff={isOff}>{isOff ? "OFF" : "ON"}</s.onOffText>
+      <s.track $isoff={isOff} />
+      <s.onOffCircle $isoff={isOff}>
+        <s.onOffText $isoff={isOff}>{isOff ? "OFF" : "ON"}</s.onOffText>
       </s.onOffCircle>
     </s.switchFrame>
   );
@@ -40,10 +40,12 @@ export const CalendarDays = () => {
   const date = ["일", "월", "화", "수", "목", "금", "토"];
 
   for (let i = 0; i < 7; i++) {
-    const isSunday = i === 0; // 첫 번째 요일이 일요일인지 확인
+    const isSunday = i === 0;
+
+    // 첫 번째 요일이 일요일인지 확인
 
     days.push(
-      <s.day key={i} isSunday={isSunday}>
+      <s.day key={i} $issunday={isSunday}>
         {date[i]}
       </s.day>
     );
@@ -81,7 +83,7 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
           {isSameDay(day, selectedDate) ? (
             <s.dateToday>{formattedDate}</s.dateToday>
           ) : (
-            <s.dateNotToday isSunday={isSunday} isCurrentMonth={isCurrentMonth}>
+            <s.dateNotToday $issunday={isSunday} $iscurrentMonth={isCurrentMonth}>
               {formattedDate}
             </s.dateNotToday>
           )}
@@ -96,9 +98,11 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
 };
 
 export const GoalCreateModal = () => {
-  <s.GoalCreateModalContainer>
-    <s.GoalCreateModalElementContainer>
-      <HeaderModal text="목표추가" />
-    </s.GoalCreateModalElementContainer>
-  </s.GoalCreateModalContainer>;
+  return (
+    <s.GoalCreateModalContainer>
+      <s.GoalCreateModalElementContainer>
+        <HeaderModal text="목표추가" />
+      </s.GoalCreateModalElementContainer>
+    </s.GoalCreateModalContainer>
+  );
 };
