@@ -11,6 +11,7 @@ import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
 import TagDetail from './routes/goal/Tag/TagDetail';
 
 import "./App.css"
+import ScheduleDetailPage from "./routes/goal/ScheduleDetailPage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           path="/calendar/:selectedDate"
           element={<CalendarDetailPage />}
         />
+        <Route path="/scheduledetailpage/:goalId" element={<ScheduleDetailPage />} />
       </Routes>
     </div>
   );
