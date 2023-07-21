@@ -169,6 +169,22 @@ const goals = [
     available_days: [0, 5, 6],
     exception_list: [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0],
   },
+  {
+    id: 11,
+    user_id: 1,
+    tag_id: 3,
+    title: "음속철 기말고사2",
+    start_at: "2023-07-1",
+    finish_at: "2023-07-27",
+    update_at: "2023-10-12",
+    estimated_time: 104,
+    culmulative_time: 60,
+    progress_rate: 0.0,
+    is_scheduled: 1,
+    is_completed: 0,
+    available_days: [0, 5, 6],
+    exception_list: [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0],
+  },
 ];
 
 export default goals;

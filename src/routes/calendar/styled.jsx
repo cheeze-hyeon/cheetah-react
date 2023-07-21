@@ -153,8 +153,8 @@ export const EventsWrapper = styled.div`
 const EventContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 16px;
-  padding: 1.5px 0px 1.5px 2px;
+  height: 15px;
+  padding: 1.5px 0px 2px 2px;
   justify-content: center;
   align-items: center;
   align-self: stretch;
@@ -168,7 +168,7 @@ const EventContainer = styled.div`
 const EventLabel = styled.span`
   color: var(--black, #000);
   font-family: Pretendard;
-  font-size: 10.5px;
+  font-size: 10.8px;
   font-style: normal;
   font-weight: 400;
   overflow: hidden;
@@ -182,6 +182,18 @@ export const EventElement = (props) => {
     </EventContainer>
   );
 };
+
+export const MoreEventText = styled.span`
+  color: var(--brown, #716a56);
+  font-family: Pretendard;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 10px */
+  text-align: right;
+  width: 100%;
+  padding-top: 4px;
+`;
 
 export const week = styled.div`
   display: flex;

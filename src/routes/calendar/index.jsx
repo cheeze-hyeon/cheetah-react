@@ -105,7 +105,8 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
         return tags.filter((tag) => tag.id === goal.tag_id);
       };
 
-      const eventsForDay = getEventsForDay(day).slice(0, 3);
+      const eventsForDay = getEventsForDay(day);
+      const threeEvents = eventsForDay.slice(0, 3);
 
       days.push(
         <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
@@ -122,15 +123,20 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
                 </s.dateNotToday>
               )}
             </s.DateWrapper>
-            {eventsForDay.map((goal) => (
-              <s.EventElement
-                key={goal.id}
-                title={goal.title}
-                color={getTagForDay(tags, goal)[0].color}
-              />
-            ))}
           </s.EventsWrapper>
-          {/* {eventsForDay.length > 3 ? <p>+</p> : <p></p>}; */}
+          {threeEvents.map((goal) => (
+            <s.EventElement
+              key={goal.id}
+              title={goal.title}
+              color={getTagForDay(tags, goal)[0].color}
+            />
+          ))}
+          {eventsForDay.length > 3 ? (
+            <s.MoreEventText>+{eventsForDay.length - 3}</s.MoreEventText>
+          ) : (
+            <s.MoreEventText></s.MoreEventText>
+            // <s.MoreEvent text={eventsForDay.length - 3} />
+          )}
         </s.dateContainer>
       );
       day = addDays(day, 1);
@@ -161,6 +167,7 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="태그 선택">
                 <s.TagsWrapper>
+                  
                   <TagSelect text="선택한태그" />
                   <TagDefault text="태그2" />
                   <TagDefault text="태그3" />
