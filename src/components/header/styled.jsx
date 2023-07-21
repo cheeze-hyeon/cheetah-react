@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { Close } from "../input/styled";
@@ -15,17 +15,17 @@ export const HeaderContainer = styled(Link)`
 `;
 
 export const ModalContainer = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: space-between;
-align-items: center;
-align-self: stretch;
-flex-grow: 0;
-flex-shrink: 0;
-width: 100%;
-height: 44px;
-position: relative;
-padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: 44px;
+  position: relative;
+  padding: 10px;
 `;
 
 export const HeaderNone = styled.div`
@@ -40,17 +40,23 @@ export const HeaderNone = styled.div`
 `;
 
 export const HeaderBackSvg = styled.svg`
-display: block;
-flex-grow: 0;
-flex-shrink: 0;
-width: 30px;
-height: 30px;
-position: relative;
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
 `;
 
 export const HeaderBackArrow = () => {
   return (
-    <HeaderBackSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <HeaderBackSvg
+      width={30}
+      height={30}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M6.5625 14.0625H25.3125C25.5611 14.0625 25.7996 14.1613 25.9754 14.3371C26.1512 14.5129 26.25 14.7514 26.25 15C26.25 15.2486 26.1512 15.4871 25.9754 15.6629C25.7996 15.8387 25.5611 15.9375 25.3125 15.9375H6.5625C6.31386 15.9375 6.0754 15.8387 5.89959 15.6629C5.72377 15.4871 5.625 15.2486 5.625 15C5.625 14.7514 5.72377 14.5129 5.89959 14.3371C6.0754 14.1613 6.31386 14.0625 6.5625 14.0625Z"
         fill="black"
@@ -65,7 +71,13 @@ export const HeaderBackArrow = () => {
 
 export const HeaderMenuIcon = () => {
   return (
-    <MenuSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <MenuSvg
+      width={30}
+      height={30}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <mask
         id="mask0_356_8991"
         style={{
@@ -100,7 +112,13 @@ const MenuSvg = styled.svg`
 
 const HeaderMoreIcon = () => {
   return (
-    <MoreSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <MoreSvg
+      width={30}
+      height={30}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M12.5 23.75C12.5 25.125 13.625 26.25 15 26.25C16.375 26.25 17.5 25.125 17.5 23.75C17.5 22.375 16.375 21.25 15 21.25C13.625 21.25 12.5 22.375 12.5 23.75ZM12.5 6.25C12.5 7.625 13.625 8.75 15 8.75C16.375 8.75 17.5 7.625 17.5 6.25C17.5 4.875 16.375 3.75 15 3.75C13.625 3.75 12.5 4.875 12.5 6.25ZM12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5C13.625 12.5 12.5 13.625 12.5 15Z"
         fill="black"
@@ -136,9 +154,7 @@ export const HeaderBack = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
+      <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
   );
@@ -170,13 +186,10 @@ export const HeaderMore = (props) => {
 
 export const HeaderModal = (props) => {
   return (
-    <ModalContainer className="m-auto mt-[47px]">
+    <ModalContainer className="m-auto">
       <HeaderNone />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
-      <Close />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Close onClick={props.clickBtn} />
     </ModalContainer>
   );
 };
-

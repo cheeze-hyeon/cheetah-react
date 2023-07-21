@@ -2,28 +2,30 @@ import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
 import FloatingBtn from "../../asset/images/floatingBtn.png";
 
-export const main = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-`;
-
 export const calendarMainRoot = styled.div`
-  display: inline-flex;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   font-size: var(--default-bold-body-size);
-  color: #010101;
+  color: var(--black);
   font-family: var(--font-pretendard);
   width: 390px;
   height: 844px;
+  overflow: hidden;
+`;
+
+export const headerContainer = styled.div`
+  padding-top: 47px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
+  background: var(--background);
 `;
 
 export const calendarHeader = styled.div`
@@ -50,6 +52,7 @@ export const headerIcon = styled.img`
   height: 30px;
   overflow: hidden;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 export const day = styled.div`
@@ -60,8 +63,8 @@ export const day = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  color: ${({ isSunday }) =>
-    isSunday ? "var(--orange)" : "var(--black, #252525)"};
+  color: ${({ $isSunday }) =>
+    $isSunday ? "var(--orange)" : "var(--black, #252525)"};
   text-align: center;
   font-family: Pretendard;
   font-size: 11px;
@@ -87,11 +90,12 @@ export const dateContainer = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   width: 56px;
-  height: 95px;
+  height: 105px;
   position: relative;
   overflow: hidden;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const dateToday = styled.span`
@@ -118,8 +122,8 @@ export const dateNotToday = styled.span`
   line-height: 125%;
   letter-spacing: 0%;
   text-align: center;
-  color: ${(props) => (props.isSunday ? "#f19A37" : "#252525")};
-  opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.3")};
+  color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};
+  opacity: ${(props) => (props.$isCurrentMonth ? "1" : "0.3")};
 `;
 
 export const week = styled.div`
@@ -129,10 +133,11 @@ export const week = styled.div`
 `;
 
 export const month = styled.div`
-  margin-top: 193px;
-  padding-bottom: 100px;
+  position: relative;
+  margin-top: 190px;
+  padding-bottom: 30px;
   display: flex;
-  height: 550px;
+  height: 570px;
   flex-direction: column;
   align-items: center;
   overflow: auto;
@@ -148,51 +153,6 @@ export const buttonContainer = styled.div`
   background: var(--background);
 `;
 
-export const titleNormal = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px;
-`;
-
-export const titleHeavy = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px; /* 67.857% */
-`;
-
-export const textHeavy = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px; /* 105.556% */
-`;
-
-export const textNormal = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 19px; /* 126.667% */
-`;
-
-export const textLight = styled.span`
-  color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19px; /* 146.154% */
-`;
-
 export const switchFrame = styled.div`
   box-sizing: border-box;
   display: block;
@@ -201,6 +161,7 @@ export const switchFrame = styled.div`
   width: 80px;
   height: 30px;
   position: relative;
+  cursor: pointer;
 `;
 
 export const track = styled.div`
@@ -211,7 +172,7 @@ export const track = styled.div`
   top: 0px;
   border-radius: 100px;
   background: ${(props) =>
-    props.isOff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
+    props.$isOff ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.05)"};
   box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.25);
 `;
 
@@ -223,13 +184,13 @@ export const onOffCircle = styled.div`
   width: 34px;
   height: 26px;
   position: absolute;
-  left: ${(props) => (props.isOff ? "2px" : "43px")};
+  left: ${(props) => (props.$isOff ? "2px" : "43px")};
   top: 2px;
   overflow: hidden;
   gap: 10px;
   padding: 2px 5px;
   border-radius: 23px;
-  background: ${(props) => (props.isOff ? "rgba(0,0,0,0.3)" : "#fff")};
+  background: ${(props) => (props.$isOff ? "rgba(0,0,0,0.3)" : "#fff")};
 `;
 
 export const onOffText = styled.p`
@@ -243,32 +204,84 @@ export const onOffText = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: center;
-  color: ${(props) => (props.isOff ? "#fff" : "#000")};
-`;
-
-export const headerContainer = styled.div`
-  padding-top: 47px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: fixed;
-  background: var(--background);
+  color: ${(props) => (props.$isOff ? "#fff" : "#000")};
 `;
 
 export const floatingBtnContainer = styled.div`
-  left: 38%;
-  bottom: 17%;
-  box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
+  padding-bottom: 30px;
+  position: relative;
+  z-index: 999;
+  left: 150px;
+  bottom: 80px;
+  cursor: pointer;
   width: 60px;
   height: 60px;
-  position: relative;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
   background-image: url(${FloatingBtn});
   background-repeat: no-repeat;
   background-size: 60px 60px;
+`;
+
+export const GoalCreateModalContainer = styled.div`
+  position: fixed;
+  display: flex;
+  width: 389px;
+  padding: 10px 15px;
+  align-items: flex-start;
+  gap: 10px;
+  height: 70%;
+  border-radius: 25px 25px 0px 0px;
+  background: var(--white);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  bottom: 0;
+`;
+
+export const GoalCreateModalElementContainer = styled.div`
+  display: flex;
+  padding: 10px 0px 35px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  flex: 1 0 0;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  width: 351px;
+  height: 390px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  overflow: auto;
+`;
+
+export const TagsWrapper = styled.div`
+  display: flex;
+  padding: 5px 2px;
+  align-items: center;
+  align-content: flex-start;
+  gap: 15px 10px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+export const TodosWrapper = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  align-items: right;
+  align-content: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+export const RunDayWrapper = styled.div`
+  display: flex;
+  padding: 0px 5px;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
 `;

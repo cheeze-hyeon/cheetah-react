@@ -11,7 +11,7 @@ export const Frame = styled(Link)`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
-  gap: 16px;
+  gap: 5px;
   text-decoration: none;
 `;
 
@@ -246,11 +246,10 @@ export const TextBtnMedium = (props) => {
 export const TextBtnSContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 84px;
   height: 24px;
   position: relative;
   padding: 0px 10px;
@@ -273,10 +272,8 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer>
-      <Frame to={props.to}>
-        <TextBtnSComponent>{props.text}</TextBtnSComponent>
-      </Frame>
+    <TextBtnSContainer to={props.to}>
+      <TextBtnSComponent>{props.text}</TextBtnSComponent>
     </TextBtnSContainer>
   );
 };
@@ -366,7 +363,7 @@ export const TwoButtonActiveContainer1 = styled.div`
   width: 133px;
   height: 55px;
   border-radius: 8px;
-  background: #f19a37;
+  background: var(--brown);
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -382,7 +379,7 @@ export const TwoButtonActiveContainer2 = styled.div`
   width: 204px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: var(--orange);
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -390,12 +387,12 @@ export const TwoButtonActiveContainer2 = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <TwoButtonActiveContainer1>
+      <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
           <LargeLabel>{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
-      <TwoButtonActiveContainer2>
+      <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
           <LargeLabel>{props.text2}</LargeLabel>
         </Frame>
@@ -458,18 +455,18 @@ export const MButtonNonActiveContainer = styled.div`
 `;
 
 export const MediumLabel2 = styled.p`
-margin: 0;
-white-space: pre-wrap;
-flex-grow: 0;
-flex-shrink: 0;
-font-family: Pretendard;
-font-size: 16px;
-line-height: 24px;
-letter-spacing: 0px;
-font-weight: 600;
-text-align: center;
-text-transform: uppercase;
-color: #a3a2a4;
+  margin: 0;
+  white-space: pre-wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-family: Pretendard;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: #a3a2a4;
 `;
 
 export const MediumButtonNonActive = (props) => {
@@ -584,21 +581,19 @@ export const SlimButtonActive = (props) => {
 
 export const TagContainer = styled.div`
   box-sizing: border-box;
-  display: inline-block;
-  // display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  // width: 63px;
-  height: 35px;
+  // height: 35px;
   padding: 8px 12px;
   border-radius: 20px;
   background: #ddd;
   border-width: 2px;
   border-color: #fff;
   border-style: solid;
-  box-shadow: 0px 0px 6px 0 rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.2);
 `;
 
 export const TagLabel = styled.p`
@@ -613,42 +608,35 @@ export const TagLabel = styled.p`
   font-weight: 500;
   text-align: left;
   color: #000;
+  align-items: center;
 `;
 
 export const TagDefault = (props) => {
   return (
     <TagContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+      <TextNormal>{props.text}</TextNormal>
     </TagContainer>
   );
 };
 
 export const TagSelectContainer = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-grow: 0;
-flex-shrink: 0;
-width: 63px;
-height: 35px;
-padding: 8px 12px;
-border-radius: 20px;
-background: #ddd;
-border-width: 4px;
-border-color: #fff;
-border-style: solid;
-box-shadow: 0px 0px 4px 0 rgba(0,0,0,0.4);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 4px solid var(--white, #fff);
+  background: var(--gray, #ddd);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 `;
 
 export const TagSelect = (props) => {
   return (
     <TagSelectContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+      <TextNormal>{props.text}</TextNormal>
     </TagSelectContainer>
   );
 };
@@ -659,12 +647,18 @@ const ResetSvg = styled.svg`
   flex-shrink: 0;
   width: 18px;
   height: 18px;
-  position: relative;
+  position: a;
 `;
 
 export const IconReset = () => {
   return (
-    <ResetSvg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ResetSvg
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M13.773 13.773C13.1469 14.4007 12.4029 14.8986 11.5838 15.2378C10.7647 15.5771 9.8866 15.7512 9 15.75C5.27213 15.75 2.25 12.7279 2.25 9C2.25 5.27213 5.27213 2.25 9 2.25C10.8637 2.25 12.5513 3.00563 13.773 4.227C14.3948 4.84875 15.75 6.375 15.75 6.375"
         stroke="black"
@@ -684,18 +678,19 @@ export const IconReset = () => {
 };
 
 export const TextBtnSwIconContainer = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-grow: 0;
-flex-shrink: 0;
-width: 92px;
-height: 24px;
-position: relative;
-gap: 5px;
-padding: 0px 10px;
-margin: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 92px;
+  height: 24px;
+  position: relative;
+  gap: 5px;
+  padding: 0px 10px;
+  margin: auto;
 `;
 
 export const TextBtnSContainer2 = styled.div`
@@ -705,7 +700,6 @@ export const TextBtnSContainer2 = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 49px;
   height: 24px;
   position: relative;
 `;
@@ -714,13 +708,22 @@ export const TextBtnWIconSmall = (props) => {
   return (
     <TextBtnSContainer2>
       <Frame to={props.to}>
+        {props.children}
         <TextBtnSComponent>{props.text}</TextBtnSComponent>
       </Frame>
     </TextBtnSContainer2>
   );
 };
 
-export const TextBtnSmallWithicon = (props) => {
+export const TextBtnWResetIcon = () => {
+  return (
+    <TextBtnWIconSmall text="되돌리기">
+      <IconReset />
+    </TextBtnWIconSmall>
+  );
+};
+
+export const TextBtnSmallWithicon = () => {
   return (
     <TextBtnSwIconContainer>
       <IconReset />
@@ -730,8 +733,8 @@ export const TextBtnSmallWithicon = (props) => {
 };
 
 export const Ellipse4Svg = styled.svg`
-flex-grow: 0;
-flex-shrink: 0;
+  flex-grow: 0;
+  flex-shrink: 0;
 `;
 
 const Ellipse4 = () => {
@@ -765,8 +768,15 @@ const Ellipse4 = () => {
           />
           <feOffset dy={3} />
           <feGaussianBlur stdDeviation={15} />
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0784314 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_10_5147" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0784314 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_10_5147"
+          />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -780,14 +790,20 @@ const Ellipse4 = () => {
 };
 
 export const ShapeSvg = styled.svg`
-position: absolute;
-left: 15px;
-top: 15px;
+  position: absolute;
+  left: 15px;
+  top: 15px;
 `;
 
 export const Shape = () => {
   return (
-    <ShapeSvg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ShapeSvg
+      width={32}
+      height={32}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M29.8158 14.8158H17.1842V2.18421C17.1842 1.53019 16.654 1 16 1C15.346 1 14.8158 1.53019 14.8158 2.18421V14.8158H2.18421C1.53019 14.8158 1 15.346 1 16C1 16.654 1.53019 17.1842 2.18421 17.1842H14.8158V29.8158C14.8158 30.4698 15.346 31 16 31C16.654 31 17.1842 30.4698 17.1842 29.8158V17.1842H29.8158C30.4698 17.1842 31 16.654 31 16C31 15.346 30.4698 14.8158 29.8158 14.8158Z"
         fill="white"
@@ -798,16 +814,16 @@ export const Shape = () => {
 };
 
 export const FloatingBtnContainer = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-grow: 0;
-flex-shrink: 0;
-width: 60px;
-height: 60px;
-position: relative;
-filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.25));
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 `;
 
 export const FloatingBtn = () => {
@@ -871,4 +887,3 @@ export const ColorBtnSelect = (props) => {
     </ColorBtnContainer>
   );
 };
-

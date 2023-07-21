@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from './routes/HomePage';
 import SignInPage from './routes/SignInPage';
 import SignUpPage from './routes/SignUpPage';
@@ -8,11 +7,13 @@ import { Routes, Route } from "react-router-dom";
 import TodayMainPage from "./routes/today/TodayMainPage";
 import CalendarMainPage from "./routes/calendar/CalendarMainPage";
 import GoalMainPage from "./routes/goal/GoalMainPage";
+import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
+
+import "./App.css"
 
 const App = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <div className="app-container">
       <Routes>
         {/* home */}
         <Route path="/" element={<HomePage/>} />
@@ -21,8 +22,11 @@ const App = () => {
         <Route path="/today/" element={<TodayMainPage />} />
         <Route path="/calendar/" element={<CalendarMainPage />} />
         <Route path="/goal/" element={<GoalMainPage />} />
+        <Route
+          path="/calendar/:selectedDate"
+          element={<CalendarDetailPage />}
+        />
       </Routes>
-      </BrowserRouter>
     </div>
   );
 };

@@ -1,14 +1,36 @@
 import { useState } from "react";
 import { addMonths, subMonths } from "date-fns";
 
-import * as s from "./style";
+import * as s from "./styled";
+import * as t from "../../components/text/styled";
 
 import { CalendarTabBar } from "../../components/tabBar";
-import { SpeedButton, FloatingBtn, CalendarHeader, CalendarDays, CalendarCells } from "./index";
+import {
+  SpeedButton,
+  CalendarHeader,
+  CalendarDays,
+  CalendarCells,
+} from "./index";
+import { ModalOverlay } from "../../components/modal/styled";
+import { GoalCreateModal } from ".";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1);
+
+  const showGoalCreateModal = (e) => {
+    if (e.target === e.currentTarget) {
+      setisGoalCreateModalOpen(!isGoalCreateModalOpen);
+      setModalStep(1);
+    }
+    console.log(isGoalCreateModalOpen);
+  };
+
+  const addModalStep = () => {
+    setModalStep(2);
+  };
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -19,7 +41,7 @@ const CalendarMainPage = () => {
   };
 
   return (
-    <s.main>
+    <>
       <s.calendarMainRoot>
         <s.headerContainer>
           <CalendarHeader
@@ -28,7 +50,7 @@ const CalendarMainPage = () => {
             nextMonth={nextMonth}
           />
           <s.buttonContainer>
-            <s.textNormal>치타 속도 보기 (hour/day)</s.textNormal>
+            <t.TextNormal>치타 속도 보기 (hour/day)</t.TextNormal>
             <SpeedButton />
           </s.buttonContainer>
           <CalendarDays />
@@ -38,9 +60,20 @@ const CalendarMainPage = () => {
           selectedDate={selectedDate}
         />
         <CalendarTabBar />
-        <FloatingBtn />
+        <s.floatingBtnContainer onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
-    </s.main>
+      {isGoalCreateModalOpen && (
+        <ModalOverlay onClick={showGoalCreateModal}>
+          <GoalCreateModal
+            to1={showGoalCreateModal}
+            to2={addModalStep}
+            step={modalStep}
+            clickBtn={showGoalCreateModal}
+            clickCompleteBtn={showGoalCreateModal}
+          ></GoalCreateModal>
+        </ModalOverlay>
+      )}
+    </>
   );
 };
 

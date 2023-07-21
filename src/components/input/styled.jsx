@@ -2,6 +2,21 @@ import styled from "styled-components";
 import { TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 
+export const LabelContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+`;
+
+export const FieldWithLabel = (props) => (
+  <LabelContainer>
+    <TextNormal>{props.label}</TextNormal>
+    {props.children}
+  </LabelContainer>
+);
+
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -61,15 +76,10 @@ export const SmallButtonActive = styled.div`
 `;
 
 export const Frame3668 = styled.div`
-  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex-grow: 1;
-  flex-basis: 100%;
-  height: 19px;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 0 0;
 `;
 
 export const Frame = styled.div`
@@ -115,21 +125,17 @@ export const InputTextFieldActive = (props) => {
   return (
     <Container>
       <InputTextField>
-        <Frame3668>
-          <TextNormal>
-            <Text>
-              <input
-                className="outline-none"
-                placeholder={props.placeholder}
-                defaultValue={props.defaultvalue}
-                type={props.type}
-                value={props.value}
-                id={props.id}
-                required
-              />
-            </Text>
-          </TextNormal>
-        </Frame3668>
+        <TextNormal>
+          <input
+            className="outline-none"
+            placeholder={props.placeholder}
+            defaultValue={props.defaultvalue}
+            type={props.type}
+            value={props.value}
+            id={props.id}
+            required
+          />
+        </TextNormal>
       </InputTextField>
     </Container>
   );
@@ -290,8 +296,8 @@ export const DateFieldContainer = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 140px;
   height: 50px;
+  width: 48%;
   padding: 0px 7px;
   border-radius: 8px;
   background: #fff;
@@ -304,28 +310,22 @@ export const DateFieldContainer = styled.div`
 export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
-      <Frame3668>
-        <TextNormal>
-          <Text>
-            <input type="Date" />
-          </Text>
-        </TextNormal>
-        {/* <CalendarIcon /> */}
-      </Frame3668>
+      <input type="Date" />
+      {/* <CalendarIcon /> */}
     </DateFieldContainer>
   );
 };
 export const TwoDateFieldContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 355px;
+  width: 100%;
   height: 50px;
-  gap: 16px;
+  padding: 0px 2px;
 `;
 
 export const TwoInputDateField = (props) => {
@@ -346,7 +346,13 @@ export const ClockSvg = styled.svg`
 
 export const ClockIcon = () => {
   return (
-    <ClockSvg width={20} height={21} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ClockSvg
+      width={20}
+      height={21}
+      viewBox="0 0 20 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <circle
         cx={10}
         cy={10.5}
@@ -370,12 +376,12 @@ export const ClockIcon = () => {
 export const TimeFieldContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 325px;
+  width: 100%;
   height: 50px;
   padding: 0px 15px;
   border-radius: 8px;
@@ -389,22 +395,22 @@ export const TimeFieldContainer = styled.div`
 export const InputTimeField = (props) => {
   return (
     <TimeFieldContainer>
-      <Frame3668>
-        <TextNormal>
-          {/* <Text> */}
-          <div className="flex flex-row w-[325px]">
-            <input type="number" className="w-[275px]"/>
-            <ClockIcon />
-          </div>
-        </TextNormal>
-      </Frame3668>
+      {/* <Text> */}
+      <input type="number" className="w-[275px]" />
+      <ClockIcon />
     </TimeFieldContainer>
   );
 };
 
 export const CheckTrue = () => {
   return (
-    <CheckTrueSvg width={30} height={30} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <CheckTrueSvg
+      width={30}
+      height={30}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M23.4375 2.8125H6.5625C5.56827 2.81359 4.61507 3.20902 3.91205 3.91205C3.20902 4.61507 2.81359 5.56827 2.8125 6.5625V23.4375C2.81359 24.4317 3.20902 25.3849 3.91205 26.088C4.61507 26.791 5.56827 27.1864 6.5625 27.1875H23.4375C24.4317 27.1864 25.3849 26.791 26.088 26.088C26.791 25.3849 27.1864 24.4317 27.1875 23.4375V6.5625C27.1864 5.56827 26.791 4.61507 26.088 3.91205C25.3849 3.20902 24.4317 2.81359 23.4375 2.8125ZM21.3428 10.9154L13.4678 20.2904C13.3814 20.3933 13.2739 20.4764 13.1526 20.5342C13.0313 20.5919 12.899 20.6229 12.7646 20.625H12.7488C12.6174 20.625 12.4875 20.5973 12.3675 20.5438C12.2475 20.4903 12.14 20.4122 12.0521 20.3145L8.67715 16.5645C8.59144 16.4735 8.52476 16.3664 8.48104 16.2494C8.43732 16.1323 8.41744 16.0077 8.42256 15.8829C8.42769 15.758 8.45771 15.6355 8.51088 15.5224C8.56404 15.4093 8.63928 15.308 8.73215 15.2245C8.82503 15.1409 8.93367 15.0767 9.0517 15.0357C9.16973 14.9947 9.29476 14.9777 9.41945 14.9858C9.54414 14.9938 9.66597 15.0266 9.77777 15.0824C9.88958 15.1382 9.98911 15.2158 10.0705 15.3105L12.7242 18.259L19.9072 9.70957C20.0683 9.52329 20.2963 9.40789 20.5418 9.38833C20.7873 9.36877 21.0307 9.4466 21.2193 9.60502C21.4079 9.76343 21.5265 9.9897 21.5497 10.2349C21.5728 10.4801 21.4984 10.7246 21.3428 10.9154Z"
         fill="#A3A2A4"
@@ -422,34 +428,30 @@ export const CheckTrueSvg = styled.svg`
   position: relative;
 `;
 
-
 export const TodoContainer = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-align-self: stretch;
-flex-grow: 0;
-flex-shrink: 0;
-width: 307px;
-height: 38px;
-padding: 0px 5px;
-border-radius: 8px;
-background: #fff;
-border-width: 2px;
-border-color: #f5f5f5;
-border-style: solid;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 307px;
+  height: 38px;
+  padding: 0px 5px;
+  border-radius: 8px;
+  background: #fff;
+  border-width: 2px;
+  border-color: #f5f5f5;
+  border-style: solid;
 `;
 
 export const Frame3672 = styled.div`
-box-sizing: border-box;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-flex-grow: 1;
-flex-basis: 100%;
-position: relative;
-gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
 `;
 
 export const TodoNormal = (props) => {
@@ -459,7 +461,7 @@ export const TodoNormal = (props) => {
         <Frame3672>
           <CheckTrue />
           <TextNormal>
-            <input defaultValue={props.defaultvalue}/>
+            <input defaultValue={props.defaultvalue} />
           </TextNormal>
         </Frame3672>
       </Frame3668>
@@ -467,9 +469,16 @@ export const TodoNormal = (props) => {
   );
 };
 
-export const Close = () => {
+export const Close = ({ onClick }) => {
   return (
-    <CloseSvg width={20} height={20} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <CloseSvg
+      width={20}
+      height={20}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -493,12 +502,12 @@ export const TodoWCloseContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 307px;
+  width: 100%;
   height: 38px;
   padding-right: 10px;
   padding-left: 5px;
@@ -509,18 +518,37 @@ export const TodoWCloseContainer = styled.div`
   border-style: solid;
 `;
 
+export const TodoCheckContainer = styled(TodoWCloseContainer)`
+  border-style: none;
+  border-bottom: 1px solid var(--light-gray, #f5f5f5);
+  background: var(--white, #fff);
+  border-radius: 0px;
+`;
+
 export const TodoWithCloseBtn = (props) => {
   return (
     <TodoWCloseContainer>
-      <Frame3668>
-        <Frame3672>
-          <CheckTrue />
-          <TextNormal>
-            <input defaultValue={props.defaultvalue}/>
-          </TextNormal>
-          <Close />
-        </Frame3672>
-      </Frame3668>
+      <div className="flex flex-row gap-2 w-full items-center">
+        <CheckTrue />
+        <TextNormal>
+          <input defaultValue={props.defaultvalue} />
+        </TextNormal>
+      </div>
+      <Close onClick={props.clickBtn} />
     </TodoWCloseContainer>
+  );
+};
+
+export const TodoCheck = (props) => {
+  return (
+    <TodoCheckContainer>
+      <div className="flex flex-row gap-2 w-full items-center">
+        <CheckTrue />
+        <TextNormal className="w-5/6">
+          <input className="w-full" defaultValue={props.defaultvalue} />
+        </TextNormal>
+      </div>
+      <Close onClick={props.clickBtn} />
+    </TodoCheckContainer>
   );
 };

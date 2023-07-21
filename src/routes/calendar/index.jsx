@@ -2,25 +2,38 @@ import { useState } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
-import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
+import { isSameMonth, isSameDay, addDays } from "date-fns";
 import { format } from "date-fns";
-import * as s from "./style";
+import { useNavigate } from "react-router-dom";
+import * as s from "./styled";
+import * as t from "../../components/text/styled";
+import { HeaderModal } from "../../components/header/styled";
+import {
+  FieldWithLabel,
+  InputTextFieldActive,
+  TodoWithCloseBtn,
+  TwoInputDateField,
+  InputTimeField,
+} from "../../components/input/styled";
+import {
+  TagDefault,
+  TagSelect,
+  TextBtnSmall,
+  TwoButton,
+  LargeButtonActive,
+} from "../../components/button/styled";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
 
   return (
     <s.switchFrame onClick={() => setIsOff(!isOff)}>
-      <s.track isOff={isOff} />
-      <s.onOffCircle isOff={isOff}>
-        <s.onOffText isOff={isOff}>{isOff ? "OFF" : "ON"}</s.onOffText>
+      <s.track $isOff={isOff} />
+      <s.onOffCircle $isOff={isOff}>
+        <s.onOffText $isOff={isOff}>{isOff ? "OFF" : "ON"}</s.onOffText>
       </s.onOffCircle>
     </s.switchFrame>
   );
-};
-
-export const FloatingBtn = () => {
-  return <s.floatingBtnContainer />;
 };
 
 export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
@@ -28,8 +41,8 @@ export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     <s.calendarHeader>
       <s.headerIcon src={back} alt="back" onClick={prevMonth} />
       <s.headerTitle>
-        <s.titleNormal>{format(currentMonth, "M")}월,</s.titleNormal>
-        <s.titleNormal>{format(currentMonth, "yyyy")}</s.titleNormal>
+        <t.TitleNormal>{format(currentMonth, "M")}월,</t.TitleNormal>
+        <t.TitleNormal>{format(currentMonth, "yyyy")}</t.TitleNormal>
       </s.headerTitle>
       <s.headerIcon src={forward} alt="forward" onClick={nextMonth} />
     </s.calendarHeader>
@@ -44,7 +57,7 @@ export const CalendarDays = () => {
     const isSunday = i === 0; // 첫 번째 요일이 일요일인지 확인
 
     days.push(
-      <s.day key={i} isSunday={isSunday}>
+      <s.day key={i} $isSunday={isSunday}>
         {date[i]}
       </s.day>
     );
@@ -53,16 +66,22 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate, onDateClick }) => {
+export const CalendarCells = ({ currentMonth, selectedDate }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
+  const navigate = useNavigate();
 
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
+
+  const onDateClick = (day) => {
+    const formattedDate = format(day, "yyyy-MM-dd");
+    navigate(`/calendar/${formattedDate}`);
+  };
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -72,11 +91,14 @@ export const CalendarCells = ({ currentMonth, selectedDate, onDateClick }) => {
       const isCurrentMonth = isSameMonth(day, monthStart);
 
       days.push(
-        <s.dateContainer key={day} onClick={() => onDateClick(parse(cloneDay))}>
+        <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
           {isSameDay(day, selectedDate) ? (
             <s.dateToday>{formattedDate}</s.dateToday>
           ) : (
-            <s.dateNotToday isSunday={isSunday} isCurrentMonth={isCurrentMonth}>
+            <s.dateNotToday
+              $isSunday={isSunday}
+              $isCurrentMonth={isCurrentMonth}
+            >
               {formattedDate}
             </s.dateNotToday>
           )}
@@ -88,4 +110,81 @@ export const CalendarCells = ({ currentMonth, selectedDate, onDateClick }) => {
     days = [];
   }
   return <s.month>{rows}</s.month>;
+};
+
+export const GoalCreateModal = ({
+  clickBtn,
+  step,
+  to1,
+  to2,
+  clickCompleteBtn,
+}) => {
+  return (
+    <s.GoalCreateModalContainer>
+      <s.GoalCreateModalElementContainer>
+        {step === 1 ? (
+          <HeaderModal text="목표추가" clickBtn={clickBtn} />
+        ) : (
+          <HeaderModal text="캘린더에 추가" clickBtn={clickBtn} />
+        )}
+        <s.InputContainer>
+          {step === 1 ? (
+            <>
+              <FieldWithLabel label="태그 선택">
+                <s.TagsWrapper>
+                  <TagSelect text="선택한태그" />
+                  <TagDefault text="태그2" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                  <TagDefault text="태그3" />
+                </s.TagsWrapper>
+              </FieldWithLabel>
+              <FieldWithLabel label="일정 제목">
+                <InputTextFieldActive placeholder="제목 입력" />
+              </FieldWithLabel>
+              <FieldWithLabel label="하위 투두">
+                <s.TodosWrapper>
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TodoWithCloseBtn defaultvalue="투두1" />
+                  <TextBtnSmall text="+ 투두 추가하기" />
+                </s.TodosWrapper>
+              </FieldWithLabel>
+            </>
+          ) : (
+            <>
+              <FieldWithLabel label="시작일/종료일">
+                <TwoInputDateField />
+              </FieldWithLabel>
+              <FieldWithLabel label="달릴 요일">
+                <s.RunDayWrapper>
+                  <TagDefault text="월" />
+                  <TagDefault text="화" />
+                  <TagDefault text="수" />
+                  <TagDefault text="목" />
+                  <TagDefault text="금" />
+                  <TagDefault text="토" />
+                  <TagDefault text="일" />
+                </s.RunDayWrapper>
+              </FieldWithLabel>
+              <FieldWithLabel label="예상 소요시간">
+                <InputTimeField />
+              </FieldWithLabel>
+            </>
+          )}
+        </s.InputContainer>
+        {step === 1 ? (
+          <TwoButton
+            text1="완료하기"
+            text2="캘린더에도 추가하기"
+            to1={to1}
+            to2={to2}
+          />
+        ) : (
+          <LargeButtonActive text="완료하기" to={clickCompleteBtn} />
+        )}
+      </s.GoalCreateModalElementContainer>
+    </s.GoalCreateModalContainer>
+  );
 };

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const tabBarContainer = styled.div`
-  bottom: 0px;
+  bottom: 0%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -44,6 +44,7 @@ export const tabBarItem = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.866px;
+  cursor: pointer;
 `;
 
 export const tabLabel = styled.p`
