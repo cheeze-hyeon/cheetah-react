@@ -85,24 +85,41 @@ export const daysOfWeek = styled.div`
 `;
 
 export const dateContainer = styled.div`
-  box-sizing: border-box;
-  display: block;
-  flex-grow: 0;
-  flex-shrink: 0;
+  display: flex;
   width: 56px;
-  height: 105px;
-  position: relative;
-  overflow: hidden;
+  height: 95px;
+  padding: 2px;
+  flex-direction: column;
   align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  // box-sizing: border-box;
+  // fdisplay: block;
+  // flex-grow: 0;
+  // flex-shrink: 0;
+  // width: 56px;
+  // height: 105px;
+  // position: relative;
+  // overflow: hidden;
+  // align-items: center;
+  // justify-content: center;
+  // cursor: pointer;
+`;
+export const DateWrapper = styled.div`
+  display: flex;
+  width: 18px;
+  height: 20px;
+  padding: 2px 3px 4px 3px;
+  flex-direction: column;
   justify-content: center;
-  cursor: pointer;
+  align-items: center;
 `;
 
 export const dateToday = styled.span`
   padding: 2px 3px 2px 3px;
   font-family: Pretendard;
   font-size: 11px;
-  line-height: 10%;
+  line-height: 125%;
   letter-spacing: 0%;
   font-weight: 500;
   text-align: center;
@@ -125,6 +142,46 @@ export const dateNotToday = styled.span`
   color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};
   opacity: ${(props) => (props.$isCurrentMonth ? "1" : "0.3")};
 `;
+export const EventsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  align-self: stretch;
+`;
+
+const EventContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 16px;
+  padding: 1.5px 0px 1.5px 2px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 2px;
+  overflow: hidden;
+  background: ${(props) => {
+    return props.color;
+  }};
+`;
+
+const EventLabel = styled.span`
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 400;
+  overflow: hidden;
+  height: 100%;
+`;
+
+export const EventElement = (props) => {
+  return (
+    <EventContainer color={props.color}>
+      <EventLabel>{props.title}</EventLabel>
+    </EventContainer>
+  );
+};
 
 export const week = styled.div`
   display: flex;

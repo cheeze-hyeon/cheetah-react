@@ -66,7 +66,7 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate }) => {
+export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -89,19 +89,48 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
       const cloneDay = day;
       const isSunday = i === 0; // 첫 번째 요일이 일요일이고 이번 달인지 확인
       const isCurrentMonth = isSameMonth(day, monthStart);
+      const getEventsForDay = (day) => {
+        return goals.filter((goal) => {
+          // goal.finish_at와 day를 각각 Date 객체로 변환하여 날짜만 비교
+          const goalDate = new Date(goal.finish_at);
+          return (
+            goalDate.getDate() === day.getDate() &&
+            goalDate.getMonth() === day.getMonth() &&
+            goalDate.getFullYear() === day.getFullYear()
+          );
+        });
+      };
+
+      const getTagForDay = (tags, goal) => {
+        return tags.filter((tag) => tag.id === goal.tag_id);
+      };
+
+      const eventsForDay = getEventsForDay(day).slice(0, 3);
 
       days.push(
         <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
-          {isSameDay(day, selectedDate) ? (
-            <s.dateToday>{formattedDate}</s.dateToday>
-          ) : (
-            <s.dateNotToday
-              $isSunday={isSunday}
-              $isCurrentMonth={isCurrentMonth}
-            >
-              {formattedDate}
-            </s.dateNotToday>
-          )}
+          <s.EventsWrapper>
+            <s.DateWrapper>
+              {isSameDay(day, selectedDate) ? (
+                <s.dateToday>{formattedDate}</s.dateToday>
+              ) : (
+                <s.dateNotToday
+                  $isSunday={isSunday}
+                  $isCurrentMonth={isCurrentMonth}
+                >
+                  {formattedDate}
+                </s.dateNotToday>
+              )}
+            </s.DateWrapper>
+            {eventsForDay.map((goal) => (
+              <s.EventElement
+                key={goal.id}
+                title={goal.title}
+                color={getTagForDay(tags, goal)[0].color}
+              />
+            ))}
+          </s.EventsWrapper>
+          {/* {eventsForDay.length > 3 ? <p>+</p> : <p></p>}; */}
         </s.dateContainer>
       );
       day = addDays(day, 1);
