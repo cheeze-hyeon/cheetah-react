@@ -8,7 +8,6 @@ import TagList from "../goal/TagList";
 import goals from "../../data/goals";
 import tags from "../../data/tags";
 import "../../index.css";
-import TagDetail from "../goal/TagDetail";
 import GoalHeader from "../goal/GoalHeader";
 
 const GoalMainPage = () => {
