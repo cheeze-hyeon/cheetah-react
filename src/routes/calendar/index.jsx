@@ -17,7 +17,6 @@ import {
 } from "../../components/input/styled";
 import {
   TagDefault,
-  TagSelect,
   TextBtnSmall,
   TwoButton,
   LargeButtonActive,
@@ -91,18 +90,13 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
       const isCurrentMonth = isSameMonth(day, monthStart);
       const getEventsForDay = (day) => {
         return goals.filter((goal) => {
-          // goal.finish_at와 day를 각각 Date 객체로 변환하여 날짜만 비교
           const goalDate = new Date(goal.finish_at);
-          return (
-            goalDate.getDate() === day.getDate() &&
-            goalDate.getMonth() === day.getMonth() &&
-            goalDate.getFullYear() === day.getFullYear()
-          );
+          return isSameDay(goalDate, day); // 날짜만 비교
         });
       };
 
       const getTagForDay = (tags, goal) => {
-        return tags.filter((tag) => tag.id === goal.tag_id);
+        return tags.find((tag) => tag.id === goal.tag_id);
       };
 
       const eventsForDay = getEventsForDay(day);
@@ -128,14 +122,13 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
             <s.EventElement
               key={goal.id}
               title={goal.title}
-              color={getTagForDay(tags, goal)[0].color}
+              color={getTagForDay(tags, goal).color}
             />
           ))}
           {eventsForDay.length > 3 ? (
             <s.MoreEventText>+{eventsForDay.length - 3}</s.MoreEventText>
           ) : (
             <s.MoreEventText></s.MoreEventText>
-            // <s.MoreEvent text={eventsForDay.length - 3} />
           )}
         </s.dateContainer>
       );
@@ -153,7 +146,20 @@ export const GoalCreateModal = ({
   to1,
   to2,
   clickCompleteBtn,
+  tags,
+  onTagClick,
 }) => {
+  const [selectedTagId, setSelectedTagId] = useState(null);
+
+  const handleTagClick = (tagId) => {
+    setSelectedTagId(tagId);
+    onTagClick(tagId);
+  };
+
+  const isSelected = (tag) => {
+    return selectedTagId === tag.id;
+  };
+
   return (
     <s.GoalCreateModalContainer>
       <s.GoalCreateModalElementContainer>
@@ -167,13 +173,15 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="태그 선택">
                 <s.TagsWrapper>
-                  
-                  <TagSelect text="선택한태그" />
-                  <TagDefault text="태그2" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
+                  {tags.map((tag) => (
+                    <TagDefault
+                      key={tag.id}
+                      color={tag.color}
+                      text={tag.title}
+                      isSelected={isSelected(tag)}
+                      onClick={() => handleTagClick(tag.id)}
+                    />
+                  ))}
                 </s.TagsWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">

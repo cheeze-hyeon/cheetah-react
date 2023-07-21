@@ -329,9 +329,9 @@ export const InputContainer = styled.div`
 export const TagsWrapper = styled.div`
   display: flex;
   padding: 5px 2px;
-  align-items: center;
+  align-items: flex-start;
   align-content: flex-start;
-  gap: 15px 10px;
+  gap: 10px 12px;
   align-self: stretch;
   flex-wrap: wrap;
 `;
