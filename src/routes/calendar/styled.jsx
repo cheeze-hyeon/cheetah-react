@@ -93,17 +93,6 @@ export const dateContainer = styled.div`
   align-items: center;
   gap: 2px;
   flex-shrink: 0;
-  // box-sizing: border-box;
-  // fdisplay: block;
-  // flex-grow: 0;
-  // flex-shrink: 0;
-  // width: 56px;
-  // height: 105px;
-  // position: relative;
-  // overflow: hidden;
-  // align-items: center;
-  // justify-content: center;
-  // cursor: pointer;
 `;
 export const DateWrapper = styled.div`
   display: flex;
@@ -353,4 +342,31 @@ export const RunDayWrapper = styled.div`
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
+`;
+
+export const DatepickerWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background: #fff;
+  border-width: 2px;
+  border-color: #f5f5f5;
+  border-style: solid;
+  margin-left: 0px;
+`;
+
+export const DaysWrapper = styled.div`
+  display: flex;
+  padding: 0px 4px;
+  align-items: center;
+  justify-content: space-between;
+  gap: auto;
+  width: 100%;
 `;

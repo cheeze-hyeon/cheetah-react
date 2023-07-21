@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
@@ -21,6 +21,8 @@ import {
   TwoButton,
   LargeButtonActive,
 } from "../../components/button/styled";
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import { Datepicker, Button, Page } from "@mobiscroll/react";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
@@ -147,17 +149,54 @@ export const GoalCreateModal = ({
   to2,
   clickCompleteBtn,
   tags,
-  onTagClick,
 }) => {
   const [selectedTagId, setSelectedTagId] = useState(null);
+  const [selectedDays, setSelectedDays] = useState({
+    mon: true,
+    tue: true,
+    wed: true,
+    thu: true,
+    fri: true,
+    sat: true,
+    sun: true,
+  });
 
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
-    onTagClick(tagId);
+    console.log(tagId);
+  };
+
+  const handleDayClick = (dayId) => {
+    setSelectedDays((prevSelectedDays) => ({
+      ...prevSelectedDays,
+      [dayId]: !prevSelectedDays[dayId],
+    }));
   };
 
   const isSelected = (tag) => {
     return selectedTagId === tag.id;
+  };
+
+  const [openPicker, setOpenPicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const show = () => {
+    setOpenPicker(true);
+  };
+
+  const onClose = () => {
+    setOpenPicker(false);
+  };
+
+  const boxInputProps = {
+    className: "w-full",
+    inputStyle: "box",
+    placeholder: "기간 선택하기",
+  };
+  const boxInputProps2 = {
+    className: "w-full",
+    inputStyle: "box",
+    placeholder: "시간 선택하기",
   };
 
   return (
@@ -199,21 +238,81 @@ export const GoalCreateModal = ({
           ) : (
             <>
               <FieldWithLabel label="시작일/종료일">
-                <TwoInputDateField />
+                <s.DatepickerWrapper>
+                  <Datepicker
+                    controls={["calendar"]}
+                    select="range"
+                    inputProps={boxInputProps}
+                    className="w-5/6"
+                  />
+                </s.DatepickerWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="달릴 요일">
-                <s.RunDayWrapper>
-                  <TagDefault text="월" />
-                  <TagDefault text="화" />
-                  <TagDefault text="수" />
-                  <TagDefault text="목" />
-                  <TagDefault text="금" />
-                  <TagDefault text="토" />
-                  <TagDefault text="일" />
-                </s.RunDayWrapper>
+                <s.DaysWrapper>
+                  <TagDefault
+                    key="mon"
+                    color="var(--light-gray)"
+                    text="월"
+                    isSelected={selectedDays["mon"]}
+                    onClick={() => handleDayClick("mon")}
+                  />
+                  <TagDefault
+                    key="tue"
+                    color="var(--light-gray)"
+                    text="화"
+                    isSelected={selectedDays["tue"]}
+                    onClick={() => handleDayClick("tue")}
+                  />
+                  <TagDefault
+                    key="wed"
+                    color="var(--light-gray)"
+                    text="수"
+                    isSelected={selectedDays["wed"]}
+                    onClick={() => handleDayClick("wed")}
+                  />
+                  <TagDefault
+                    key="thu"
+                    color="var(--light-gray)"
+                    text="목"
+                    isSelected={selectedDays["thu"]}
+                    onClick={() => handleDayClick("thu")}
+                  />
+                  <TagDefault
+                    key="fri"
+                    color="var(--light-gray)"
+                    text="금"
+                    isSelected={selectedDays["fri"]}
+                    onClick={() => handleDayClick("fri")}
+                  />
+                  <TagDefault
+                    key="sat"
+                    color="var(--light-gray)"
+                    text="토"
+                    isSelected={selectedDays["sat"]}
+                    onClick={() => handleDayClick("sat")}
+                  />
+                  <TagDefault
+                    key="sun"
+                    color="var(--light-gray)"
+                    text="일"
+                    isSelected={selectedDays["sun"]}
+                    onClick={() => handleDayClick("sun")}
+                  />
+                </s.DaysWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="예상 소요시간">
-                <InputTimeField />
+                <s.DatepickerWrapper>
+                  <Datepicker
+                    controls={["time"]}
+                    timeFormat="HH:mm"
+                    headerText="hour minutes"
+                    inputProps={
+                      // label: "Hour, Min",
+                      boxInputProps2
+                    }
+                  />
+                </s.DatepickerWrapper>
+                {/* <InputTimeField /> */}
               </FieldWithLabel>
             </>
           )}

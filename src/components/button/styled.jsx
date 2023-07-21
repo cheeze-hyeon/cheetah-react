@@ -586,7 +586,7 @@ export const TagContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  padding: ${(props) => (props.$isSelected ? "6px 12px" : "8px 12px")};
+  padding: ${(props) => (props.$isSelected ? "6px 10px" : "8px 11px")};
   border-radius: 20px;
   background: ${(props) => props.color};
   border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};

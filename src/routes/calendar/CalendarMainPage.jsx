@@ -21,7 +21,6 @@ const CalendarMainPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
-  const [selectedTagId, setSelectedTagId] = useState(null);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -41,10 +40,6 @@ const CalendarMainPage = () => {
 
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const handleTagClick = (tagId) => {
-    setSelectedTagId(tagId);
   };
 
   return (
@@ -80,8 +75,6 @@ const CalendarMainPage = () => {
             clickBtn={showGoalCreateModal}
             clickCompleteBtn={showGoalCreateModal}
             tags={tags}
-            selectedTagId={selectedTagId}
-            onTagClick={handleTagClick}
           />
         </ModalOverlay>
       )}
