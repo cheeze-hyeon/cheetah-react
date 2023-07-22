@@ -92,6 +92,22 @@ export const LargeLabel = styled.p`
   text-transform: uppercase;
 `;
 
+export const LargeButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #716a56;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
 export const LargeButtonNonActive = (props) => {
   return (
     <LBtnNonActiveContainer>
@@ -338,6 +354,22 @@ const TwoButtonContainer = styled.div`
 `;
 
 export const OneButtonContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 133px;
+  height: 55px;
+  border-radius: 8px;
+  background: var(--brown);
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const TwoButtonActiveContainer1 = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
