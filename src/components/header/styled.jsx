@@ -162,7 +162,6 @@ export const HeaderBack = (props) => {
       <Button to="/..">
         <HeaderBackArrow />
       </Button>
-      <HeaderBackArrow />
       <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
@@ -185,8 +184,7 @@ export const HeaderMore = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
-      <TitleNormal>{props.text}
-      </TitleNormal>
+      <TitleNormal>{props.text}</TitleNormal>
       <HeaderMoreIcon />
     </HeaderContainer>
   );
