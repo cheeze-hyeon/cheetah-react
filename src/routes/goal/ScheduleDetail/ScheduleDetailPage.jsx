@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import goals from "../../data/goals";
+import goals from "../../../data/goals";
 import "tailwindcss/tailwind.css";
 
 const ScheduleDetailPage = () => {

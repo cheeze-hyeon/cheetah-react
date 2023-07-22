@@ -1,12 +1,12 @@
 // GoalDetailModal.js
-import {React, useState} from "react";
+import { React, useState } from "react";
 import GoalDetailModalHeader from "./GoalDetailModalHeader";
 import "tailwindcss/tailwind.css";
 import TodoCheck from "./TodoCheck";
 import tags from "../../../data/tags";
+import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트를 불러옵니다.
 
 const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
-
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const handleModalClose = () => {
@@ -59,9 +59,8 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     return `${hours}h ${minutes}m`;
   };
 
-
   const filteredTodos = todos.filter((todo) => todo.goal_id === goal.id);
-  
+
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
 
   const [showAddTodoField, setShowAddTodoField] = useState(false);
@@ -93,12 +92,26 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
   };
 
+  const handleEditButtonClick = () => {
+    // "상세정보 수정하기" 버튼을 누를 때 호출되는 함수입니다.
+    // 아래에서 호출한 버튼의 onClick 이벤트 핸들러입니다.
+    // 원하는 동작을 추가하시면 됩니다.
+    console.log("상세정보 수정하기 버튼이 클릭되었습니다.");
+  };
+  const handleAddToCalendar = () => {
+    // "캘린더에 추가하기" 버튼을 클릭했을 때 호출되는 함수입니다.
+    // 원하는 동작을 추가하시면 됩니다.    
+    console.log(goal)
+    console.log("캘린더에 추가하기 버튼이 클릭되었습니다.");
+    window.location.href = `/scheduledetailpage/${goal.id}`
+
+  };
+
   return (
     <div className="box-border top-0 flex flex-col justify-top items-start self-stretch flex-grow-0 flex-shrink-0 w-[357px] h-fill gap-5 pb-10">
       <GoalDetailModalHeader onCloseModal={onCloseModal} />
       <div className="box-border flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-fill px-2.5">
         <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 gap-2">
-          
           {/* is_scheduled가 0이 아닌 경우에만 Tag 정보를 표시 */}
           {tag && (
             <div
@@ -154,9 +167,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
         {/* todos 배열을 순회하면서 TodoCheck 컴포넌트를 렌더링 */}
         {/* 할일이 있는 경우 TodoCheck 컴포넌트들을 렌더링 */}
         {filteredTodos.length > 0 ? (
-          filteredTodos.map((todo) => (
-            <TodoCheck key={todo.id} todo={todo} />
-          ))
+          filteredTodos.map((todo) => <TodoCheck key={todo.id} todo={todo} />)
         ) : (
           // 할일이 없는 경우 "할일이 없습니다" 메시지를 렌더링
           <p className="text-sm text-gray-500 font-medium">할일이 없어요:) </p>
@@ -188,6 +199,27 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
           </button>
         )}
       </div>
+      {/* 아래에 버튼을 추가합니다. */}
+      <Link
+        to={`/scheduledetailpage/${goal.id}`}
+        className={`flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0  font-['Pretendard'] text-[15px] ${
+          is_scheduled === 0 ? "bg-lightGray" : "bg-orange"
+        } rounded-lg`}
+        style={{
+          display: "flex",
+          height: "40px",
+          padding: "0px 20px",
+          justifyContent: "center",
+          alignItems: "center",
+          alignSelf: "stretch",
+          backgroundColor: is_scheduled === 0 ? "#EAEEF1" : "#F19A37",
+          color: is_scheduled === 0 ? "black" : "white",
+        }}
+        onClick={is_scheduled === 0 ? handleAddToCalendar : handleEditButtonClick}
+      >
+        {/* is_scheduled에 따라 버튼의 내용이 달라집니다. */}
+        {is_scheduled === 0 ? "캘린더에 추가하기" : "상세정보 수정하기"}
+      </Link>
     </div>
   );
 };
