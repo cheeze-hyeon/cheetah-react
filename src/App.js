@@ -8,8 +8,8 @@ import TodayMainPage from "./routes/today/TodayMainPage";
 import CalendarMainPage from "./routes/calendar/CalendarMainPage";
 import GoalMainPage from "./routes/goal/GoalMainPage";
 import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
-
-import "./App.css";
+import TagDetail from "./routes/goal/Tag/TagDetailPage";
+import ScheduleDetailPage from "./routes/goal/ScheduleDetail/ScheduleDetailPage";
 
 const App = () => {
   return (
@@ -22,9 +22,15 @@ const App = () => {
         <Route path="/today/" element={<TodayMainPage />} />
         <Route path="/calendar/" element={<CalendarMainPage />} />
         <Route path="/goal/" element={<GoalMainPage />} />
+        <Route path="/tag-detail" element={<TagDetail />} />
+
         <Route
           path="/calendar/:selectedDate"
           element={<CalendarDetailPage />}
+        />
+        <Route
+          path="/scheduledetailpage/:goalId"
+          element={<ScheduleDetailPage />}
         />
       </Routes>
     </div>
