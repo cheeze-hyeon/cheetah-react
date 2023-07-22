@@ -11,7 +11,7 @@ export const Frame = styled(Link)`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
-  gap: 16px;
+  gap: 5px;
   text-decoration: none;
 `;
 
@@ -230,11 +230,10 @@ export const TextBtnMedium = (props) => {
 export const TextBtnSContainer = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 84px;
   height: 24px;
   position: relative;
   padding: 0px 10px;
@@ -257,10 +256,8 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer>
-      <Frame to={props.to}>
-        <TextBtnSComponent>{props.text}</TextBtnSComponent>
-      </Frame>
+    <TextBtnSContainer to={props.to}>
+      <TextBtnSComponent>{props.text}</TextBtnSComponent>
     </TextBtnSContainer>
   );
 };
@@ -351,7 +348,23 @@ export const OneButtonContainer = styled.div`
   width: 133px;
   height: 55px;
   border-radius: 8px;
-  // background: #f19a37;
+  background: var(--brown);
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
+export const TwoButtonActiveContainer2 = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 204px;
+  height: 55px;
+  border-radius: 8px;
+  background: var(--orange);
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -359,12 +372,12 @@ export const OneButtonContainer = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <OneButtonContainer className="bg-[#f19a37]">
+      <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
           <LargeLabel>{props.text1}</LargeLabel>
         </Frame>
-      </OneButtonContainer>
-      <OneButtonContainer className="bg-[#716a56]">
+      </TwoButtonActiveContainer1>
+      <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
           <LargeLabel>{props.text2}</LargeLabel>
         </Frame>
@@ -521,21 +534,21 @@ export const SlimButtonActive = (props) => {
 
 export const TagContainer = styled.div`
   box-sizing: border-box;
-  display: inline-block;
-  // display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  // width: 63px;
-  height: 35px;
-  padding: 8px 12px;
+  padding: ${(props) => (props.$isSelected ? "6px 10px" : "8px 11px")};
   border-radius: 20px;
-  background: #ddd;
-  border-width: 2px;
+  background: ${(props) => props.color};
+  border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
-  box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) =>
+    props.$isSelected
+      ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
+      : "0px 0px 6px 0 rgba(0, 0, 0, 0.2)"};
 `;
 
 export const TagLabel = styled.p`
@@ -547,17 +560,20 @@ export const TagLabel = styled.p`
   font-size: 15px;
   line-height: 19px;
   letter-spacing: 0px;
-  font-weight: 500;
+  font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
   color: #000;
+  align-items: center;
 `;
 
 export const TagDefault = (props) => {
   return (
-    <TagContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+    <TagContainer
+      color={props.color}
+      $isSelected={props.isSelected}
+      onClick={props.onClick}
+    >
+      <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
   );
 };
@@ -572,20 +588,19 @@ export const TagSelectContainer = styled.div`
   width: 63px;
   height: 35px;
   padding: 8px 12px;
-  border-radius: 20px;
-  background: #ddd;
   border-width: 4px;
-  border-color: #fff;
   border-style: solid;
-  box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.4);
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 4px solid var(--white, #fff);
+  background: var(--gray, #ddd);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 `;
 
 export const TagSelect = (props) => {
   return (
     <TagSelectContainer>
-      <TextNormal>
-        <TagLabel>{props.text}</TagLabel>
-      </TextNormal>
+      <TextNormal>{props.text}</TextNormal>
     </TagSelectContainer>
   );
 };
@@ -596,7 +611,7 @@ const ResetSvg = styled.svg`
   flex-shrink: 0;
   width: 18px;
   height: 18px;
-  position: relative;
+  position: a;
 `;
 
 export const IconReset = () => {
@@ -672,6 +687,7 @@ export const IconLogout = () => {
 export const TextBtnSwIconContainer = styled.div`
   box-sizing: border-box;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   flex-grow: 0;
@@ -681,7 +697,7 @@ export const TextBtnSwIconContainer = styled.div`
   position: relative;
   gap: 5px;
   padding: 0px 10px;
-  // margin: auto;
+  margin: auto;
 `;
 
 export const TextBtnSContainer2 = styled.div`
@@ -691,7 +707,6 @@ export const TextBtnSContainer2 = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 49px;
   height: 24px;
   position: relative;
 `;
@@ -700,13 +715,22 @@ export const TextBtnWIconSmall = (props) => {
   return (
     <TextBtnSContainer2>
       <Frame to={props.to}>
+        {props.children}
         <TextBtnSComponent>{props.text}</TextBtnSComponent>
       </Frame>
     </TextBtnSContainer2>
   );
 };
 
-export const TextBtnSmallWithicon = (props) => {
+export const TextBtnWResetIcon = () => {
+  return (
+    <TextBtnWIconSmall text="되돌리기">
+      <IconReset />
+    </TextBtnWIconSmall>
+  );
+};
+
+export const TextBtnSmallWithicon = () => {
   return (
     <TextBtnSwIconContainer>
       <IconReset />

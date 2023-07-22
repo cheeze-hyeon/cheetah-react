@@ -35,8 +35,8 @@ export const TextHeavy = styled.p`
   font-size: 18px;
   line-height: 19px;
   letter-spacing: 0px;
-  font-weight: 600;
   text-align: left;
+  font-weight: 600;
 `;
 
 export const TextNormal = styled.p`
@@ -61,4 +61,5 @@ export const TextLight = styled.p`
   line-height: 19px;
   letter-spacing: 0px;
   text-align: left;
+  font-weight: 400;
 `;

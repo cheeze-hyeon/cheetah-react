@@ -162,6 +162,7 @@ export const HeaderBack = (props) => {
       <Button to="/..">
         <HeaderBackArrow />
       </Button>
+      <HeaderBackArrow />
       <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
@@ -193,13 +194,10 @@ export const HeaderMore = (props) => {
 
 export const HeaderModal = (props) => {
   return (
-    <ModalContainer className="m-auto mt-[47px]">
+    <ModalContainer className="m-auto">
       <HeaderNone />
-      <TitleNormal>{props.text}
-      </TitleNormal>
-      <Button onClick={props.sCM}>
-        <Close />
-      </Button>
+      <TitleNormal>{props.text}</TitleNormal>
+      <Close onClick={props.clickBtn} />
     </ModalContainer>
   );
 };
