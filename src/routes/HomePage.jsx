@@ -6,14 +6,13 @@ import {
 import logo from "../asset/images/logo.png";
 
 import { TitleHeavy, TitleNormal } from "../components/text/styled.jsx";
-
-
+import { GoalDeleteModal, ReturnAlertModal, TagDeleteAlertModal } from "./goal/styled.jsx";
 
 const HomePage = () => {
   return (
     <div className="mt-[237px] mb-[69px]">
       <div className="flex justify-center items-center flex-col mb-[165px]">
-        <img src={logo} className="mb-3.5"></img>
+        <img src={logo} className="mb-3.5" alte="face"></img>
         <div className="mb-5">
           <TitleHeavy>CHEETHA</TitleHeavy>
         </div>

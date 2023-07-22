@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TextNormal } from "../text/styled";
@@ -15,7 +15,7 @@ export const Frame = styled(Link)`
   text-decoration: none;
 `;
 
-export const LargeButtonNonActiveContainer = styled.div`
+export const LBtnNonActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -31,7 +31,7 @@ export const LargeButtonNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonActiveContainer = styled.div`
+export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -47,7 +47,7 @@ export const LargeButtonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonActiveContainer2 = styled.div`
+export const LBtnActiveContainer2 = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -63,7 +63,7 @@ export const LargeButtonActiveContainer2 = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonNonActiveLabel = styled.p`
+export const LBtnNonActiveLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -90,49 +90,49 @@ export const LargeLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
-  color: #fff;
 `;
 
-export const LargeLabel2 = styled.p`
-  margin: 0;
-  white-space: pre-wrap;
+export const LargeButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  font-family: Pretendard;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: 0px;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  color: #000;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #716a56;
+  margin: auto;
+  margin-bottom: 14px;
 `;
 
 export const LargeButtonNonActive = (props) => {
   return (
-    <LargeButtonNonActiveContainer>
+    <LBtnNonActiveContainer>
       <Frame to={props.to}>
-        <LargeButtonNonActiveLabel>{props.text}</LargeButtonNonActiveLabel>
+        <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
-    </LargeButtonNonActiveContainer>
+    </LBtnNonActiveContainer>
   );
 };
 
 export const LargeButtonActive = (props) => {
   return (
-    <LargeButtonActiveContainer>
+    <LBtnActiveContainer>
       <Frame to={props.to}>
-        <LargeLabel>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
       </Frame>
-    </LargeButtonActiveContainer>
+    </LBtnActiveContainer>
   );
 };
 
 export const LargeButtonActive2 = (props) => {
   return (
-    <LargeButtonActiveContainer2>
-      <LargeLabel2>{props.text}</LargeLabel2>
-    </LargeButtonActiveContainer2>
+    <LBtnActiveContainer2>
+      <LargeLabel className="text-[#000]">{props.text}</LargeLabel>
+    </LBtnActiveContainer2>
   );
 };
 
@@ -285,10 +285,11 @@ export const CheckBoxContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 121px;
+  width: auto;
   height: 24px;
   position: relative;
   padding: 0px 10px;
+  // margin: auto;
 `;
 
 export const CheckBoxInput = styled.input`
@@ -352,6 +353,22 @@ const TwoButtonContainer = styled.div`
   margin: auto;
 `;
 
+export const OneButtonContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 133px;
+  height: 55px;
+  border-radius: 8px;
+  background: var(--brown);
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
 export const TwoButtonActiveContainer1 = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -401,7 +418,7 @@ export const TwoButton = (props) => {
   );
 };
 
-export const MButtonActiveContainer = styled.div`
+export const MBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -415,7 +432,7 @@ export const MButtonActiveContainer = styled.div`
   margin: auto;
 `;
 
-const MediumLabel = styled.p`
+const MLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -427,20 +444,19 @@ const MediumLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
-  color: #fff;
 `;
 
 export const MediumButtonActive = (props) => {
   return (
-    <MButtonActiveContainer>
+    <MBtnActiveContainer>
       <Frame>
-        <MediumLabel>확인</MediumLabel>
+        <MLabel className="text-[#fff]">확인</MLabel>
       </Frame>
-    </MButtonActiveContainer>
+    </MBtnActiveContainer>
   );
 };
 
-export const MButtonNonActiveContainer = styled.div`
+export const MBtnNonActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -454,30 +470,15 @@ export const MButtonNonActiveContainer = styled.div`
   margin: auto;
 `;
 
-export const MediumLabel2 = styled.p`
-  margin: 0;
-  white-space: pre-wrap;
-  flex-grow: 0;
-  flex-shrink: 0;
-  font-family: Pretendard;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: 0px;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  color: #a3a2a4;
-`;
-
 export const MediumButtonNonActive = (props) => {
   return (
-    <MButtonNonActiveContainer>
-      <MediumLabel2>확인</MediumLabel2>
-    </MButtonNonActiveContainer>
+    <MBtnNonActiveContainer>
+      <MLabel className="text-[#a3a2a4]">확인</MLabel>
+    </MBtnNonActiveContainer>
   );
 };
 
-export const SButtonActiveContainer = styled.div`
+export const SBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -491,7 +492,7 @@ export const SButtonActiveContainer = styled.div`
   margin: auto;
 `;
 
-export const SmallLabel = styled.p`
+export const SLabel = styled.p`
   margin: 0;
   white-space: pre-wrap;
   flex-grow: 0;
@@ -503,20 +504,19 @@ export const SmallLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
-  color: #fff;
 `;
 
 export const SmallButtonActive = (props) => {
   return (
-    <SButtonActiveContainer>
+    <SBtnActiveContainer>
       <Frame>
-        <SmallLabel>확인</SmallLabel>
+        <SLabel className="text-[#fff]">확인</SLabel>
       </Frame>
-    </SButtonActiveContainer>
+    </SBtnActiveContainer>
   );
 };
 
-export const SButtonNonActiveContainer = styled.div`
+export const SBtnNonActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -530,26 +530,11 @@ export const SButtonNonActiveContainer = styled.div`
   margin: auto;
 `;
 
-const SmallLabel2 = styled.p`
-  margin: 0;
-  white-space: pre-wrap;
-  flex-grow: 0;
-  flex-shrink: 0;
-  font-family: Pretendard;
-  font-size: 15px;
-  line-height: 24px;
-  letter-spacing: 0px;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  color: #a3a2a4;
-`;
-
 export const SmallButtonNonActive = (props) => {
   return (
-    <SButtonNonActiveContainer>
-      <SmallLabel2>확인</SmallLabel2>
-    </SButtonNonActiveContainer>
+    <SBtnNonActiveContainer>
+      <SLabel className="text-[#a3a2a4]">확인</SLabel>
+    </SBtnNonActiveContainer>
   );
 };
 
@@ -573,7 +558,7 @@ export const SlimButtonActive = (props) => {
   return (
     <SlimButtonContainer>
       <Frame>
-        <SmallLabel>확인</SmallLabel>
+        <SLabel>확인</SLabel>
       </Frame>
     </SlimButtonContainer>
   );
@@ -586,14 +571,16 @@ export const TagContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  // height: 35px;
-  padding: 8px 12px;
+  padding: ${(props) => (props.$isSelected ? "6px 10px" : "8px 11px")};
   border-radius: 20px;
-  background: #ddd;
-  border-width: 2px;
+  background: ${(props) => props.color};
+  border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
-  box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) =>
+    props.$isSelected
+      ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
+      : "0px 0px 6px 0 rgba(0, 0, 0, 0.2)"};
 `;
 
 export const TagLabel = styled.p`
@@ -605,7 +592,7 @@ export const TagLabel = styled.p`
   font-size: 15px;
   line-height: 19px;
   letter-spacing: 0px;
-  font-weight: 500;
+  font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
   color: #000;
   align-items: center;
@@ -613,8 +600,12 @@ export const TagLabel = styled.p`
 
 export const TagDefault = (props) => {
   return (
-    <TagContainer>
-      <TextNormal>{props.text}</TextNormal>
+    <TagContainer
+      color={props.color}
+      $isSelected={props.isSelected}
+      onClick={props.onClick}
+    >
+      <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
   );
 };
@@ -626,6 +617,11 @@ export const TagSelectContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
+  width: 63px;
+  height: 35px;
+  padding: 8px 12px;
+  border-width: 4px;
+  border-style: solid;
   padding: 8px 12px;
   border-radius: 20px;
   border: 4px solid var(--white, #fff);
@@ -674,6 +670,49 @@ export const IconReset = () => {
         strokeLinejoin="round"
       />
     </ResetSvg>
+  );
+};
+
+export const LogoutSvg = styled.svg`
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  position: relative;
+`;
+
+export const IconLogout = () => {
+  return (
+    <LogoutSvg
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.99689 2.25H2.25V15.75H9"
+        stroke="black"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.375 12.375L15.75 9L12.375 5.625"
+        stroke="black"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 8.99689H15.75"
+        stroke="black"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </LogoutSvg>
   );
 };
 
@@ -728,6 +767,15 @@ export const TextBtnSmallWithicon = () => {
     <TextBtnSwIconContainer>
       <IconReset />
       <TextBtnWIconSmall text="되돌리기"></TextBtnWIconSmall>
+    </TextBtnSwIconContainer>
+  );
+};
+
+export const TextBtnSmallWithLogout = (props) => {
+  return (
+    <TextBtnSwIconContainer>
+      <IconLogout />
+      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

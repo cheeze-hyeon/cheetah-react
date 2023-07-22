@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
@@ -17,11 +17,12 @@ import {
 } from "../../components/input/styled";
 import {
   TagDefault,
-  TagSelect,
   TextBtnSmall,
   TwoButton,
   LargeButtonActive,
 } from "../../components/button/styled";
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import { Datepicker, Button, Page } from "@mobiscroll/react";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
@@ -66,7 +67,7 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate }) => {
+export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -89,18 +90,47 @@ export const CalendarCells = ({ currentMonth, selectedDate }) => {
       const cloneDay = day;
       const isSunday = i === 0; // 첫 번째 요일이 일요일이고 이번 달인지 확인
       const isCurrentMonth = isSameMonth(day, monthStart);
+      const getEventsForDay = (day) => {
+        return goals.filter((goal) => {
+          const goalDate = new Date(goal.finish_at);
+          return isSameDay(goalDate, day); // 날짜만 비교
+        });
+      };
+
+      const getTagForDay = (tags, goal) => {
+        return tags.find((tag) => tag.id === goal.tag_id);
+      };
+
+      const eventsForDay = getEventsForDay(day);
+      const threeEvents = eventsForDay.slice(0, 3);
 
       days.push(
         <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
-          {isSameDay(day, selectedDate) ? (
-            <s.dateToday>{formattedDate}</s.dateToday>
+          <s.EventsWrapper>
+            <s.DateWrapper>
+              {isSameDay(day, selectedDate) ? (
+                <s.dateToday>{formattedDate}</s.dateToday>
+              ) : (
+                <s.dateNotToday
+                  $isSunday={isSunday}
+                  $isCurrentMonth={isCurrentMonth}
+                >
+                  {formattedDate}
+                </s.dateNotToday>
+              )}
+            </s.DateWrapper>
+          </s.EventsWrapper>
+          {threeEvents.map((goal) => (
+            <s.EventElement
+              key={goal.id}
+              title={goal.title}
+              color={getTagForDay(tags, goal).color}
+            />
+          ))}
+          {eventsForDay.length > 3 ? (
+            <s.MoreEventText>+{eventsForDay.length - 3}</s.MoreEventText>
           ) : (
-            <s.dateNotToday
-              $isSunday={isSunday}
-              $isCurrentMonth={isCurrentMonth}
-            >
-              {formattedDate}
-            </s.dateNotToday>
+            <s.MoreEventText></s.MoreEventText>
           )}
         </s.dateContainer>
       );
@@ -118,7 +148,57 @@ export const GoalCreateModal = ({
   to1,
   to2,
   clickCompleteBtn,
+  tags,
 }) => {
+  const [selectedTagId, setSelectedTagId] = useState(null);
+  const [selectedDays, setSelectedDays] = useState({
+    mon: true,
+    tue: true,
+    wed: true,
+    thu: true,
+    fri: true,
+    sat: true,
+    sun: true,
+  });
+
+  const handleTagClick = (tagId) => {
+    setSelectedTagId(tagId);
+    console.log(tagId);
+  };
+
+  const handleDayClick = (dayId) => {
+    setSelectedDays((prevSelectedDays) => ({
+      ...prevSelectedDays,
+      [dayId]: !prevSelectedDays[dayId],
+    }));
+  };
+
+  const isSelected = (tag) => {
+    return selectedTagId === tag.id;
+  };
+
+  const [openPicker, setOpenPicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const show = () => {
+    setOpenPicker(true);
+  };
+
+  const onClose = () => {
+    setOpenPicker(false);
+  };
+
+  const boxInputProps = {
+    className: "w-full",
+    inputStyle: "box",
+    placeholder: "기간 선택하기",
+  };
+  const boxInputProps2 = {
+    className: "w-full",
+    inputStyle: "box",
+    placeholder: "시간 선택하기",
+  };
+
   return (
     <s.GoalCreateModalContainer>
       <s.GoalCreateModalElementContainer>
@@ -132,12 +212,15 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="태그 선택">
                 <s.TagsWrapper>
-                  <TagSelect text="선택한태그" />
-                  <TagDefault text="태그2" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
+                  {tags.map((tag) => (
+                    <TagDefault
+                      key={tag.id}
+                      color={tag.color}
+                      text={tag.title}
+                      isSelected={isSelected(tag)}
+                      onClick={() => handleTagClick(tag.id)}
+                    />
+                  ))}
                 </s.TagsWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">
@@ -155,21 +238,81 @@ export const GoalCreateModal = ({
           ) : (
             <>
               <FieldWithLabel label="시작일/종료일">
-                <TwoInputDateField />
+                <s.DatepickerWrapper>
+                  <Datepicker
+                    controls={["calendar"]}
+                    select="range"
+                    inputProps={boxInputProps}
+                    className="w-5/6"
+                  />
+                </s.DatepickerWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="달릴 요일">
-                <s.RunDayWrapper>
-                  <TagDefault text="월" />
-                  <TagDefault text="화" />
-                  <TagDefault text="수" />
-                  <TagDefault text="목" />
-                  <TagDefault text="금" />
-                  <TagDefault text="토" />
-                  <TagDefault text="일" />
-                </s.RunDayWrapper>
+                <s.DaysWrapper>
+                  <TagDefault
+                    key="mon"
+                    color="var(--light-gray)"
+                    text="월"
+                    isSelected={selectedDays["mon"]}
+                    onClick={() => handleDayClick("mon")}
+                  />
+                  <TagDefault
+                    key="tue"
+                    color="var(--light-gray)"
+                    text="화"
+                    isSelected={selectedDays["tue"]}
+                    onClick={() => handleDayClick("tue")}
+                  />
+                  <TagDefault
+                    key="wed"
+                    color="var(--light-gray)"
+                    text="수"
+                    isSelected={selectedDays["wed"]}
+                    onClick={() => handleDayClick("wed")}
+                  />
+                  <TagDefault
+                    key="thu"
+                    color="var(--light-gray)"
+                    text="목"
+                    isSelected={selectedDays["thu"]}
+                    onClick={() => handleDayClick("thu")}
+                  />
+                  <TagDefault
+                    key="fri"
+                    color="var(--light-gray)"
+                    text="금"
+                    isSelected={selectedDays["fri"]}
+                    onClick={() => handleDayClick("fri")}
+                  />
+                  <TagDefault
+                    key="sat"
+                    color="var(--light-gray)"
+                    text="토"
+                    isSelected={selectedDays["sat"]}
+                    onClick={() => handleDayClick("sat")}
+                  />
+                  <TagDefault
+                    key="sun"
+                    color="var(--light-gray)"
+                    text="일"
+                    isSelected={selectedDays["sun"]}
+                    onClick={() => handleDayClick("sun")}
+                  />
+                </s.DaysWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="예상 소요시간">
-                <InputTimeField />
+                <s.DatepickerWrapper>
+                  <Datepicker
+                    controls={["time"]}
+                    timeFormat="HH:mm"
+                    headerText="hour minutes"
+                    inputProps={
+                      // label: "Hour, Min",
+                      boxInputProps2
+                    }
+                  />
+                </s.DatepickerWrapper>
+                {/* <InputTimeField /> */}
               </FieldWithLabel>
             </>
           )}
