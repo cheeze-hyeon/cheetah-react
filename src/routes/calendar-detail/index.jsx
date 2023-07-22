@@ -48,7 +48,7 @@ export const HeaderMessage = () => {
   );
 };
 
-export const Task = () => {
+export const Task = ({ goalTitle, tagTitle, dueDate }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
 
@@ -61,10 +61,10 @@ export const Task = () => {
     <s.task>
       <s.task_top>
         <s.task_top_left $isHidden={isHidden}>
-          <s.taskTitle>죽과이 중간보고서 제출</s.taskTitle>
+          <s.taskTitle>{goalTitle}</s.taskTitle>
           <s.taskInfo>
-            <s.tag>죽과이</s.tag>
-            <s.speed>4h 15m/day</s.speed>
+            <s.tag>{tagTitle}</s.tag>
+            <s.speed>~h ~m/day</s.speed>
             <s.progress>현재까지 80%</s.progress>
           </s.taskInfo>
         </s.task_top_left>
@@ -76,7 +76,7 @@ export const Task = () => {
         </s.taskBtnContainer>
       </s.task_top>
       <s.task_bottom>
-        <s.dueDate $isHidden={isHidden}>언제까지 달리기</s.dueDate>
+        <s.dueDate $isHidden={isHidden}>{dueDate}까지 달리기</s.dueDate>
       </s.task_bottom>
     </s.task>
   );
