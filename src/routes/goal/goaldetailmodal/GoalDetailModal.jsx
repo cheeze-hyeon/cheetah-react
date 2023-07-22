@@ -1,11 +1,17 @@
 // GoalDetailModal.js
-import React from "react";
+import {React, useState} from "react";
 import GoalDetailModalHeader from "./GoalDetailModalHeader";
 import "tailwindcss/tailwind.css";
 import TodoCheck from "./TodoCheck";
 import tags from "../../../data/tags";
 
 const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const handleModalClose = () => {
+  //   setIsModalOpen(false);
+  // };
   const {
     title,
     estimated_time,
@@ -14,7 +20,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     finish_at,
     tag_id,
     update_at,
-    is_scheduled, // 추가: is_scheduled를 받아옴
+    is_scheduled,
   } = goal;
 
   const tag = tags.find((tag) => tag.id === goal.tag_id);
@@ -53,16 +59,44 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const handleCloseModal = () => {
-    onCloseModal(); // GoalMainPage 컴포넌트에서 전달받은 onCloseModal 함수를 호출하여 모달을 닫습니다.
-  };
 
   const filteredTodos = todos.filter((todo) => todo.goal_id === goal.id);
+  
+  const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
+
+  const [showAddTodoField, setShowAddTodoField] = useState(false);
+
+  const handleAddTodo = () => {
+    // "투두 추가하기" 버튼을 누를 때 호출되는 함수입니다.
+    setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
+  };
+
+  const handleAddTodoEnter = (e) => {
+    // 투두 추가 텍스트 필드에서 엔터를 눌렀을 때 호출되는 함수입니다.
+    if (e.key === "Enter" && newTodoTitle.trim() !== "") {
+      // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
+      const newTodo = {
+        id: Math.random().toString(),
+        goal_id: goal.id,
+        title: newTodoTitle.trim(),
+        is_completed: false,
+      };
+
+      setNewTodoTitle("");
+      todos.push(newTodo);
+      setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
+    }
+  };
+  const handleCancelAddTodo = () => {
+    // 취소 버튼을 누를 때 호출되는 함수입니다.
+    setNewTodoTitle(""); // 입력 필드 초기화
+    setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
+  };
 
   return (
-    <div className="box-border top-4 flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 w-[357px] h-[500px] gap-5 pb-10">
-      <GoalDetailModalHeader />
-      <div className="box-border flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[91px] gap-5 px-2.5">
+    <div className="box-border top-0 flex flex-col justify-top items-start self-stretch flex-grow-0 flex-shrink-0 w-[357px] h-fill gap-5 pb-10">
+      <GoalDetailModalHeader onCloseModal={onCloseModal} />
+      <div className="box-border flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-fill px-2.5">
         <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 gap-2">
           
           {/* is_scheduled가 0이 아닌 경우에만 Tag 정보를 표시 */}
@@ -108,7 +142,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
             </div>
           </div>
         </div>
-        <div className="box-border flex justify-end items-center flex-grow-0 flex-shrink-0 w-[327px] relative gap-2.5 px-2.5">
+        <div className="box-border flex justify-end items-center flex-grow-0 flex-shrink-0 w-[330px] relative gap-2.5 px-2.5">
           <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[13px] leading-[19px] font-semibold text-left text-[#716a56]">
             {/* is_scheduled가 0이 아닌 경우에만 남은 일정 표시 */}
             {is_scheduled !== 0 && `${formattedFinishDate}까지 달리기`}
@@ -116,14 +150,45 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
         </div>
       </div>
 
-      <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[220px] px-2.5">
+      <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-fill px-2.5">
         {/* todos 배열을 순회하면서 TodoCheck 컴포넌트를 렌더링 */}
-        {filteredTodos.map((todo) => (
-          <TodoCheck key={todo.id} todo={todo} />
-        ))}
+        {/* 할일이 있는 경우 TodoCheck 컴포넌트들을 렌더링 */}
+        {filteredTodos.length > 0 ? (
+          filteredTodos.map((todo) => (
+            <TodoCheck key={todo.id} todo={todo} />
+          ))
+        ) : (
+          // 할일이 없는 경우 "할일이 없습니다" 메시지를 렌더링
+          <p className="text-sm text-gray-500 font-medium">할일이 없어요:) </p>
+        )}
+        {/* 투두 추가하기 버튼 */}
+        {showAddTodoField ? (
+          <div className="box-border flex items-center w-full gap-2">
+            <input
+              type="text"
+              value={newTodoTitle}
+              onChange={(e) => setNewTodoTitle(e.target.value)}
+              onKeyPress={handleAddTodoEnter}
+              className="flex-grow block w-50 px-5 py-1.5 text-base border border-neutral-100 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              placeholder="할일을 입력하세요"
+            />
+            <button
+              className="font-['Pretendard'] text-[13px] text-black font-medium"
+              onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+            >
+              취소
+            </button>
+          </div>
+        ) : (
+          <button
+            className="self-end font-['Pretendard'] text-[13px] text-black font-medium"
+            onClick={handleAddTodo}
+          >
+            + 투두 추가하기
+          </button>
+        )}
       </div>
     </div>
   );
 };
-
 export default GoalDetailModal;

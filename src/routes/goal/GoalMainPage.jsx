@@ -15,7 +15,6 @@ import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
-  const navigate = useNavigate();
 
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
@@ -38,11 +37,12 @@ const GoalMainPage = () => {
   const handleGoalCardClick = (goalId) => {
     const selectedGoal = goals.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal);
-    console.log("골메인에서 설렉티드골:",selectedGoal)
   };
 
-  const handleCloseModal = () => {
-    setSelectedGoal(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -58,19 +58,19 @@ const GoalMainPage = () => {
           />
         </div>
 
-        <div className="max-w-screen h-screen flex-grow overflow-y-auto px-4 pt-6 pb-40">
+        <div className="max-w-screen h-screen flex-grow overflow-y-auto px-4 pt-1.25 pb-2.5">
           {filteredGoals.length > 0 ? (
-            <>
+            <div className="pb-20">
               <p className="text-sm text-gray-500 mb-2 pb-5">{`${goalCount}개의 목표`}</p>
               {filteredGoals.map((goal, index) => (
-                <div key={goal.id} className={index !== 0 ? "mt-4" : ""}>
+                <div key={goal.id} className={index !== 0 ? "mt-4" : ""} >
                   {/* GoalCard를 클릭하면 handleGoalCardClick 함수가 호출되도록 합니다. */}
                   <div onClick={() => handleGoalCardClick(goal.id)}>
                     <GoalCard goal={goal} />
                   </div>
                 </div>
               ))}
-            </>
+            </div>
           ) : (
             <p className="text-center text-gray-500">목표가 없습니다.</p>
           )}
@@ -86,7 +86,7 @@ const GoalMainPage = () => {
           <GoalDetailModal
             goal={selectedGoal}
             todos={todos}
-            onCloseModal={handleCloseModal}
+            onCloseModal={handleModalClose}
           />
         </div>
       )}

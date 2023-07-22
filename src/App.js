@@ -8,7 +8,7 @@ import TodayMainPage from "./routes/today/TodayMainPage";
 import CalendarMainPage from "./routes/calendar/CalendarMainPage";
 import GoalMainPage from "./routes/goal/GoalMainPage";
 import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
-import TagDetail from './routes/goal/Tag/TagDetail';
+import TagDetail from './routes/goal/Tag/TagDetailPage';
 
 import "./App.css"
 import ScheduleDetailPage from "./routes/goal/ScheduleDetailPage";

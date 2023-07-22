@@ -4,7 +4,7 @@ import IconShow from "./IconShow";
 import IconHide from "./IconHide";
 import HeaderDelete from "./HeaderDelete";
 
-const TagListShow = ({ tag, completedGoals, incompleteGoals }) => {
+const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
   const [isHidden, setIsHidden] = useState(false);
 
   const toggleVisibility = () => {
@@ -32,7 +32,10 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals }) => {
             </p>
           </div>
         </div>
-        <div className="box-border flex flex-col justify-center items-start flex-grow basis-full">
+        <div 
+        className="box-border flex flex-col justify-center items-start flex-grow basis-full"
+        onClick={onClick} >
+
           <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
             <p className="whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left text-black">
               완료 목표 : {completedGoals}

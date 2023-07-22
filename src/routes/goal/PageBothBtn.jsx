@@ -31,7 +31,7 @@ const PageBothBtn = ({tag}) => {
       <button className="focus:outline-none" onClick={openModal}>
         <HeaderPlus />
       </button>
-      {isModalOpen && <TagCreateModal onClose={closeModal} />}
+      {isModalOpen && <TagCreateModal className="fixed bottom-0" onClose={closeModal} />}
     </div>
   );
 };
