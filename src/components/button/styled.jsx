@@ -381,7 +381,7 @@ export const TwoButton = (props) => {
         <Frame>
           <LargeLabel>{props.text2}</LargeLabel>
         </Frame>
-      </OneButtonContainer>
+      </TwoButtonActiveContainer2>
     </TwoButtonContainer>
   );
 };

@@ -16,7 +16,6 @@ import ScheduleDetailPage from "./routes/goal/ScheduleDetail/ScheduleDetailPage"
 
 const App = () => {
   return (
-    <div className="App">
     <div className="app-container">
       <Routes>
         <Route path="/" element={<HomePage />} />
