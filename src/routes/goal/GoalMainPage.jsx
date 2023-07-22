@@ -37,6 +37,7 @@ const GoalMainPage = () => {
   const handleGoalCardClick = (goalId) => {
     const selectedGoal = goals.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal);
+    setIsModalOpen(true);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,8 +47,8 @@ const GoalMainPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen">
-      <div className="w-390 h-screen flex flex-col">
+    <div className="flex flex-col items-center justify-center w-[390px] h-[844px]">
+      <div className="w-full h-full flex flex-col">
         <GoalHeader />
 
         <div className="flex max-w-screen overflow-x-auto">
@@ -58,7 +59,7 @@ const GoalMainPage = () => {
           />
         </div>
 
-        <div className="max-w-screen h-screen flex-grow overflow-y-auto px-4 pt-1.25 pb-2.5">
+        <div className="max-w-screen h-full flex-grow overflow-y-auto px-4 pt-1.25 pb-2.5">
           {filteredGoals.length > 0 ? (
             <div className="pb-20">
               <p className="text-sm text-gray-500 mb-2 pb-5">{`${goalCount}개의 목표`}</p>
@@ -80,7 +81,7 @@ const GoalMainPage = () => {
       </div>
 
       {/* GoalDetailModal을 선택한 goal의 정보로 열어줍니다. */}
-      {selectedGoal && (
+      {isModalOpen && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col w-357 h-500 p-4 gap-4 bg-white shadow-lg rounded-lg">
           {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
           <GoalDetailModal
