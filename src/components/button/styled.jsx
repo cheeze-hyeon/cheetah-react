@@ -586,14 +586,16 @@ export const TagContainer = styled.div`
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
-  // height: 35px;
-  padding: 8px 12px;
+  padding: ${(props) => (props.$isSelected ? "6px 10px" : "8px 11px")};
   border-radius: 20px;
-  background: #ddd;
-  border-width: 2px;
+  background: ${(props) => props.color};
+  border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
-  box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) =>
+    props.$isSelected
+      ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
+      : "0px 0px 6px 0 rgba(0, 0, 0, 0.2)"};
 `;
 
 export const TagLabel = styled.p`
@@ -605,7 +607,7 @@ export const TagLabel = styled.p`
   font-size: 15px;
   line-height: 19px;
   letter-spacing: 0px;
-  font-weight: 500;
+  font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
   color: #000;
   align-items: center;
@@ -613,8 +615,12 @@ export const TagLabel = styled.p`
 
 export const TagDefault = (props) => {
   return (
-    <TagContainer>
-      <TextNormal>{props.text}</TextNormal>
+    <TagContainer
+      color={props.color}
+      $isSelected={props.isSelected}
+      onClick={props.onClick}
+    >
+      <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
   );
 };
