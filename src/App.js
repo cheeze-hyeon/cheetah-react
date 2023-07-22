@@ -9,8 +9,6 @@ import CalendarMainPage from "./routes/calendar/CalendarMainPage";
 import GoalMainPage from "./routes/goal/GoalMainPage";
 import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
 import TagDetail from "./routes/goal/Tag/TagDetailPage";
-
-import "./App.css";
 import ScheduleDetailPage from "./routes/goal/ScheduleDetail/ScheduleDetailPage";
 
 const App = () => {
