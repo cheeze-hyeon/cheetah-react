@@ -1,9 +1,10 @@
 import { instance, instanceWithToken } from "./axios";
 
 //calendar 관련 API들
+//GET
 //해당하는 month에 속한 goals를 가져온다.
-export const getGoalsinmonth = async (year, currentMonth) => {
-  const response = await instanceWithToken.get("/goal/?month=" + currentMonth);
+export const getGoalsinmonth = async (currentMonth) => {
+  const response = await instanceWithToken.get("/goal/?month=" + currentMonth); //e.g /goal/?month=2023-07
   if (response.status === 200) {
     console.log("GET GOALS WITH THE MONTH SUCCESS");
   } else {
@@ -12,136 +13,81 @@ export const getGoalsinmonth = async (year, currentMonth) => {
   return response.data;
 };
 
-// Mypage 관련 API들
-export const getUserPage = async () => {
-  const response = await instanceWithToken.get("/account/mypage/");
+//해당하는 month 중에서 과거의 days들 중 사용자의 기록이 담긴 날들을 가져온다.
+
+export const getHistoryinmonth = async (currentMonth) => {
+  const response = await instanceWithToken.get(
+    "/goal/history/?month=" + currentMonth
+  ); //e.g /goal/history/?month=2023-07
   if (response.status === 200) {
-    console.log("GET USERPAGE SUCCESS");
+    console.log("GET RECORDED DAYS WITH THE MONTH SUCCESS");
   } else {
-    console.log("[ERROR] error while updating comment");
+    console.log("[ERROR] error while getting recorded days with the month");
   }
   return response.data;
 };
 
-export const updateUserPage = async (data) => {
-  const response = await instanceWithToken.patch("/account/mypage/", data);
-  if (response.status === 200) {
-    console.log("UPDATE USERPAGE SUCCESS");
-  } else {
-    console.log("[ERROR] error while updating comment");
-  }
-  return response.data;
-};
+//POST
+//캘린더에는 추가하지 않을 새로운 goal을 생성한다.
 
-export const getUserPost = async () => {
-  const response = await instanceWithToken.get("/post/mypage/");
-  if (response.status === 200) {
-    console.log("GET USERPOST SUCCESS");
-  } else {
-    console.log("[ERROR] error while getting userpost");
-  }
-  return response.data;
-};
+/* model of goal
+user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=False)
+title = models.CharField(max_length=200, null=False)
 
-// Post 관련 API들
-export const getPosts = async () => {
-  const response = await instance.get("/post/");
-  return response.data;
-};
+start_at = models.DateField(null=True, blank=True)
+finish_at = models.DateField(null=True, blank=True)
+update_at = models.DateField(null=True, blank=True)
+prev_update_at = models.DateField(null=True, blank=True)  # for backup
 
-export const getPost = async (id) => {
-  const response = await instance.get(`/post/${id}/`);
-  return response.data;
-};
+estimated_time = models.FloatField(null=True, blank=True)
+residual_time = models.FloatField(null=True, blank=True)
+prev_residual_time = models.FloatField(null=True, blank=True)  # for backup
+cumulative_time = models.FloatField(null=True, blank=True)
+prev_cumulative_time = models.FloatField(null=True, blank=True)  # for backup
 
-export const createPost = async (data, navigate) => {
-  const response = await instanceWithToken.post("/post/", data);
+progress_rate = models.FloatField(null=True, blank=True)
+prev_progress_rate = models.FloatField(null=True, blank=True)  # for backup
+is_scheduled = models.BooleanField(default=False, blank=True)
+is_completed = models.BooleanField(default=False, blank=True)
+
+
+*/
+export const createGoal = async (data) => {
+  const response = await instanceWithToken.post("/goal/", data);
   if (response.status === 201) {
-    console.log("POST SUCCESS");
-    navigate("/");
+    console.log("CREATE GOAL SUCCESS");
   } else {
-    console.log("[ERROR] error while creating post");
-  }
-};
-
-export const updatePost = async (id, data, navigate) => {
-  const response = await instanceWithToken.patch(`/post/${id}/`, data);
-  if (response.status === 200) {
-    console.log("POST UPDATE SUCCESS");
-    navigate("/");
-  } else {
-    console.log("[ERROR] error while updating post");
-  }
-};
-
-//과제!!
-export const deletePost = async (postId) => {
-  const response = await instanceWithToken.delete(`/post/${postId}/`);
-  if (response.status === 204) {
-    console.log("Delete success");
-  } else {
-    console.log("[ERROR] error while deleting post");
-  }
-};
-//과제!!
-export const likePost = async (postId) => {
-  const response = await instanceWithToken.post(`/post/${postId}/like/`);
-  if (response.status === 200) {
-    console.log("likepost success");
-  } else {
-    console.log("[ERROR] error while liking post");
+    console.log("[ERROR] error while creating goal");
   }
   return response.data;
 };
 
-// Tag 관련 API들
-export const getTags = async () => {
-  const response = await instance.get("/tag/");
-  return response.data;
-};
-
-export const createTag = async (data) => {
-  const response = await instanceWithToken.post("/tag/", data);
+//캘린더에 추가할 goal을 생성한다.
+export const createGoalwithCalendar = async (data) => {
+  const response = await instanceWithToken.post(
+    "/goal/?add_calendar=true",
+    data
+  );
   if (response.status === 201) {
-    console.log("TAG SUCCESS");
+    console.log("CREATE GOAL WITH CALENDAR SUCCESS");
   } else {
-    console.log("[ERROR] error while creating tag");
-  }
-  return response; // response 받아서 그 다음 처리
-};
-
-// Comment 관련 API들
-export const getComments = async (postId) => {
-  const response = await instance.get(`/comment/?post=${postId}`);
-  return response.data;
-};
-
-export const createComment = async (data) => {
-  const response = await instanceWithToken.post("/comment/", data);
-  if (response.status === 201) {
-    console.log("COMMENT SUCCESS");
-  } else {
-    console.log("[ERROR] error while creating comment");
+    console.log("[ERROR] error while creating goal with calendar");
   }
   return response.data;
 };
 
-export const updateComment = async (id, data) => {
-  const response = await instanceWithToken.patch(`/comment/${id}/`, data);
+//PATCH
+//goal의 정보를 수정한다.
+export const updateGoal = async (goal_id, data) => {
+  const response = await instanceWithToken.patch(
+    "/goal/" + goal_id + "/",
+    data
+  );
   if (response.status === 200) {
-    console.log("COMMENT UPDATE SUCCESS");
-    window.location.reload();
+    console.log("UPDATE GOAL SUCCESS");
   } else {
-    console.log("[ERROR] error while updating comment");
+    console.log("[ERROR] error while updating goal");
   }
-};
-
-//과제!!
-export const deleteComment = async (id) => {
-  const response = await instanceWithToken.delete(`/comment/${id}/`);
-  if (response.status === 204) {
-    console.log("Comment delete success");
-  } else {
-    console.log("[ERROR] error while deleting comment");
-  }
+  return response.data;
 };
