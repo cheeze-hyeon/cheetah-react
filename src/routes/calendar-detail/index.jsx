@@ -4,7 +4,6 @@ import * as t from "../../components/text/styled";
 import { TextBtnWResetIcon } from "../../components/button/styled";
 import { FieldWithLabel, TodoCheck } from "../../components/input/styled";
 import { ModalHeaderContainer } from "../../components/modal/styled";
-
 import { ko } from "date-fns/locale"; // Import the ko locale
 import { useNavigate } from "react-router-dom";
 import PageBackIcon from "../../asset/images/pageBack.svg";

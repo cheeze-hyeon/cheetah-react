@@ -127,17 +127,24 @@ const CalendarDetailPage = () => {
           <CalendarDetailHeader selectedDate={parsedDate} />
           <HeaderMessage />
         </s.headerContainer>
-        <s.Container>
-          <s.textContainer>
-            <s.goalCount>
+        <s.CalendarDetailLayout>
+          <s.GoalCountWrapper>
+            <s.GoalCount>
               {isPast(new Date(selectedDate))
                 ? `${completedTask.length}건 완료`
                 : isToday(new Date(selectedDate))
                 ? `${goalList.length}개의 목표, ${completedTask.length}건 완료`
                 : `${goalList.length}개의 목표`}
-            </s.goalCount>
-          </s.textContainer>
+            </s.GoalCount>
+          </s.GoalCountWrapper>
           <s.TasksContainer>
+            {isPast(new Date(selectedDate)) && completedTask.length === 0 ? (
+              <s.EmptyMessage text="달린 목표가 없어요" />
+            ) : (
+              goalList.length + completedTask.length === 0 && (
+                <s.EmptyMessage text="달릴 목표가 없어요" />
+              )
+            )}
             {goalList.map(
               (goal) =>
                 isDueDateGoal(goal) && (
@@ -173,7 +180,7 @@ const CalendarDetailPage = () => {
                 )
             )}
           </s.TasksContainer>
-        </s.Container>
+        </s.CalendarDetailLayout>
       </s.calendarDetailRoot>
       {isCompleteModalOpen && (
         <ModalOverlay onClick={showCompleteModal}>

@@ -100,10 +100,11 @@ export const headerMessageGray = styled(TextNormal)`
   font-weight: 200;
 `;
 
-export const Container = styled.div`
+export const CalendarDetailLayout = styled.div`
   margin-top: 176px;
   display: flex;
-  width: 350px;
+  padding: 0px 16px;
+  width: 100%;
   height: 645px;
   flex-direction: column;
   align-items: center;
@@ -112,7 +113,7 @@ export const Container = styled.div`
   overflow: auto;
 `;
 
-export const textContainer = styled.div`
+export const GoalCountWrapper = styled.div`
   display: flex;
   padding: 0px 10px;
   align-items: flex-start;
@@ -120,8 +121,8 @@ export const textContainer = styled.div`
   align-self: stretch;
 `;
 
-export const goalCount = styled(TextNormal)`
-  color: var(--darkgray2);
+export const GoalCount = styled(TextNormal)`
+  color: var(--darkgray);
 `;
 
 export const TasksContainer = styled.div`
@@ -130,24 +131,26 @@ export const TasksContainer = styled.div`
   height: fit-content;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 17px;
   flex-shrink: 0;
   align-self: stretch;
+  padding: 0px 3px;
 `;
 
 export const TaskLayout = styled.div`
   display: flex;
-  padding: 15px;
+  padding: 15px 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
-  border-radius: 18px;
+  border-radius: 16px;
   background: var(--white);
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export const TaskTopFrame = styled.div`
+  padding-top: 3px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -158,7 +161,7 @@ export const TaskTLeftFrame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 13px;
   cursor: pointer;
   opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
@@ -217,6 +220,15 @@ export const DueDateWrapper = styled.div`
 
 export const DueDate = styled(TextLight)`
   opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
+`;
+
+export const GoalBottomText = styled.p`
+  color: var(--orange, #f19a37);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px; /* 146.154% */
 `;
 
 export const TaskCompleteModalContainer = styled.div`
@@ -306,5 +318,34 @@ export const CompleteButton = () => {
     <CompleteButtonContainer>
       <LargeLabel>완료하기</LargeLabel>
     </CompleteButtonContainer>
+  );
+};
+
+const EmptyMessageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 50px;
+  padding: 15px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  border-radius: 5px;
+  background: var(--white);
+`;
+
+const EmptyMessageTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const EmptyMessage = (props) => {
+  return (
+    <EmptyMessageContainer>
+      <EmptyMessageTextWrapper>
+        <TextNormal className="text-darkgray">{props.text}</TextNormal>
+      </EmptyMessageTextWrapper>
+    </EmptyMessageContainer>
   );
 };
