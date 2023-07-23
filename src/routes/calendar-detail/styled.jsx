@@ -124,7 +124,7 @@ export const goalCount = styled(TextNormal)`
   color: var(--darkgray2);
 `;
 
-export const tasksContainer = styled.div`
+export const TasksContainer = styled.div`
   padding-bottom: 120px;
   display: flex;
   height: fit-content;
@@ -133,7 +133,6 @@ export const tasksContainer = styled.div`
   gap: 15px;
   flex-shrink: 0;
   align-self: stretch;
-  overflow: hidden;
 `;
 
 export const TaskLayout = styled.div`

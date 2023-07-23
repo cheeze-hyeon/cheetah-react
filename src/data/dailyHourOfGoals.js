@@ -33,7 +33,25 @@ const dailyHourOfGoals = [
     user: 1,
     goal: 7,
     hour: 1.2,
-    date: "2023-07-23",
+    date: "2023-07-24",
+  },
+  {
+    user: 1,
+    goal: 7,
+    hour: 1.2,
+    date: "2023-07-24",
+  },
+  {
+    user: 1,
+    goal: 8,
+    hour: 7,
+    date: "2023-07-9",
+  },
+  {
+    user: 1,
+    goal: 8,
+    hour: 7,
+    date: "2023-07-24",
   },
 ];
 

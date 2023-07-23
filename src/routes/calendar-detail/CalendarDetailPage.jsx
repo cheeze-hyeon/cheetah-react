@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { CalendarDetailHeader, HeaderMessage, TaskCompleteModal } from ".";
 import { Task, CompletedTask, DueDateGoal } from "./Task";
-import { parse, isSameDay } from "date-fns"; // parse 함수를 import 합니다.
+import { parse, isSameDay, isPast, isToday, startOfDay } from "date-fns"; // parse 함수를 import 합니다.
 import * as s from "./styled";
 import { ModalOverlay } from "../../components/modal/styled";
 import goals from "../../data/goals";
@@ -38,22 +38,26 @@ const CalendarDetailPage = () => {
 
   // 목표의 진행률이 100%인 경우 true
   const isGoalCompleted = (goal) => {
-    return goal.progress_rate >= 100;
+    return goal.progress_rate === 1;
+  };
+
+  // 목표의 종료일이 현재보다 과거인 경우 true
+  const isPastGoal = (goal) => {
+    return new Date(goal.finish_at) < subDays(new Date(), 1);
   };
 
   // 선택한 날짜가 마감기한인 경우 true
   const isDueDateGoal = (goal) => {
     const goalDueDate = new Date(goal.finish_at);
     const calendarDate = new Date(selectedDate);
-    console.log(isSameDay(goalDueDate, calendarDate));
     return isSameDay(goalDueDate, calendarDate);
   };
 
   const getGoalList = () => {
     const goalList = goals.filter((goal) => {
-      const calendarDate = new Date(selectedDate);
-      const startDate = new Date(goal.start_at);
-      const finishDate = new Date(goal.finish_at);
+      const calendarDate = startOfDay(new Date(selectedDate));
+      const startDate = startOfDay(new Date(goal.start_at));
+      const finishDate = startOfDay(new Date(goal.finish_at));
 
       return calendarDate >= startDate && calendarDate <= finishDate;
     });
@@ -63,17 +67,15 @@ const CalendarDetailPage = () => {
   // 선택한 날짜에 대한 미완료 과제를 반환하는 함수
   const filterGoalList = () => {
     const filteredGoals = goals.filter((goal) => {
-      const calendarDate = new Date(selectedDate);
-      const startDate = new Date(goal.start_at);
-      const finishDate = new Date(goal.finish_at);
-      const currentDate = new Date();
+      const calendarDate = startOfDay(new Date(selectedDate));
+      const startDate = startOfDay(new Date(goal.start_at));
+      const finishDate = startOfDay(new Date(goal.finish_at));
+      const currentDate = startOfDay(new Date());
 
       if (isCurrentOrFuture(goal.start_at)) {
         return calendarDate >= startDate && calendarDate <= finishDate;
       } else {
-        return (
-          calendarDate >= subDays(currentDate, 1) && calendarDate <= finishDate
-        );
+        return calendarDate >= currentDate && calendarDate <= finishDate;
       }
     });
     return filteredGoals;
@@ -81,12 +83,11 @@ const CalendarDetailPage = () => {
 
   // 과제에 대한 완료 여부를 판단하는 함수
   const isTaskCompleted = (goal) => {
-    const calendarDate = new Date(selectedDate);
+    const calendarDate = startOfDay(new Date(selectedDate));
     const foundData = dailyHourOfGoals.find(
       (data) =>
         isSameDay(calendarDate, new Date(data.date)) && data.goal === goal.id
     );
-    console.log(!!foundData);
     return !!foundData; // 일치하는 데이터가 없으면 true를 반환, 있으면 false를 반환
   };
 
@@ -103,12 +104,6 @@ const CalendarDetailPage = () => {
     });
 
     return completedGoals;
-  };
-
-  // 선택한 날짜에 대한 미완료 목표 리스트를 반환
-  const isNotCompletedGoals = (goals) => {
-    const notCompletedGoals = goals.filter((goal) => !isGoalCompleted(goal));
-    return notCompletedGoals;
   };
 
   // 개별 목표에 대한 태그를 반환
@@ -134,9 +129,15 @@ const CalendarDetailPage = () => {
         </s.headerContainer>
         <s.Container>
           <s.textContainer>
-            <s.goalCount>{filteredGoalList.length}개의 목표</s.goalCount>
+            <s.goalCount>
+              {isPast(new Date(selectedDate))
+                ? `${completedTask.length}건 완료`
+                : isToday(new Date(selectedDate))
+                ? `${goalList.length}개의 목표, ${completedTask.length}건 완료`
+                : `${goalList.length}개의 목표`}
+            </s.goalCount>
           </s.textContainer>
-          <s.tasksContainer>
+          <s.TasksContainer>
             {goalList.map(
               (goal) =>
                 isDueDateGoal(goal) && (
@@ -144,6 +145,8 @@ const CalendarDetailPage = () => {
                     key={goal.id}
                     goal={goal}
                     tag={getTagOfGoal(tags, goal)}
+                    isGoalCompleted={isGoalCompleted(goal)}
+                    isPastGoal={isPastGoal(goal)}
                   />
                 )
             )}
@@ -154,21 +157,22 @@ const CalendarDetailPage = () => {
                     key={task.id}
                     goal={task}
                     tag={getTagOfGoal(tags, task)}
+                    isGoalCompleted={isGoalCompleted(task)}
                   />
                 )
             )}
-            {filteredGoalList.map((task) =>
-              !isDueDateGoal(task) && !isTaskCompleted(task) ? (
-                <Task
-                  key={task.id}
-                  goal={task}
-                  tag={getTagOfGoal(tags, task)}
-                />
-              ) : (
-                <div key={task.id}></div>
-              )
+            {filteredGoalList.map(
+              (task) =>
+                !isDueDateGoal(task) &&
+                !isTaskCompleted(task) && (
+                  <Task
+                    key={task.id}
+                    goal={task}
+                    tag={getTagOfGoal(tags, task)}
+                  />
+                )
             )}
-          </s.tasksContainer>
+          </s.TasksContainer>
         </s.Container>
       </s.calendarDetailRoot>
       {isCompleteModalOpen && (
