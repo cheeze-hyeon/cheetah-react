@@ -110,8 +110,8 @@ export const LargeButtonActiveContainer = styled.div`
 
 export const LargeButtonNonActive = (props) => {
   return (
-    <LBtnNonActiveContainer>
-      <Frame to={props.to}>
+    <LBtnNonActiveContainer onClick={props.onClick}>
+      <Frame >
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -120,7 +120,7 @@ export const LargeButtonNonActive = (props) => {
 
 export const LargeButtonActive = (props) => {
   return (
-    <LBtnActiveContainer>
+    <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
         <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
       </Frame>
@@ -130,7 +130,7 @@ export const LargeButtonActive = (props) => {
 
 export const LargeButtonActive2 = (props) => {
   return (
-    <LBtnActiveContainer2>
+    <LBtnActiveContainer2 type="button" onClick={props.onClick}>
       <LargeLabel className="text-[#000]">{props.text}</LargeLabel>
     </LBtnActiveContainer2>
   );
@@ -331,7 +331,12 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput type="checkbox" />
+      <CheckBoxInput 
+      type="checkbox" 
+      checked={props.checked}
+      name={props.name}
+      onChange={props.onChange}
+      />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
       </CheckBoxTextContainer>
