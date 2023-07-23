@@ -210,9 +210,9 @@ const CalendarMainPage = () => {
             ]);
           }
         });
-        console.log("historyProcessed", historyProcessed);
-        setHistorywithDate(historyProcessed);
       });
+      console.log("historyProcessed", historyProcessed);
+      setHistorywithDate(historyProcessed);
     };
     getHistoryinmonthAPI();
   }, [currentMonth]);
