@@ -1,20 +1,13 @@
-import { useState } from "react";
 import { format } from "date-fns";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
-import {
-  TextBtnWResetIcon,
-  LargeButtonActive,
-} from "../../components/button/styled";
+import { TextBtnWResetIcon } from "../../components/button/styled";
 import { FieldWithLabel, TodoCheck } from "../../components/input/styled";
 import { ModalHeaderContainer } from "../../components/modal/styled";
 
 import { ko } from "date-fns/locale"; // Import the ko locale
 import { useNavigate } from "react-router-dom";
 import PageBackIcon from "../../asset/images/pageBack.svg";
-import MinusIcon from "../../asset/images/minus.svg";
-import PlusIcon from "../../asset/images/plus.svg";
-import CompletedIcon from "../../asset/images/completed.svg";
 import CloseIcon from "../../asset/images/close.svg";
 
 export const CalendarDetailHeader = ({ selectedDate }) => {
@@ -45,40 +38,6 @@ export const HeaderMessage = () => {
       <s.headerMessageOrange>[한계속도]</s.headerMessageOrange>
       <s.headerMessageGray>전속력으로</s.headerMessageGray>
     </s.headerMessageContainer>
-  );
-};
-
-export const Task = ({ goalTitle, tagTitle, dueDate }) => {
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [isHidden, setIsHidden] = useState(true);
-
-  const onClickTaskBtn = () => {
-    !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
-    console.log(isHidden);
-  };
-
-  return (
-    <s.task>
-      <s.task_top>
-        <s.task_top_left $isHidden={isHidden}>
-          <s.taskTitle>{goalTitle}</s.taskTitle>
-          <s.taskInfo>
-            <s.tag>{tagTitle}</s.tag>
-            <s.speed>~h ~m/day</s.speed>
-            <s.progress>현재까지 80%</s.progress>
-          </s.taskInfo>
-        </s.task_top_left>
-        <s.taskBtnContainer onClick={onClickTaskBtn}>
-          <img
-            alt="button"
-            src={isCompleted ? CompletedIcon : isHidden ? PlusIcon : MinusIcon}
-          />
-        </s.taskBtnContainer>
-      </s.task_top>
-      <s.task_bottom>
-        <s.dueDate $isHidden={isHidden}>{dueDate}까지 달리기</s.dueDate>
-      </s.task_bottom>
-    </s.task>
   );
 };
 

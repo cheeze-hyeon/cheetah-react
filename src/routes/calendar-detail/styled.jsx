@@ -136,7 +136,7 @@ export const tasksContainer = styled.div`
   overflow: hidden;
 `;
 
-export const task = styled.div`
+export const TaskLayout = styled.div`
   display: flex;
   padding: 15px;
   flex-direction: column;
@@ -148,14 +148,14 @@ export const task = styled.div`
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1);
 `;
 
-export const task_top = styled.div`
+export const TaskTopFrame = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
 `;
 
-export const task_top_left = styled.div`
+export const TaskTLeftFrame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -164,17 +164,17 @@ export const task_top_left = styled.div`
   opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
 
-export const taskTitle = styled(TextNormal)`
+export const TaskTitle = styled(TextNormal)`
   font-weight: 600;
 `;
 
-export const taskInfo = styled.div`
+export const TaskInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
 `;
 
-export const tag = styled.div`
+export const Tag = styled.div`
   display: flex;
   padding: 2px 7px;
   align-items: center;
@@ -182,8 +182,7 @@ export const tag = styled.div`
   gap: 10px;
   flex-wrap: wrap;
   border-radius: 15px;
-  background: var(--orange-light, #ffb35e);
-
+  background: ${(props) => props.color};
   color: var(--black, #000);
   font-family: Pretendard;
   font-size: 12px;
@@ -192,19 +191,19 @@ export const tag = styled.div`
   line-height: 19px; /* 158.333% */
 `;
 
-export const speed = styled(tag)`
+export const Speed = styled(Tag)`
   background: var(--light-gray);
 `;
 
-export const progress = styled(TextLight)`
+export const Progress = styled(TextLight)`
   color: var(--darkgray2);
 `;
 
-export const taskBtnContainer = styled.div`
+export const TaskBtnContainer = styled.div`
   cursor: pointer;
 `;
 
-export const task_bottom = styled.div`
+export const DueDateWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -217,7 +216,7 @@ export const task_bottom = styled.div`
   line-height: 19px; /* 146.154% */
 `;
 
-export const dueDate = styled(TextLight)`
+export const DueDate = styled(TextLight)`
   opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
 `;
 
@@ -234,6 +233,8 @@ export const TaskCompleteModalContainer = styled.div`
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
   cursor: default;
 `;
+
+export const Task = () => {};
 
 export const modalElementContainer = styled.div`
   display: flex;
