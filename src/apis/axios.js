@@ -14,9 +14,12 @@ export const instanceWithToken = axios.create();
 
 instanceWithToken.interceptors.request.use(
   // 요청을 보내기전 수행할 일
-  (config) => {
-    const accessToken = getCookie("access_token");
 
+  //임시 로그인//
+
+  (config) => {
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwMTE3MTUyLCJpYXQiOjE2OTAxMTUzNTIsImp0aSI6ImVhYzMxNmQ2YWMzODQ2ZTJiM2U4YmQ5NGY4MTJhYjhlIiwidXNlcl9pZCI6M30.CbieqU9eHf2F1BvR9ehBdP06TYc6NG5-H5Rryoav0oU";
     if (!accessToken) {
       // token 없으면 리턴
       return;

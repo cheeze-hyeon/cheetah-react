@@ -7,7 +7,10 @@ import logo from "../asset/images/logo.png";
 
 import { TitleHeavy, TitleNormal } from "../components/text/styled.jsx";
 
-
+//작업을 위한 임시로그인//
+import axios from "axios";
+import { getCookie } from "../utils/cookie";
+import { useEffect } from "react";
 
 const HomePage = () => {
   return (
@@ -22,10 +25,7 @@ const HomePage = () => {
         </div>
       </div>
       <div>
-        <LargeButtonActive
-          text="로그인"
-          to="/signin"
-        ></LargeButtonActive>
+        <LargeButtonActive text="로그인" to="/signin"></LargeButtonActive>
         {/* 카카오 로그인 구현되면 링크 연결 */}
         <KakaoLogin /*to="/kakao"*/></KakaoLogin>
       </div>

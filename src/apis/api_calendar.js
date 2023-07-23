@@ -1,6 +1,9 @@
 import { instance, instanceWithToken } from "./axios";
 
 //calendar 관련 API들
+
+//------------------------------------------------------GOAL------------------------------------------------------//
+
 //GET
 //해당하는 month에 속한 goals를 가져온다.
 export const getGoalsinmonth = async (currentMonth) => {
@@ -50,9 +53,8 @@ progress_rate = models.FloatField(null=True, blank=True)
 prev_progress_rate = models.FloatField(null=True, blank=True)  # for backup
 is_scheduled = models.BooleanField(default=False, blank=True)
 is_completed = models.BooleanField(default=False, blank=True)
-
-
 */
+
 export const createGoal = async (data) => {
   const response = await instanceWithToken.post("/goal/", data);
   if (response.status === 201) {
@@ -91,3 +93,32 @@ export const updateGoal = async (goal_id, data) => {
   }
   return response.data;
 };
+
+//DELETE
+//goal을 삭제한다.
+export const deleteGoal = async (goal_id) => {
+  const response = await instanceWithToken.delete("/goal/" + goal_id + "/");
+  if (response.status === 204) {
+    console.log("DELETE GOAL SUCCESS");
+  } else {
+    console.log("[ERROR] error while deleting goal");
+  }
+  return response.data;
+};
+
+//------------------------------------------------------TODO------------------------------------------------------//
+
+//POST
+
+//GET
+
+//DELETE
+
+//PATCH
+
+//------------------------------------------------------TAG------------------------------------------------------//
+
+//POST
+//GET
+//DELETE
+//PATCH
