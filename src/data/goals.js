@@ -159,7 +159,7 @@ const goals = [
     tag_id: 1,
     title: "죽과이 기말고사",
     start_at: "2023-07-1",
-    finish_at: "2023-07-27",
+    finish_at: "2023-07-26",
     update_at: "2023-10-12",
     estimated_time: 20,
     culmulative_time: 6,

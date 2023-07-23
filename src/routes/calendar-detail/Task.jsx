@@ -75,3 +75,33 @@ export const Task = ({ goal, tag }) => {
     </s.TaskLayout>
   );
 };
+
+export const DueDateGoal = ({ goal, tag }) => {
+  const [isCompleted, setIsCompleted] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
+  const formattedDueDate = format(new Date(goal.finish_at), "M월 d일");
+
+  const onClickTaskBtn = () => {
+    !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+    console.log(isHidden);
+  };
+
+  return (
+    <s.TaskLayout>
+      <s.TaskTopFrame>
+        <s.TaskTLeftFrame $isHidden={isHidden}>
+          <s.TaskTitle>{goal.title}</s.TaskTitle>
+          <s.TaskInfo>
+            <s.Tag color={tag.color}>{tag.title}</s.Tag>
+            <s.Speed>~h ~m/day</s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}</s.Progress>
+          </s.TaskInfo>
+        </s.TaskTLeftFrame>
+        <s.TaskBtnContainer onClick={onClickTaskBtn}></s.TaskBtnContainer>
+      </s.TaskTopFrame>
+      <s.DueDateWrapper>
+        <s.DueDate $isHidden={isHidden}>오늘까지 달리기 !!!!</s.DueDate>
+      </s.DueDateWrapper>
+    </s.TaskLayout>
+  );
+};
