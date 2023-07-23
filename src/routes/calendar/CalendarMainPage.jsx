@@ -140,16 +140,79 @@ const CalendarMainPage = () => {
     };
     getGoalsinmonthAPI();
     ///------------------history API를 호출한 후 historywithDate를 업데이트 한다. -------------------//
+
+    /*
+
+    [
+  {
+    "id": 2,
+    "goal": {
+      "id": 12,
+      "title": "기계학습 Lab1",
+      "progress_rate": 10.0,
+      "finish_at": "2023-08-04",
+      "update_at": "2023-07-23",
+      "tag": {
+        "id": 3,
+        "title": "기계학습의 기초 및 응용",
+        "color": "#FF0001",
+        "is_used": true,
+        "user": 3
+      }
+    },
+    "hour": 10.0,
+    "date": "2023-07-23",
+    "user": 3
+  },
+
+
+    */
     const getHistoryinmonthAPI = async () => {
       const historyRaw = await getHistoryinmonth(
         format(currentMonth, "yyyy-MM")
       );
-      const historyProcessed = historyRaw.map((history) => {
+      var historyProcessed = [];
+      var begin = new Date(currentMonth);
+      var end = new Date(currentMonth);
+      begin.setDate(1);
+      end.setMonth(end.getMonth() + 1);
+      end.setDate(0);
+      while (begin <= end && begin.getMonth() === end.getMonth()) {
+        var begin_string = format(begin, "yyyy-MM-dd");
+        historyProcessed.push([begin_string, []]);
+        begin.setDate(begin.getDate() + 1);
+      }
+      historyRaw.forEach((history) => {
         var date = history.date;
-        var hours = history.hours;
-        return [date, hours];
+        var hour = history.hour;
+        var goal = history.goal;
+        var goal_title = goal.title;
+        var goal_progress_rate = goal.progress_rate;
+        var goal_finish_at = goal.finish_at;
+        var goal_update_at = goal.update_at;
+        var goal_tag = goal.tag;
+        var goal_id = goal.id;
+        var goal_color = goal_tag.color;
+        historyProcessed.forEach((history) => {
+          if (history[0] === date) {
+            history[1].push([
+              {
+                goal_id: goal_id,
+                goal_title: goal_title,
+                progress_rate: goal_progress_rate,
+                finish_at: goal_finish_at,
+                update_at: goal_update_at,
+                color: goal_color,
+                tag_title: goal_tag.title,
+                tag_id: goal_tag.id,
+                hours: hour,
+              },
+            ]);
+          }
+        });
+        console.log("historyProcessed", historyProcessed);
+        setHistorywithDate(historyProcessed);
       });
-      setHistorywithDate(historyProcessed);
     };
     getHistoryinmonthAPI();
   }, [currentMonth]);
