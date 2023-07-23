@@ -14,6 +14,7 @@ import {
 import { ModalOverlay } from "../../components/modal/styled";
 import { GoalCreateModal } from ".";
 import tags from "../../data/tags";
+import goals from "../../data/goals";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -59,6 +60,8 @@ const CalendarMainPage = () => {
         <CalendarCells
           currentMonth={currentMonth}
           selectedDate={selectedDate}
+          goals={goals}
+          tags={tags}
         />
         <CalendarTabBar />
         <s.floatingBtnContainer onClick={showGoalCreateModal} />

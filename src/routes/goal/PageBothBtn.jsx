@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
+import { useNavigate } from "react-router-dom";
 import HeaderBack from "./HeaderBack";
 import HeaderPlus from "./HeaderPlus";
+import TagCreateModal from "./Tag/TagModal/TagCreateModal";
 
-const PageBothBtn = (props) => {
+const PageBothBtn = ({tag}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const goBack = () => {
+    // goBack()을 사용하여 이전 페이지로 이동합니다.
+    navigate(-1);
+  };
+
   return (
-    <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[390px] h-[117px]">
-      <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative overflow-hidden bg-white">
-        <div className="box-border flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative px-[15px] py-5">
-          <HeaderBack />
-          <div className="box-border flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[5px]">
-            <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xl leading-[19px] font-semibold text-left text-black">
-              태그 관리
-            </p>
-          </div>
-          <HeaderPlus />
-        </div>
-      </div>
+    <div className="flex justify-between items-center px-4 pb-10 pt-20 w-full h-16 bg-white">
+      <button className="focus:outline-none" onClick={goBack}>
+        <HeaderBack />
+      </button>
+      <p className="text-xl font-semibold text-black">태그 관리</p>
+      <button className="focus:outline-none" onClick={openModal}>
+        <HeaderPlus />
+      </button>
+      {isModalOpen && <TagCreateModal className="fixed bottom-0" onClose={closeModal} />}
     </div>
   );
 };

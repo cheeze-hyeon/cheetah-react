@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { Close } from "../input/styled";
+import { useState } from "react";
 
-export const HeaderContainer = styled(Link)`
+export const HeaderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -150,10 +151,17 @@ export const Label = styled.p`
   color: #000;('
 `;
 
+export const Button = styled(Link)`
+  margin: 0;
+`;
+
 export const HeaderBack = (props) => {
+  // const onClickBack
   return (
     <HeaderContainer className="m-auto mt-[47px]">
-      <HeaderBackArrow />
+      <Button to="/..">
+        <HeaderBackArrow />
+      </Button>
       <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
@@ -164,10 +172,10 @@ export const HeaderMenu = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderNone />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
-      <HeaderMenuIcon />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Button onClick={props.setClickMenu}>
+        <HeaderMenuIcon />
+      </Button>
     </HeaderContainer>
   );
 };
@@ -176,9 +184,7 @@ export const HeaderMore = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
+      <TitleNormal>{props.text}</TitleNormal>
       <HeaderMoreIcon />
     </HeaderContainer>
   );
