@@ -190,12 +190,18 @@ export const HeaderMore = (props) => {
   );
 };
 
+const CloseWrapper = styled.div`
+  cursor: pointer;
+`;
+
 export const HeaderModal = (props) => {
   return (
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Close onClick={props.clickBtn} />
+      <CloseWrapper>
+        <Close onClick={props.clickBtn} />
+      </CloseWrapper>
     </ModalContainer>
   );
 };

@@ -141,7 +141,7 @@ export const GoalDetialModalLight = (props) => {
   }
   return (
     <ModalLayout>
-      <ElementsLayout>
+      <ElementsLayout className="cursor-default">
         <HeaderModal clickBtn={onCloseGoalDetailModal} />
         <TitleWrapper>
           <TitleNormal>{goal.title}</TitleNormal>

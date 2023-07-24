@@ -84,7 +84,7 @@ export const daysOfWeek = styled.div`
   border-bottom: 1px solid var(--light-gray-2, #f5f5f5);
 `;
 
-export const dateContainer = styled.div`
+export const DateContainer = styled.div`
   display: flex;
   width: 56px;
   height: 95px;
@@ -92,6 +92,7 @@ export const dateContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  cursor: pointer;
   flex-shrink: 0;
 `;
 export const DateWrapper = styled.div`

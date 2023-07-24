@@ -105,7 +105,7 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
       const threeEvents = eventsForDay.slice(0, 3);
 
       days.push(
-        <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
+        <s.DateContainer key={day} onClick={() => onDateClick(cloneDay)}>
           <s.EventsWrapper>
             <s.DateWrapper>
               {isSameDay(day, selectedDate) ? (
@@ -132,7 +132,7 @@ export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
           ) : (
             <s.MoreEventText></s.MoreEventText>
           )}
-        </s.dateContainer>
+        </s.DateContainer>
       );
       day = addDays(day, 1);
     }
