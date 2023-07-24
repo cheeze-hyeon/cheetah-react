@@ -6,14 +6,41 @@ import userprofiles from "../../data/userprofiles";
 import { Dealt, HamburgerMenu, Progress, dealt } from "./styled";
 import { Modal } from "../goal/styled";
 import { useEffect, useState } from "react";
+import { getUserInfo } from "../../apis/api";
 
 const TodayPage = () => {
   // useEffect = (()=>{
   //   // const [userProfile, setUserProfile] = useState("");
   //   // user 닉네임 건네주는 API 사용 ("api/today/account")
   // }, [])
-
+  const [today, setToday] = useState()
   const [clickMenu, setClickMenu] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    phone_num: "",
+    nickname: "",
+    max_speed: "",
+  });
+
+  useEffect(() => {
+    const getUserInfoFromServer = async () => {
+      try{
+        const data = {};
+        const response = await getUserInfo(data);
+        setFormData({
+          "username": response.data.username,
+          "password": response.data.password,
+          "phone_num": response.data.nickname,
+          "nickname": response.data.nickname,
+          "max_speed": response.data.max_speed,
+        });
+      }  catch (error){
+        console.error("Today page 에러", error);
+      }
+    };
+    getUserInfoFromServer();
+  }, []);
 
   const onClickMenu = () => {
     console.log(clickMenu);
@@ -38,7 +65,7 @@ const TodayPage = () => {
             >
               <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[50px]">
                 <div className="flex flex-row">
-                  <TextHeavy>오민</TextHeavy>
+                  <TextHeavy >{formData.nickname}</TextHeavy>
                   <TextHeavy>님은 오늘</TextHeavy>
                 </div>
                 <div className="flex flex-row">

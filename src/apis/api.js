@@ -1,19 +1,42 @@
 import { instance, instanceWithToken } from "./axios";
+import { getCookie } from "../utils/cookie";
 
 export const signIn = async (data) => {
-  const response = await instance.post("/account/signin/", data);
+  const response = await instance.post("/account/signin/", data,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-CRSFToken": getCookie("crsftoken")
+    },
+    withCredentials: true
+  }
+  );
   if (response.status === 201) {
+    console.log(response)
     window.location.href = "today/";
   } return response;
 };
 
 export const signUp = async (data) => {
-  const response = await instance.post("/account/signup/", data);
+  const response = await instance.post("/account/signup/", data,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-CRSFToken": getCookie("crsftoken")
+    },
+    withCredentials: true
+  }
+  );
   if (response.status === 201) {
     window.location.href = "today/";
   }
   return response;
 };
+
+export const getUserInfo = async (data) => {
+  const response = await instanceWithToken.get("/account/mypage/", data);
+  return response;
+}
 
 export const idDuplicationCheck = async (data) => {
   console.log(data);
