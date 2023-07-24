@@ -14,10 +14,12 @@ import { getGoalsindate } from "../../apis/api_calendar";
 const CalendarDetailPage = () => {
   const location = useLocation();
   const goals = location.state.goalsindate;
+  const histories = location.state.historyindate[0][1];
   const { selectedDate } = useParams();
   const parsedDate = parse(selectedDate, "yyyy-MM-dd", new Date());
   const [isCompleteModalOpen, setisCompleteModalOpen] = useState(true);
   console.log("date", goals);
+  console.log("history", histories);
 
   const showCompleteModal = (e) => {
     if (e.target === e.currentTarget) {

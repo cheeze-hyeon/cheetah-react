@@ -35,8 +35,11 @@ const CalendarMainPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
-  const [goalsList, setGoalsList] = useState([]);
+  const [goalsList, setGoalsList] = useState([]); //캘린더에 표시할 processed된 목표들
+  const [goalsListwithImpossibledates, setGoalsListwithImpossibledates] =
+    useState([]); //캘린더 디테일에 표시할 impossible dates를 포함한 목표들
   const [speedwithDate, setSpeedwithDate] = useState([]);
+  const [speedhistorywithDate, setSpeedhistorywithDate] = useState([]);
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
 
   const showGoalCreateModal = (e) => {
@@ -46,7 +49,6 @@ const CalendarMainPage = () => {
     }
     console.log(isGoalCreateModalOpen);
   };
-
   const addModalStep = () => {
     setModalStep(2);
   };
@@ -57,7 +59,6 @@ const CalendarMainPage = () => {
     setHistorywithDate([]);
     setGoalsList([]);
   };
-
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
     setSpeedwithDate([]);
@@ -65,158 +66,199 @@ const CalendarMainPage = () => {
     setGoalsList([]);
   };
 
-  // add the new Tag to the server
+  const getGoalsinmonthAPI = async () => {
+    const goalsRaw = await getGoalsinmonth(format(currentMonth, "yyyy-MM"));
+    console.log("goalsRaw", goalsRaw);
+    const goalsProcessed = goalsRaw.map((goal) => {
+      var id = goal.id;
+      var title = goal.title;
+      var finish_at = goal.finish_at;
+      var residual_time = goal.residual_time;
+      var start_at = goal.start_at; //e.g "2023-07-18"
+      var progress_rate = goal.progress_rate;
+      var update_at = goal.update_at;
+      var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
+      var today = new Date();
+      var today_string = format(today, "yyyy-MM-dd");
 
-  // 메인 달력 페이지에서 해당 달에 불러와야할 goalsList와 hisotry List를 불러온다.
-  useEffect(() => {
-    //----------API를 이용하여 캘린더에 표시할 goalsList를 불러온 후 가공한다----------------//
-    const getGoalsinmonthAPI = async () => {
-      const goalsRaw = await getGoalsinmonth(format(currentMonth, "yyyy-MM"));
-      console.log("goalsRaw", goalsRaw);
-      const goalsProcessed = goalsRaw.map((goal) => {
-        var id = goal.id;
-        var title = goal.title;
-        var finish_at = goal.finish_at;
-        var residual_time = goal.residual_time;
-        var start_at = goal.start_at; //e.g "2023-07-18"
-        var progress_rate = goal.progress_rate;
-        var update_at = goal.update_at;
-        var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
-        var today = new Date();
-        var today_string = format(today, "yyyy-MM-dd");
-
-        if (progress_rate === 100) {
-          return {
-            id: id,
-            title: title,
-            hoursperday: 0,
-            dates_todo: [],
-            finish_at: finish_at,
-            update_at: update_at,
-            progress_rate: 100,
-          };
-        }
-
-        var dates_todo_rawset = [];
-        if (today_string < start_at) {
-          var begin_date = new Date(start_at);
-          begin_date = format(begin_date, "yyyy-MM-dd");
-          while (begin_date <= finish_at) {
-            dates_todo_rawset.push(begin_date);
-            begin_date = new Date(begin_date);
-            begin_date.setDate(begin_date.getDate() + 1);
-            begin_date = format(begin_date, "yyyy-MM-dd");
-          }
-        } else if (today_string <= finish_at && today_string >= start_at) {
-          today = format(today, "yyyy-MM-dd");
-          while (today <= finish_at) {
-            dates_todo_rawset.push(today);
-            today = new Date(today);
-            today.setDate(today.getDate() + 1);
-            today = format(today, "yyyy-MM-dd");
-          }
-        }
-        var dates_todo = dates_todo_rawset.filter((date) => {
-          for (var i = 0; i < impossibledates_set.length; i++) {
-            console.log("try");
-            if (date === impossibledates_set[i]["date"]) {
-              console.log("impossible date", date);
-              return false;
-            }
-          }
-          return true;
-        });
-        var hoursperday = residual_time / dates_todo.length;
+      if (progress_rate === 100) {
         return {
           id: id,
           title: title,
-          hoursperday: hoursperday,
-          dates_todo: dates_todo,
+          hoursperday: 0,
+          dates_todo: [],
           finish_at: finish_at,
           update_at: update_at,
-          progress_rate: progress_rate,
+          progress_rate: 100,
         };
-      });
-      setGoalsList(goalsProcessed);
-      console.log("goal Processed", goalsProcessed);
-      return goalsProcessed;
-    };
-    getGoalsinmonthAPI();
-    ///------------------history API를 호출한 후 historywithDate를 업데이트 한다. -------------------//
-
-    /*
-
-    [
-  {
-    "id": 2,
-    "goal": {
-      "id": 12,
-      "title": "기계학습 Lab1",
-      "progress_rate": 10.0,
-      "finish_at": "2023-08-04",
-      "update_at": "2023-07-23",
-      "tag": {
-        "id": 3,
-        "title": "기계학습의 기초 및 응용",
-        "color": "#FF0001",
-        "is_used": true,
-        "user": 3
       }
-    },
-    "hour": 10.0,
-    "date": "2023-07-23",
-    "user": 3
-  },
 
-
-    */
-    const getHistoryinmonthAPI = async () => {
-      const historyRaw = await getHistoryinmonth(
-        format(currentMonth, "yyyy-MM")
-      );
-      var historyProcessed = [];
-      var begin = new Date(currentMonth);
-      var end = new Date(currentMonth);
-      begin.setDate(1);
-      end.setMonth(end.getMonth() + 1);
-      end.setDate(0);
-      while (begin <= end && begin.getMonth() === end.getMonth()) {
-        var begin_string = format(begin, "yyyy-MM-dd");
-        historyProcessed.push([begin_string, []]);
-        begin.setDate(begin.getDate() + 1);
+      var dates_todo_rawset = [];
+      if (today_string < start_at) {
+        var begin_date = new Date(start_at);
+        begin_date = format(begin_date, "yyyy-MM-dd");
+        while (begin_date <= finish_at) {
+          dates_todo_rawset.push(begin_date);
+          begin_date = new Date(begin_date);
+          begin_date.setDate(begin_date.getDate() + 1);
+          begin_date = format(begin_date, "yyyy-MM-dd");
+        }
+      } else if (today_string <= finish_at && today_string >= start_at) {
+        today = format(today, "yyyy-MM-dd");
+        while (today <= finish_at) {
+          dates_todo_rawset.push(today);
+          today = new Date(today);
+          today.setDate(today.getDate() + 1);
+          today = format(today, "yyyy-MM-dd");
+        }
       }
-      historyRaw.forEach((history) => {
-        var date = history.date;
-        var hour = history.hour;
-        var goal = history.goal;
-        var goal_title = goal.title;
-        var goal_progress_rate = goal.progress_rate;
-        var goal_finish_at = goal.finish_at;
-        var goal_update_at = goal.update_at;
-        var goal_tag = goal.tag;
-        var goal_id = goal.id;
-        var goal_color = goal_tag.color;
-        historyProcessed.forEach((history) => {
-          if (history[0] === date) {
-            history[1].push([
-              {
-                goal_id: goal_id,
-                goal_title: goal_title,
-                progress_rate: goal_progress_rate,
-                finish_at: goal_finish_at,
-                update_at: goal_update_at,
-                color: goal_color,
-                tag_title: goal_tag.title,
-                tag_id: goal_tag.id,
-                hours: hour,
-              },
-            ]);
+      var dates_todo = dates_todo_rawset.filter((date) => {
+        for (var i = 0; i < impossibledates_set.length; i++) {
+          console.log("try");
+          if (date === impossibledates_set[i]["date"]) {
+            console.log("impossible date", date);
+            return false;
           }
-        });
+        }
+        return true;
       });
-      console.log("historyProcessed", historyProcessed);
-      setHistorywithDate(historyProcessed);
-    };
+      var hoursperday = residual_time / dates_todo.length;
+      return {
+        id: id,
+        title: title,
+        hoursperday: hoursperday,
+        dates_todo: dates_todo,
+        finish_at: finish_at,
+        update_at: update_at,
+        progress_rate: progress_rate,
+      };
+    });
+    setGoalsList(goalsProcessed);
+    console.log("goal Processed", goalsProcessed);
+  };
+
+  const getGoalswithImpossibledatesinmonthAPI = async () => {
+    const goalsRaw = await getGoalsinmonth(format(currentMonth, "yyyy-MM"));
+    console.log("goalsRaw", goalsRaw);
+    const goalsProcessed = goalsRaw.map((goal) => {
+      var id = goal.id;
+      var title = goal.title;
+      var finish_at = goal.finish_at;
+      var residual_time = goal.residual_time;
+      var start_at = goal.start_at; //e.g "2023-07-18"
+      var progress_rate = goal.progress_rate;
+      var update_at = goal.update_at;
+      var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
+      var today = new Date();
+      var today_string = format(today, "yyyy-MM-dd");
+
+      if (progress_rate === 100) {
+        return {
+          id: id,
+          title: title,
+          hoursperday: 0,
+          dates_todo: [],
+          finish_at: finish_at,
+          update_at: update_at,
+          progress_rate: 100,
+        };
+      }
+      var dates_todo_rawset = [];
+      if (today_string < start_at) {
+        var begin_date = new Date(start_at);
+        begin_date = format(begin_date, "yyyy-MM-dd");
+        while (begin_date <= finish_at) {
+          dates_todo_rawset.push(begin_date);
+          begin_date = new Date(begin_date);
+          begin_date.setDate(begin_date.getDate() + 1);
+          begin_date = format(begin_date, "yyyy-MM-dd");
+        }
+      } else if (today_string <= finish_at && today_string >= start_at) {
+        today = format(today, "yyyy-MM-dd");
+        while (today <= finish_at) {
+          dates_todo_rawset.push(today);
+          today = new Date(today);
+          today.setDate(today.getDate() + 1);
+          today = format(today, "yyyy-MM-dd");
+        }
+      }
+      var dates_todo = dates_todo_rawset.filter((date) => {
+        for (var i = 0; i < impossibledates_set.length; i++) {
+          console.log("try");
+          if (date === impossibledates_set[i]["date"]) {
+            console.log("impossible date", date);
+            return false;
+          }
+        }
+        return true;
+      });
+      var hoursperday = residual_time / dates_todo.length;
+      return {
+        id: id,
+        title: title,
+        hoursperday: hoursperday,
+        dates_todo: dates_todo_rawset,
+        finish_at: finish_at,
+        update_at: update_at,
+        progress_rate: progress_rate,
+        impossibledates_set: impossibledates_set,
+      };
+    });
+    setGoalsListwithImpossibledates(goalsProcessed);
+    console.log("goal with impossibledates", goalsProcessed);
+  };
+  const getHistoryinmonthAPI = async () => {
+    const historyRaw = await getHistoryinmonth(format(currentMonth, "yyyy-MM"));
+    var historyProcessed = [];
+    var begin = new Date(currentMonth);
+    var end = new Date(currentMonth);
+    begin.setDate(1);
+    end.setMonth(end.getMonth() + 1);
+    end.setDate(0);
+    while (begin <= end && begin.getMonth() === end.getMonth()) {
+      var begin_string = format(begin, "yyyy-MM-dd");
+      historyProcessed.push([begin_string, []]);
+      begin.setDate(begin.getDate() + 1);
+    }
+    historyRaw.forEach((history) => {
+      var date = history.date;
+      var hour = history.hour;
+      var goal = history.goal;
+      var goal_title = goal.title;
+      var goal_progress_rate = goal.progress_rate;
+      var goal_finish_at = goal.finish_at;
+      var goal_update_at = goal.update_at;
+      var goal_tag = goal.tag;
+      var goal_id = goal.id;
+      var goal_color = goal_tag.color;
+      historyProcessed.forEach((history) => {
+        if (history[0] === date) {
+          history[1].push([
+            {
+              goal_id: goal_id,
+              goal_title: goal_title,
+              progress_rate: goal_progress_rate,
+              finish_at: goal_finish_at,
+              update_at: goal_update_at,
+              color: goal_color,
+              tag_title: goal_tag.title,
+              tag_id: goal_tag.id,
+              hours: hour,
+            },
+          ]);
+        }
+      });
+    });
+    console.log("historyProcessed", historyProcessed);
+    setHistorywithDate(historyProcessed);
+  };
+
+  // 메인 달력 페이지에서 해당 달에 불러와야할 goalsList와 hisotry List를 불러온다.
+  useEffect(() => {
+    //캘린더에 표시될 goalList와 날짜를 선택하면 전달될 goalListwithImpossibledates를 가져온다.
+    getGoalsinmonthAPI();
+    getGoalswithImpossibledatesinmonthAPI();
+    ///history를 불러온다.
     getHistoryinmonthAPI();
   }, [currentMonth]);
 
@@ -249,6 +291,27 @@ const CalendarMainPage = () => {
     setSpeedwithDate(speedwithDate_temp2);
     console.log("Success");
   }, [goalsList]);
+  //--------------------불러온 historyList를 바탕으로 speedhistorywithDate를 업데이트한다. ---------------------//
+  useEffect(() => {
+    if (historywithDate.length === 0) {
+      return;
+    }
+    var begin = new Date(currentMonth);
+    var end = new Date(currentMonth);
+    var speedwithDate_temp = [];
+    begin.setDate(1);
+    historywithDate.forEach((history) => {
+      var begin_string = format(begin, "yyyy-MM-dd");
+      var hours_added = 0;
+      history[1].forEach((h) => {
+        hours_added += h[0].hours;
+      });
+      speedwithDate_temp.push([begin_string, hours_added]);
+      begin.setDate(begin.getDate() + 1);
+    });
+    setSpeedhistorywithDate(speedwithDate_temp);
+    console.log("history added!", speedwithDate_temp);
+  }, [historywithDate]);
 
   ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다.-----------------//
 
@@ -259,8 +322,6 @@ const CalendarMainPage = () => {
   };
   //2. 캘린더에 추가하는 일정 목표 추가
 
-  console.log("speedwithDate", speedwithDate);
-  console.log("goalList", goalsList);
   return (
     <>
       <s.calendarMainRoot>
@@ -279,7 +340,8 @@ const CalendarMainPage = () => {
         <CalendarCells
           currentMonth={currentMonth}
           selectedDate={selectedDate}
-          goalsList={goalsList}
+          goalsList={goalsListwithImpossibledates}
+          historywithDate={historywithDate}
         />
         <CalendarTabBar />
         <s.floatingBtnContainer onClick={showGoalCreateModal} />
@@ -298,5 +360,4 @@ const CalendarMainPage = () => {
     </>
   );
 };
-
 export default CalendarMainPage;
