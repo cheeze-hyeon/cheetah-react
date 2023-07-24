@@ -66,21 +66,27 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate }) => {
+export const CalendarCells = ({ currentMonth, selectedDate, goalsList }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
-
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
-
+  console.log("goalsList", goalsList);
   const onDateClick = (day) => {
     const formattedDate = format(day, "yyyy-MM-dd");
-    navigate(`/calendar/${formattedDate}`);
+    const goalsindate = goalsList.filter((goal) =>
+      goal.dates_todo.includes(formattedDate)
+    );
+    console.log("dateclick", goalsindate);
+
+    navigate(`/calendar/${formattedDate}`, {
+      state: { goalsindate: goalsindate },
+    });
   };
 
   while (day <= endDate) {

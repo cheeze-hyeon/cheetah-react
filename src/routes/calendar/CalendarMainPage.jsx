@@ -15,6 +15,9 @@ import { ModalOverlay } from "../../components/modal/styled";
 import { GoalCreateModal } from ".";
 import {
   getGoalsinmonth,
+  getGoalsindate,
+  getGoaldetail,
+  getAllGoals,
   getHistoryinmonth,
   createGoal,
   createGoalwithCalendar,
@@ -257,6 +260,7 @@ const CalendarMainPage = () => {
   //2. 캘린더에 추가하는 일정 목표 추가
 
   console.log("speedwithDate", speedwithDate);
+  console.log("goalList", goalsList);
   return (
     <>
       <s.calendarMainRoot>
@@ -275,6 +279,7 @@ const CalendarMainPage = () => {
         <CalendarCells
           currentMonth={currentMonth}
           selectedDate={selectedDate}
+          goalsList={goalsList}
         />
         <CalendarTabBar />
         <s.floatingBtnContainer onClick={showGoalCreateModal} />
