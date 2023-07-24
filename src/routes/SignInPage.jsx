@@ -85,8 +85,8 @@ const SignInPage = () => {
           </div>
         </form>
         <div className="flex flex-end items-end flex-row-reverse">
-          <TextBtnSmall text="비밀번호 찾기" /* to="/findpw" */></TextBtnSmall>
-          <TextBtnSmall text="아이디 찾기" /* to="/findid" */></TextBtnSmall>
+          <TextBtnSmall text="비밀번호 찾기" to="/findpw"></TextBtnSmall>
+          <TextBtnSmall text="아이디 찾기" to="/findid"></TextBtnSmall>
         </div>
         <CheckBox 
         text="자동 로그인" 
