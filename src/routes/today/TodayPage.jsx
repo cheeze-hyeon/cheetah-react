@@ -6,7 +6,8 @@ import userprofiles from "../../data/userprofiles";
 import { Dealt, HamburgerMenu, Progress, dealt } from "./styled";
 import { Modal } from "../goal/styled";
 import { useEffect, useState } from "react";
-import { getUserInfo } from "../../apis/api";
+import { getUserInfo, logOut } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const TodayPage = () => {
   // useEffect = (()=>{
@@ -26,12 +27,11 @@ const TodayPage = () => {
   useEffect(() => {
     const getUserInfoFromServer = async () => {
       try{
-        const data = {};
-        const response = await getUserInfo(data);
+        const response = await getUserInfo();
         setFormData({
-          "username": response.data.username,
-          "password": response.data.password,
-          "phone_num": response.data.nickname,
+          "username": response.data.user.username,
+          "password": response.data.user.password,
+          "phone_num": response.data.phone_num,
           "nickname": response.data.nickname,
           "max_speed": response.data.max_speed,
         });
@@ -40,6 +40,7 @@ const TodayPage = () => {
       }
     };
     getUserInfoFromServer();
+    console.log(formData)
   }, []);
 
   const onClickMenu = () => {
@@ -47,15 +48,38 @@ const TodayPage = () => {
     return setClickMenu(!clickMenu);
   };
 
+  const onClickLogOut = async (e) => {
+    e.preventDefault();
+    try{
+      const token = getCookie("refresh_token");
+      await logOut(token);
+      setFormData({
+        username: "",
+        password: "",
+        phone_num: "",
+        nickname: "",
+        max_speed: "",
+      });
+      console.log(formData)
+      window.location.href = "/";
+
+    }catch (error){
+      console.log("Log Out failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(formData)
+  },[formData])
   return (
     <div>
       {clickMenu ? (
-        <HamburgerMenu clickMenu={clickMenu} setClickMenu={onClickMenu} />
+        <HamburgerMenu clickMenu={clickMenu} onClickMenu={onClickMenu} onClickLogOut = {onClickLogOut}/>
       ) : (
         <div>
           <HeaderMenu
             clickMenu={clickMenu}
-            setClickMenu={onClickMenu}
+            onClickMenu={onClickMenu}
             text="TODAY"
           ></HeaderMenu>
           <div className="flex flex-col gap-[20px]">

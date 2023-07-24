@@ -195,7 +195,7 @@ export const HeaderModal = (props) => {
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Close onClick={props.onClickMenu} />
+      <Close type = "button" onClick={props.onClickMenu} />
     </ModalContainer>
   );
 };

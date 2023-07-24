@@ -780,9 +780,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer>
+    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃" to={props.to}></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

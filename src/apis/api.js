@@ -1,5 +1,5 @@
 import { instance, instanceWithToken } from "./axios";
-import { getCookie } from "../utils/cookie";
+import { getCookie, removeCookie } from "../utils/cookie";
 
 export const signIn = async (data) => {
   const response = await instance.post("/account/signin/", data,
@@ -33,8 +33,8 @@ export const signUp = async (data) => {
   return response;
 };
 
-export const getUserInfo = async (data) => {
-  const response = await instanceWithToken.get("/account/mypage/", data);
+export const getUserInfo = async () => {
+  const response = await instanceWithToken.get("/account/mypage/");
   return response;
 }
 
@@ -80,5 +80,30 @@ export const SMSAuthCheck = async (data) => {
   } catch (error) {
     console.error(error);
     return response;
+  }
+};
+
+export const refreshToken = async (token) => {
+  const response = await instance.post("/account/refresh/", { refresh: token });
+  if (response.status === 200) {
+    console.log("REFRESH TOKEN SUCCESS");
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
+};
+
+export const logOut = async(token) => {
+  const response = await instanceWithToken.post("/account/logout/",{
+    "refresh" : token,
+  });
+
+  if (response.status === 204){
+    console.log("REFRESH TOKEN SUCCESS");
+    removeCookie("refresh_token");
+    removeCookie("access_token");
+
+
+  }else {
+    console.log("[ERROR] error while refreshing token");
   }
 };
