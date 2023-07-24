@@ -26,9 +26,11 @@ const FindIdPage = () => {
   const [countdown, setCountdown] = useState(300);
   const [page, setPage] = useState(0);
   const [isVaildAuthNumber, setIsValidAuthNumber] = useState("");
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("");
   const [isVaildAccount, setIsValidAccount] = useState(false);
+
   const handleChangePhoneNum = (e) => {
+    //전화번호 입력 관리 및 숫자만 입력 가능하도록 지정
     const { name, value } = e.target;
     const filteredValue = value.replace(/[^0-9]/g, "");
     setSMSAuthData((prevCertificationData) => ({
@@ -38,6 +40,7 @@ const FindIdPage = () => {
   };
 
   const handleChangeAuthNum = (e) => {
+    //인증번호 입력 관리
     const { id, value } = e.target;
     setSMSAuthData((prevSMSAuthData) => ({
       ...prevSMSAuthData,
@@ -46,12 +49,13 @@ const FindIdPage = () => {
   };
 
   const clickCertification = async (e) => {
+    //인증번호 발송. 전화번호가 11자가 아니면 발송 안함.
     e.preventDefault();
     if (SMSAuthData.phone_num.length != 11) {
       setIsValidPhoneNum(false);
       setCertification(false);
       return;
-    }else setIsValidPhoneNum(true);
+    } else setIsValidPhoneNum(true);
     const isSentMessage = await sendSMSAuth({
       phone_num: SMSAuthData.phone_num,
     });
@@ -69,31 +73,31 @@ const FindIdPage = () => {
   };
 
   const clickNext = async (e) => {
+    // 0페이지에서 1페이지로 넘어감. 이 때 전화번호와 인증번호가 일치해야함. 전화번호와 인증번호가 일치하는데 일치하는 계정이 없을 경우도 고려.
     e.preventDefault();
 
     try {
       const isAuthenticated = await SMSAuthCheck(SMSAuthData);
       if (isAuthenticated.status === 200) {
         setPage(1);
-        const response = await findId({"phone_num": SMSAuthData.phone_num});
-        if(response.status === 200){
-          setUsername(response.data.username)
-          setIsValidAccount(true)
-        }else{
-          setIsValidAccount(false)
+        const response = await findId({ phone_num: SMSAuthData.phone_num });
+        if (response.status === 200) {
+          setUsername(response.data.username);
+          setIsValidAccount(true);
+        } else {
+          setIsValidAccount(false);
         }
-        
       }
     } catch (error) {
-      if(isSentSMS === "") setIsSentSMS(false)
+      if (isSentSMS === "") setIsSentSMS(false);
       console.log("Form submission failed:", error);
 
       setIsValidAuthNumber(false);
-
     }
   };
 
   useEffect(() => {
+    //남은 시간 계산
     let intervalId;
     console.log(isSentSMS);
     if (isSentSMS && countdown > 0) {
@@ -112,20 +116,18 @@ const FindIdPage = () => {
       {page ? (
         <div>
           <div className="w-[350px] m-auto">
-            <Box className="flex flex-row">{
-              isVaildAccount === true ? (
+            <Box className="flex flex-row">
+              {isVaildAccount === true ? (
                 <>
-                <TextNormal>회원님의 아이디는 </TextNormal>
-                <TextNormal className="text-[#f19a37]">{username} </TextNormal>
-                <TextNormal>입니다</TextNormal>                
+                  <TextNormal>회원님의 아이디는 </TextNormal>
+                  <TextNormal className="text-[#f19a37]">
+                    {username}{" "}
+                  </TextNormal>
+                  <TextNormal>입니다</TextNormal>
                 </>
-
               ) : (
                 <TextHeavy>일치하는 계정이 없습니다. </TextHeavy>
-
-              )
-            }
-
+              )}
             </Box>
           </div>
           <div className="mt-[582px]">
@@ -173,26 +175,24 @@ const FindIdPage = () => {
                     .padStart(2, "0")}`}</TextNormal>
                 </>
               )}
-              {
-                isSentSMS === false?(
-                  <AlertLabel className="w-[350px]">
-                전화번호를 확인해주세요.
+              {isSentSMS === false ? (
+                <AlertLabel className="w-[350px]">
+                  전화번호를 확인해주세요.
                 </AlertLabel>
-                ):
-                isVaildAuthNumber === false ? (
+              ) : isVaildAuthNumber === false ? (
                 <AlertLabel className="w-[350px]">
                   인증번호가 틀렸습니다.
                 </AlertLabel>
-                ): (<AlertLabel></AlertLabel>)
-              }
-
+              ) : (
+                <AlertLabel></AlertLabel>
+              )}
             </div>
           </form>
           <div className="mt-[448px]">
             <LargeButtonActive2
               text="다음으로"
               className="mb-[37px]"
-              onClick={clickNext} 
+              onClick={clickNext}
             ></LargeButtonActive2>
           </div>
         </div>

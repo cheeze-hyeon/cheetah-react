@@ -12,7 +12,12 @@ import {
   LargeButtonActive,
   LargeButtonActive2,
 } from "../../components/button/styled";
-import { sendSMSAuth, SMSAuthCheck, findPassword, changePassword } from "../../apis/api";
+import {
+  sendSMSAuth,
+  SMSAuthCheck,
+  findPassword,
+  changePassword,
+} from "../../apis/api";
 
 const FindPwPage = () => {
   const [SMSAuthData, setSMSAuthData] = useState({
@@ -35,6 +40,7 @@ const FindPwPage = () => {
     setUsername(value);
   };
   const handleChangePhoneNum = (e) => {
+    //전화번호 입력 받는 함수
     const { name, value } = e.target;
     const filteredValue = value.replace(/[^0-9]/g, "");
     setSMSAuthData((prevSMSAuthData) => ({
@@ -43,6 +49,7 @@ const FindPwPage = () => {
     }));
   };
   const handleChangeAuthNum = (e) => {
+    //인증번호 입력 받는 함수
     const { id, value } = e.target;
     setSMSAuthData((prevSMSAuthData) => ({
       ...prevSMSAuthData,
@@ -76,6 +83,7 @@ const FindPwPage = () => {
   };
 
   const clickCertification = async (e) => {
+    //전화번호 인증번호 발송. 번호가 11자가 아니면 안보냄.
     e.preventDefault();
     if (SMSAuthData.phone_num.length != 11) {
       setIsValidPhoneNum(false);
@@ -99,12 +107,13 @@ const FindPwPage = () => {
   };
 
   const clickNext = async (e) => {
+    //0페이지에서 1페이지로 넘어가는 함수. 입력된 아이디, 전화번호, 인증번호가 일치하는지 확인
     e.preventDefault();
 
     try {
       const isAuthenticated = await SMSAuthCheck(SMSAuthData);
       if (isAuthenticated.status === 200) {
-        setIsValidAuthNumber(true)
+        setIsValidAuthNumber(true);
         const response = await findPassword({
           phone_num: SMSAuthData.phone_num,
           username: username,
@@ -119,30 +128,30 @@ const FindPwPage = () => {
     } catch (error) {
       if (isSentSMS === "") setIsSentSMS(false);
       console.log("Form submission failed:", error);
-      if (error.response.status === 401){
+      if (error.response.status === 401) {
         setIsValidAuthNumber(false);
-      }else if(error.response.status === 404){
+      } else if (error.response.status === 404) {
         setIsValidAccount(false);
       }
-      
     }
   };
-  
-  const clickChangePassword = async(e) => {
+
+  const clickChangePassword = async (e) => {
+    //클릭하면 비밀번호 변경. 새 비밀번호와 비밀번호 확인이 일치하면
     e.preventDefault();
-    if(isAvailablePassword){
+    if (isAvailablePassword) {
       const response = await changePassword({
         username: username,
         new_password: password,
       });
-      if(response.status === 200){
+      if (response.status === 200) {
         window.location.href = "signin";
       }
     }
-    
-  }
+  };
 
   useEffect(() => {
+    // 남은 시간 계산
     let intervalId;
     console.log(isSentSMS);
     if (isSentSMS && countdown > 0) {
@@ -186,7 +195,10 @@ const FindPwPage = () => {
             </div>
           </form>
           <div className="mt-[435px]">
-            <LargeButtonActive text="완료" onClick = {clickChangePassword}></LargeButtonActive>
+            <LargeButtonActive
+              text="완료"
+              onClick={clickChangePassword}
+            ></LargeButtonActive>
           </div>
         </div>
       ) : (
@@ -212,7 +224,13 @@ const FindPwPage = () => {
                 value={SMSAuthData.phone_num}
                 onChange={handleChangePhoneNum}
               ></InputTextFieldButton>
-              {/* 인증하기 누르면 활성화로 바꾸기 */}
+              {!certification && isValidPhoneNum === false ? (
+                <AlertLabel className="w-[350px]">
+                  유효한 전화번호가 아닙니다.
+                </AlertLabel>
+              ) : (
+                <AlertLabel className="w-[350px]"></AlertLabel>
+              )}
               {!certification ? (
                 <InputTextFieldNonActive text="인증번호 입력"></InputTextFieldNonActive>
               ) : (
@@ -231,20 +249,21 @@ const FindPwPage = () => {
                     .padStart(2, "0")}`}</TextNormal>
                 </>
               )}
-              {
-                isSentSMS === false?(
-                  <AlertLabel className="w-[350px]">
-                전화번호를 확인해주세요.
+              {isSentSMS === false ? (
+                <AlertLabel className="w-[350px]">
+                  전화번호를 확인해주세요.
                 </AlertLabel>
-                ):
-                isVaildAuthNumber === false ? (
+              ) : isVaildAuthNumber === false ? (
                 <AlertLabel className="w-[350px]">
                   인증번호가 틀렸습니다.
                 </AlertLabel>
-                ): isVaildAccount === false?(
-                <AlertLabel>입력하신 정보와 일치하는 계정이 존재하지 않습니다.</AlertLabel>
-                ):(<AlertLabel></AlertLabel>)
-              }
+              ) : isVaildAccount === false ? (
+                <AlertLabel>
+                  입력하신 정보와 일치하는 계정이 존재하지 않습니다.
+                </AlertLabel>
+              ) : (
+                <AlertLabel></AlertLabel>
+              )}
             </div>
           </form>
           <div onClick={clickNext} className="mt-[351px]">

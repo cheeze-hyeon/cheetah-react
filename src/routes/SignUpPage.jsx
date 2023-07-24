@@ -10,9 +10,14 @@ import {
   InputTextFieldButton,
   AlertLabel,
 } from "../components/input/styled";
-import { useEffect, useState, } from "react";
+import { useEffect, useState } from "react";
 
-import { signUp, idDuplicationCheck, sendSMSAuth, SMSAuthCheck } from "../apis/api";
+import {
+  signUp,
+  idDuplicationCheck,
+  sendSMSAuth,
+  SMSAuthCheck,
+} from "../apis/api";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -38,9 +43,7 @@ const SignUpPage = () => {
   const [isAvailableNickname, setIsAvailableNickname] = useState(false);
   const [countdown, setCountdown] = useState(300);
   const [isSentSMS, setIsSentSMS] = useState(false);
-  const [page, setPage] = useState(1);
-
-
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     console.log(formData);
@@ -89,7 +92,7 @@ const SignUpPage = () => {
     }
   };
 
-  const handleChangePhoneNum = (e) => {
+  const handleChangePhoneNum = (e) => { //전화번호 입력창 관리
     const { name, value } = e.target;
     const filteredValue = value.replace(/[^0-9]/g, "");
     setFormData((prevFormData) => ({
@@ -99,38 +102,38 @@ const SignUpPage = () => {
     setSMSAuthData((prevCertificationData) => ({
       ...prevCertificationData,
       [name]: filteredValue,
-    }))
+    }));
   };
-  const handleChangeAuthNum = (e) => {
-    const{name, value} = e.target;
+  const handleChangeAuthNum = (e) => { //인증번호 입력창 관리
+    const { name, value } = e.target;
     setSMSAuthData((prevCertificationData) => ({
       ...prevCertificationData,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
-  const handleChangeNickname = (e) => {
-    const{name, value} = e.target;
+  const handleChangeNickname = (e) => { //닉네임 입력창 관리
+    const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
-    if(value.length >= 2){
-      setIsAvailableNickname(true)
+    if (value.length >= 2) {
+      setIsAvailableNickname(true);
     }
-  }
+  };
 
-  const handleChangeMaxSpeed = (e) => {
-    const{name, value} = e.target;
-    if(value >= 0 && value <= 24){
+  const handleChangeMaxSpeed = (e) => { //제한속도 입력창 관리
+    const { name, value } = e.target;
+    if (value >= 0 && value <= 24) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
-      }))
-      console.log(value)
+      }));
+      console.log(value);
     }
-  }
-  const ClickDuplicationCheck = async (e) => {
+  };
+  const ClickDuplicationCheck = async (e) => {// 클릭시 아이디 중복 체크
     e.preventDefault();
     const isDuplicated = await idDuplicationCheck(duplicationCheckData);
     if (!isDuplicated) {
@@ -146,7 +149,7 @@ const SignUpPage = () => {
     }
   }; //중복확인 버튼 눌렀을 때 중복 체크하여 중복 아닌 경우 formData에 해당 id 넣어줌
 
-  const clickCertification = async (e) => {
+  const clickCertification = async (e) => {// 클릭시 인증번호 발송
     e.preventDefault();
     const isSentMessage = await sendSMSAuth({ phone_num: formData.phone_num });
     if (isSentMessage.status === 200) {
@@ -163,29 +166,27 @@ const SignUpPage = () => {
     console.log("certification!");
   };
 
-  const clickNext = async (e) => {
+  const clickNext = async (e) => {//클릭시 0페이지에서 1페이지로 이동. 
     e.preventDefault();
-    
-    try{
+
+    try {
       const isAuthenticated = await SMSAuthCheck(SMSAuthData);
-      if(isAuthenticated.status === 200) {
-        if(isAvailableUsername && isAvailablePassword){
-          setPage(2);
+      if (isAuthenticated.status === 200) {
+        if (isAvailableUsername && isAvailablePassword) {
+          setPage(1);
           console.log(page);
         }
       }
-    }catch (error){
+    } catch (error) {
       console.log("Form submission failed:", error);
-      if(SMSAuthData.auth_number !== 0 && SMSAuthData.auth_number !== ""){
-        setIsValidAuthNumber(false)
-        console.log(SMSAuthData)
+      if (SMSAuthData.auth_number !== 0 && SMSAuthData.auth_number !== "") {
+        setIsValidAuthNumber(false);
+        console.log(SMSAuthData);
       }
-        
     }
-
   };
 
-  useEffect(() => {
+  useEffect(() => {//인증번호 입력 남은 시간 계산
     let intervalId;
     console.log(isSentSMS);
     if (isSentSMS && countdown > 0) {
@@ -198,21 +199,17 @@ const SignUpPage = () => {
     };
   }, [isSentSMS, countdown]);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e) => {//클릭시 회원가입
     e.preventDefault();
-    try{
+    try {
       await signUp(formData);
-    }catch (error){
-    }
-
-    // 참고 : api 연결은 아래처럼!!
-    // createPost(formData, navigate);
+    } catch (error) {}
   };
 
   return (
     <div className="flex flex-col m-auto">
       <HeaderBack text="회원가입"></HeaderBack>
-      {page === 1 ? (
+      {page === 0 ? (
         // Page 1
         <div className="w-[350px] m-auto flex flex-col gap-[181px]">
           <form className="flex flex-col gap-y-[20px]">
@@ -278,7 +275,6 @@ const SignUpPage = () => {
               ></InputTextFieldButton>
               {/* 인증하기 누르면 활성화로 바꾸기 */}
               {!certification ? (
-
                 <InputTextFieldNonActive text="인증번호 입력"></InputTextFieldNonActive>
               ) : (
                 <>
@@ -289,20 +285,22 @@ const SignUpPage = () => {
                     onChange={handleChangeAuthNum}
                     value={SMSAuthData.auth_number}
                   ></InputTextFieldActive>
-                  <TextNormal>{`남은 시간: ${Math.floor(countdown / 60)}:${(countdown % 60)
+                  <TextNormal>{`남은 시간: ${Math.floor(countdown / 60)}:${(
+                    countdown % 60
+                  )
                     .toString()
                     .padStart(2, "0")}`}</TextNormal>
                 </>
               )}
-              {
-                isVaildAuthNumber === false ? (
-                  <AlertLabel>인증에 실패하였습니다.</AlertLabel>
-                ) : (<AlertLabel></AlertLabel>)
-              }
+              {isVaildAuthNumber === false ? (
+                <AlertLabel>인증에 실패하였습니다.</AlertLabel>
+              ) : (
+                <AlertLabel></AlertLabel>
+              )}
             </div>
           </form>
           {/* useState로 관리해서 formData가 적절히 채워졌을 때 활성화 버튼으로 변경 */}
-          <div >
+          <div>
             <LargeButtonActive2
               text="다음으로"
               className="mb-[37px]"
