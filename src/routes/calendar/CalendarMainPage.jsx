@@ -74,7 +74,7 @@ const CalendarMainPage = () => {
             step={modalStep}
             clickBtn={showGoalCreateModal}
             clickCompleteBtn={showGoalCreateModal}
-            tags = {tags}
+            tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
       )}

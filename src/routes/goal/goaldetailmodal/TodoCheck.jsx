@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CheckFalse from "./CheckFalse";
 import CheckTrue from "./CheckTrue";
 import "tailwindcss/tailwind.css";
+import { Close } from "../../../components/input/styled";
 import HeaderClose from "./HeaderClose";
 
 const TodoCheck = ({ todo }) => {
@@ -51,9 +52,8 @@ const TodoCheck = ({ todo }) => {
             />
           </div>
         </div>
-        <button onClick={handleDeleteTodo}>
-          <HeaderClose />
-        </button> {/* 추가: 삭제 버튼을 추가합니다. */}
+        <Close onClick={handleDeleteTodo} color="var(--darkgray)" />
+        {/* 추가: 삭제 버튼을 추가합니다. */}
       </div>
     </div>
   );

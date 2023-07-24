@@ -272,7 +272,7 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer to={props.to}>
+    <TextBtnSContainer onClick={props.onClick} to={props.to}>
       <TextBtnSComponent>{props.text}</TextBtnSComponent>
     </TextBtnSContainer>
   );

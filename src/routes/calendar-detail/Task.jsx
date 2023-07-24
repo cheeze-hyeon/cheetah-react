@@ -11,6 +11,7 @@ export const CompletedTask = ({
   tag,
   isGoalCompleted,
   onClickCompletedBtn,
+  openGoalDetailModal,
 }) => {
   const isHidden = false;
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
@@ -23,7 +24,7 @@ export const CompletedTask = ({
   return (
     <s.TaskLayout>
       <s.TaskTopFrame>
-        <s.TaskTLeftFrame $isHidden={isHidden}>
+        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={isHidden}>
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
@@ -46,7 +47,7 @@ export const CompletedTask = ({
   );
 };
 
-export const Task = ({ goal, tag }) => {
+export const Task = ({ goal, tag, openGoalDetailModal }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
@@ -60,7 +61,7 @@ export const Task = ({ goal, tag }) => {
   return (
     <s.TaskLayout>
       <s.TaskTopFrame>
-        <s.TaskTLeftFrame $isHidden={isHidden}>
+        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={isHidden}>
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
@@ -84,7 +85,13 @@ export const Task = ({ goal, tag }) => {
   );
 };
 
-export const DueDateGoal = ({ goal, tag, isGoalCompleted, isPastGoal }) => {
+export const DueDateGoal = ({
+  goal,
+  tag,
+  isGoalCompleted,
+  isPastGoal,
+  openGoalDetailModal,
+}) => {
   const isHidden = false;
   const completeDate = format(new Date(goal.update_at), "M/d(E)", {
     locale: ko,
@@ -93,7 +100,7 @@ export const DueDateGoal = ({ goal, tag, isGoalCompleted, isPastGoal }) => {
   return (
     <s.TaskLayout>
       <s.TaskTopFrame>
-        <s.TaskTLeftFrame $isHidden={isHidden}>
+        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={isHidden}>
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>

@@ -9,18 +9,35 @@ import goals from "../../data/goals";
 import tags from "../../data/tags";
 import dailyHourOfGoals from "../../data/dailyHourOfGoals";
 import subDays from "date-fns/subDays";
+import { GoalDetialModalLight } from "./goal-detail/styled";
+import todos from "../../data/todos";
 
 const CalendarDetailPage = () => {
   const { selectedDate } = useParams();
   const parsedDate = parse(selectedDate, "yyyy-MM-d", new Date());
   const [isCompleteModalOpen, setisCompleteModalOpen] = useState(false);
-  const today = new Date();
-
+  const [isGoalDetailModalOpen, setisGoalDetailModalOpen] = useState(false); // 초기에는 false로 설정
+  const [selectedGoal, setSelectedGoal] = useState(null);
   // 투데이 페이지용
   const showCompleteModal = (e) => {
     if (e.target === e.currentTarget) {
       setisCompleteModalOpen(!isCompleteModalOpen);
     }
+  };
+  const handleGoalClick = (goalId) => {
+    const selectedGoal = goals.find((goal) => goal.id === goalId);
+    setSelectedGoal(selectedGoal);
+  };
+
+  const onCloseGoalDetailModal = (e) => {
+    if (e.target === e.currentTarget) {
+      setisGoalDetailModalOpen(false); // 모달을 닫을 때 false로 설정
+    }
+  };
+
+  const openGoalDetailModal = (goalId) => {
+    setisGoalDetailModalOpen(true); // 모달을 열 때 true로 설정하고
+    handleGoalClick(goalId); // 선택한 목표 정보 설정
   };
 
   // 목표의 시작일이 오늘보다 현재 혹은 미래인 경우 true
@@ -154,6 +171,7 @@ const CalendarDetailPage = () => {
                     tag={getTagOfGoal(tags, goal)}
                     isGoalCompleted={isGoalCompleted(goal)}
                     isPastGoal={isPastGoal(goal)}
+                    openGoalDetailModal={() => openGoalDetailModal(goal.id)}
                   />
                 )
             )}
@@ -165,6 +183,7 @@ const CalendarDetailPage = () => {
                     goal={task}
                     tag={getTagOfGoal(tags, task)}
                     isGoalCompleted={isGoalCompleted(task)}
+                    openGoalDetailModal={() => openGoalDetailModal(task.id)}
                   />
                 )
             )}
@@ -176,6 +195,7 @@ const CalendarDetailPage = () => {
                     key={task.id}
                     goal={task}
                     tag={getTagOfGoal(tags, task)}
+                    openGoalDetailModal={() => openGoalDetailModal(task.id)}
                   />
                 )
             )}
@@ -185,6 +205,15 @@ const CalendarDetailPage = () => {
       {isCompleteModalOpen && (
         <ModalOverlay onClick={showCompleteModal}>
           <TaskCompleteModal showCompleteModal={showCompleteModal} />
+        </ModalOverlay>
+      )}
+      {isGoalDetailModalOpen && (
+        <ModalOverlay onClick={onCloseGoalDetailModal}>
+          <GoalDetialModalLight
+            onCloseGoalDetailModal={onCloseGoalDetailModal}
+            goal={selectedGoal}
+            todos={todos}
+          />
         </ModalOverlay>
       )}
     </>
