@@ -33,8 +33,9 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState({
     confirmPassword: "",
   }); // 재확인용 비밀번호
+  const [isVaildAuthNumber, setIsValidAuthNumber] = useState("");
   const [isAvailablePassword, setIsAvailablePassword] = useState(false); //사용 가능한 비밀번호인지 알려주는 boolean값
-  const [isAvailableNickname, setIsAvailableNickname] = useState(false)
+  const [isAvailableNickname, setIsAvailableNickname] = useState(false);
   const [countdown, setCountdown] = useState(300);
   const [isSentSMS, setIsSentSMS] = useState(false);
   const [page, setPage] = useState(1);
@@ -164,13 +165,24 @@ const SignUpPage = () => {
 
   const clickNext = async (e) => {
     e.preventDefault();
-    const isAuthenticated = await SMSAuthCheck(SMSAuthData);
-    if(isAuthenticated.status === 200) {
-      if(isAvailableUsername && isAvailablePassword){
-        setPage(2);
-        console.log(page);
+    
+    try{
+      const isAuthenticated = await SMSAuthCheck(SMSAuthData);
+      if(isAuthenticated.status === 200) {
+        if(isAvailableUsername && isAvailablePassword){
+          setPage(2);
+          console.log(page);
+        }
       }
+    }catch (error){
+      console.log("Form submission failed:", error);
+      if(SMSAuthData.auth_number !== 0 && SMSAuthData.auth_number !== ""){
+        setIsValidAuthNumber(false)
+        console.log(SMSAuthData)
+      }
+        
     }
+
   };
 
   useEffect(() => {
@@ -191,7 +203,6 @@ const SignUpPage = () => {
     try{
       await signUp(formData);
     }catch (error){
-      console.log("Form submission failed:", error);
     }
 
     // 참고 : api 연결은 아래처럼!!
@@ -283,6 +294,11 @@ const SignUpPage = () => {
                     .padStart(2, "0")}`}</TextNormal>
                 </>
               )}
+              {
+                isVaildAuthNumber === false ? (
+                  <AlertLabel>인증에 실패하였습니다.</AlertLabel>
+                ) : (<AlertLabel></AlertLabel>)
+              }
             </div>
           </form>
           {/* useState로 관리해서 formData가 적절히 채워졌을 때 활성화 버튼으로 변경 */}

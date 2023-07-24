@@ -50,6 +50,7 @@ export const sendSMSAuth = async (data) => {
 };
 
 export const SMSAuthCheck = async (data) => {
+  if(data.auth_number === "") data.auth_number = 0
   const response = await instance.get("/account/smsauth/", {
     params: data,
   });

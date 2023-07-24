@@ -22,7 +22,14 @@ const SignInPage = () => {
   });
   const [isButtonActive, setIsButtonActive] = useState(false)
   const [isValidAccount, setIsValidAccount] = useState("")
-  const handleChange = (e) => {
+  const handleChangeID = (e) => {
+    const value = e.target.value.replace(/[^A-Za-z0-9]/gi, "").toLowerCase();
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: value,
+    }));
+  };
+  const handleChangePassword = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -42,6 +49,7 @@ const SignInPage = () => {
       await signIn(formData);
     }catch (error){
       console.log("Form submission failed:", error);
+        
         setIsValidAccount(false);
     }
   };
@@ -63,7 +71,7 @@ const SignInPage = () => {
             type="text"
             name="username"
             value={formData.username}
-            onChange={handleChange}
+            onChange={handleChangeID}
             ></InputTextFieldActive>
           </div>
           <div className="flex flex-col gap-y-[10px]">
@@ -73,7 +81,7 @@ const SignInPage = () => {
             type="password"
             name="password"
             value={formData.password}
-            onChange={handleChange}></InputTextFieldActive>
+            onChange={handleChangePassword}></InputTextFieldActive>
           </div>
         </form>
         <div className="flex flex-end items-end flex-row-reverse">
