@@ -82,6 +82,38 @@ export const SMSAuthCheck = async (data) => {
     return response;
   }
 };
+export const findId = async (data) => {
+  const response = await instance.get("/account/findid/", {
+    params: data,
+  });
+  try{
+    return response;
+  } catch (error) {
+    console.error(error);
+    return response;
+  }
+}
+export const findPassword = async (data) => {
+  const response = await instance.get("/account/findpassword/", {
+    params: data,
+  });
+  try{
+    return response;
+  } catch (error) {
+    console.error(error);
+    return response;
+  }
+}
+
+export const changePassword = async (data) => {
+  const response = await instance.patch("/account/findpassword/", data);
+  try{
+    return response;
+  } catch (error) {
+    console.error(error);
+    return response;
+  }
+}
 
 export const refreshToken = async (token) => {
   const response = await instance.post("/account/refresh/", { refresh: token });
@@ -107,3 +139,13 @@ export const logOut = async(token) => {
     console.log("[ERROR] error while refreshing token");
   }
 };
+
+export const patchUserInfo = async(data) => {
+  const response = await instanceWithToken.patch("/account/mypage/",data );
+  try{
+    return response;
+  } catch (error) {
+      console.error(error);
+      return response;
+    }
+}
