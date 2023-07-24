@@ -122,7 +122,7 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -272,8 +272,10 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer to={props.to}>
-      <TextBtnSComponent>{props.text}</TextBtnSComponent>
+    <TextBtnSContainer>
+      <Frame to={props.to}>
+        <TextBtnSComponent>{props.text}</TextBtnSComponent>
+      </Frame>
     </TextBtnSContainer>
   );
 };
@@ -411,12 +413,12 @@ export const TwoButton = (props) => {
     <TwoButtonContainer>
       <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
-          <LargeLabel>{props.text1}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
       <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
-          <LargeLabel>{props.text2}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer2>
     </TwoButtonContainer>
@@ -734,7 +736,7 @@ export const TextBtnSwIconContainer = styled.div`
   position: relative;
   gap: 5px;
   padding: 0px 10px;
-  margin: auto;
+  // margin: auto;
 `;
 
 export const TextBtnSContainer2 = styled.div`
@@ -780,7 +782,7 @@ export const TextBtnSmallWithLogout = (props) => {
   return (
     <TextBtnSwIconContainer>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃" to={props.to}></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

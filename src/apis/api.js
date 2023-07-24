@@ -4,7 +4,6 @@ export const signIn = async (data) => {
   const response = await instance.post("/account/signin/", data);
   if (response.status === 201) {
     window.location.href = "today/";
-
   } return response;
 };
 
@@ -12,7 +11,6 @@ export const signUp = async (data) => {
   const response = await instance.post("/account/signup/", data);
   if (response.status === 201) {
     window.location.href = "today/";
-
   }
   return response;
 };
@@ -60,4 +58,4 @@ export const SMSAuthCheck = async (data) => {
     console.error(error);
     return response;
   }
-}
+};
