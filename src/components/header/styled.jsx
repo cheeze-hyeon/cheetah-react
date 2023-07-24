@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Close } from "../input/styled";
-import { useState } from "react";
 
 export const HeaderContainer = styled.div`
   box-sizing: border-box;
@@ -157,12 +156,12 @@ export const Button = styled(Link)`
 
 export const HeaderBack = (props) => {
   // const onClickBack
+  const navigate = useNavigate();
   return (
     <HeaderContainer className="m-auto mt-[47px]">
-      <Button to="/..">
+      <Button onClick={() => navigate(-1)}>
         <HeaderBackArrow />
       </Button>
-      <HeaderBackArrow />
       <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
@@ -174,7 +173,7 @@ export const HeaderMenu = (props) => {
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Button onClick={props.setClickMenu}>
+      <Button onClick={props.onClickMenu}>
         <HeaderMenuIcon />
       </Button>
     </HeaderContainer>
@@ -185,8 +184,7 @@ export const HeaderMore = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
-      <TitleNormal>{props.text}
-      </TitleNormal>
+      <TitleNormal>{props.text}</TitleNormal>
       <HeaderMoreIcon />
     </HeaderContainer>
   );
@@ -197,7 +195,7 @@ export const HeaderModal = (props) => {
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Close onClick={props.clickBtn} />
+      <Close onClick={props.onClickMenu} />
     </ModalContainer>
   );
 };
