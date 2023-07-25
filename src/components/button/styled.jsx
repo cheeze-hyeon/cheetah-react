@@ -122,7 +122,9 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -337,6 +339,7 @@ export const CheckBox = (props) => {
       type="checkbox" 
       checked={props.checked}
       name={props.name}
+      id={props.id}
       onChange={props.onChange}
       />
       <CheckBoxTextContainer>
@@ -584,6 +587,7 @@ export const TagContainer = styled.div`
   border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
   box-shadow: ${(props) =>
     props.$isSelected
       ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
@@ -601,8 +605,10 @@ export const TagLabel = styled.p`
   letter-spacing: 0px;
   font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
-  color: #000;
+
+  color: var(--black);
   align-items: center;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
 `;
 
 export const TagDefault = (props) => {

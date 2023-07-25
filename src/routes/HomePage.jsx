@@ -11,6 +11,7 @@ import { TitleHeavy, TitleNormal } from "../components/text/styled.jsx";
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
 import { useEffect } from "react";
+import { GoalDeleteModal, ReturnAlertModal, TagDeleteAlertModal } from "./goal/styled.jsx";
 
 const HomePage = () => {
   return (

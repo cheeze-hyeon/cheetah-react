@@ -73,7 +73,7 @@ const NoDataMesssageWrapper = styled.div`
   padding-left: 10px;
 `;
 
-const AddTodoField = styled.div`
+export const AddTodoField = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -82,7 +82,7 @@ const AddTodoField = styled.div`
   padding: 5px 10px;
 `;
 
-const NewTodoInput = styled.input`
+export const NewTodoInput = styled.input`
   flex-grow: 1;
   display: block;
   width: 50%;
@@ -141,7 +141,7 @@ export const GoalDetialModalLight = (props) => {
   }
   return (
     <ModalLayout>
-      <ElementsLayout>
+      <ElementsLayout className="cursor-default">
         <HeaderModal clickBtn={onCloseGoalDetailModal} />
         <TitleWrapper>
           <TitleNormal>{goal.title}</TitleNormal>

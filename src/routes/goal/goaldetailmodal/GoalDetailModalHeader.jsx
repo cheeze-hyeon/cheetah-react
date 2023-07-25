@@ -4,6 +4,8 @@ import HeaderDelete from "../Tag/HeaderDelete";
 import "tailwindcss/tailwind.css";
 
 const GoalDetailModalHeader = ({ onCloseModal }) => {
+  console.log(onCloseModal);
+
   return (
     <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-full h-fill ">
       <div className="box-border flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-2.5">
@@ -11,11 +13,10 @@ const GoalDetailModalHeader = ({ onCloseModal }) => {
           <button onClick={onCloseModal}>
             <HeaderClose />
           </button>
-          <div className="box-border flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[5px]">
-          </div>
+          <div className="box-border flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[5px]"></div>
           <button>
             <HeaderDelete className="w-[25px] h-[25px] " />
-          </button>        
+          </button>
         </div>
       </div>
     </div>
