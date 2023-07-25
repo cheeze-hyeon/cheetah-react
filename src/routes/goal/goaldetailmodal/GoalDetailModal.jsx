@@ -7,7 +7,6 @@ import tags from "../../../data/tags";
 import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트를 불러옵니다.
 
 const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
-
   const {
     title,
     estimated_time,
@@ -156,9 +155,12 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
 
       <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-fill px-2.5">
         {/* 할일이 있는 경우에만 TodoCheck 컴포넌트들을 렌더링 */}
-        {hasTodos && filteredTodos.map((todo) => <TodoCheck key={todo.id} todo={todo} />)}
+        {hasTodos &&
+          filteredTodos.map((todo) => <TodoCheck key={todo.id} todo={todo} />)}
         {/* 할일이 없는 경우 "할일이 없습니다" 메시지를 렌더링 */}
-        {!hasTodos && <p className="text-sm text-gray-500 font-medium">할일이 없어요:) </p>}
+        {!hasTodos && (
+          <p className="text-sm text-gray-500 font-medium">할일이 없어요:) </p>
+        )}
         {/* 투두 추가하기 버튼 */}
         {showAddTodoField ? (
           <div className="box-border flex items-center w-full gap-2">
