@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
 
 export const LabelContainer = styled.div`
   display: flex;
@@ -405,8 +407,8 @@ export const InputTimeField = (props) => {
   return (
     <TimeFieldContainer>
       {/* <Text> */}
-      <input type="number" className="w-[275px]" />
       <ClockIcon />
+      <input type="number" className="w-[275px]" />
     </TimeFieldContainer>
   );
 };
@@ -553,11 +555,68 @@ export const TodoCheck = (props) => {
     <TodoCheckContainer>
       <div className="flex flex-row gap-2 w-full items-center">
         <CheckTrue />
-        <TextNormal className="w-5/6">
-          <input className="w-full" defaultValue={props.defaultvalue} />
-        </TextNormal>
+        <input className="w-full" defaultValue={props.defaultvalue} />
       </div>
       <Close onClick={props.clickBtn} />
     </TodoCheckContainer>
+  );
+};
+
+export const NewTodoInput = styled.input`
+  margin-left: 5px;
+  flex-grow: 1;
+  display: block;
+  width: 50%;
+  padding: 10px;
+  height: 24px;
+  font-size: 14px;
+  font-family: Pretendard;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+  }
+`;
+
+export const NewTodo = ({ todo }) => {
+  const [title, setTitle] = useState("");
+  const [isHidden, setIsHidden] = useState(false); // 추가: 숨기는 상태를 추가합니다.
+
+  useEffect(() => {
+    setTitle(todo.title);
+  }, [todo]);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDeleteTodo = () => {
+    setIsHidden(true); // 삭제 버튼을 클릭하면 해당 투두를 숨기도록 상태를 업데이트합니다.
+  };
+
+  if (isHidden) {
+    // 숨겨진 투두는 더 이상 렌더링하지 않습니다.
+    return null;
+  }
+
+  return (
+    <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
+      <div className="box-border flex justify-between items-center flex-grow basis-full relative">
+        <div className="box-border flex justify-start items-center flex-grow basis-full relative gap-[5px]">
+          <CheckFalse />
+          <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 w-[270px] relative gap2.5">
+            <NewTodoInput
+              type="text"
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </div>
+        </div>
+        <Close onClick={handleDeleteTodo} color="var(--darkgray)" />
+        {/* 추가: 삭제 버튼을 추가합니다. */}
+      </div>
+    </div>
   );
 };

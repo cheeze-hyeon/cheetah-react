@@ -12,7 +12,7 @@ import {
   CalendarCells,
 } from "./index";
 import { ModalOverlay } from "../../components/modal/styled";
-import { GoalCreateModal } from ".";
+import { GoalCreateModal } from "./goal-create/styled";
 import tags from "../../data/tags";
 import goals from "../../data/goals";
 
@@ -27,7 +27,12 @@ const CalendarMainPage = () => {
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
       setModalStep(1);
     }
-    console.log(isGoalCreateModalOpen);
+  };
+  const onClickModalBack = (e) => {
+    if (e.target === e.currentTarget) {
+      setModalStep(1);
+      console.log("hh");
+    }
   };
 
   const addModalStep = () => {
@@ -72,7 +77,8 @@ const CalendarMainPage = () => {
             to1={showGoalCreateModal}
             to2={addModalStep}
             step={modalStep}
-            clickBtn={showGoalCreateModal}
+            clickBtnClose={showGoalCreateModal}
+            clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
             tags={tags}
           ></GoalCreateModal>
