@@ -26,6 +26,7 @@ import {
 } from "../../apis/api_calendar";
 
 import { getUserInfo } from "../../apis/api";
+import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -408,6 +409,7 @@ const CalendarMainPage = () => {
             clickBtnClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
+            tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
       )}
