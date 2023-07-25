@@ -7,7 +7,7 @@ const TagCreateModal = ({ onClose, tag }) => {
   return (
     <div
       className="fixed left-0 w-full h-full flex justify-center items-center z-50"
-      onClick={onClose}
+
     >
       <div
         className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full p-10 gap-10 rounded-t-2xl bg-white shadow-xl"
