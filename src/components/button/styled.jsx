@@ -31,7 +31,6 @@ export const LBtnNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-
 export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -43,10 +42,11 @@ export const LBtnActiveContainer = styled.div`
   width: 347px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: ${(props) => props.backgroundColor || "#716a56"};
   margin: auto;
   margin-bottom: 14px;
 `;
+
 
 export const LBtnActiveContainer2 = styled.div`
   box-sizing: border-box;
@@ -120,9 +120,12 @@ export const LargeButtonNonActive = (props) => {
 };
 
 export const LargeButtonActive = (props) => {
+  const buttonStyle = {
+    color: props.textColor || "#FFFFFF", // Default text color is white if not provided
+  };
   return (
-    <LBtnActiveContainer>
-      <Frame to={props.to}>
+    <LBtnActiveContainer backgroundColor={props.backgroundColor}>
+      <Frame to={props.to} style={buttonStyle}>
         <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
       </Frame>
     </LBtnActiveContainer>
@@ -273,8 +276,10 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer onClick={props.onClick} to={props.to}>
-      <TextBtnSComponent>{props.text}</TextBtnSComponent>
+    <TextBtnSContainer>
+      <Frame to={props.to}>
+        <TextBtnSComponent>{props.text}</TextBtnSComponent>
+      </Frame>
     </TextBtnSContainer>
   );
 };
