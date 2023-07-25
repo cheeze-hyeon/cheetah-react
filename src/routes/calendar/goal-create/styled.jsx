@@ -6,10 +6,15 @@ import {
 import {
   FieldWithLabel,
   InputTextFieldActive,
+<<<<<<< HEAD
   TwoDateFieldContainer,
   InputDateField,
   DateFieldInput,
   TimeFieldInput,
+=======
+  TwoInputDateField,
+  InputTimeField,
+>>>>>>> 1862040 (목표 상태관리 추가)
 } from "../../../components/input/styled";
 import {
   TagDefault,
@@ -24,6 +29,7 @@ import {
   NewTodoInput,
 } from "../../calendar-detail/goal-detail/styled";
 import { NewTodo } from "../../../components/input/styled";
+<<<<<<< HEAD
 import {
   createGoal,
   createGoalwithCalendar,
@@ -35,6 +41,71 @@ import { add, set } from "date-fns";
 import { is } from "date-fns/locale";
 import { debounce } from "@mui/material";
 import { useCallback } from "react";
+=======
+
+const GoalCreateModalContainer = styled.div`
+  position: fixed;
+  display: flex;
+  width: 389px;
+  padding: 10px 15px;
+  align-items: flex-start;
+  gap: 10px;
+  height: 70%;
+  border-radius: 25px 25px 0px 0px;
+  background: var(--white);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  bottom: 0;
+`;
+
+const GoalCreateModalElementContainer = styled.div`
+  display: flex;
+  padding: 10px 0px 35px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  flex: 1 0 0;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  width: 351px;
+  height: 390px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  overflow: auto;
+`;
+
+const TagsWrapper = styled.div`
+  display: flex;
+  padding: 5px 2px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 10px 12px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+const TodosWrapper = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  align-items: right;
+  align-content: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+export const DaysWrapper = styled.div`
+  display: flex;
+  padding: 0px 4px;
+  align-items: center;
+  justify-content: space-between;
+  gap: auto;
+  width: 100%;
+`;
+>>>>>>> 1862040 (목표 상태관리 추가)
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -42,6 +113,7 @@ export const GoalCreateModal = ({
   addModalStep,
   modalClose,
 }) => {
+<<<<<<< HEAD
   // 활성화된(눈깔 켜진) 태그
   const [tags, setTags] = useState([]);
 
@@ -59,6 +131,14 @@ export const GoalCreateModal = ({
   const [dateError, setDateError] = useState(""); // 날짜 선택 유효성 검사 멘트
 
   // 달릴 요일
+=======
+  const [newGoal, setNewGoal] = useState([]);
+
+  const [selectedTagId, setSelectedTagId] = useState(null);
+  const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [finishDate, setFinishDate] = useState("");
+>>>>>>> 1862040 (목표 상태관리 추가)
   const [selectedDays, setSelectedDays] = useState({
     mon: true,
     tue: true,
@@ -68,7 +148,12 @@ export const GoalCreateModal = ({
     sat: true,
     sun: true,
   });
+  const [estimatedTime, setEstimatedTime] = useState("");
+  const [newTodos, setNewTodos] = useState([]); // 추가한 투두
+  const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목
+  const [showAddTodoField, setShowAddTodoField] = useState(false); // 투두 추가 텍스트 필드의 노출 상태
 
+<<<<<<< HEAD
   // 불가능한 날짜
   const [impossibleDates, setImpossibleDates] = useState([]);
 
@@ -167,16 +252,21 @@ export const GoalCreateModal = ({
     fetchTags();
   }, []);
 
+=======
+>>>>>>> 1862040 (목표 상태관리 추가)
   // 태그 선택
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
   };
 
+<<<<<<< HEAD
   // 태그의 선택여부
   const isSelected = (tag) => {
     return selectedTagId === tag.id;
   };
 
+=======
+>>>>>>> 1862040 (목표 상태관리 추가)
   // 달릴요일 선택
   const handleDayClick = (dayId) => {
     setSelectedDays((prevSelectedDays) => ({
@@ -185,6 +275,14 @@ export const GoalCreateModal = ({
     }));
   };
 
+<<<<<<< HEAD
+=======
+  // 태그의 선택여부
+  const isSelected = (tag) => {
+    return selectedTagId === tag.id;
+  };
+
+>>>>>>> 1862040 (목표 상태관리 추가)
   // 투두 추가하기 버튼 클릭
   const handleAddTodo = () => {
     setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
@@ -324,6 +422,7 @@ export const GoalCreateModal = ({
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">
                 <InputTextFieldActive
+<<<<<<< HEAD
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -332,6 +431,11 @@ export const GoalCreateModal = ({
                 {titleError && (
                   <TextLight color="var(--orange)">{titleError}</TextLight>
                 )}
+=======
+                  type="date"
+                  placeholder="제목을 입력하세요"
+                />
+>>>>>>> 1862040 (목표 상태관리 추가)
               </FieldWithLabel>
               <FieldWithLabel label="하위 투두">
                 <TodosWrapper>
