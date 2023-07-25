@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { getGoalsindate } from "../../apis/api_calendar";
+import { useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import { CalendarDetailHeader, HeaderMessage, TaskCompleteModal } from ".";
 import { Task, CompletedTask, DueDateGoal } from "./Task";
 import { parse, isSameDay, isPast, isToday, startOfDay } from "date-fns"; // parse 함수를 import 합니다.
@@ -13,11 +14,16 @@ import { GoalDetialModalLight } from "./goal-detail/styled";
 import todos from "../../data/todos";
 
 const CalendarDetailPage = () => {
+  const location = useLocation();
+  const goals = location.state.goalsindate;
+  const histories = location.state.historyindate[0][1];
   const { selectedDate } = useParams();
   const parsedDate = parse(selectedDate, "yyyy-MM-d", new Date());
   const [isCompleteModalOpen, setisCompleteModalOpen] = useState(false);
   const [isGoalDetailModalOpen, setisGoalDetailModalOpen] = useState(false); // 초기에는 false로 설정
   const [selectedGoal, setSelectedGoal] = useState(null);
+  console.log("date", goals);
+  console.log("history", histories);
   // 투데이 페이지용
   const showCompleteModal = (e) => {
     if (e.target === e.currentTarget) {

@@ -14,9 +14,18 @@ export const instanceWithToken = axios.create();
 
 instanceWithToken.interceptors.request.use(
   // 요청을 보내기전 수행할 일
+<<<<<<<<< Temporary merge branch 1
+
+  //임시 로그인//
+
+  (config) => {
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwMTI0ODExLCJpYXQiOjE2OTAxMjMwMTEsImp0aSI6ImQ2MWFjOTk5NTY2MDQ1YmVhNjY2OTVjN2I0Y2IzOTQ2IiwidXNlcl9pZCI6M30.xH2ovW78RDmLsJTfL1ORxOEh1nQeVg50va8Iuc3oIZw";
+=========
   (config) => {
     const accessToken = getCookie('access_token');
 
+>>>>>>>>> Temporary merge branch 2
     if (!accessToken) {
       // token 없으면 리턴
       return;
@@ -37,6 +46,11 @@ instanceWithToken.interceptors.request.use(
 
 instanceWithToken.interceptors.response.use(
   (response) => {
+<<<<<<<<< Temporary merge branch 1
+    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일
+=========
+    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일 
+>>>>>>>>> Temporary merge branch 2
     console.log("Interceptor Response!!");
     return response;
   },
