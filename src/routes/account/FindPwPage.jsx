@@ -50,10 +50,11 @@ const FindPwPage = () => {
   };
   const handleChangeAuthNum = (e) => {
     //인증번호 입력 받는 함수
-    const { id, value } = e.target;
+    const { name, value } = e.target;
+    const filteredValue = value.replace(/[^0-9]/g, "");
     setSMSAuthData((prevSMSAuthData) => ({
       ...prevSMSAuthData,
-      [id]: value,
+      [name]: filteredValue,
     }));
   };
 
@@ -111,6 +112,15 @@ const FindPwPage = () => {
     e.preventDefault();
 
     try {
+      if(isSentSMS === "" || isSentSMS === false){
+        return
+      }
+      
+      if(SMSAuthData.auth_number === ""){
+        setIsValidAccount(false);
+        setIsValidAuthNumber(false);
+        return
+      }
       const isAuthenticated = await SMSAuthCheck(SMSAuthData);
       if (isAuthenticated.status === 200) {
         setIsValidAuthNumber(true);
@@ -238,7 +248,7 @@ const FindPwPage = () => {
                   <InputTextFieldActive
                     placeholder="인증번호 입력"
                     type="text"
-                    id="auth_number"
+                    name="auth_number"
                     value={SMSAuthData.auth_number}
                     onChange={handleChangeAuthNum}
                   ></InputTextFieldActive>

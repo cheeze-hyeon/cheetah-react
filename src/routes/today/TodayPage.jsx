@@ -48,25 +48,37 @@ const TodayPage = () => {
     return setClickMenu(!clickMenu);
   };
 
-  const onClickLogOut = async (e) => {
-    e.preventDefault();
-    try{
-      const token = getCookie("refresh_token");
-      await logOut(token);
-      setFormData({
-        username: "",
-        password: "",
-        phone_num: "",
-        nickname: "",
-        max_speed: "",
-      });
-      console.log(formData)
-      window.location.href = "/";
+// 쿠키를 삭제하는 함수
+const deleteCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
 
-    }catch (error){
-      console.log("Log Out failed:", error);
-    }
-  };
+// onClickLogOut 함수에서 호출하여 쿠키들을 삭제
+const onClickLogOut = async (e) => {
+  e.preventDefault();
+  try {
+    const token = getCookie("refresh_token");
+    await logOut(token);
+
+    // 쿠키들을 삭제
+    deleteCookie("refresh_token");
+    deleteCookie("access_token");
+    //deleteCookie("csrftoken");
+
+    setFormData({
+      username: "",
+      password: "",
+      phone_num: "",
+      nickname: "",
+      max_speed: "",
+    });
+    console.log(formData);
+    window.location.href = "/";
+  } catch (error) {
+    console.log("Log Out failed:", error);
+  }
+};
+
 
   useEffect(() => {
     console.log(formData)
