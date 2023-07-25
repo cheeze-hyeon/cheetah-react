@@ -31,6 +31,22 @@ export const LBtnNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
+export const LargeButtonActiveContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 347px;
+  height: 55px;
+  border-radius: 8px;
+  background: #716a56;
+  margin: auto;
+  margin-bottom: 14px;
+`;
+
 export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -122,7 +138,7 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -331,7 +347,7 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput type="checkbox" />
+      <CheckBoxInput type="checkbox" checked={props.checked} id={props.id} onChange={props.onChange}/>
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
       </CheckBoxTextContainer>
@@ -406,12 +422,12 @@ export const TwoButton = (props) => {
     <TwoButtonContainer>
       <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
-          <LargeLabel>{props.text1}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
       <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
-          <LargeLabel>{props.text2}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer2>
     </TwoButtonContainer>
@@ -732,7 +748,7 @@ export const TextBtnSwIconContainer = styled.div`
   position: relative;
   gap: 5px;
   padding: 0px 10px;
-  margin: auto;
+  // margin: auto;
 `;
 
 export const TextBtnSContainer2 = styled.div`
@@ -778,7 +794,7 @@ export const TextBtnSmallWithLogout = (props) => {
   return (
     <TextBtnSwIconContainer>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃" to={props.to}></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

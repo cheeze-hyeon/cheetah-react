@@ -135,6 +135,12 @@ export const InputTextFieldActive = (props) => {
             type={props.type}
             value={props.value}
             id={props.id}
+            onChange={props.onChange}
+            onClick={props.onClick}
+            disabled={props.disabled}
+            maxLength={props.maxLength}
+            min={props.min}
+            max={props.max}
             required
           />
         </TextNormal>
@@ -171,6 +177,9 @@ export const InputTextFieldButton = (props) => {
                 type={props.type}
                 value={props.value}
                 id={props.id}
+                onChange={props.onChange}
+                oninput={props.onInput}
+                maxLength={props.maxLength}
                 required
               />
             </Text>
@@ -178,7 +187,7 @@ export const InputTextFieldButton = (props) => {
         </Frame3668>
       </InputTextField>
       <SmallButtonActive>
-        <Frame>
+        <Frame onClick={props.onClick} disabled={props.disabled}>
           <Label>{props.text}</Label>
         </Frame>
       </SmallButtonActive>
