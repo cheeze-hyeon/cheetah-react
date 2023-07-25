@@ -28,19 +28,14 @@ import {
 } from "../../apis/api_calendar";
 
 //캘린더 작업을 위한 임시//
-import axios from "axios";
-import { getCookie } from "../../utils/cookie";
-import { type } from "@testing-library/user-event/dist/type";
-import { fi } from "date-fns/locale";
-import { create } from "@mui/material/styles/createTransitions";
-=========
-import goals from "../../data/goals";
-import tags from "../../data/tags";
->>>>>>>>> Temporary merge branch 2
-=========
-import tags from "../../data/tags";
-import goals from "../../data/goals";
->>>>>>>>> Temporary merge branch 2
+// import axios from "axios";
+// import { getCookie } from "../../utils/cookie";
+// import { type } from "@testing-library/user-event/dist/type";
+// import { fi } from "date-fns/locale";
+// import { create } from "@mui/material/styles/createTransitions";
+// import goals from "../../data/goals";
+// import tags from "../../data/tags";
+
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());

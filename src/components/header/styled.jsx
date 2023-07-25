@@ -204,3 +204,16 @@ export const HeaderModal = (props) => {
     </ModalContainer>
   );
 };
+export const HeaderModalBack = (props) => {
+  return (
+    <ModalContainer className="m-auto">
+      <ButtonWrapper>
+        <HeaderBackArrow onClick={props.clickBtnBack} />
+      </ButtonWrapper>
+      <TitleNormal>{props.text}</TitleNormal>
+      <ButtonWrapper>
+        <Close onClick={props.clickBtnClose} />
+      </ButtonWrapper>
+    </ModalContainer>
+  );
+};
