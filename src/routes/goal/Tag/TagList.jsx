@@ -1,7 +1,8 @@
 //goalmainpage에 보이는 태그버튼
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
+
+import { TagDefault } from "../../../components/button/styled";
 
 const TagList = ({ tags, onTagClick }) => {
   const [selectedTagId, setSelectedTagId] = useState(null);
@@ -11,42 +12,35 @@ const TagList = ({ tags, onTagClick }) => {
     onTagClick(tagId);
   };
 
+  const isSelected = (tag) => {
+    return selectedTagId === tag.id;
+  };
+
   return (
-    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-2.5 p-5 mx-5 mr-5 overflow-x scrollbar-hidden">
-      <div
-        className={`flex justify-center items-center flex-grow-0 flex-shrink-0 px-3 py-2 rounded-[20px] ${
-          selectedTagId === null ? "bg-gray-200" : "bg-[#ddd]"
-        } border-2 border-white`}
-        style={{
-          boxShadow: "0px 0px 6px 0 rgba(0,0,0,0.2)",
-        }}
-        onClick={() => handleTagClick(null)}
-      >
-        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
-          <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-Pretendard text-[15px] leading-[19px] font-medium text-left text-black">
-            전체
-          </p>
-        </div>
-      </div>
+    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mx-[20px] overflow-x scrollbar-hide">
+      {selectedTagId == null ? (
+        <TagDefault
+          text="전체"
+          color="#DDDDDD"
+          isSelected="true"
+          onClick={() => handleTagClick(null)}
+        />
+      ) : (
+        <TagDefault
+          text="전체"
+          color="#DDDDDD"
+          onClick={() => handleTagClick(null)}
+        />
+      )}
 
       {tags.map((tag) => (
-        <div
+        <TagDefault
           key={tag.id}
-          className={`flex justify-center items-center flex-grow-0 flex-shrink-0 px-3 py-2 rounded-[20px] ${
-            selectedTagId === tag.id ? "bg-gray-200" : ""
-          } border-2 border-white`}
-          style={{
-            backgroundColor: tag.color,
-            boxShadow: "0px 0px 6px 0 rgba(0,0,0,0.2)",
-          }}
+          color={tag.color}
           onClick={() => handleTagClick(tag.id)}
-        >
-          <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
-            <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-Pretendard text-[15px] leading-[19px] font-medium text-left text-black">
-              {tag.title}
-            </p>
-          </div>
-        </div>
+          text={tag.title}
+          isSelected={isSelected(tag)}
+        />
       ))}
     </div>
   );

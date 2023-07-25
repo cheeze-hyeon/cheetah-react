@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Close } from "../input/styled";
-import { useState } from "react";
 
 export const HeaderContainer = styled.div`
   box-sizing: border-box;
@@ -137,6 +136,32 @@ const MoreSvg = styled.svg`
   position: relative;
 `;
 
+export const TagSvg = styled.svg`
+  // display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
+`;
+
+export const HeaderTagIcon = (props) => {
+  return (
+    <TagSvg
+      width={30}
+      height={30}
+      viewBox="0 0 30 30"
+      fill="#716A56"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6.875 8.75C6.37772 8.75 5.90081 8.55246 5.54917 8.20083C5.19754 7.84919 5 7.37228 5 6.875C5 6.37772 5.19754 5.90081 5.54917 5.54917C5.90081 5.19754 6.37772 5 6.875 5C7.37228 5 7.84919 5.19754 8.20083 5.54917C8.55246 5.90081 8.75 6.37772 8.75 6.875C8.75 7.37228 8.55246 7.84919 8.20083 8.20083C7.84919 8.55246 7.37228 8.75 6.875 8.75ZM26.7625 14.475L15.5125 3.225C15.0625 2.775 14.4375 2.5 13.75 2.5H5C3.6125 2.5 2.5 3.6125 2.5 5V13.75C2.5 14.4375 2.775 15.0625 3.2375 15.5125L14.475 26.7625C14.9375 27.2125 15.5625 27.5 16.25 27.5C16.9375 27.5 17.5625 27.2125 18.0125 26.7625L26.7625 18.0125C27.225 17.5625 27.5 16.9375 27.5 16.25C27.5 15.55 27.2125 14.925 26.7625 14.475Z"
+        fill="#716A56"
+      />
+    </TagSvg>
+  );
+};
+
 export const Label = styled.p`
   margin: 0;
   white-space: pre-wrap;
@@ -157,9 +182,10 @@ export const Button = styled(Link)`
 
 export const HeaderBack = (props) => {
   // const onClickBack
+  const navigate = useNavigate();
   return (
     <HeaderContainer className="m-auto mt-[47px]">
-      <Button to="/..">
+      <Button to={props.to} onClick={() => navigate(-1)}>
         <HeaderBackArrow />
       </Button>
       <TitleNormal>{props.text}</TitleNormal>
@@ -173,7 +199,7 @@ export const HeaderMenu = (props) => {
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Button onClick={props.setClickMenu}>
+      <Button onClick={props.onClickMenu}>
         <HeaderMenuIcon />
       </Button>
     </HeaderContainer>
@@ -190,12 +216,24 @@ export const HeaderMore = (props) => {
   );
 };
 
+export const HeaderTag = (props) => {
+  return (
+    <HeaderContainer className="mt-[47px] border-b-">
+      <HeaderNone />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Button to={props.to}>
+        <HeaderTagIcon />
+      </Button>
+    </HeaderContainer>
+  );
+};
+
 export const HeaderModal = (props) => {
   return (
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Close onClick={props.clickBtn} />
+      <Close type="button" onClick={props.onClickMenu} />
     </ModalContainer>
   );
 };
