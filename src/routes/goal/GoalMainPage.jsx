@@ -10,9 +10,9 @@ import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
 import "../../index.css";
 import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
-import { calendarMainRoot } from "../calendar/styled";
 import { HeaderTag } from "../../components/header/styled";
 import { TextNormal } from "../../components/text/styled";
+import { calendarMainRoot } from "../calendar/styled";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
@@ -83,7 +83,7 @@ const GoalMainPage = () => {
 
         {/* GoalDetailModal을 선택한 goal의 정보로 열어줍니다. */}
         {isModalOpen && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col w-357 h-500 p-4 gap-4 bg-white shadow-lg rounded-lg">
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col bg-white shadow-lg rounded-lg">
             {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
             <GoalDetailModal
               goal={selectedGoal}
