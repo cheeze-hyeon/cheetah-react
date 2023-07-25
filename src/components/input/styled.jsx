@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
 
 export const LabelContainer = styled.div`
   display: flex;
@@ -133,6 +135,13 @@ export const InputTextFieldActive = (props) => {
             type={props.type}
             value={props.value}
             id={props.id}
+            onChange={props.onChange}
+            onClick={props.onClick}
+            name={props.name}
+            disabled={props.disabled}
+            maxLength={props.maxLength}
+            min={props.min}
+            max={props.max}
             required
           />
         </TextNormal>
@@ -163,19 +172,23 @@ export const InputTextFieldButton = (props) => {
           <TextNormal>
             <Text>
               <input
+                name={props.name}
                 className="outline-none"
                 placeholder={props.placeholder}
                 defaultValue={props.defaultvalue}
                 type={props.type}
                 value={props.value}
                 id={props.id}
+                onChange={props.onChange}
+                oninput={props.onInput}
+                maxLength={props.maxLength}
                 required
               />
             </Text>
           </TextNormal>
         </Frame3668>
       </InputTextField>
-      <SmallButtonActive>
+      <SmallButtonActive type="button" onClick={props.onClick} disabled={props.disabled}>
         <Frame>
           <Label>{props.text}</Label>
         </Frame>
@@ -396,8 +409,8 @@ export const InputTimeField = (props) => {
   return (
     <TimeFieldContainer>
       {/* <Text> */}
-      <input type="number" className="w-[275px]" />
       <ClockIcon />
+      <input type="number" className="w-[275px]" />
     </TimeFieldContainer>
   );
 };
@@ -469,7 +482,7 @@ export const TodoNormal = (props) => {
   );
 };
 
-export const Close = ({ onClick }) => {
+export const Close = ({ onClick, color }) => {
   return (
     <CloseSvg
       width={20}
@@ -483,7 +496,7 @@ export const Close = ({ onClick }) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M9.99999 11.1783L14.7142 15.8925C14.8713 16.0443 15.0818 16.1283 15.3003 16.1264C15.5188 16.1245 15.7278 16.0368 15.8823 15.8823C16.0369 15.7278 16.1245 15.5188 16.1264 15.3003C16.1283 15.0818 16.0443 14.8713 15.8925 14.7142L11.1783 9.99999L15.8925 5.28583C16.0443 5.12866 16.1283 4.91816 16.1264 4.69966C16.1245 4.48116 16.0369 4.27215 15.8823 4.11764C15.7278 3.96314 15.5188 3.8755 15.3003 3.8736C15.0818 3.8717 14.8713 3.95569 14.7142 4.10749L9.99999 8.82166L5.28583 4.10749C5.12795 3.95945 4.91867 3.87863 4.70227 3.88214C4.48587 3.88566 4.27932 3.97323 4.12634 4.12632C3.97335 4.27941 3.88593 4.48602 3.88257 4.70243C3.87921 4.91883 3.96017 5.12805 4.10833 5.28583L8.82166 9.99999L4.10749 14.7142C4.0279 14.791 3.96442 14.883 3.92074 14.9847C3.87707 15.0863 3.85408 15.1957 3.85312 15.3063C3.85216 15.417 3.87324 15.5267 3.91514 15.6291C3.95704 15.7315 4.01892 15.8246 4.09717 15.9028C4.17541 15.9811 4.26845 16.0429 4.37087 16.0848C4.47328 16.1267 4.58301 16.1478 4.69366 16.1469C4.80431 16.1459 4.91366 16.1229 5.01533 16.0792C5.117 16.0356 5.20896 15.9721 5.28583 15.8925L9.99999 11.1783Z"
-        fill="black"
+        fill={color ? color : "black"}
       />
     </CloseSvg>
   );
@@ -544,11 +557,68 @@ export const TodoCheck = (props) => {
     <TodoCheckContainer>
       <div className="flex flex-row gap-2 w-full items-center">
         <CheckTrue />
-        <TextNormal className="w-5/6">
-          <input className="w-full" defaultValue={props.defaultvalue} />
-        </TextNormal>
+        <input className="w-full" defaultValue={props.defaultvalue} />
       </div>
       <Close onClick={props.clickBtn} />
     </TodoCheckContainer>
+  );
+};
+
+export const NewTodoInput = styled.input`
+  margin-left: 5px;
+  flex-grow: 1;
+  display: block;
+  width: 50%;
+  padding: 10px;
+  height: 24px;
+  font-size: 14px;
+  font-family: Pretendard;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+  }
+`;
+
+export const NewTodo = ({ todo }) => {
+  const [title, setTitle] = useState("");
+  const [isHidden, setIsHidden] = useState(false); // 추가: 숨기는 상태를 추가합니다.
+
+  useEffect(() => {
+    setTitle(todo.title);
+  }, [todo]);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDeleteTodo = () => {
+    setIsHidden(true); // 삭제 버튼을 클릭하면 해당 투두를 숨기도록 상태를 업데이트합니다.
+  };
+
+  if (isHidden) {
+    // 숨겨진 투두는 더 이상 렌더링하지 않습니다.
+    return null;
+  }
+
+  return (
+    <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
+      <div className="box-border flex justify-between items-center flex-grow basis-full relative">
+        <div className="box-border flex justify-start items-center flex-grow basis-full relative gap-[5px]">
+          <CheckFalse />
+          <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 w-[270px] relative gap2.5">
+            <NewTodoInput
+              type="text"
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </div>
+        </div>
+        <Close onClick={handleDeleteTodo} color="var(--darkgray)" />
+        {/* 추가: 삭제 버튼을 추가합니다. */}
+      </div>
+    </div>
   );
 };

@@ -109,8 +109,8 @@ export const HamburgerMenu = (props) => {
     <HamburgerContainer>
       <div className="flex flex-col gap-[20px] mb-[473px]">
         <HeaderModal
-          cM={props.clickMenu}
-          sCM={props.setClickMenu}
+          clickMenu={props.clickMenu}
+          onClickMenu={props.onClickMenu}
         ></HeaderModal>
         <div>
           <MenuList to="/today/mypage" text="마이페이지"></MenuList>
@@ -119,7 +119,7 @@ export const HamburgerMenu = (props) => {
         </div>
       </div>
       <div className="flex justify-end place-content-end mr-[24px]">
-        <TextBtnSmallWithLogout></TextBtnSmallWithLogout>
+        <TextBtnSmallWithLogout onClick = {props.onClickLogOut} to = {props.toHomePage}></TextBtnSmallWithLogout>
       </div>
     </HamburgerContainer>
   );

@@ -110,8 +110,8 @@ export const LargeButtonActiveContainer = styled.div`
 
 export const LargeButtonNonActive = (props) => {
   return (
-    <LBtnNonActiveContainer>
-      <Frame to={props.to}>
+    <LBtnNonActiveContainer onClick={props.onClick}>
+      <Frame >
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -120,9 +120,11 @@ export const LargeButtonNonActive = (props) => {
 
 export const LargeButtonActive = (props) => {
   return (
-    <LBtnActiveContainer>
+    <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -130,7 +132,7 @@ export const LargeButtonActive = (props) => {
 
 export const LargeButtonActive2 = (props) => {
   return (
-    <LBtnActiveContainer2>
+    <LBtnActiveContainer2 type="button" onClick={props.onClick}>
       <LargeLabel className="text-[#000]">{props.text}</LargeLabel>
     </LBtnActiveContainer2>
   );
@@ -272,8 +274,10 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer to={props.to}>
-      <TextBtnSComponent>{props.text}</TextBtnSComponent>
+    <TextBtnSContainer onClick={props.onClick}>
+      <Frame to={props.to}>
+        <TextBtnSComponent>{props.text}</TextBtnSComponent>
+      </Frame>
     </TextBtnSContainer>
   );
 };
@@ -331,7 +335,13 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput type="checkbox" />
+      <CheckBoxInput 
+      type="checkbox" 
+      checked={props.checked}
+      name={props.name}
+      id={props.id}
+      onChange={props.onChange}
+      />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
       </CheckBoxTextContainer>
@@ -406,12 +416,12 @@ export const TwoButton = (props) => {
     <TwoButtonContainer>
       <TwoButtonActiveContainer1 onClick={props.to1}>
         <Frame>
-          <LargeLabel>{props.text1}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
       <TwoButtonActiveContainer2 onClick={props.to2}>
         <Frame>
-          <LargeLabel>{props.text2}</LargeLabel>
+          <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer2>
     </TwoButtonContainer>
@@ -577,6 +587,7 @@ export const TagContainer = styled.div`
   border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
   box-shadow: ${(props) =>
     props.$isSelected
       ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
@@ -594,8 +605,10 @@ export const TagLabel = styled.p`
   letter-spacing: 0px;
   font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
-  color: #000;
+
+  color: var(--black);
   align-items: center;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
 `;
 
 export const TagDefault = (props) => {
@@ -703,7 +716,7 @@ export const TextBtnSwIconContainer = styled.div`
   position: relative;
   gap: 5px;
   padding: 0px 10px;
-  margin: auto;
+  // margin: auto;
 `;
 
 export const TextBtnSContainer2 = styled.div`
@@ -747,9 +760,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer>
+    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };
