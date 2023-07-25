@@ -11,7 +11,7 @@ import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
 import "../../index.css";
 import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
-import { calendarMainRoot } from "../calendar/styled";
+import { calendarMainRoot } from "../calendar/goal-create/styled";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);

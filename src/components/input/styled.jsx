@@ -137,6 +137,7 @@ export const InputTextFieldActive = (props) => {
             id={props.id}
             onChange={props.onChange}
             onClick={props.onClick}
+            name={props.name}
             disabled={props.disabled}
             maxLength={props.maxLength}
             min={props.min}
@@ -171,6 +172,7 @@ export const InputTextFieldButton = (props) => {
           <TextNormal>
             <Text>
               <input
+                name={props.name}
                 className="outline-none"
                 placeholder={props.placeholder}
                 defaultValue={props.defaultvalue}
@@ -186,8 +188,8 @@ export const InputTextFieldButton = (props) => {
           </TextNormal>
         </Frame3668>
       </InputTextField>
-      <SmallButtonActive>
-        <Frame onClick={props.onClick} disabled={props.disabled}>
+      <SmallButtonActive type="button" onClick={props.onClick} disabled={props.disabled}>
+        <Frame>
           <Label>{props.text}</Label>
         </Frame>
       </SmallButtonActive>
