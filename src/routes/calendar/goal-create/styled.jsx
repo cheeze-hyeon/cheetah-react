@@ -7,8 +7,9 @@ import {
   FieldWithLabel,
   InputTextFieldActive,
   TodoWithCloseBtn,
-  TwoInputDateField,
   InputTimeField,
+  TwoDateFieldContainer,
+  InputDateField,
 } from "../../../components/input/styled";
 import {
   TagDefault,
@@ -22,6 +23,12 @@ import {
   NewTodoInput,
 } from "../../calendar-detail/goal-detail/styled";
 import { NewTodo } from "../../../components/input/styled";
+import {
+  createGoal,
+  createGoalwithCalendar,
+  createImpossibleDate,
+  createTodo,
+} from "../../../apis/api_calendar";
 
 const GoalCreateModalContainer = styled.div`
   position: fixed;
@@ -95,15 +102,18 @@ export const DaysWrapper = styled.div`
 `;
 
 export const GoalCreateModal = ({
-  clickBtnClose,
   clickBtnBack,
   step,
-  to1,
-  to2,
-  clickCompleteBtn,
+  addModalStep,
   tags,
+  modalClose,
 }) => {
+  const [newGoal, setNewGoal] = useState([]);
+
   const [selectedTagId, setSelectedTagId] = useState(null);
+  const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [finishDate, setFinishDate] = useState("");
   const [selectedDays, setSelectedDays] = useState({
     mon: true,
     tue: true,
@@ -113,12 +123,24 @@ export const GoalCreateModal = ({
     sat: true,
     sun: true,
   });
+  const [estimatedTime, setEstimatedTime] = useState("");
+  const [newTodos, setNewTodos] = useState([]); // 추가한 투두
+  const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목
+  const [showAddTodoField, setShowAddTodoField] = useState(false); // 투두 추가 텍스트 필드의 노출 상태
 
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    tags: [],
+  });
+
+  // 태그 선택
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
     console.log(tagId);
   };
 
+  // 달릴요일 선택
   const handleDayClick = (dayId) => {
     setSelectedDays((prevSelectedDays) => ({
       ...prevSelectedDays,
@@ -126,16 +148,13 @@ export const GoalCreateModal = ({
     }));
   };
 
+  // 태그의 선택여부
   const isSelected = (tag) => {
     return selectedTagId === tag.id;
   };
 
-  const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
-
-  const [showAddTodoField, setShowAddTodoField] = useState(false);
-  const [newTodos, setNewTodos] = useState([]);
+  // 투두 추가하기 버튼 클릭
   const handleAddTodo = () => {
-    // "투두 추가하기" 버튼을 누를 때 호출되는 함수입니다.
     setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
   };
 
@@ -160,15 +179,29 @@ export const GoalCreateModal = ({
     setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
   };
 
+  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
+
+  //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
+  const addGoal = async (data) => {
+    const goal = await createGoal(data);
+    console.log("목표 추가 완료!", goal);
+  };
+  //2. 캘린더에 추가하는 일정 목표 추가
+  const addGoalwithCalendar = async (data) => {
+    const goal = await createGoalwithCalendar(data);
+    modalClose();
+    console.log("일정에 등록된 목표 추가 완료!", goal);
+  };
+
   return (
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
         {step === 1 ? (
-          <HeaderModal text="목표추가" clickBtnClose={clickBtnClose} />
+          <HeaderModal text="목표추가" clickBtnClose={modalClose} />
         ) : (
           <HeaderModalBack
             text="캘린더에 추가"
-            clickBtnClose={clickBtnClose}
+            clickBtnClose={modalClose}
             clickBtnBack={clickBtnBack}
           />
         )}
@@ -189,7 +222,12 @@ export const GoalCreateModal = ({
                 </TagsWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">
-                <InputTextFieldActive placeholder="제목 입력" />
+                <InputTextFieldActive
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="제목 입력"
+                />
               </FieldWithLabel>
               <FieldWithLabel label="하위 투두">
                 <TodosWrapper>
@@ -225,7 +263,20 @@ export const GoalCreateModal = ({
           ) : (
             <>
               <FieldWithLabel label="시작일/종료일">
-                <TwoInputDateField />
+                <TwoDateFieldContainer>
+                  <InputDateField
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    placeholder="시작일 선택"
+                  />
+                  <InputDateField
+                    type="date"
+                    value={finishDate}
+                    onChange={(e) => setFinishDate(e.target.value)}
+                    placeholder="종료일 선택"
+                  />
+                </TwoDateFieldContainer>
               </FieldWithLabel>
               <FieldWithLabel label="달릴 요일">
                 <DaysWrapper>
@@ -290,11 +341,14 @@ export const GoalCreateModal = ({
           <TwoButton
             text1="완료하기"
             text2="캘린더에도 추가하기"
-            to1={to1}
-            to2={to2}
+            to1={addGoal(newGoal)}
+            to2={addModalStep}
           />
         ) : (
-          <LargeButtonActive text="완료하기" to={clickCompleteBtn} />
+          <LargeButtonActive
+            text="완료하기"
+            to={addGoalwithCalendar(newGoal)}
+          />
         )}
       </GoalCreateModalElementContainer>
     </GoalCreateModalContainer>
