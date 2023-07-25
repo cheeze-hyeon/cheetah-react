@@ -111,7 +111,7 @@ export const LargeButtonActiveContainer = styled.div`
 export const LargeButtonNonActive = (props) => {
   return (
     <LBtnNonActiveContainer onClick={props.onClick}>
-      <Frame >
+      <Frame>
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -122,7 +122,9 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -333,11 +335,12 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput 
-      type="checkbox" 
-      checked={props.checked}
-      name={props.name}
-      onChange={props.onChange}
+      <CheckBoxInput
+        type="checkbox"
+        checked={props.checked}
+        id={props.id}
+        name={props.name}
+        onChange={props.onChange}
       />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
@@ -783,9 +786,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
+    <TextBtnSwIconContainer onClick={props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };
