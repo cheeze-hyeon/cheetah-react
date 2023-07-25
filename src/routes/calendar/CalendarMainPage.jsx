@@ -89,6 +89,7 @@ const CalendarMainPage = () => {
       var start_at = goal.start_at; //e.g "2023-07-18"
       var progress_rate = goal.progress_rate;
       var update_at = goal.update_at;
+      var tag = goal.tag;
       var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
@@ -102,6 +103,7 @@ const CalendarMainPage = () => {
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
+          tag: tag,
         };
       }
 
@@ -143,6 +145,7 @@ const CalendarMainPage = () => {
         finish_at: finish_at,
         update_at: update_at,
         progress_rate: progress_rate,
+        tag: tag,
       };
     });
     setGoalsList(goalsProcessed);
@@ -163,6 +166,7 @@ const CalendarMainPage = () => {
       var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
+      var tag = goal.tag;
 
       if (progress_rate === 100) {
         return {
@@ -173,6 +177,7 @@ const CalendarMainPage = () => {
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
+          tag: tag,
         };
       }
       var dates_task_rawswet = [];
@@ -214,6 +219,7 @@ const CalendarMainPage = () => {
         update_at: update_at,
         progress_rate: progress_rate,
         impossibledates_set: impossibledates_set,
+        tag: tag,
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
@@ -247,14 +253,12 @@ const CalendarMainPage = () => {
         if (history[0] === date) {
           history[1].push([
             {
-              goal_id: goal_id,
-              goal_title: goal_title,
+              id: goal_id,
+              title: goal_title,
               progress_rate: goal_progress_rate,
               finish_at: goal_finish_at,
               update_at: goal_update_at,
-              color: goal_color,
-              tag_title: goal_tag.title,
-              tag_id: goal_tag.id,
+              tag: goal_tag,
               hours: hour,
             },
           ]);

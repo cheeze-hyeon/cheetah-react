@@ -122,7 +122,9 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -337,6 +339,7 @@ export const CheckBox = (props) => {
       type="checkbox" 
       checked={props.checked}
       name={props.name}
+      id={props.id}
       onChange={props.onChange}
       />
       <CheckBoxTextContainer>

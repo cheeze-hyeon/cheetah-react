@@ -5,7 +5,6 @@ import PlusIcon from "../../asset/images/plus.svg";
 import CompletedIcon from "../../asset/images/completed.svg";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
-
 export const CompletedTask = ({
   goal,
   tag,
@@ -20,6 +19,11 @@ export const CompletedTask = ({
   const completeDate = format(new Date(goal.update_at), "M/d(E)", {
     locale: ko,
   });
+  const hours = goal.hoursperday;
+  const hour = Math.round(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -28,8 +32,10 @@ export const CompletedTask = ({
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer onClick={onClickCompletedBtn}>
@@ -57,6 +63,11 @@ export const Task = ({ goal, tag, openGoalDetailModal }) => {
   const onClickTaskBtn = () => {
     !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
   };
+  const hours = goal.hoursperday;
+  const hour = Math.round(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -65,8 +76,11 @@ export const Task = ({ goal, tag, openGoalDetailModal }) => {
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {" "}
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer onClick={onClickTaskBtn}>
@@ -96,6 +110,12 @@ export const DueDateGoal = ({
   const completeDate = format(new Date(goal.update_at), "M/d(E)", {
     locale: ko,
   });
+  const hours = goal.hoursperday;
+  const hour = Math.round(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -104,8 +124,10 @@ export const DueDateGoal = ({
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer></s.TaskBtnContainer>
