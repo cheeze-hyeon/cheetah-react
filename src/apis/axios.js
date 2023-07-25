@@ -1,10 +1,10 @@
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.withCredentials = true;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.common["X-CSRFToken"] = getCookie("csrftoken");
 
 // 누구나 접근 가능한 API들
 export const instance = axios.create();
@@ -14,8 +14,12 @@ export const instanceWithToken = axios.create();
 
 instanceWithToken.interceptors.request.use(
   // 요청을 보내기전 수행할 일
+
+  //임시 로그인//
   (config) => {
-    const accessToken = getCookie('access_token');
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwMjUwMzQ4LCJpYXQiOjE2OTAyNDg1NDgsImp0aSI6ImFkOTFhY2JlMTBmZTRkMWY5ZWY0NTU1OGM2ZDBhN2NjIiwidXNlcl9pZCI6M30.RdeZMApmkFwntPCrXIZDDRAzDZaxQ8T-j2uE2CzF5QY";
+//     const accessToken = getCookie('access_token');
 
     if (!accessToken) {
       // token 없으면 리턴

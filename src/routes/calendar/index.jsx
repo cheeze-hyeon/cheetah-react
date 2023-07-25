@@ -53,21 +53,59 @@ export const CalendarDays = () => {
   return <s.daysOfWeek>{days}</s.daysOfWeek>;
 };
 
-export const CalendarCells = ({ currentMonth, selectedDate, goals, tags }) => {
+export const CalendarCells = ({
+  currentMonth,
+  selectedDate,
+  goalsList,
+  historywithDate,
+  goals,
+  tags
+}) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
-
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
-
+  //onDateClick에는 선택한 day를 기반으로 finish_at이 day이면 무조건 포함하고 그렇지 않으면 impossible date에 해당하는 경우 true로 아닌 경우 false로 반환하도록 한다.
   const onDateClick = (day) => {
     const formattedDate = format(day, "yyyy-MM-dd");
-    navigate(`/calendar/${formattedDate}`);
+    var goalsindate = goalsList.filter((goal) =>
+      goal.dates_task.includes(formattedDate)
+    );
+    goalsindate = goalsindate.map((goal) => {
+      var is_hidden = false;
+      var is_finishdate = false;
+      goal.impossibledates_set.forEach((element) => {
+        if (element.date === formattedDate) {
+          is_hidden = true;
+        }
+      });
+      if (goal.finish_at === formattedDate) {
+        is_finishdate = true;
+      }
+      return {
+        goal: goal,
+        is_hidden: is_hidden,
+        is_finishdate: is_finishdate,
+      };
+    });
+    var historyindate = historywithDate.filter(
+      (history) => history[0] === formattedDate
+    );
+    console.log(
+      "dateclick! goalsindate: ",
+      goalsindate,
+      "historyindate: ",
+      historyindate
+    );
+
+    navigate(`/calendar/${formattedDate}`, {
+      state: { goalsindate: goalsindate, historyindate: historyindate },
+    });
   };
 
   while (day <= endDate) {
