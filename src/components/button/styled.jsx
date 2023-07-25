@@ -31,22 +31,6 @@ export const LBtnNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonActiveContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 347px;
-  height: 55px;
-  border-radius: 8px;
-  background: #716a56;
-  margin: auto;
-  margin-bottom: 14px;
-`;
-
 export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -126,8 +110,8 @@ export const LargeButtonActiveContainer = styled.div`
 
 export const LargeButtonNonActive = (props) => {
   return (
-    <LBtnNonActiveContainer>
-      <Frame to={props.to}>
+    <LBtnNonActiveContainer onClick={props.onClick}>
+      <Frame >
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -136,9 +120,11 @@ export const LargeButtonNonActive = (props) => {
 
 export const LargeButtonActive = (props) => {
   return (
-    <LBtnActiveContainer>
+    <LBtnActiveContainer type="button" onClick={props.onClick}>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -146,7 +132,7 @@ export const LargeButtonActive = (props) => {
 
 export const LargeButtonActive2 = (props) => {
   return (
-    <LBtnActiveContainer2>
+    <LBtnActiveContainer2 type="button" onClick={props.onClick}>
       <LargeLabel className="text-[#000]">{props.text}</LargeLabel>
     </LBtnActiveContainer2>
   );
@@ -288,7 +274,7 @@ export const TextBtnSComponent = styled.p`
 
 export const TextBtnSmall = (props) => {
   return (
-    <TextBtnSContainer>
+    <TextBtnSContainer onClick={props.onClick}>
       <Frame to={props.to}>
         <TextBtnSComponent>{props.text}</TextBtnSComponent>
       </Frame>
@@ -349,7 +335,13 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput type="checkbox" checked={props.checked} id={props.id} onChange={props.onChange}/>
+      <CheckBoxInput 
+      type="checkbox" 
+      checked={props.checked}
+      name={props.name}
+      id={props.id}
+      onChange={props.onChange}
+      />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
       </CheckBoxTextContainer>
@@ -595,6 +587,7 @@ export const TagContainer = styled.div`
   border-width: ${(props) => (props.$isSelected ? "4px" : "2px")};
   border-color: #fff;
   border-style: solid;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
   box-shadow: ${(props) =>
     props.$isSelected
       ? "0px 0px 4px 0px rgba(0, 0, 0, 0.4)"
@@ -612,8 +605,10 @@ export const TagLabel = styled.p`
   letter-spacing: 0px;
   font-weight: ${(props) => (props.$isSelected ? "600" : "500")};
   text-align: left;
-  color: #000;
+
+  color: var(--black);
   align-items: center;
+  opacity: ${(props) => (props.$isSelected ? "1" : "0.8")};
 `;
 
 export const TagDefault = (props) => {
@@ -791,9 +786,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer>
+    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃" to={props.to}></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

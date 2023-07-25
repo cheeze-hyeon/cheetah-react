@@ -11,7 +11,7 @@ import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
 import "../../index.css";
 import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
-import { calendarMainRoot } from "../calendar/styled";
+import { calendarMainRoot } from "../calendar/goal-create/styled";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
@@ -48,8 +48,8 @@ const GoalMainPage = () => {
   };
 
   return (
-    <calendarMainRoot>
-      <div className="w-390 h-screen flex flex-col">
+    <div className="flex flex-col items-center justify-center w-[390px] h-[844px]">
+      <div className="w-full h-full flex flex-col">
         <GoalHeader />
 
         <div className="flex max-w-screen overflow-x-auto">
@@ -91,7 +91,7 @@ const GoalMainPage = () => {
         </div>
       )}
       <GoalTabBar />
-    </calendarMainRoot>
+    </div>
   );
 };
 

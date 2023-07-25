@@ -4,7 +4,9 @@ import {  BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./routes/HomePage";
 import SignInPage from "./routes/SignInPage";
 import SignUpPage from "./routes/SignUpPage";
-import TodayPage from "./routes/today/TodayPage";
+import FindIdPage from "./routes/account/FindIdPage"
+import FindPwPage from "./routes/account/FindPwPage"
+import TodayMainPage from "./routes/today/TodayMainPage";
 import MyPage from "./routes/today/MyPage";
 import InfoDetailPage from "./routes/today/InfoDetailPage";
 import InfoEditPage from "./routes/today/InfoEditPage";
@@ -21,7 +23,9 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/today" element={<TodayPage />} />
+        <Route path="/findid" element={<FindIdPage />} />
+        <Route path="/findpw" element={<FindPwPage />} />
+        <Route path="/today" element={<TodayMainPage />} />
         <Route path="/today/mypage" element={<MyPage />} />
         <Route path="/today/mypage/edit" element={<InfoEditPage />} />
         <Route path="/today/mypage/info" element={<InfoDetailPage />} />
