@@ -12,7 +12,7 @@ const TagList = ({ tags, onTagClick }) => {
   };
 
   return (
-    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-2.5 p-5 mx-5 mr-5 overflow-x-auto">
+    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-2.5 p-5 mx-5 mr-5 overflow-x scrollbar-hidden">
       <div
         className={`flex justify-center items-center flex-grow-0 flex-shrink-0 px-3 py-2 rounded-[20px] ${
           selectedTagId === null ? "bg-gray-200" : "bg-[#ddd]"

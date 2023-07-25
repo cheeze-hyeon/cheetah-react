@@ -2,7 +2,6 @@ import React from "react";
 
 const GoalCard = ({ goal, onClick }) => {
   const { title, estimated_time, progress_rate, start_at, finish_at, tag, update_at } = goal;
-  console.log("골카드에서 tag:",tag)
   // 목표 카드를 클릭했을 때 호출되는 함수
   const handleClick = () => {
     if (onClick) {
