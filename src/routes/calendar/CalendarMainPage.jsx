@@ -86,19 +86,19 @@ const CalendarMainPage = () => {
           id: id,
           title: title,
           hoursperday: 0,
-          dates_todo: [],
+          dates_task: [],
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
         };
       }
 
-      var dates_todo_rawset = [];
+      var dates_task_rawswet = [];
       if (today_string < start_at) {
         var begin_date = new Date(start_at);
         begin_date = format(begin_date, "yyyy-MM-dd");
         while (begin_date <= finish_at) {
-          dates_todo_rawset.push(begin_date);
+          dates_task_rawswet.push(begin_date);
           begin_date = new Date(begin_date);
           begin_date.setDate(begin_date.getDate() + 1);
           begin_date = format(begin_date, "yyyy-MM-dd");
@@ -106,13 +106,13 @@ const CalendarMainPage = () => {
       } else if (today_string <= finish_at && today_string >= start_at) {
         today = format(today, "yyyy-MM-dd");
         while (today <= finish_at) {
-          dates_todo_rawset.push(today);
+          dates_task_rawswet.push(today);
           today = new Date(today);
           today.setDate(today.getDate() + 1);
           today = format(today, "yyyy-MM-dd");
         }
       }
-      var dates_todo = dates_todo_rawset.filter((date) => {
+      var dates_task = dates_task_rawswet.filter((date) => {
         for (var i = 0; i < impossibledates_set.length; i++) {
           console.log("try");
           if (date === impossibledates_set[i]["date"]) {
@@ -122,12 +122,12 @@ const CalendarMainPage = () => {
         }
         return true;
       });
-      var hoursperday = residual_time / dates_todo.length;
+      var hoursperday = residual_time / dates_task.length;
       return {
         id: id,
         title: title,
         hoursperday: hoursperday,
-        dates_todo: dates_todo,
+        dates_task: dates_task,
         finish_at: finish_at,
         update_at: update_at,
         progress_rate: progress_rate,
@@ -157,18 +157,18 @@ const CalendarMainPage = () => {
           id: id,
           title: title,
           hoursperday: 0,
-          dates_todo: [],
+          dates_task: [],
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
         };
       }
-      var dates_todo_rawset = [];
+      var dates_task_rawswet = [];
       if (today_string < start_at) {
         var begin_date = new Date(start_at);
         begin_date = format(begin_date, "yyyy-MM-dd");
         while (begin_date <= finish_at) {
-          dates_todo_rawset.push(begin_date);
+          dates_task_rawswet.push(begin_date);
           begin_date = new Date(begin_date);
           begin_date.setDate(begin_date.getDate() + 1);
           begin_date = format(begin_date, "yyyy-MM-dd");
@@ -176,13 +176,13 @@ const CalendarMainPage = () => {
       } else if (today_string <= finish_at && today_string >= start_at) {
         today = format(today, "yyyy-MM-dd");
         while (today <= finish_at) {
-          dates_todo_rawset.push(today);
+          dates_task_rawswet.push(today);
           today = new Date(today);
           today.setDate(today.getDate() + 1);
           today = format(today, "yyyy-MM-dd");
         }
       }
-      var dates_todo = dates_todo_rawset.filter((date) => {
+      var dates_task = dates_task_rawswet.filter((date) => {
         for (var i = 0; i < impossibledates_set.length; i++) {
           console.log("try");
           if (date === impossibledates_set[i]["date"]) {
@@ -192,12 +192,12 @@ const CalendarMainPage = () => {
         }
         return true;
       });
-      var hoursperday = residual_time / dates_todo.length;
+      var hoursperday = residual_time / dates_task.length;
       return {
         id: id,
         title: title,
         hoursperday: hoursperday,
-        dates_todo: dates_todo_rawset,
+        dates_task: dates_task_rawswet,
         finish_at: finish_at,
         update_at: update_at,
         progress_rate: progress_rate,
@@ -282,7 +282,7 @@ const CalendarMainPage = () => {
     var speedwithDate_temp2 = speedwithDate_temp.map((date) => {
       var hours = 0;
       goalsList.forEach((goal) => {
-        if (goal.dates_todo.includes(date[0])) {
+        if (goal.dates_task.includes(date[0])) {
           hours += goal.hoursperday;
         }
       });
@@ -313,7 +313,7 @@ const CalendarMainPage = () => {
     console.log("history added!", speedwithDate_temp);
   }, [historywithDate]);
 
-  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다.-----------------//
+  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
 
   //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
   const addGoal = async (data) => {
@@ -321,6 +321,10 @@ const CalendarMainPage = () => {
     console.log("목표 추가 완료!", goal);
   };
   //2. 캘린더에 추가하는 일정 목표 추가
+  const addGoalwithCalendar = async (data) => {
+    const goal = await createGoalwithCalendar(data);
+    console.log("일정에 등록된 목표 추가 완료!", goal);
+  };
 
   return (
     <>

@@ -85,14 +85,14 @@ export const CalendarCells = ({
   const onDateClick = (day) => {
     const formattedDate = format(day, "yyyy-MM-dd");
     var goalsindate = goalsList.filter((goal) =>
-      goal.dates_todo.includes(formattedDate)
+      goal.dates_task.includes(formattedDate)
     );
     goalsindate = goalsindate.map((goal) => {
-      var is_impossibledates = false;
+      var is_hidden = false;
       var is_finishdate = false;
       goal.impossibledates_set.forEach((element) => {
         if (element.date === formattedDate) {
-          is_impossibledates = true;
+          is_hidden = true;
         }
       });
       if (goal.finish_at === formattedDate) {
@@ -100,7 +100,7 @@ export const CalendarCells = ({
       }
       return {
         goal: goal,
-        is_impossibledates: is_impossibledates,
+        is_hidden: is_hidden,
         is_finishdate: is_finishdate,
       };
     });
