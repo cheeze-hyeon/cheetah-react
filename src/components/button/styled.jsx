@@ -619,36 +619,10 @@ export const TagDefault = (props) => {
       color={props.color}
       $isSelected={props.isSelected}
       onClick={props.onClick}
+      setSelected={props.setSelected}
     >
       <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
-  );
-};
-
-export const TagSelectContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 63px;
-  height: 35px;
-  padding: 8px 12px;
-  border-width: 4px;
-  border-style: solid;
-  padding: 8px 12px;
-  border-radius: 20px;
-  border: 4px solid var(--white, #fff);
-  background: var(--gray, #ddd);
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
-`;
-
-export const TagSelect = (props) => {
-  return (
-    <TagSelectContainer>
-      <TextNormal>{props.text}</TextNormal>
-    </TagSelectContainer>
   );
 };
 

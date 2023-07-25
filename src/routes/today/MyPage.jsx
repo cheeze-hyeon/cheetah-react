@@ -35,7 +35,7 @@ const MyPage = () => {
     console.log(formData)
   }, []);
   return (
-    <div>
+    <div className="h-full bg-[#f5f5f5]">
       <HeaderBack text="마이 페이지"></HeaderBack>
       <div className="py-[20px] px-[50px] flex flex-col gap-[25px]">
         <div className="flex flex-row m-auto">
