@@ -31,22 +31,6 @@ export const LBtnNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonActiveContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 347px;
-  height: 55px;
-  border-radius: 8px;
-  background: #716a56;
-  margin: auto;
-  margin-bottom: 14px;
-`;
-
 export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -138,7 +122,9 @@ export const LargeButtonActive = (props) => {
   return (
     <LBtnActiveContainer>
       <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -347,7 +333,12 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput type="checkbox" checked={props.checked} id={props.id} onChange={props.onChange}/>
+      <CheckBoxInput
+        type="checkbox"
+        checked={props.checked}
+        id={props.id}
+        onChange={props.onChange}
+      />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
       </CheckBoxTextContainer>
