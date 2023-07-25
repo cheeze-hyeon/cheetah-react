@@ -25,7 +25,7 @@ export const Container = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 350px;
+  width: ${(props) => (props.width ? props.width : 350)}px;
   height: 50px;
   gap: 16px;
 `;
@@ -123,7 +123,7 @@ export const Text = styled.p`
 
 export const InputTextFieldActive = (props) => {
   return (
-    <Container>
+    <Container width={props.width}>
       <InputTextField>
         <TextNormal>
           <input
@@ -133,6 +133,8 @@ export const InputTextFieldActive = (props) => {
             type={props.type}
             value={props.value}
             id={props.id}
+            onChange={props.onChange}
+            onKeyPress={props.onKeyPress}
             required
           />
         </TextNormal>
