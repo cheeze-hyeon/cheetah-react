@@ -6,11 +6,6 @@ import {
 import logo from "../asset/images/logo.png";
 
 import { TitleHeavy, TitleNormal } from "../components/text/styled.jsx";
-import {
-  GoalDeleteModal,
-  ReturnAlertModal,
-  TagDeleteAlertModal,
-} from "./goal/styled.jsx";
 
 //작업을 위한 임시로그인//
 import axios from "axios";

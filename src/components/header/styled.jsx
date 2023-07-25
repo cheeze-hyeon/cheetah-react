@@ -159,7 +159,7 @@ export const HeaderBack = (props) => {
   const navigate = useNavigate();
   return (
     <HeaderContainer className="m-auto mt-[47px]">
-      <Button onClick={() => navigate(-1)}>
+      <Button to={props.to} onClick={() => navigate(-1)}>
         <HeaderBackArrow />
       </Button>
       <TitleNormal>{props.text}</TitleNormal>
