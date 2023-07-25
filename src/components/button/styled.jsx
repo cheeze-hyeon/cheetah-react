@@ -31,21 +31,6 @@ export const LBtnNonActiveContainer = styled.div`
   margin-bottom: 14px;
 `;
 
-export const LargeButtonActiveContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 347px;
-  height: 55px;
-  border-radius: 8px;
-  background: #716a56;
-  margin: auto;
-  margin-bottom: 14px;
-`;
 
 export const LBtnActiveContainer = styled.div`
   box-sizing: border-box;
