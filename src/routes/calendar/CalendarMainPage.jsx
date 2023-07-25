@@ -13,8 +13,8 @@ import {
 } from "./index";
 import { ModalOverlay } from "../../components/modal/styled";
 import { GoalCreateModal } from ".";
-import goals from "../../data/goals";
 import tags from "../../data/tags";
+import goals from "../../data/goals";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -75,7 +75,7 @@ const CalendarMainPage = () => {
             clickBtn={showGoalCreateModal}
             clickCompleteBtn={showGoalCreateModal}
             tags={tags}
-          />
+          ></GoalCreateModal>
         </ModalOverlay>
       )}
     </>
