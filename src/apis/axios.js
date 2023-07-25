@@ -16,10 +16,11 @@ instanceWithToken.interceptors.request.use(
   // 요청을 보내기전 수행할 일
 
   //임시 로그인//
-
   (config) => {
     const accessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwMjUwMzQ4LCJpYXQiOjE2OTAyNDg1NDgsImp0aSI6ImFkOTFhY2JlMTBmZTRkMWY5ZWY0NTU1OGM2ZDBhN2NjIiwidXNlcl9pZCI6M30.RdeZMApmkFwntPCrXIZDDRAzDZaxQ8T-j2uE2CzF5QY";
+//     const accessToken = getCookie('access_token');
+
     if (!accessToken) {
       // token 없으면 리턴
       return;
@@ -40,7 +41,7 @@ instanceWithToken.interceptors.request.use(
 
 instanceWithToken.interceptors.response.use(
   (response) => {
-    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일
+    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일 
     console.log("Interceptor Response!!");
     return response;
   },

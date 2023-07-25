@@ -84,25 +84,32 @@ export const daysOfWeek = styled.div`
   border-bottom: 1px solid var(--light-gray-2, #f5f5f5);
 `;
 
-export const dateContainer = styled.div`
-  box-sizing: border-box;
-  display: block;
-  flex-grow: 0;
-  flex-shrink: 0;
+export const DateContainer = styled.div`
+  display: flex;
   width: 56px;
-  height: 105px;
-  position: relative;
-  overflow: hidden;
+  height: 95px;
+  padding: 2px;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
   cursor: pointer;
+  flex-shrink: 0;
+`;
+export const DateWrapper = styled.div`
+  display: flex;
+  width: 18px;
+  height: 20px;
+  padding: 2px 3px 4px 3px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const dateToday = styled.span`
   padding: 2px 3px 2px 3px;
   font-family: Pretendard;
   font-size: 11px;
-  line-height: 10%;
+  line-height: 125%;
   letter-spacing: 0%;
   font-weight: 500;
   text-align: center;
@@ -124,6 +131,58 @@ export const dateNotToday = styled.span`
   text-align: center;
   color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};
   opacity: ${(props) => (props.$isCurrentMonth ? "1" : "0.3")};
+`;
+export const EventsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  align-self: stretch;
+`;
+
+const EventContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 15px;
+  padding: 1.5px 0px 2px 2px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 2px;
+  overflow: hidden;
+  background: ${(props) => {
+    return props.color;
+  }};
+`;
+
+const EventLabel = styled.span`
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 10.8px;
+  font-style: normal;
+  font-weight: 400;
+  overflow: hidden;
+  height: 100%;
+`;
+
+export const EventElement = (props) => {
+  return (
+    <EventContainer color={props.color}>
+      <EventLabel>{props.title}</EventLabel>
+    </EventContainer>
+  );
+};
+
+export const MoreEventText = styled.span`
+  color: var(--brown, #716a56);
+  font-family: Pretendard;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 10px */
+  text-align: right;
+  width: 100%;
+  padding-top: 4px;
 `;
 
 export const week = styled.div`
@@ -222,66 +281,4 @@ export const floatingBtnContainer = styled.div`
   background-image: url(${FloatingBtn});
   background-repeat: no-repeat;
   background-size: 60px 60px;
-`;
-
-export const GoalCreateModalContainer = styled.div`
-  position: fixed;
-  display: flex;
-  width: 389px;
-  padding: 10px 15px;
-  align-items: flex-start;
-  gap: 10px;
-  height: 70%;
-  border-radius: 25px 25px 0px 0px;
-  background: var(--white);
-  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
-  bottom: 0;
-`;
-
-export const GoalCreateModalElementContainer = styled.div`
-  display: flex;
-  padding: 10px 0px 35px 0px;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  flex: 1 0 0;
-`;
-
-export const InputContainer = styled.div`
-  display: flex;
-  width: 351px;
-  height: 390px;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
-  overflow: auto;
-`;
-
-export const TagsWrapper = styled.div`
-  display: flex;
-  padding: 5px 2px;
-  align-items: center;
-  align-content: flex-start;
-  gap: 15px 10px;
-  align-self: stretch;
-  flex-wrap: wrap;
-`;
-
-export const TodosWrapper = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-  flex-direction: column;
-  align-items: right;
-  align-content: flex-start;
-  gap: 8px;
-  align-self: stretch;
-  flex-wrap: wrap;
-`;
-
-export const RunDayWrapper = styled.div`
-  display: flex;
-  padding: 0px 5px;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
 `;

@@ -12,7 +12,11 @@ import {
   CalendarCells,
 } from "./index";
 import { ModalOverlay } from "../../components/modal/styled";
-import { GoalCreateModal } from ".";
+import axios from "axios";
+import { getCookie } from "../../utils/cookie";
+import { GoalCreateModal } from "./goal-create/styled";
+import tags from "../../data/tags";
+import goals from "../../data/goals";
 import {
   getGoalsinmonth,
   getGoalsindate,
@@ -22,13 +26,6 @@ import {
   createGoal,
   createGoalwithCalendar,
 } from "../../apis/api_calendar";
-
-//캘린더 작업을 위한 임시//
-import axios from "axios";
-import { getCookie } from "../../utils/cookie";
-import { type } from "@testing-library/user-event/dist/type";
-import { fi } from "date-fns/locale";
-import { create } from "@mui/material/styles/createTransitions";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -47,7 +44,12 @@ const CalendarMainPage = () => {
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
       setModalStep(1);
     }
-    console.log(isGoalCreateModalOpen);
+  };
+  const onClickModalBack = (e) => {
+    if (e.target === e.currentTarget) {
+      setModalStep(1);
+      console.log("hh");
+    }
   };
   const addModalStep = () => {
     setModalStep(2);
@@ -346,6 +348,8 @@ const CalendarMainPage = () => {
           selectedDate={selectedDate}
           goalsList={goalsListwithImpossibledates}
           historywithDate={historywithDate}
+          goals={goals}
+          tags={tags}
         />
         <CalendarTabBar />
         <s.floatingBtnContainer onClick={showGoalCreateModal} />
@@ -356,8 +360,10 @@ const CalendarMainPage = () => {
             to1={showGoalCreateModal}
             to2={addModalStep}
             step={modalStep}
-            clickBtn={showGoalCreateModal}
+            clickBtnClose={showGoalCreateModal}
+            clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
+            tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
       )}

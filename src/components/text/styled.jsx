@@ -11,7 +11,6 @@ export const TitleHeavy = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: left;
-  color: #000;
 `;
 
 export const TitleNormal = styled.p`
@@ -25,7 +24,6 @@ export const TitleNormal = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: left;
-  color: #000;
 `;
 
 export const TextHeavy = styled.p`
@@ -39,7 +37,6 @@ export const TextHeavy = styled.p`
   letter-spacing: 0px;
   text-align: left;
   font-weight: 600;
-  color: #000;
 `;
 
 export const TextNormal = styled.p`
@@ -53,7 +50,6 @@ export const TextNormal = styled.p`
   letter-spacing: 0px;
   font-weight: 500;
   text-align: left;
-  color: #000;
 `;
 
 export const TextLight = styled.p`
@@ -66,5 +62,4 @@ export const TextLight = styled.p`
   letter-spacing: 0px;
   text-align: left;
   font-weight: 400;
-  color: #000;
 `;

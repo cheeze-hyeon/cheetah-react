@@ -1,4 +1,7 @@
+//goalmainpage에 보이는 태그버튼
+
 import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
 
 const TagList = ({ tags, onTagClick }) => {
   const [selectedTagId, setSelectedTagId] = useState(null);

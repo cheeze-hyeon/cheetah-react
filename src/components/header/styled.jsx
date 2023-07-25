@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Close } from "../input/styled";
 
-export const HeaderContainer = styled(Link)`
+export const HeaderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,7 @@ export const HeaderBackSvg = styled.svg`
   position: relative;
 `;
 
-export const HeaderBackArrow = () => {
+export const HeaderBackArrow = ({ onClick }) => {
   return (
     <HeaderBackSvg
       width={30}
@@ -56,6 +56,7 @@ export const HeaderBackArrow = () => {
       viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
     >
       <path
         d="M6.5625 14.0625H25.3125C25.5611 14.0625 25.7996 14.1613 25.9754 14.3371C26.1512 14.5129 26.25 14.7514 26.25 15C26.25 15.2486 26.1512 15.4871 25.9754 15.6629C25.7996 15.8387 25.5611 15.9375 25.3125 15.9375H6.5625C6.31386 15.9375 6.0754 15.8387 5.89959 15.6629C5.72377 15.4871 5.625 15.2486 5.625 15C5.625 14.7514 5.72377 14.5129 5.89959 14.3371C6.0754 14.1613 6.31386 14.0625 6.5625 14.0625Z"
@@ -150,10 +151,18 @@ export const Label = styled.p`
   color: #000;('
 `;
 
+export const Button = styled(Link)`
+  margin: 0;
+`;
+
 export const HeaderBack = (props) => {
+  // const onClickBack
+  const navigate = useNavigate();
   return (
     <HeaderContainer className="m-auto mt-[47px]">
-      <HeaderBackArrow />
+      <Button onClick={() => navigate(-1)}>
+        <HeaderBackArrow />
+      </Button>
       <TitleNormal>{props.text}</TitleNormal>
       <HeaderNone />
     </HeaderContainer>
@@ -164,10 +173,10 @@ export const HeaderMenu = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderNone />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
-      <HeaderMenuIcon />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Button onClick={props.onClickMenu}>
+        <HeaderMenuIcon />
+      </Button>
     </HeaderContainer>
   );
 };
@@ -176,20 +185,38 @@ export const HeaderMore = (props) => {
   return (
     <HeaderContainer className="m-auto mt-[47px]">
       <HeaderBackArrow />
-      <TitleNormal>
-        <Label>{props.text}</Label>
-      </TitleNormal>
+      <TitleNormal>{props.text}</TitleNormal>
       <HeaderMoreIcon />
     </HeaderContainer>
   );
 };
+
+const ButtonWrapper = styled.div`
+  cursor: pointer;
+`;
 
 export const HeaderModal = (props) => {
   return (
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Close onClick={props.clickBtn} />
+      <ButtonWrapper>
+        <Close onClick={props.clickBtnClose} />
+      </ButtonWrapper>
+    </ModalContainer>
+  );
+};
+
+export const HeaderModalBack = (props) => {
+  return (
+    <ModalContainer className="m-auto">
+      <ButtonWrapper>
+        <HeaderBackArrow onClick={props.clickBtnBack} />
+      </ButtonWrapper>
+      <TitleNormal>{props.text}</TitleNormal>
+      <ButtonWrapper>
+        <Close onClick={props.clickBtnClose} />
+      </ButtonWrapper>
     </ModalContainer>
   );
 };

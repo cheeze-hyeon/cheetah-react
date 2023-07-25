@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
@@ -7,21 +7,8 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
-import { HeaderModal } from "../../components/header/styled";
-import {
-  FieldWithLabel,
-  InputTextFieldActive,
-  TodoWithCloseBtn,
-  TwoInputDateField,
-  InputTimeField,
-} from "../../components/input/styled";
-import {
-  TagDefault,
-  TagSelect,
-  TextBtnSmall,
-  TwoButton,
-  LargeButtonActive,
-} from "../../components/button/styled";
+
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 export const SpeedButton = () => {
   const [isOff, setIsOff] = useState(true);
@@ -71,6 +58,8 @@ export const CalendarCells = ({
   selectedDate,
   goalsList,
   historywithDate,
+  goals,
+  tags
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -125,20 +114,49 @@ export const CalendarCells = ({
       const cloneDay = day;
       const isSunday = i === 0; // 첫 번째 요일이 일요일이고 이번 달인지 확인
       const isCurrentMonth = isSameMonth(day, monthStart);
+      const getEventsForDay = (day) => {
+        return goals.filter((goal) => {
+          const goalDate = new Date(goal.finish_at);
+          return isSameDay(goalDate, day); // 날짜만 비교
+        });
+      };
+
+      const getTagForDay = (tags, goal) => {
+        return tags.find((tag) => tag.id === goal.tag_id);
+      };
+
+      const eventsForDay = getEventsForDay(day);
+      const threeEvents = eventsForDay.slice(0, 3);
 
       days.push(
-        <s.dateContainer key={day} onClick={() => onDateClick(cloneDay)}>
-          {isSameDay(day, selectedDate) ? (
-            <s.dateToday>{formattedDate}</s.dateToday>
+        <s.DateContainer key={day} onClick={() => onDateClick(cloneDay)}>
+          <s.EventsWrapper>
+            <s.DateWrapper>
+              {isSameDay(day, selectedDate) ? (
+                <s.dateToday>{formattedDate}</s.dateToday>
+              ) : (
+                <s.dateNotToday
+                  $isSunday={isSunday}
+                  $isCurrentMonth={isCurrentMonth}
+                >
+                  {formattedDate}
+                </s.dateNotToday>
+              )}
+            </s.DateWrapper>
+          </s.EventsWrapper>
+          {threeEvents.map((goal) => (
+            <s.EventElement
+              key={goal.id}
+              title={goal.title}
+              color={getTagForDay(tags, goal).color}
+            />
+          ))}
+          {eventsForDay.length > 3 ? (
+            <s.MoreEventText>+{eventsForDay.length - 3}</s.MoreEventText>
           ) : (
-            <s.dateNotToday
-              $isSunday={isSunday}
-              $isCurrentMonth={isCurrentMonth}
-            >
-              {formattedDate}
-            </s.dateNotToday>
+            <s.MoreEventText></s.MoreEventText>
           )}
-        </s.dateContainer>
+        </s.DateContainer>
       );
       day = addDays(day, 1);
     }
@@ -146,81 +164,4 @@ export const CalendarCells = ({
     days = [];
   }
   return <s.month>{rows}</s.month>;
-};
-
-export const GoalCreateModal = ({
-  clickBtn,
-  step,
-  to1,
-  to2,
-  clickCompleteBtn,
-}) => {
-  return (
-    <s.GoalCreateModalContainer>
-      <s.GoalCreateModalElementContainer>
-        {step === 1 ? (
-          <HeaderModal text="목표추가" clickBtn={clickBtn} />
-        ) : (
-          <HeaderModal text="캘린더에 추가" clickBtn={clickBtn} />
-        )}
-        <s.InputContainer>
-          {step === 1 ? (
-            <>
-              <FieldWithLabel label="태그 선택">
-                <s.TagsWrapper>
-                  <TagSelect text="선택한태그" />
-                  <TagDefault text="태그2" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                  <TagDefault text="태그3" />
-                </s.TagsWrapper>
-              </FieldWithLabel>
-              <FieldWithLabel label="일정 제목">
-                <InputTextFieldActive placeholder="제목 입력" />
-              </FieldWithLabel>
-              <FieldWithLabel label="하위 투두">
-                <s.TodosWrapper>
-                  <TodoWithCloseBtn defaultvalue="투두1" />
-                  <TodoWithCloseBtn defaultvalue="투두1" />
-                  <TodoWithCloseBtn defaultvalue="투두1" />
-                  <TextBtnSmall text="+ 투두 추가하기" />
-                </s.TodosWrapper>
-              </FieldWithLabel>
-            </>
-          ) : (
-            <>
-              <FieldWithLabel label="시작일/종료일">
-                <TwoInputDateField />
-              </FieldWithLabel>
-              <FieldWithLabel label="달릴 요일">
-                <s.RunDayWrapper>
-                  <TagDefault text="월" />
-                  <TagDefault text="화" />
-                  <TagDefault text="수" />
-                  <TagDefault text="목" />
-                  <TagDefault text="금" />
-                  <TagDefault text="토" />
-                  <TagDefault text="일" />
-                </s.RunDayWrapper>
-              </FieldWithLabel>
-              <FieldWithLabel label="예상 소요시간">
-                <InputTimeField />
-              </FieldWithLabel>
-            </>
-          )}
-        </s.InputContainer>
-        {step === 1 ? (
-          <TwoButton
-            text1="완료하기"
-            text2="캘린더에도 추가하기"
-            to1={to1}
-            to2={to2}
-          />
-        ) : (
-          <LargeButtonActive text="완료하기" to={clickCompleteBtn} />
-        )}
-      </s.GoalCreateModalElementContainer>
-    </s.GoalCreateModalContainer>
-  );
 };
