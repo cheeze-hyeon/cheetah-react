@@ -9,7 +9,7 @@ const GoalHeader = () => {
   const navigateToTagDetail = () => {
     navigate("/tag-detail");
   };
-  
+
   return (
     <div className="bg-white w-[390px] h-[144px]">
       <div className="flex justify-between items-start px-2.5 py-5 pt-20">

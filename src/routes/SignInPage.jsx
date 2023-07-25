@@ -1,4 +1,4 @@
-import { HeaderBack, HeaderBackArrow } from "../components/header/styled";
+import { HeaderBack, HeaderBackArrow, HeaderMenu, HeaderModal, HeaderMore } from "../components/header/styled";
 import { TextNormal } from "../components/text/styled";
 import {
   TextBtnSmall,
@@ -9,7 +9,7 @@ import { InputTextFieldActive } from "../components/input/styled";
 
 const SignInPage = () => {
   return (
-    <div className="flex flex-col m-auto">
+    <div className="flex flex-col m-auto" >
       <HeaderBack text="로그인"></HeaderBack>
       <div className="flex w-[350px] flex-col gap-y-[20px] m-auto">
         <form>
@@ -26,7 +26,7 @@ const SignInPage = () => {
           <TextBtnSmall text="비밀번호 찾기" /* to="/findpw" */></TextBtnSmall>
           <TextBtnSmall text="아이디 찾기" /* to="/findid" */></TextBtnSmall>
         </div>
-        <CheckBox text="자동 로그인"></CheckBox>
+        <CheckBox text="자동 로그인" className="flex justify-start"></CheckBox>
         {/* useState로 관리해서 formData가 적절히 채워졌을 때 활성화 버튼으로 변경 */}
         <LargeButtonNonActive text="확인" to="../today"></LargeButtonNonActive>
       </div>

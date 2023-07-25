@@ -11,6 +11,7 @@ import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
 import "../../index.css";
 import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
+import { calendarMainRoot } from "../calendar/styled";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
@@ -47,8 +48,8 @@ const GoalMainPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-[390px] h-[844px]">
-      <div className="w-full h-full flex flex-col">
+    <calendarMainRoot>
+      <div className="w-390 h-screen flex flex-col">
         <GoalHeader />
 
         <div className="flex max-w-screen overflow-x-auto">
@@ -64,7 +65,7 @@ const GoalMainPage = () => {
             <div className="pb-20">
               <p className="text-sm text-gray-500 mb-2 pb-5">{`${goalCount}개의 목표`}</p>
               {filteredGoals.map((goal, index) => (
-                <div key={goal.id} className={index !== 0 ? "mt-4" : ""} >
+                <div key={goal.id} className={index !== 0 ? "mt-4" : ""}>
                   {/* GoalCard를 클릭하면 handleGoalCardClick 함수가 호출되도록 합니다. */}
                   <div onClick={() => handleGoalCardClick(goal.id)}>
                     <GoalCard goal={goal} />
@@ -76,8 +77,6 @@ const GoalMainPage = () => {
             <p className="text-center text-gray-500">목표가 없습니다.</p>
           )}
         </div>
-
-        <GoalTabBar />
       </div>
 
       {/* GoalDetailModal을 선택한 goal의 정보로 열어줍니다. */}
@@ -91,7 +90,8 @@ const GoalMainPage = () => {
           />
         </div>
       )}
-    </div>
+      <GoalTabBar />
+    </calendarMainRoot>
   );
 };
 
