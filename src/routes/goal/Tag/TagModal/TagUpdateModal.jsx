@@ -7,9 +7,9 @@ import TagDetailwithColor from "./TagDetailwithColor";
 
 const TagUpdateModal = ({ onClose, tag }) => {
   return (
-    <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
+    <div className="fixed left-0 w-full h-full flex justify-center items-center z-50">
       <div
-        className="box-border flex flex-col justify-center items-center w-full p-10 gap-10 rounded-t-2xl bg-white shadow-xl"
+        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full p-10 gap-10 rounded-t-2xl bg-white shadow-xl"
         style={{
           borderTopLeftRadius: "25px",
           borderTopRightRadius: "25px",

@@ -200,13 +200,10 @@ export const HeaderModal = (props) => {
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <ButtonWrapper>
-        <Close onClick={props.clickBtnClose} />
-      </ButtonWrapper>
+      <Close onClick={props.onClickMenu} />
     </ModalContainer>
   );
 };
-
 export const HeaderModalBack = (props) => {
   return (
     <ModalContainer className="m-auto">
