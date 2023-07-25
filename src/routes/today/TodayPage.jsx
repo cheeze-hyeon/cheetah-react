@@ -6,29 +6,80 @@ import userprofiles from "../../data/userprofiles";
 import { Dealt, HamburgerMenu, Progress, dealt } from "./styled";
 import { Modal } from "../goal/styled";
 import { useEffect, useState } from "react";
+import { getUserInfo, logOut } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const TodayPage = () => {
   // useEffect = (()=>{
   //   // const [userProfile, setUserProfile] = useState("");
   //   // user 닉네임 건네주는 API 사용 ("api/today/account")
   // }, [])
-
+  const [today, setToday] = useState()
   const [clickMenu, setClickMenu] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    phone_num: "",
+    nickname: "",
+    max_speed: "",
+  });
+
+  useEffect(() => {
+    const getUserInfoFromServer = async () => {
+      try{
+        const response = await getUserInfo();
+        setFormData({
+          "username": response.data.user.username,
+          "password": response.data.user.password,
+          "phone_num": response.data.phone_num,
+          "nickname": response.data.nickname,
+          "max_speed": response.data.max_speed,
+        });
+      }  catch (error){
+        console.error("Today page 에러", error);
+      }
+    };
+    getUserInfoFromServer();
+    console.log(formData)
+  }, []);
 
   const onClickMenu = () => {
     console.log(clickMenu);
     return setClickMenu(!clickMenu);
   };
 
+  const onClickLogOut = async (e) => {
+    e.preventDefault();
+    try{
+      const token = getCookie("refresh_token");
+      await logOut(token);
+      setFormData({
+        username: "",
+        password: "",
+        phone_num: "",
+        nickname: "",
+        max_speed: "",
+      });
+      console.log(formData)
+      window.location.href = "/";
+
+    }catch (error){
+      console.log("Log Out failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(formData)
+  },[formData])
   return (
     <div>
       {clickMenu ? (
-        <HamburgerMenu clickMenu={clickMenu} setClickMenu={onClickMenu} />
+        <HamburgerMenu clickMenu={clickMenu} onClickMenu={onClickMenu} onClickLogOut = {onClickLogOut}/>
       ) : (
         <div>
           <HeaderMenu
             clickMenu={clickMenu}
-            setClickMenu={onClickMenu}
+            onClickMenu={onClickMenu}
             text="TODAY"
           ></HeaderMenu>
           <div className="flex flex-col gap-[20px]">
@@ -38,7 +89,7 @@ const TodayPage = () => {
             >
               <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[50px]">
                 <div className="flex flex-row">
-                  <TextHeavy>오민</TextHeavy>
+                  <TextHeavy >{formData.nickname}</TextHeavy>
                   <TextHeavy>님은 오늘</TextHeavy>
                 </div>
                 <div className="flex flex-row">

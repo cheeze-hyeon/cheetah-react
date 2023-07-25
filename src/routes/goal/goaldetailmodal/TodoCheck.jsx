@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CheckFalse from "./CheckFalse";
 import CheckTrue from "./CheckTrue";
 import "tailwindcss/tailwind.css";
+import { Close } from "../../../components/input/styled";
 import HeaderClose from "./HeaderClose";
 import { TextLight } from "../../../components/text/styled";
 
@@ -57,31 +58,6 @@ const TodoCheck = ({ todo }) => {
         <HeaderClose width="20" height="20" />
       </button>
     </div>
-    // <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
-    //   <div className="box-border flex justify-between items-center flex-grow basis-full relative">
-    //     <div className="box-border flex justify-start items-center flex-grow basis-full relative gap-[5px]">
-    //       {isCompleted ? (
-    //         <CheckTrue onClick={handleCheckToggle} />
-    //       ) : (
-    //         <CheckFalse onClick={handleCheckToggle} />
-    //       )}
-    //       <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 w-18 relative gap-2.5">
-    //         <input
-    //           type="text"
-    //           value={title}
-    //           className={`whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left ${
-    //             isCompleted ? "text-[#a3a2a4] line-through" : "text-black"
-    //           }`}
-    //           onChange={handleTitleChange}
-    //         />
-    //       </div>
-    //     </div>
-    //     {/* 추가: 삭제 버튼을 추가합니다. */}
-    //     <button onClick={handleDeleteTodo}>
-    //       <HeaderClose width="20" height="20"/>
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 

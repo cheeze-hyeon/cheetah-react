@@ -14,6 +14,7 @@ import { HeaderTag } from "../../components/header/styled";
 import { TextNormal } from "../../components/text/styled";
 import { calendarMainRoot } from "../calendar/styled";
 
+
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
