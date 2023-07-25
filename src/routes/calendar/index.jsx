@@ -58,8 +58,6 @@ export const CalendarCells = ({
   selectedDate,
   goalsList,
   historywithDate,
-  goals,
-  tags
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -115,10 +113,13 @@ export const CalendarCells = ({
       const isSunday = i === 0; // 첫 번째 요일이 일요일이고 이번 달인지 확인
       const isCurrentMonth = isSameMonth(day, monthStart);
       const getEventsForDay = (day) => {
-        return goals.filter((goal) => {
-          const goalDate = new Date(goal.finish_at);
-          return isSameDay(goalDate, day); // 날짜만 비교
-        });
+        // return goals.filter((goal) => {
+        //   const goalDate = new Date(goal.finish_at);
+        //   return isSameDay(goalDate, day); // 날짜만 비교
+        // });
+        return goalsList.filter(
+          (goal) => goal.finish_at === format(day, "yyyy-MM-dd")
+        );
       };
 
       const getTagForDay = (tags, goal) => {
@@ -148,7 +149,7 @@ export const CalendarCells = ({
             <s.EventElement
               key={goal.id}
               title={goal.title}
-              color={getTagForDay(tags, goal).color}
+              color={goal.tag.color}
             />
           ))}
           {eventsForDay.length > 3 ? (
