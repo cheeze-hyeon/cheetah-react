@@ -32,6 +32,7 @@ const GoalCard = ({ goal, onClick }) => {
   };
 
   const formattedFinishDate = formatDateString(finish_at);
+
   const calculateRemainingTime = () => {
     const estimatedTimeInMinutes = estimated_time * 60;
     const cumulativeTimeInMinutes = goal.cumulative_time * 60;
@@ -49,7 +50,7 @@ const GoalCard = ({ goal, onClick }) => {
   return (
     <div
       onClick={handleClick}
-      className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[107px] gap-2 overflow-y-auto px-[18px] py-[15px] rounded-[5px] bg-white border-t-0 border-r-0 border-b-0 border-l-[6px]"
+      className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[111px] gap-2 overflow-y-auto px-[18px] py-[15px] rounded-[5px] bg-white border-t-0 border-r-0 border-b-0 border-l-[6px]"
       style={{
         boxShadow: "0px 1px 5px 0 rgba(0,0,0,0.1)",
         borderLeftColor: tag?.color,
