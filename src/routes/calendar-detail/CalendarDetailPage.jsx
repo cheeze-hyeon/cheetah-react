@@ -26,7 +26,12 @@ const CalendarDetailPage = () => {
 
   //3개의 종류로 구분. incompleted_tasks, completed_tasks, finishdate_goals
   var incompleted_tasks = goals.filter((goal) => !goal.is_finishdate);
-  incompleted_tasks = incompleted_tasks.map((goal) => goal.goal);
+  incompleted_tasks = incompleted_tasks.map((goal) => {
+    var is_hidden = goal.is_hidden;
+    var data = goal.goal;
+    data.is_hidden = is_hidden;
+    return data;
+  });
   var finishdate_goals = goals.filter((goal) => goal.is_finishdate);
   finishdate_goals = finishdate_goals.map((goal) => goal.goal);
   var completed_tasks = histories.map((history) => history[0]);
@@ -152,6 +157,7 @@ const CalendarDetailPage = () => {
                     key={task.id}
                     goal={task}
                     tag={task.tag}
+                    hidden={task.is_hidden}
                     openGoalDetailModal={() => openGoalDetailModal(task.id)}
                   />
                 )

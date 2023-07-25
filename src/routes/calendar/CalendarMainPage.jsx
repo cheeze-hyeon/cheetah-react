@@ -15,8 +15,6 @@ import { ModalOverlay } from "../../components/modal/styled";
 import axios from "axios";
 import { getCookie } from "../../utils/cookie";
 import { GoalCreateModal } from "./goal-create/styled";
-import tags from "../../data/tags";
-import goals from "../../data/goals";
 import {
   getGoalsinmonth,
   getGoalsindate,
@@ -27,15 +25,7 @@ import {
   createGoalwithCalendar,
 } from "../../apis/api_calendar";
 
-//캘린더 작업을 위한 임시//
-// import axios from "axios";
-// import { getCookie } from "../../utils/cookie";
-// import { type } from "@testing-library/user-event/dist/type";
-// import { fi } from "date-fns/locale";
-// import { create } from "@mui/material/styles/createTransitions";
-// import goals from "../../data/goals";
-// import tags from "../../data/tags";
-
+import { getUserInfo } from "../../apis/api";
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -48,6 +38,7 @@ const CalendarMainPage = () => {
   const [speedwithDate, setSpeedwithDate] = useState([]);
   const [speedhistorywithDate, setSpeedhistorywithDate] = useState([]);
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
+  const [maxSpeed, setMaxSpeed] = useState(0);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -274,6 +265,12 @@ const CalendarMainPage = () => {
     //캘린더에 표시될 goalList와 날짜를 선택하면 전달될 goalListwithImpossibledates를 가져온다.
     getGoalsinmonthAPI();
     getGoalswithImpossibledatesinmonthAPI();
+    const getUserInfoAPI = async () => {
+      const userInfo = await getUserInfo();
+      setMaxSpeed(userInfo.data.max_speed);
+      console.log("userinfo", userInfo.data.max_speed);
+    };
+    getUserInfoAPI();
     ///history를 불러온다.
     getHistoryinmonthAPI();
   }, [currentMonth]);
@@ -304,9 +301,27 @@ const CalendarMainPage = () => {
       });
       return [date[0], hours];
     });
+    speedwithDate_temp2 = speedwithDate_temp2.map((date) => {
+      var newhours = (date[1] / maxSpeed) * 100;
+      newhours = Math.round(newhours);
+      if (newhours > 100) {
+        newhours = 5;
+      } else if (newhours > 80 && newhours <= 100) {
+        newhours = 4;
+      } else if (newhours > 60 && newhours <= 80) {
+        newhours = 3;
+      } else if (newhours > 40 && newhours <= 60) {
+        newhours = 2;
+      } else if (newhours > 20 && newhours <= 40) {
+        newhours = 1;
+      } else if (newhours >= 0 && newhours <= 20) {
+        newhours = 0;
+      }
+      return [date[0], newhours];
+    });
     setSpeedwithDate(speedwithDate_temp2);
-    console.log("Success");
-  }, [goalsList]);
+    console.log("Speed of the Future", speedwithDate_temp2);
+  }, [goalsList, maxSpeed]);
   //--------------------불러온 historyList를 바탕으로 speedhistorywithDate를 업데이트한다. ---------------------//
   useEffect(() => {
     if (historywithDate.length === 0) {
@@ -322,12 +337,28 @@ const CalendarMainPage = () => {
       history[1].forEach((h) => {
         hours_added += h[0].hours;
       });
+      hours_added = (hours_added / maxSpeed) * 100;
+      hours_added = Math.round(hours_added);
+      if (hours_added > 100) {
+        hours_added = 5;
+      } else if (hours_added > 80 && hours_added <= 100) {
+        hours_added = 4;
+      } else if (hours_added > 60 && hours_added <= 80) {
+        hours_added = 3;
+      } else if (hours_added > 40 && hours_added <= 60) {
+        hours_added = 2;
+      } else if (hours_added > 20 && hours_added <= 40) {
+        hours_added = 1;
+      } else if (hours_added >= 0 && hours_added <= 20) {
+        hours_added = 0;
+      }
       speedwithDate_temp.push([begin_string, hours_added]);
+
       begin.setDate(begin.getDate() + 1);
     });
     setSpeedhistorywithDate(speedwithDate_temp);
-    console.log("history added!", speedwithDate_temp);
-  }, [historywithDate]);
+    console.log("Speed of the Past!", speedwithDate_temp);
+  }, [historywithDate, maxSpeed]);
 
   ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
 
@@ -362,8 +393,8 @@ const CalendarMainPage = () => {
           selectedDate={selectedDate}
           goalsList={goalsListwithImpossibledates}
           historywithDate={historywithDate}
-          goals={goals}
-          tags={tags}
+          speedwithDate={speedwithDate}
+          speedhistorywithDate={speedhistorywithDate}
         />
         <CalendarTabBar />
         <s.floatingBtnContainer onClick={showGoalCreateModal} />
@@ -377,7 +408,6 @@ const CalendarMainPage = () => {
             clickBtnClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
-            tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
       )}

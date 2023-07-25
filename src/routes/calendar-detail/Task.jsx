@@ -53,9 +53,9 @@ export const CompletedTask = ({
   );
 };
 
-export const Task = ({ goal, tag, openGoalDetailModal }) => {
+export const Task = ({ goal, tag, openGoalDetailModal, hidden }) => {
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState(hidden);
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
     locale: ko,
   });
