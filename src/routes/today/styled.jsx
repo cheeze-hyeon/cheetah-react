@@ -21,7 +21,7 @@ export const Progress = styled.div`
 `;
 
 export const Dealt = styled.div`
-  background-color: #f19a37;
+  background-color: #ffb35e;
   width: ${(props) => props.dealt + "%"};
   height: 100%;
   border-radius: 5px;

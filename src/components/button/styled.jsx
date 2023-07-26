@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TextNormal } from "../text/styled";
-
+import FloatingBtn from "../../asset/images/floatingBtn.png";
 export const Frame = styled(Link)`
   box-sizing: border-box;
   display: flex;
@@ -123,7 +123,7 @@ export const LargeButtonActive = (props) => {
     color: props.textColor || "#FFFFFF", // Default text color is white if not provided
   };
   return (
-    <LBtnActiveContainer backgroundColor={props.backgroundColor}>
+    <LBtnActiveContainer onClick={props.onClick} backgroundColor={props.backgroundColor}>
       <Frame to={props.to} style={buttonStyle}>
         <LargeLabel className="text-[#fff]" onClick={props.onClick}>
           {props.text}
@@ -417,12 +417,12 @@ export const TwoButtonActiveContainer2 = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <TwoButtonActiveContainer1 onClick={props.to1}>
+      <TwoButtonActiveContainer1 onClick={props.onClick1}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
-      <TwoButtonActiveContainer2 onClick={props.to2}>
+      <TwoButtonActiveContainer2 onClick={props.onClick2}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>
@@ -867,14 +867,14 @@ export const FloatingBtnContainer = styled.div`
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 `;
 
-export const FloatingBtn = () => {
-  return (
-    <FloatingBtnContainer>
-      <Ellipse4 />
-      <Shape />
-    </FloatingBtnContainer>
-  );
-};
+// export const FloatingButton = () => {
+//   return (
+//     <FloatingBtnContainer>
+//       <Ellipse4 />
+//       <Shape />
+//     </FloatingBtnContainer>
+//   );
+// };
 
 export const ColorBtnContainer = styled.div`
   box-sizing: border-box;
@@ -928,3 +928,19 @@ export const ColorBtnSelect = (props) => {
     </ColorBtnContainer>
   );
 };
+
+export const FloatingButton = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 100;
+  right: 5%;
+  bottom: 12%;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+  background-image: url(${FloatingBtn});
+  background-repeat: no-repeat;
+  background-size: 60px 60px;
+`;
