@@ -84,7 +84,7 @@ const GoalMainPage = () => {
                 onTagClick={handleTagClick}
               />
             </div>
-            <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[790px] pb-1000 overflow-y-auto">
+            <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[790px] pb-[200px] overflow-y-auto">
               {filteredGoals.length > 0 ? (
                 <div className="flex flex-col gap-[20px] mb-[100px]">
                   <TextNormal>{`${goalCount}개의 목표`}</TextNormal>

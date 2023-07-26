@@ -3,8 +3,13 @@ import { TextNormal } from "../../components/text/styled";
 import { CheckBox, SlimButtonActive } from "../../components/button/styled";
 
 export const ModalContainer = styled.div`
-  box-sizing: border-box;
   display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  box-sizing: border-box;
   justify-content: center;
   align-items: flex-start;
   width: 347px;
@@ -101,6 +106,7 @@ export const Label = styled.p`
 `;
 
 export const GoalDeleteModal = (props) => {
+  console.log(props)
   return (
     <ModalContainer>
       <Frame>
@@ -111,11 +117,11 @@ export const GoalDeleteModal = (props) => {
           <CheckBox text="캘린더에서만 삭제하기"></CheckBox>
         </div>
         <ButtonsContainer>
-          <ButtonContainer className="bg-[#f19a37]">
+          <ButtonContainer onClick={props.onCloseModal} className="bg-[#f19a37] cursor-pointer">
             <Label className="text-[#fff]">삭제</Label>
           </ButtonContainer>
-          <ButtonContainer className="bg-[#eaeef1]">
-            <Label className="text-[#000]">취소</Label>
+          <ButtonContainer onClick={props.onCloseModal} className="bg-[#eaeef1] cursor-pointer">
+            <Label className="text-[#000]" >취소</Label>
           </ButtonContainer>
         </ButtonsContainer>
       </Frame>
@@ -152,10 +158,10 @@ export const TagDeleteAlertModal = (props) => {
           <TextNormal>정말로 삭제하시겠습니까?</TextNormal>
         </TextContainer>
         <ButtonsContainer>
-          <ButtonContainer className="bg-[#f19a37]">
+        <ButtonContainer onClick={props.onCloseModal} className="bg-[#f19a37] cursor-pointer">
             <Label className="text-[#fff]">삭제</Label>
           </ButtonContainer>
-          <ButtonContainer className="bg-[#eaeef1]">
+          <ButtonContainer onClick={props.onCloseModal} className="bg-[#eaeef1] cursor-pointer">
             <Label className="text-[#000]">취소</Label>
           </ButtonContainer>
         </ButtonsContainer>
