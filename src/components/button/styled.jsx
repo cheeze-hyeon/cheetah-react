@@ -123,7 +123,7 @@ export const LargeButtonActive = (props) => {
     color: props.textColor || "#FFFFFF", // Default text color is white if not provided
   };
   return (
-    <LBtnActiveContainer backgroundColor={props.backgroundColor}>
+    <LBtnActiveContainer onClick={props.onClick} backgroundColor={props.backgroundColor}>
       <Frame to={props.to} style={buttonStyle}>
         <LargeLabel className="text-[#fff]" onClick={props.onClick}>
           {props.text}
@@ -417,12 +417,12 @@ export const TwoButtonActiveContainer2 = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <TwoButtonActiveContainer1 onClick={props.to1}>
+      <TwoButtonActiveContainer1 onClick={props.onClick1}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
-      <TwoButtonActiveContainer2 onClick={props.to2}>
+      <TwoButtonActiveContainer2 onClick={props.onClick2}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>

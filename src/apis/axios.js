@@ -39,6 +39,7 @@ instanceWithToken.interceptors.request.use(
 
 instanceWithToken.interceptors.response.use(
   (response) => {
+    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일
     console.log("Interceptor Response!!");
     return response;
   },
@@ -48,7 +49,6 @@ instanceWithToken.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401) {
       //토큰이 만료됨에 따른 에러인지 확인
-      console.log("여기?")
       const token = getCookie("refresh_token");
       await refreshToken(token); //refresh token 을 활용하여 access token 을 refresh
 
