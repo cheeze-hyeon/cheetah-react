@@ -14,7 +14,6 @@ const TagList = ({ tags, goal, onTagClick }) => {
 
   
 
-  console.log("태그리스트 안에서",goal)// 왜 goal.tag_id 하면 오류가 뜰까
   const handleTagClick = (tagId) => {
     setSelectedTagId((prevSelectedTagId) => {
       // 이미 선택된 태그를 다시 클릭한 경우, 선택을 해제합니다.
@@ -30,7 +29,7 @@ const TagList = ({ tags, goal, onTagClick }) => {
   };
 
   return (
-    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mx-[20px] overflow-x scrollbar-hide">
+    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
       {selectedTagId == null ? (
         <TagDefault
           text="전체"
