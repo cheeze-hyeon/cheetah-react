@@ -4,8 +4,16 @@ import "tailwindcss/tailwind.css";
 
 import { TagDefault } from "../../../components/button/styled";
 
-const TagList = ({ tags, onTagClick }) => {
+const TagList = ({ tags, goal, onTagClick }) => {
   const [selectedTagId, setSelectedTagId] = useState(null);
+  useEffect(()=>{
+    if(goal){
+      setSelectedTagId(goal.tag_id)
+    }
+  }, [])
+
+  
+
   console.log("태그리스트 안에서",goal)// 왜 goal.tag_id 하면 오류가 뜰까
   const handleTagClick = (tagId) => {
     setSelectedTagId((prevSelectedTagId) => {

@@ -5,12 +5,10 @@ import "tailwindcss/tailwind.css";
 import { HeaderBack } from "../../../components/header/styled";
 import TagList from "../Tag/TagList";
 import tags from "../../../data/tags";
-import { FieldWithLabel } from "../../../components/input/styled";
-import { Datepicker, Button, Page } from "@mobiscroll/react";
+import { FieldWithLabel, InputTimeField, TwoInputDateField } from "../../../components/input/styled";
 import * as s from "../../calendar/styled";
 import * as cd from "../../calendar-detail/styled";
 import * as t from "../../../components/text/styled";
-import { DatepickerWrapper } from "../../calendar/styled";
 import { TextLight } from "../../../components/text/styled";
 import { LargeButtonActive, TextBtnWResetIcon } from "../../../components/button/styled";
 
@@ -58,24 +56,10 @@ const ScheduleDetailPage = () => {
         </div>
       </div>
       <FieldWithLabel label="시작일/종료일">
-        <s.DatepickerWrapper>
-          <Datepicker
-            controls={["calendar"]}
-            select="range"
-            inputProps={boxInputProps}
-            className="w-5/6" />
-        </s.DatepickerWrapper>
+          <TwoInputDateField />
       </FieldWithLabel>
       <FieldWithLabel label="예상 소요시간">
-        <s.DatepickerWrapper>
-          <Datepicker
-            controls={["time"]}
-            timeFormat="HH:mm"
-            headerText="hour minutes"
-            inputProps={
-              // label: "Hour, Min",
-              boxInputProps2} />
-        </s.DatepickerWrapper>
+          <InputTimeField />
         {/* <InputTimeField /> */}
         <TextLight style={{ color: "#F19A37" }}>
           현재까지 {goal.cumulative_time}h 소요했어요
