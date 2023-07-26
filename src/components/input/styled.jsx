@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TextNormal } from "../text/styled";
+import { TextLight, TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
@@ -189,7 +189,11 @@ export const InputTextFieldButton = (props) => {
           </TextNormal>
         </Frame3668>
       </InputTextField>
-      <SmallButtonActive type="button" onClick={props.onClick} disabled={props.disabled}>
+      <SmallButtonActive
+        type="button"
+        onClick={props.onClick}
+        disabled={props.disabled}
+      >
         <Frame>
           <Label>{props.text}</Label>
         </Frame>
@@ -324,8 +328,7 @@ export const DateFieldContainer = styled.div`
 export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
-      <input type="Date" />
-      {/* <CalendarIcon /> */}
+      <input type="Date" defaultValue={props.initial_time} />
     </DateFieldContainer>
   );
 };
@@ -345,8 +348,8 @@ export const TwoDateFieldContainer = styled.div`
 export const TwoInputDateField = (props) => {
   return (
     <TwoDateFieldContainer>
-      <InputDateField></InputDateField>
-      <InputDateField></InputDateField>
+      <InputDateField initial_time={props.start_at}></InputDateField>
+      <InputDateField initial_time={props.finish_at}></InputDateField>
     </TwoDateFieldContainer>
   );
 };
@@ -395,7 +398,7 @@ export const TimeFieldContainer = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 100%;
+  width: 100%
   height: 50px;
   padding: 0px 15px;
   border-radius: 8px;
@@ -407,11 +410,19 @@ export const TimeFieldContainer = styled.div`
 `;
 
 export const InputTimeField = (props) => {
+  // 'useState'를 사용하여 'leftTime'의 초기값을 'props.left_time'으로 설정합니다.
+
   return (
-    <TimeFieldContainer>
-      {/* <Text> */}
+    <TimeFieldContainer className= "h-[50px]">
       <ClockIcon />
-      <input type="number" className="w-[275px]" />
+      <input
+        type="number"
+        className= "w-full mx-4 px-1"
+        defaultValue={props.left_time}
+        min={0} // 최소값 설정
+        max={100} // 최대값 설정
+      />
+      <TextNormal className="!text-gray-400">h</TextNormal>
     </TimeFieldContainer>
   );
 };

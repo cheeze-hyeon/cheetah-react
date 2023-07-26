@@ -42,7 +42,7 @@ export const LBtnActiveContainer = styled.div`
   width: 347px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: ${(props) => props.backgroundColor || "#716a56"};
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -111,7 +111,7 @@ export const LargeButtonActiveContainer = styled.div`
 export const LargeButtonNonActive = (props) => {
   return (
     <LBtnNonActiveContainer onClick={props.onClick}>
-      <Frame >
+      <Frame>
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -119,9 +119,12 @@ export const LargeButtonNonActive = (props) => {
 };
 
 export const LargeButtonActive = (props) => {
+  const buttonStyle = {
+    color: props.textColor || "#FFFFFF", // Default text color is white if not provided
+  };
   return (
-    <LBtnActiveContainer type="button" onClick={props.onClick}>
-      <Frame to={props.to}>
+    <LBtnActiveContainer backgroundColor={props.backgroundColor}>
+      <Frame to={props.to} style={buttonStyle}>
         <LargeLabel className="text-[#fff]" onClick={props.onClick}>
           {props.text}
         </LargeLabel>
@@ -335,12 +338,12 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput 
-      type="checkbox" 
-      checked={props.checked}
-      name={props.name}
-      id={props.id}
-      onChange={props.onChange}
+      <CheckBoxInput
+        type="checkbox"
+        checked={props.checked}
+        name={props.name}
+        id={props.id}
+        onChange={props.onChange}
       />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
@@ -742,11 +745,13 @@ export const TextBtnWIconSmall = (props) => {
   );
 };
 
-export const TextBtnWResetIcon = () => {
+export const TextBtnWResetIcon = ({ onClick }) => {
   return (
-    <TextBtnWIconSmall text="되돌리기">
-      <IconReset />
-    </TextBtnWIconSmall>
+    <div onClick={onClick}>
+      <TextBtnWIconSmall text="되돌리기">
+        <IconReset />
+      </TextBtnWIconSmall>
+    </div>
   );
 };
 
@@ -761,9 +766,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
+    <TextBtnSwIconContainer onClick={props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };

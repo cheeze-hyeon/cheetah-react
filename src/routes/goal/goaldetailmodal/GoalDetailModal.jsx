@@ -204,37 +204,13 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
         )}
       </div>
       <SlimButtonActive
-        // to="`/scheduledetailpage/${goal.id}`"
+        to={`/scheduledetailpage/${goal.id}`}
         text={`${is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
         onClick={`${is_scheduled ? handleAddToCalendar : handleEditButtonClick}`}
       ></SlimButtonActive>
     </div>
-    //     <Link
-    //       to={`/scheduledetailpage/${goal.id}`}
-    //       className={`flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0  font-['Pretendard'] text-[15px] ${
-    //         is_scheduled === 0 ? "bg-lightGray" : "bg-orange"
-    //       } rounded-lg`}
-    //       style={{
-    //         display: "flex",
-    //         height: "40px",
-    //         padding: "0px 20px",
-    //         justifyContent: "center",
-    //         alignItems: "center",
-    //         alignSelf: "stretch",
-    //         backgroundColor: is_scheduled === 0 ? "#EAEEF1" : "#F19A37",
-    //         color: is_scheduled === 0 ? "black" : "white",
-    //       }}
-    //       onClick={
-    //         is_scheduled === 0 ? handleAddToCalendar : handleEditButtonClick
-    //       }
-    //     >
-    //       {/* is_scheduled에 따라 버튼의 내용이 달라집니다. */}
-    //       {is_scheduled === 0 ? "캘린더에 추가하기" : "상세정보 수정하기"}
-    //     </Link>
-    //   </div>
-    // </div>
   );
 };
 export default GoalDetailModal;
