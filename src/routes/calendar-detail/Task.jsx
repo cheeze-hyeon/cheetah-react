@@ -53,18 +53,41 @@ export const CompletedTask = ({
   );
 };
 
-export const Task = ({ goal, tag, openGoalDetailModal, hidden }) => {
+export const Task = ({
+  goal,
+  tag,
+  openGoalDetailModal,
+  hidden,
+  minusDateAPI,
+  plusDateAPI,
+  currentdate,
+}) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isHidden, setIsHidden] = useState(hidden);
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
     locale: ko,
   });
 
+  const changeStateofGoals = () => {
+    if (isHidden) {
+      plusDateAPI(goal.id, currentdate);
+    } else {
+      minusDateAPI(goal.id, currentdate);
+    }
+    console.log("change!");
+  };
+
   const onClickTaskBtn = () => {
-    !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+    //!isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+    if (!isCompleted) {
+      changeStateofGoals();
+      setIsHidden(!isHidden);
+    } else {
+      setIsCompleted(!isCompleted);
+    }
   };
   const hours = goal.hoursperday;
-  const hour = Math.round(hours);
+  const hour = Math.floor(hours);
   var min = (hours % 1) * 60;
   min = Math.round(min);
   console.log(hours, hour, min);

@@ -212,6 +212,7 @@ const CalendarMainPage = () => {
         progress_rate: progress_rate,
         impossibledates_set: impossibledates_set,
         tag: tag,
+        residual_time: residual_time,
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
