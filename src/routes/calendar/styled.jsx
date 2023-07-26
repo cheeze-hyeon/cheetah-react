@@ -269,7 +269,7 @@ export const onOffText = styled.p`
 export const floatingBtnContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 30px;
+  margin-bottom: 29px;
   position: relative;
   z-index: 999;
   left: 150px;
