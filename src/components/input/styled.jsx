@@ -188,7 +188,11 @@ export const InputTextFieldButton = (props) => {
           </TextNormal>
         </Frame3668>
       </InputTextField>
-      <SmallButtonActive type="button" onClick={props.onClick} disabled={props.disabled}>
+      <SmallButtonActive
+        type="button"
+        onClick={props.onClick}
+        disabled={props.disabled}
+      >
         <Frame>
           <Label>{props.text}</Label>
         </Frame>
@@ -320,10 +324,39 @@ export const DateFieldContainer = styled.div`
   margin: 0;
 `;
 
+export const DateFieldInput = styled.input.attrs((props) => ({
+  value: props.value, // value 프로퍼티 추가
+  onChange: props.onChange, // onChange 프로퍼티 추가
+}))`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 50px;
+  width: 48%;
+  padding: 0px 7px;
+  border-radius: 8px;
+  background: var(--white);
+  border-width: 2px;
+  border-color: #f5f5f5;
+  border-style: solid;
+  margin: 0;
+  font-family: Pretendard;
+`;
+
 export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
-      <input type="Date" />
+      <input
+        type="date"
+        value={props.value}
+        onChange={props.onChange}
+        placeholder={props.placeholder}
+        defaultValue={props.defaultValue}
+      />
       {/* <CalendarIcon /> */}
     </DateFieldContainer>
   );
@@ -407,12 +440,36 @@ export const TimeFieldContainer = styled.div`
   margin: 0;
 `;
 
+export const TimeFieldInput = styled.input.attrs((props) => ({
+  type: "number",
+  min: "0",
+  value: props.value, // value 프로퍼티 추가
+  onChange: props.onChange, // onChange 프로퍼티 추가
+}))`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: 50px;
+  padding: 0px 15px;
+  border-radius: 8px;
+  background: #fff;
+  border-width: 2px;
+  border-color: #f5f5f5;
+  border-style: solid;
+  margin: 0;
+`;
+
 export const InputTimeField = (props) => {
   return (
     <TimeFieldContainer>
       {/* <Text> */}
       <ClockIcon />
-      <input type="number" className="w-[275px]" />
+      <input type="time" className="w-[275px]" />
     </TimeFieldContainer>
   );
 };
@@ -584,7 +641,7 @@ export const NewTodoInput = styled.input`
   }
 `;
 
-export const NewTodo = ({ todo }) => {
+export const NewTodo = ({ todo, onDelete }) => {
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(false); // 추가: 숨기는 상태를 추가합니다.
 
@@ -597,13 +654,8 @@ export const NewTodo = ({ todo }) => {
   };
 
   const handleDeleteTodo = () => {
-    setIsHidden(true); // 삭제 버튼을 클릭하면 해당 투두를 숨기도록 상태를 업데이트합니다.
+    onDelete(todo); // onDelete 콜백 프롭을 호출하고 삭제할 투두를 전달합니다.
   };
-
-  if (isHidden) {
-    // 숨겨진 투두는 더 이상 렌더링하지 않습니다.
-    return null;
-  }
 
   return (
     <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
@@ -619,7 +671,6 @@ export const NewTodo = ({ todo }) => {
           </div>
         </div>
         <Close onClick={handleDeleteTodo} color="var(--darkgray)" />
-        {/* 추가: 삭제 버튼을 추가합니다. */}
       </div>
     </div>
   );

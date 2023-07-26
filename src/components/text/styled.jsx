@@ -62,4 +62,5 @@ export const TextLight = styled.p`
   letter-spacing: 0px;
   text-align: left;
   font-weight: 400;
+  color: ${(props) => props.color};
 `;

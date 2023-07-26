@@ -6,10 +6,10 @@ import {
 import {
   FieldWithLabel,
   InputTextFieldActive,
-  TodoWithCloseBtn,
-  InputTimeField,
   TwoDateFieldContainer,
   InputDateField,
+  DateFieldInput,
+  TimeFieldInput,
 } from "../../../components/input/styled";
 import {
   TagDefault,
@@ -17,7 +17,8 @@ import {
   TwoButton,
   LargeButtonActive,
 } from "../../../components/button/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AddTodoField,
   NewTodoInput,
@@ -26,94 +27,34 @@ import { NewTodo } from "../../../components/input/styled";
 import {
   createGoal,
   createGoalwithCalendar,
-  createImpossibleDate,
-  createTodo,
+  getFilteredTags,
 } from "../../../apis/api_calendar";
-
-const GoalCreateModalContainer = styled.div`
-  position: fixed;
-  display: flex;
-  width: 389px;
-  padding: 10px 15px;
-  align-items: flex-start;
-  gap: 10px;
-  height: 70%;
-  border-radius: 25px 25px 0px 0px;
-  background: var(--white);
-  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
-  bottom: 0;
-`;
-
-const GoalCreateModalElementContainer = styled.div`
-  display: flex;
-  padding: 10px 0px 35px 0px;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  flex: 1 0 0;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  width: 351px;
-  height: 390px;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
-  overflow: auto;
-`;
-
-const TagsWrapper = styled.div`
-  display: flex;
-  padding: 5px 2px;
-  align-items: flex-start;
-  align-content: flex-start;
-  gap: 10px 12px;
-  align-self: stretch;
-  flex-wrap: wrap;
-`;
-
-const TodosWrapper = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-  flex-direction: column;
-  align-items: right;
-  align-content: flex-start;
-  gap: 8px;
-  align-self: stretch;
-  flex-wrap: wrap;
-`;
-
-const RunDayWrapper = styled.div`
-  display: flex;
-  padding: 0px 5px;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
-`;
-
-export const DaysWrapper = styled.div`
-  display: flex;
-  padding: 0px 4px;
-  align-items: center;
-  justify-content: space-between;
-  gap: auto;
-  width: 100%;
-`;
+import { TextLight } from "../../../components/text/styled";
+import format from "date-fns/format";
 
 export const GoalCreateModal = ({
   clickBtnBack,
   step,
   addModalStep,
-  tags,
   modalClose,
 }) => {
-  const [newGoal, setNewGoal] = useState([]);
+  // 활성화된(눈깔 켜진) 태그
+  const [tags, setTags] = useState([]);
 
+  // 선택한 태그 아이디
   const [selectedTagId, setSelectedTagId] = useState(null);
+  const [tagError, setTagError] = useState(""); // 태그 선택 유효성 검사 멘트
+
+  // 목표 제목
   const [title, setTitle] = useState("");
+  const [titleError, setTitleError] = useState("");
+
+  // 시작 날짜, 종료 날짜
   const [startDate, setStartDate] = useState(new Date());
-  const [finishDate, setFinishDate] = useState("");
+  const [finishDate, setFinishDate] = useState(new Date());
+  const [dateError, setDateError] = useState(""); // 날짜 선택 유효성 검사 멘트
+
+  // 달릴 요일
   const [selectedDays, setSelectedDays] = useState({
     mon: true,
     tue: true,
@@ -123,21 +64,113 @@ export const GoalCreateModal = ({
     sat: true,
     sun: true,
   });
-  const [estimatedTime, setEstimatedTime] = useState("");
-  const [newTodos, setNewTodos] = useState([]); // 추가한 투두
+
+  // 불가능한 날짜
+  const [impossibleDates, setImpossibleDates] = useState([]);
+
+  // 예상 소요시간
+  const [estimatedTime, setEstimatedTime] = useState(0);
+  const [timeError, setTimeError] = useState(""); // 시간 선택 유효성 검사 멘트
+
+  // 투두
+  const [newTodos, setNewTodos] = useState([]); // 투두 리스트
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목
   const [showAddTodoField, setShowAddTodoField] = useState(false); // 투두 추가 텍스트 필드의 노출 상태
 
-  const [formData, setFormData] = useState({
+  // 캘린더에 추가하지 않는 목표
+  const [newGoal, setNewGoal] = useState({
+    tag_id: "",
     title: "",
-    content: "",
-    tags: [],
   });
+
+  // 캘린더에 추가하는 목표
+  const [newGoalWithCalendar, setNewGoalWithCalendar] = useState({
+    tag_id: "",
+    title: "",
+    start_at: null,
+    finish_at: null,
+    estimated_time: 0,
+    impossible_dates: [],
+    todo_list: [],
+  });
+
+  // 입력값이 바뀔 때마다 전달할 목표 업데이트
+  useEffect(() => {
+    const goal = {
+      ...newGoal,
+      tag_id: selectedTagId,
+      title: title,
+      todo_list: newTodos,
+    };
+
+    const goalWithCalendar = {
+      ...newGoalWithCalendar,
+      tag_id: selectedTagId,
+      title: title,
+      start_at: startDate,
+      finish_at: finishDate,
+      estimated_time: estimatedTime,
+      impossible_dates: impossibleDates,
+      todo_list: newTodos,
+    };
+
+    console.log(goalWithCalendar);
+
+    setNewGoal(goal);
+    setNewGoalWithCalendar(goalWithCalendar);
+  }, [
+    selectedTagId,
+    title,
+    startDate,
+    finishDate,
+    estimatedTime,
+    impossibleDates,
+    newTodos,
+    selectedDays,
+  ]);
+
+  useEffect(() => {
+    // 불가능한 날짜 생성하기
+    const generateImpossibleDates = () => {
+      const daysOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+      const impossibleDates = [];
+
+      const currentDate = new Date(startDate);
+      const endDate = new Date(finishDate);
+
+      while (currentDate <= endDate) {
+        const dayOfWeek = daysOfWeek[currentDate.getDay()];
+        if (!selectedDays[dayOfWeek]) {
+          impossibleDates.push(format(currentDate, "yyyy-MM-dd"));
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      setImpossibleDates(impossibleDates);
+    };
+    generateImpossibleDates();
+  }, [selectedTagId, startDate, finishDate, selectedDays]);
+
+  // 태그 불러오기
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const allTags = await getFilteredTags();
+        setTags(allTags);
+      } catch (error) {
+        console.log("[ERROR] error while getting all tags");
+      }
+    };
+    fetchTags();
+  }, []);
 
   // 태그 선택
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
-    console.log(tagId);
+  };
+
+  // 태그의 선택여부
+  const isSelected = (tag) => {
+    return selectedTagId === tag.id;
   };
 
   // 달릴요일 선택
@@ -148,49 +181,96 @@ export const GoalCreateModal = ({
     }));
   };
 
-  // 태그의 선택여부
-  const isSelected = (tag) => {
-    return selectedTagId === tag.id;
-  };
-
   // 투두 추가하기 버튼 클릭
   const handleAddTodo = () => {
     setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
   };
 
   const handleAddTodoEnter = (e) => {
-    // 투두 추가 텍스트 필드에서 엔터를 눌렀을 때 호출되는 함수입니다.
     if (e.key === "Enter" && newTodoTitle.trim() !== "") {
-      // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
       const newTodo = {
-        id: Math.random().toString(),
         title: newTodoTitle.trim(),
-        is_completed: false,
       };
-
       setNewTodoTitle("");
       setNewTodos((prevTodos) => [...prevTodos, newTodo]);
-      setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
+      setShowAddTodoField(false);
     }
   };
+
   const handleCancelAddTodo = () => {
     // 취소 버튼을 누를 때 호출되는 함수입니다.
     setNewTodoTitle(""); // 입력 필드 초기화
     setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
   };
 
-  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
+  const handleDeleteTodo = (deletedTodo) => {
+    // newTodos 상태에서 삭제된 투두를 필터링합니다.
+    setNewTodos((prevTodos) =>
+      prevTodos.filter((todo) => todo !== deletedTodo)
+    );
+  };
+
+  // 캘린더에 추가 버튼 클릭 시 실행되는 함수
+  const handleCalendarAddBtn = () => {
+    selectedTagId && title
+      ? addModalStep()
+      : console.log("캘린더 추가 불가 - 모든 값 입력되지 않음");
+    if (!selectedTagId) {
+      setTagError("*태그를 선택해주세요"); // tagId가 비어있는 경우 오류 멘트 설정
+      return;
+    } else {
+      setTagError("");
+    }
+    if (!title) {
+      setTitleError("*제목을 입력해주세요"); // title이 비어있는 경우 오류 멘트 설정
+      return;
+    } else {
+      setTitleError("");
+    }
+  };
 
   //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
   const addGoal = async (data) => {
-    const goal = await createGoal(data);
-    console.log("목표 추가 완료!", goal);
+    if (selectedTagId && title) {
+      const goal = await createGoal(data);
+      console.log("목표 추가 완료!", goal);
+      window.location.reload();
+      return;
+    } else {
+      console.log("목표 추가 불가 - 모든 값이 입력되지 않음");
+    }
+    if (!selectedTagId) {
+      setTagError("*태그를 선택해주세요"); // tagId가 비어있는 경우 오류 멘트 설정
+    } else {
+      setTagError("");
+    }
+    if (!title) {
+      setTitleError("*제목을 입력해주세요"); // title이 비어있는 경우 오류 멘트 설정
+    } else {
+      setTitleError("");
+    }
   };
   //2. 캘린더에 추가하는 일정 목표 추가
   const addGoalwithCalendar = async (data) => {
-    const goal = await createGoalwithCalendar(data);
-    modalClose();
-    console.log("일정에 등록된 목표 추가 완료!", goal);
+    console.log(data);
+    if (startDate && finishDate && estimatedTime) {
+      const goal = await createGoalwithCalendar(data);
+      console.log("일정에 등록된 목표 추가 완료!", goal);
+      window.location.reload();
+      return;
+    } else {
+      console.log("실패");
+    }
+    if (!startDate || !finishDate) {
+      setDateError("*날짜를 선택해주세요");
+    } else {
+      setDateError("");
+    }
+    if (!estimatedTime) {
+      setTimeError("*시간을 입력해주세요");
+    } else {
+      setTimeError("");
+    }
   };
 
   return (
@@ -210,16 +290,20 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="태그 선택">
                 <TagsWrapper>
-                  {tags.map((tag) => (
-                    <TagDefault
-                      key={tag.id}
-                      color={tag.color}
-                      text={tag.title}
-                      isSelected={isSelected(tag)}
-                      onClick={() => handleTagClick(tag.id)}
-                    />
-                  ))}
+                  {Array.isArray(tags) && // tags가 배열인지 확인하고, 배열일 때에만 map 함수를 사용합니다.
+                    tags.map((tag) => (
+                      <TagDefault
+                        key={tag.id}
+                        color={tag.color}
+                        text={tag.title}
+                        isSelected={isSelected(tag)}
+                        onClick={() => handleTagClick(tag.id)}
+                      />
+                    ))}
                 </TagsWrapper>
+                {tagError && (
+                  <TextLight color="var(--orange)">{tagError}</TextLight>
+                )}
               </FieldWithLabel>
               <FieldWithLabel label="일정 제목">
                 <InputTextFieldActive
@@ -228,11 +312,18 @@ export const GoalCreateModal = ({
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="제목 입력"
                 />
+                {titleError && (
+                  <TextLight color="var(--orange)">{titleError}</TextLight>
+                )}
               </FieldWithLabel>
               <FieldWithLabel label="하위 투두">
                 <TodosWrapper>
-                  {newTodos.map((todo) => (
-                    <NewTodo key={todo.id} todo={todo} />
+                  {newTodos.map((todo, index) => (
+                    <NewTodo
+                      key={index}
+                      todo={todo}
+                      onDelete={handleDeleteTodo}
+                    />
                   ))}
                   {showAddTodoField && (
                     <AddTodoField>
@@ -245,7 +336,7 @@ export const GoalCreateModal = ({
                       />
                       <button
                         className="font-['Pretendard'] text-[13px] text-black font-medium"
-                        onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                        onClick={() => handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
                       >
                         취소
                       </button>
@@ -264,19 +355,22 @@ export const GoalCreateModal = ({
             <>
               <FieldWithLabel label="시작일/종료일">
                 <TwoDateFieldContainer>
-                  <InputDateField
+                  <DateFieldInput
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    placeholder="시작일 선택"
                   />
-                  <InputDateField
+                  <DateFieldInput
                     type="date"
+                    min={new Date(startDate).toISOString().split("T")[0]}
                     value={finishDate}
                     onChange={(e) => setFinishDate(e.target.value)}
-                    placeholder="종료일 선택"
                   />
                 </TwoDateFieldContainer>
+                {dateError && (
+                  <TextLight color="var(--orange)">{dateError}</TextLight>
+                )}
               </FieldWithLabel>
               <FieldWithLabel label="달릴 요일">
                 <DaysWrapper>
@@ -332,7 +426,16 @@ export const GoalCreateModal = ({
                 </DaysWrapper>
               </FieldWithLabel>
               <FieldWithLabel label="예상 소요시간">
-                <InputTimeField />
+                <TimeFieldInput
+                  type="number"
+                  min="0"
+                  value={estimatedTime}
+                  onChange={(e) => setEstimatedTime(e.target.value)}
+                  placeholder="숫자 입력 (ex. 12)"
+                />
+                {timeError && (
+                  <TextLight color="var(--orange)">{timeError}</TextLight>
+                )}
               </FieldWithLabel>
             </>
           )}
@@ -341,16 +444,79 @@ export const GoalCreateModal = ({
           <TwoButton
             text1="완료하기"
             text2="캘린더에도 추가하기"
-            to1={addGoal(newGoal)}
-            to2={addModalStep}
+            onClick1={() => addGoal(newGoal)}
+            onClick2={() => handleCalendarAddBtn()}
           />
         ) : (
           <LargeButtonActive
             text="완료하기"
-            to={addGoalwithCalendar(newGoal)}
+            onClick={() => addGoalwithCalendar(newGoalWithCalendar)}
           />
         )}
       </GoalCreateModalElementContainer>
     </GoalCreateModalContainer>
   );
 };
+
+const GoalCreateModalContainer = styled.div`
+  position: fixed;
+  display: flex;
+  width: 389px;
+  padding: 10px 15px;
+  align-items: flex-start;
+  gap: 10px;
+  height: 70%;
+  border-radius: 25px 25px 0px 0px;
+  background: var(--white);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  bottom: 0;
+`;
+
+const GoalCreateModalElementContainer = styled.div`
+  display: flex;
+  padding: 10px 0px 35px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  flex: 1 0 0;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  width: 351px;
+  height: 390px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  overflow: auto;
+`;
+
+const TagsWrapper = styled.div`
+  display: flex;
+  padding: 5px 2px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 10px 12px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+const TodosWrapper = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  align-items: right;
+  align-content: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  flex-wrap: wrap;
+`;
+
+export const DaysWrapper = styled.div`
+  display: flex;
+  padding: 0px 4px;
+  align-items: center;
+  justify-content: space-between;
+  gap: auto;
+  width: 100%;
+`;

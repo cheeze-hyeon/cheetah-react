@@ -36,7 +36,6 @@ import {
 // import goals from "../../data/goals";
 // import tags from "../../data/tags";
 
-
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
