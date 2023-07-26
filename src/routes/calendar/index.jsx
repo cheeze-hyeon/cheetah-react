@@ -58,6 +58,8 @@ export const CalendarCells = ({
   selectedDate,
   goalsList,
   historywithDate,
+  speedwithDate,
+  speedhistorywithDate,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -94,15 +96,31 @@ export const CalendarCells = ({
     var historyindate = historywithDate.filter(
       (history) => history[0] === formattedDate
     );
+    if (historyindate.length === 0) {
+      historyindate = [[formattedDate, []]];
+    }
     console.log(
       "dateclick! goalsindate: ",
       goalsindate,
       "historyindate: ",
       historyindate
     );
-
+    var color_speed = speedwithDate.filter((speed) => {
+      return speed !== undefined && speed[0] === formattedDate;
+    });
+    if (color_speed.length > 0) color_speed = color_speed[0][1];
+    var color_history = speedhistorywithDate.filter((speed) => {
+      return speed != undefined && speed[0] === formattedDate;
+    });
+    if (color_history.length > 0) color_history = color_history[0][1];
+    console.log("color_speed: ", color_speed, "color_history: ", color_history);
     navigate(`/calendar/${formattedDate}`, {
-      state: { goalsindate: goalsindate, historyindate: historyindate },
+      state: {
+        goalsindate: goalsindate,
+        historyindate: historyindate,
+        //color_speed: color_speed,
+        //color_history: color_history,
+      },
     });
   };
 

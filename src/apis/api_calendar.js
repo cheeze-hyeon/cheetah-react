@@ -183,7 +183,7 @@ export const getHistoryinmonth = async (currentMonth) => {
 //GET
 export const getImpossibleDates = async (goal_id) => {
   const response = await instanceWithToken.get(
-    "goal/impossible_dates/" + goal_id + "/"
+    "goal/impossibledates/" + goal_id + "/"
   );
   if (response.status === 200) {
     console.log("GET IMPOSSIBLE DATES SUCCESS");
@@ -196,7 +196,7 @@ export const getImpossibleDates = async (goal_id) => {
 //POST
 export const createImpossibleDate = async (goal_id, data) => {
   const response = await instanceWithToken.post(
-    "/goal/impossible_dates/" + goal_id + "/",
+    "/goal/impossibledates/" + goal_id + "/",
     data
   );
   if (response.status === 201) {
@@ -209,8 +209,9 @@ export const createImpossibleDate = async (goal_id, data) => {
 
 //DELETE
 export const deleteImpossibleDate = async (goal_id, data) => {
-  const response = await instanceWithToken.delete(
-    "/goal/impossible_dates/" + goal_id + "/",
+  console.log("data", data);
+  const response = await instanceWithToken.patch(
+    "/goal/impossibledates/" + goal_id + "/",
     data
   );
   if (response.status === 204) {
