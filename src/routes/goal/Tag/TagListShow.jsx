@@ -3,6 +3,7 @@ import "tailwindcss/tailwind.css";
 import IconShow from "./IconShow";
 import IconHide from "./IconHide";
 import HeaderDelete from "./HeaderDelete";
+import { GoalDeleteModal } from "../styled";
 
 const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
   const [isHidden, setIsHidden] = useState(false);
@@ -12,6 +13,17 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
   };
 
   const cardBackgroundColor = isHidden ? "#F5F5F5" : "#FFF";
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // GoalDeleteModal 모달을 열기 위한 함수
+  const openGoalDeleteModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // GoalDeleteModal 모달을 닫기 위한 함수
+  const closeGoalDeleteModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div
@@ -52,7 +64,8 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
         <button onClick={toggleVisibility}>
           {isHidden ? <IconHide /> : <IconShow />}
         </button>
-        <HeaderDelete />
+        <HeaderDelete className="w-[23px] h-[23px]" openGoalDeleteModal={openGoalDeleteModal}/>
+        {isModalOpen && <GoalDeleteModal onCloseModal={closeGoalDeleteModal} />}
       </div>
     </div>
   );
