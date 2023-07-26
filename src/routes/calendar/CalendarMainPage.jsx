@@ -26,6 +26,7 @@ import {
   createGoal,
   createGoalwithCalendar,
 } from "../../apis/api_calendar";
+import { FloatingButton } from "../../components/button/styled";
 
 //캘린더 작업을 위한 임시//
 // import axios from "axios";
@@ -35,7 +36,6 @@ import {
 // import { create } from "@mui/material/styles/createTransitions";
 // import goals from "../../data/goals";
 // import tags from "../../data/tags";
-
 
 const CalendarMainPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -365,9 +365,10 @@ const CalendarMainPage = () => {
           goals={goals}
           tags={tags}
         />
-        <CalendarTabBar />
-        <s.floatingBtnContainer onClick={showGoalCreateModal} />
+        <FloatingButton onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
+      <CalendarTabBar />
+
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
