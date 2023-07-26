@@ -31,7 +31,10 @@ import {
 } from "../../../apis/api_calendar";
 import { TextLight } from "../../../components/text/styled";
 import format from "date-fns/format";
-import { add } from "date-fns";
+import { add, set } from "date-fns";
+import { is } from "date-fns/locale";
+import { debounce } from "@mui/material";
+import { useCallback } from "react";
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -230,15 +233,11 @@ export const GoalCreateModal = ({
     }
   };
 
-  var isClicked = false;
-
   //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
   const addGoal = async (data) => {
-    if (isClicked) return;
     if (selectedTagId && title) {
       const goal = await createGoal(data);
       console.log("목표 추가 완료!", goal);
-      isClicked = true;
       window.location.reload();
       return;
     } else {
@@ -257,13 +256,11 @@ export const GoalCreateModal = ({
   };
   //2. 캘린더에 추가하는 일정 목표 추가
   const addGoalwithCalendar = async (data) => {
-    if (isClicked) return;
     console.log(data);
-    if (startDate && finishDate && estimatedTime) {
+    if (data.start_at && data.finish_at && data.estimated_time) {
       const goal = await createGoalwithCalendar(data);
       console.log("일정에 등록된 목표 추가 완료!", goal);
       console.log("목표 추가 완료!", goal);
-      isClicked = true;
       window.location.reload();
       return;
     } else {
@@ -280,6 +277,18 @@ export const GoalCreateModal = ({
       setTimeError("");
     }
   };
+  const onClick_calendarAddBtn = () => {
+    addGoalwithCalendar(newGoalWithCalendar);
+  };
+  const onClick2_calendarAddBtn = debounce(onClick_calendarAddBtn, 300, true);
+  const onClick3_calendarAddBtn = useCallback(onClick2_calendarAddBtn, [
+    newGoalWithCalendar,
+  ]);
+  const onClick = () => {
+    addGoal(newGoal);
+  };
+  const onClick2 = debounce(onClick, 300, true);
+  const onClick3 = useCallback(onClick2, [newGoal]);
 
   return (
     <GoalCreateModalContainer>
@@ -438,7 +447,7 @@ export const GoalCreateModal = ({
                   type="number"
                   min="0"
                   value={estimatedTime}
-                  onChange={(e) => setEstimatedTime(e.target.value)}
+                  onChange={(e) => setEstimatedTime(parseFloat(e.target.value))}
                   placeholder="숫자 입력 (ex. 12)"
                 />
                 {timeError && (
@@ -452,13 +461,13 @@ export const GoalCreateModal = ({
           <TwoButton
             text1="완료하기"
             text2="캘린더에도 추가하기"
-            onClick1={() => addGoal(newGoal)}
+            onClick1={onClick3}
             onClick2={() => handleCalendarAddBtn()}
           />
         ) : (
           <LargeButtonActive
             text="완료하기"
-            onClick={() => addGoalwithCalendar(newGoalWithCalendar)}
+            onClick={onClick3_calendarAddBtn}
           />
         )}
       </GoalCreateModalElementContainer>
