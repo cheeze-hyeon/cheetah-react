@@ -4,7 +4,6 @@ import "tailwindcss/tailwind.css";
 
 const CheckTrue = ({ onClick }) => {
   return (
-    <div>
       <button onClick={onClick}>
         <svg
           className="block flex-grow-0 flex-shrink-0 w-[25px] h-[25px] relative"
@@ -20,7 +19,6 @@ const CheckTrue = ({ onClick }) => {
           />
         </svg>      
       </button>
-    </div>
   );
 };
 

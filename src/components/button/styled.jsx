@@ -42,7 +42,7 @@ export const LBtnActiveContainer = styled.div`
   width: 347px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: ${(props) => props.backgroundColor || "#716a56"};
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -119,10 +119,15 @@ export const LargeButtonNonActive = (props) => {
 };
 
 export const LargeButtonActive = (props) => {
+  const buttonStyle = {
+    color: props.textColor || "#FFFFFF", // Default text color is white if not provided
+  };
   return (
-    <LBtnActiveContainer type="button" onClick={props.onClick}>
-      <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]">{props.text}</LargeLabel>
+    <LBtnActiveContainer onClick={props.onClick} backgroundColor={props.backgroundColor}>
+      <Frame to={props.to} style={buttonStyle}>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -336,8 +341,8 @@ export const CheckBox = (props) => {
       <CheckBoxInput
         type="checkbox"
         checked={props.checked}
-        id={props.id}
         name={props.name}
+        id={props.id}
         onChange={props.onChange}
       />
       <CheckBoxTextContainer>
@@ -512,6 +517,7 @@ export const SLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
+  color: ${(props) => (props.color ? props.color : "#000")};
 `;
 
 export const SmallButtonActive = (props) => {
@@ -558,15 +564,15 @@ export const SlimButtonContainer = styled.div`
   height: 40px;
   padding: 0px 20px;
   border-radius: 10px;
-  background: #f19a37;
+  background: ${(props) => (props.bg ? props.bg : "#f19a37")};
   margin: auto;
 `;
 
 export const SlimButtonActive = (props) => {
   return (
-    <SlimButtonContainer>
-      <Frame>
-        <SLabel>확인</SLabel>
+    <SlimButtonContainer bg={props.bg}>
+      <Frame to={props.to}>
+        <SLabel color={props.color}>{props.text}</SLabel>
       </Frame>
     </SlimButtonContainer>
   );
@@ -615,36 +621,10 @@ export const TagDefault = (props) => {
       color={props.color}
       $isSelected={props.isSelected}
       onClick={props.onClick}
+      setSelected={props.setSelected}
     >
       <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
-  );
-};
-
-export const TagSelectContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 63px;
-  height: 35px;
-  padding: 8px 12px;
-  border-width: 4px;
-  border-style: solid;
-  padding: 8px 12px;
-  border-radius: 20px;
-  border: 4px solid var(--white, #fff);
-  background: var(--gray, #ddd);
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
-`;
-
-export const TagSelect = (props) => {
-  return (
-    <TagSelectContainer>
-      <TextNormal>{props.text}</TextNormal>
-    </TagSelectContainer>
   );
 };
 
@@ -765,11 +745,13 @@ export const TextBtnWIconSmall = (props) => {
   );
 };
 
-export const TextBtnWResetIcon = () => {
+export const TextBtnWResetIcon = ({ onClick }) => {
   return (
-    <TextBtnWIconSmall text="되돌리기">
-      <IconReset />
-    </TextBtnWIconSmall>
+    <div onClick={onClick}>
+      <TextBtnWIconSmall text="되돌리기">
+        <IconReset />
+      </TextBtnWIconSmall>
+    </div>
   );
 };
 

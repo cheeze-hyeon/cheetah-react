@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TextNormal } from "../text/styled";
+import { TextLight, TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
@@ -27,7 +27,7 @@ export const Container = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 350px;
+  width: ${(props) => (props.width ? props.width : 350)}px;
   height: 50px;
   gap: 16px;
 `;
@@ -125,7 +125,7 @@ export const Text = styled.p`
 
 export const InputTextFieldActive = (props) => {
   return (
-    <Container>
+    <Container width={props.width}>
       <InputTextField>
         <TextNormal>
           <input
@@ -136,6 +136,7 @@ export const InputTextFieldActive = (props) => {
             value={props.value}
             id={props.id}
             onChange={props.onChange}
+            onKeyPress={props.onKeyPress}
             onClick={props.onClick}
             name={props.name}
             disabled={props.disabled}
@@ -351,11 +352,12 @@ export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
       <input
-        type="date"
+        type="Date"
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}
         defaultValue={props.defaultValue}
+defaultValue={props.initial_time}
       />
       {/* <CalendarIcon /> */}
     </DateFieldContainer>
@@ -379,8 +381,8 @@ export const TwoDateFieldContainer = styled.div`
 export const TwoInputDateField = (props) => {
   return (
     <TwoDateFieldContainer>
-      <InputDateField></InputDateField>
-      <InputDateField></InputDateField>
+      <InputDateField initial_time={props.start_at}></InputDateField>
+      <InputDateField initial_time={props.finish_at}></InputDateField>
     </TwoDateFieldContainer>
   );
 };
@@ -429,7 +431,7 @@ export const TimeFieldContainer = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 100%;
+  width: 100%
   height: 50px;
   padding: 0px 15px;
   border-radius: 8px;
@@ -465,11 +467,19 @@ export const TimeFieldInput = styled.input.attrs((props) => ({
 `;
 
 export const InputTimeField = (props) => {
+  // 'useState'를 사용하여 'leftTime'의 초기값을 'props.left_time'으로 설정합니다.
+
   return (
-    <TimeFieldContainer>
-      {/* <Text> */}
+    <TimeFieldContainer className= "h-[50px]">
       <ClockIcon />
-      <input type="time" className="w-[275px]" />
+      <input
+        type="number"
+        className= "w-full mx-4 px-1"
+        defaultValue={props.left_time}
+        min={0} // 최소값 설정
+        max={100} // 최대값 설정
+      />
+      <TextNormal className="!text-gray-400">h</TextNormal>
     </TimeFieldContainer>
   );
 };
