@@ -31,6 +31,7 @@ import {
 } from "../../../apis/api_calendar";
 import { TextLight } from "../../../components/text/styled";
 import format from "date-fns/format";
+import { add } from "date-fns";
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -229,11 +230,15 @@ export const GoalCreateModal = ({
     }
   };
 
+  var isClicked = false;
+
   //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
   const addGoal = async (data) => {
+    if (isClicked) return;
     if (selectedTagId && title) {
       const goal = await createGoal(data);
       console.log("목표 추가 완료!", goal);
+      isClicked = true;
       window.location.reload();
       return;
     } else {
@@ -252,10 +257,13 @@ export const GoalCreateModal = ({
   };
   //2. 캘린더에 추가하는 일정 목표 추가
   const addGoalwithCalendar = async (data) => {
+    if (isClicked) return;
     console.log(data);
     if (startDate && finishDate && estimatedTime) {
       const goal = await createGoalwithCalendar(data);
       console.log("일정에 등록된 목표 추가 완료!", goal);
+      console.log("목표 추가 완료!", goal);
+      isClicked = true;
       window.location.reload();
       return;
     } else {

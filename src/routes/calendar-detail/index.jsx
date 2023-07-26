@@ -11,9 +11,15 @@ import CloseIcon from "../../asset/images/close.svg";
 
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
+  const currentMonth = format(selectedDate, "M");
+  console.log("currentMonth", currentMonth);
 
   const onBackBtnClick = () => {
-    navigate("/calendar");
+    navigate("/calendar", {
+      state: {
+        currentMonth: currentMonth,
+      },
+    });
   };
 
   return (

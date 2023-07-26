@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { addMonths, subMonths, format, set } from "date-fns";
 
 import * as s from "./styled";
@@ -29,7 +30,18 @@ import { getUserInfo } from "../../apis/api";
 import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const location = useLocation();
+  var month = location?.state?.currentMonth;
+  if (month === undefined) {
+    month = new Date();
+  } else {
+    var year = new Date();
+    month = new Date(month);
+    year.setMonth(month.getMonth());
+    month = year;
+  }
+  console.log("month", month);
+  const [currentMonth, setCurrentMonth] = useState(new Date(month));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
