@@ -26,6 +26,7 @@ import {
   createGoal,
   createGoalwithCalendar,
 } from "../../apis/api_calendar";
+import { FloatingButton } from "../../components/button/styled";
 
 //캘린더 작업을 위한 임시//
 // import axios from "axios";
@@ -351,9 +352,10 @@ const CalendarMainPage = () => {
           goals={goals}
           tags={tags}
         />
-        <CalendarTabBar />
-        <s.floatingBtnContainer onClick={showGoalCreateModal} />
+        <FloatingButton onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
+      <CalendarTabBar />
+
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal

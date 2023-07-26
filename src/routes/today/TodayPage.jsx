@@ -26,6 +26,7 @@ const TodayPage = () => {
   });
   const [totalHour, setTotalHour] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [todayComment, setTodayComment] = useState("");
 
   // const location = useLocation();
   // console.log(location);
@@ -115,12 +116,14 @@ const TodayPage = () => {
             onClickMenu={onClickMenu}
             text="TODAY"
           ></HeaderMenu>
-          <div className="flex flex-col gap-[20px]">
+          <div className="flex flex-col items-center gap-[20px] pt-5">
+            <img src={today_cheetah} className="w-[200px]" alt="face" />
+
             <div
               id="cheetah_dashboard"
               className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
             >
-              <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[50px]">
+              <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
                 <div className="flex flex-row">
                   <TextHeavy>{formData.nickname}</TextHeavy>
                   <TextHeavy>님은 오늘</TextHeavy>
@@ -131,7 +134,6 @@ const TodayPage = () => {
                   <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
                 </div>
               </div>
-              <img src={today_cheetah} alt="face" />
             </div>
             <div id="today_goals" className="w-[330px] m-auto">
               <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
@@ -147,13 +149,11 @@ const TodayPage = () => {
               <div className="my-[20px]">
                 <div className="flex flex-row w-[300px] mx-auto">
                   <Dealt dealt={dealt - 7.4} className="" />
-                  <img src={cheetah_graph} alt="face" className="" />
+                  <img src={cheetah_graph} alt="face" className="w-[45px]" />
                 </div>
-                <div>
-                  <Progress>
-                    <Dealt dealt={dealt} />
-                  </Progress>
-                </div>
+                <Progress>
+                  <Dealt dealt={dealt} />
+                </Progress>
               </div>
               {/* goals */}
               {/* <div>

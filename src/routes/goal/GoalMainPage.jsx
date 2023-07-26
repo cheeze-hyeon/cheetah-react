@@ -16,6 +16,8 @@ import { calendarMainRoot } from "../calendar/styled";
 import * as s from "../../../src/routes/calendar/styled";
 import { GoalCreateModal } from "../calendar/goal-create/styled";
 import { ModalOverlay } from "../../components/modal/styled";
+import { FloatingButton } from "../../components/button/styled";
+import { GoalMainRoot } from "./styled";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
@@ -73,54 +75,49 @@ const GoalMainPage = () => {
 
   return (
     <>
-      <s.calendarMainRoot>
-        <div className="w-full h-full flex flex-col z-0">
-          <HeaderTag text="내 목표" to="/tag-detail" />
-          <div className="h-full bg-[#f5f5f5]">
-            <div className="flex max-w-screen overflow-x-auto scrollbar-hide">
-              <TagList
-                tags={tags}
-                selectedTagId={selectedTagId}
-                onTagClick={handleTagClick}
-              />
-            </div>
-            <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[790px] pb-[200px] overflow-y-auto">
-              {filteredGoals.length > 0 ? (
-                <div className="flex flex-col gap-[20px] mb-[100px]">
-                  <TextNormal>{`${goalCount}개의 목표`}</TextNormal>
-                  <div className="flex flex-col gap-[15px] pb-200">
-                    {filteredGoals.map((goal) => (
-                      <div key={goal.id}>
-                        {/* GoalCard를 클릭하면 handleGoalCardClick 함수가 호출되도록 합니다. */}
-                        <div onClick={() => handleGoalCardClick(goal.id)}>
-                          <GoalCard goal={goal}/>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <TextNormal className="text-center">목표가 없습니다.</TextNormal>
-              )}
-            </div>
+      <GoalMainRoot>
+        <HeaderTag text="내 목표" to="/tag-detail" />
+        <div className="h-full bg-[#f5f5f5]">
+          <div className="flex max-w-screen overflow-x-auto scrollbar-hide">
+            <TagList
+              tags={tags}
+              selectedTagId={selectedTagId}
+              onTagClick={handleTagClick}
+            />
           </div>
-
-
+          <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[790px] pb-[200px] overflow-y-auto">
+            {filteredGoals.length > 0 ? (
+              <div className="flex flex-col gap-[20px] mb-[100px]">
+                <TextNormal>{`${goalCount}개의 목표`}</TextNormal>
+                <div className="flex flex-col gap-[15px] pb-200">
+                  {filteredGoals.map((goal) => (
+                    <div key={goal.id}>
+                      {/* GoalCard를 클릭하면 handleGoalCardClick 함수가 호출되도록 합니다. */}
+                      <div onClick={() => handleGoalCardClick(goal.id)}>
+                        <GoalCard goal={goal} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <TextNormal className="text-center">목표가 없습니다.</TextNormal>
+            )}
+          </div>
         </div>
-        <GoalTabBar />
-        <s.floatingBtnContainer onClick={showGoalCreateModal}/>
-      
-      </s.calendarMainRoot>
+        <FloatingButton onClick={showGoalCreateModal} />
+      </GoalMainRoot>
+      <GoalTabBar />
       {isModalOpen && (
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col bg-white shadow-lg rounded-lg">
-              {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
-              <GoalDetailModal
-                goal={selectedGoal}
-                todos={todos}
-                onCloseModal={handleModalClose}
-              />
-            </div>
-          )}
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col bg-white shadow-lg rounded-lg">
+          {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
+          <GoalDetailModal
+            goal={selectedGoal}
+            todos={todos}
+            onCloseModal={handleModalClose}
+          />
+        </div>
+      )}
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
