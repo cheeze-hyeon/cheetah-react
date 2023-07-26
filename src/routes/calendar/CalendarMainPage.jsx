@@ -251,7 +251,7 @@ const CalendarMainPage = () => {
               finish_at: goal_finish_at,
               update_at: goal_update_at,
               tag: goal_tag,
-              hours: hour,
+              hoursperday: hour,
             },
           ]);
         }
