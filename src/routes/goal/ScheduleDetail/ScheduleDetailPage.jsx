@@ -83,10 +83,13 @@ const ScheduleDetailPage = () => {
           <cd.progressTopContainer>
             <t.TextNormal>진행률</t.TextNormal>
             <cd.ProgressSlider
-              progress_rate={progressRate}
+              value={progressRate*100}
               valueLabelDisplay="on"
               defaultValue={goal.progress_rate * 100}
               step={5}
+              onChange={(event, newValue) => {
+                setProgressRate(newValue / 100);
+              }}
             />
           </cd.progressTopContainer>
           <TextBtnWResetIcon onClick={handleResetProgress} />

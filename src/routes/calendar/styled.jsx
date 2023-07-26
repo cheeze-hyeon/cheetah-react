@@ -271,7 +271,7 @@ export const floatingBtnContainer = styled.div`
   align-items: center;
   margin-bottom: 29px;
   position: relative;
-  z-index: 999;
+  z-index: 100;
   left: 150px;
   bottom: 80px;
   cursor: pointer;
