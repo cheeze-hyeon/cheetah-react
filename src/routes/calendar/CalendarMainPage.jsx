@@ -329,19 +329,6 @@ const CalendarMainPage = () => {
     console.log("history added!", speedwithDate_temp);
   }, [historywithDate]);
 
-  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
-
-  //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
-  const addGoal = async (data) => {
-    const goal = await createGoal(data);
-    console.log("목표 추가 완료!", goal);
-  };
-  //2. 캘린더에 추가하는 일정 목표 추가
-  const addGoalwithCalendar = async (data) => {
-    const goal = await createGoalwithCalendar(data);
-    console.log("일정에 등록된 목표 추가 완료!", goal);
-  };
-
   return (
     <>
       <s.calendarMainRoot>
@@ -373,11 +360,10 @@ const CalendarMainPage = () => {
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
             to1={showGoalCreateModal}
-            to2={addModalStep}
+            addModalStep={addModalStep}
             step={modalStep}
-            clickBtnClose={showGoalCreateModal}
+            modalClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
-            clickCompleteBtn={showGoalCreateModal}
             tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
