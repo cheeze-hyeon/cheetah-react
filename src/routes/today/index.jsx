@@ -36,7 +36,7 @@ export const HamburgerMenu = (props) => {
       <div className="flex flex-col gap-[20px] mb-[473px]">
         <HeaderModal
           clickMenu={props.clickMenu}
-          onClickMenu={props.onClickMenu}
+          onClick={props.onClickMenu}
         ></HeaderModal>
         <div>
           <MenuList to="/today/mypage" text="마이페이지"></MenuList>

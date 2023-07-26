@@ -3,8 +3,9 @@ import "tailwindcss/tailwind.css";
 import IconShow from "./IconShow";
 import IconHide from "./IconHide";
 import HeaderDelete from "./HeaderDelete";
+import { TagDefault } from "../../../components/button/styled";
 
-const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
+const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
   const [isHidden, setIsHidden] = useState(false);
 
   const toggleVisibility = () => {
@@ -19,23 +20,11 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
       style={{ backgroundColor: cardBackgroundColor }}
     >
       <div className="box-border flex justify-start items-center flex-grow basis-full gap-[15px]">
+        <TagDefault color={tag.color} text={tag.title} isSelected="true" />
         <div
-          className="box-border flex justify-center items-center flex-grow-0 flex-shrink-0 px-3 py-2 rounded-[20px] bg-[#ddd] border-2 border-white"
-          style={{
-            backgroundColor: tag.color,
-            boxShadow: "0px 0px 6px 0 rgba(0,0,0,0.2)",
-          }}
+          className="box-border flex flex-col justify-center items-start flex-grow basis-full"
+          onClick={onClick}
         >
-          <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
-            <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-medium text-left text-black">
-              {tag.title}
-            </p>
-          </div>
-        </div>
-        <div 
-        className="box-border flex flex-col justify-center items-start flex-grow basis-full"
-        onClick={onClick} >
-
           <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
             <p className="whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left text-black">
               완료 목표 : {completedGoals}
