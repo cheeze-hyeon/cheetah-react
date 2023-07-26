@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
-import FloatingBtn from "../../asset/images/floatingBtn.png";
 
 export const calendarMainRoot = styled.div`
   top: 0;
@@ -76,7 +75,7 @@ export const day = styled.div`
 
 export const daysOfWeek = styled.div`
   display: flex;
-  padding: 0px 0px;
+  padding: 5px 0px;
   justify-content: center;
   align-items: center;
   postion: fixed;
@@ -87,7 +86,7 @@ export const daysOfWeek = styled.div`
 export const DateContainer = styled.div`
   display: flex;
   width: 56px;
-  height: 95px;
+  height: 110px;
   padding: 2px;
   flex-direction: column;
   align-items: center;
@@ -194,9 +193,9 @@ export const week = styled.div`
 export const month = styled.div`
   position: relative;
   margin-top: 190px;
-  padding-bottom: 30px;
+  padding-bottom: 80px;
   display: flex;
-  height: 570px;
+  height: fit-content;
   flex-direction: column;
   align-items: center;
   overflow: auto;
@@ -264,21 +263,4 @@ export const onOffText = styled.p`
   font-weight: 600;
   text-align: center;
   color: ${(props) => (props.$isOff ? "#fff" : "#000")};
-`;
-
-export const floatingBtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-bottom: 30px;
-  position: relative;
-  z-index: 999;
-  left: 150px;
-  bottom: 80px;
-  cursor: pointer;
-  width: 60px;
-  height: 60px;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
-  background-image: url(${FloatingBtn});
-  background-repeat: no-repeat;
-  background-size: 60px 60px;
 `;

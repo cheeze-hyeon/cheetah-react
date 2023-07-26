@@ -14,7 +14,6 @@ import {
 } from "../components/button/styled";
 import { InputTextFieldActive, AlertLabel } from "../components/input/styled";
 import { useEffect, useState } from "react";
-
 import { signIn } from "../apis/api";
 
 const SignInPage = () => {
@@ -62,7 +61,7 @@ const SignInPage = () => {
       setIsButtonActive(true);
   }, [formData]);
   return (
-    <div className="flex flex-col m-auto">
+    <div className="flex flex-col">
       <HeaderBack text="로그인"></HeaderBack>
       <div className="flex w-[350px] flex-col gap-y-[20px] m-auto">
         <form>

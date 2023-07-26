@@ -2,7 +2,7 @@ import { HeaderBack } from "../../components/header/styled";
 import today_cheetah from "../../asset/images/today_cheetah.png";
 import clock from "../../asset/images/clock.png"
 import { TitleHeavy, TitleNormal } from "../../components/text/styled";
-import { MySlimButtonActive } from "./styled";
+import { MySlimButtonActive } from "./index";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "../../apis/api";
 
@@ -35,8 +35,8 @@ const MyPage = () => {
     console.log(formData)
   }, []);
   return (
-    <div>
-      <HeaderBack text="마이 페이지"></HeaderBack>
+    <div className="h-full bg-[#f5f5f5]">
+      <HeaderBack text="마이 페이지"  to={"../"}></HeaderBack>
       <div className="py-[20px] px-[50px] flex flex-col gap-[25px]">
         <div className="flex flex-row m-auto">
           <TitleNormal>{formData.nickname}</TitleNormal>

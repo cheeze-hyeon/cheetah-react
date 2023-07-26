@@ -54,6 +54,7 @@ export const getGoaldetail = async (goal_id) => {
 //POST
 // 캘린더에 추가하지 않을 일반 목표 생성.
 export const createGoal = async (data) => {
+  console.log(data);
   const response = await instanceWithToken.post("/goal/", data);
   if (response.status === 201) {
     console.log("CREATE GOAL SUCCESS");
