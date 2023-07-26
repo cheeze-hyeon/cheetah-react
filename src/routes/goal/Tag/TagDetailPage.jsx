@@ -6,6 +6,7 @@ import tags from "../../../data/tags";
 import PageBothBtn from "../PageBothBtn";
 import TagCreateModal from "../Tag/TagModal/TagCreateModal";
 import TagUpdateModal from "../Tag/TagModal/TagUpdateModal";
+import { HeaderPlus } from "../../../components/header/styled";
 
 const TagDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,6 +40,7 @@ const TagDetail = () => {
 
   return (
     <div>
+      <HeaderPlus text="태그 관리"></HeaderPlus>
       {isModalOpen && selectedTag && (
         <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
           <TagUpdateModal

@@ -316,7 +316,7 @@ export const DateFieldContainer = styled.div`
   flex-shrink: 0;
   height: 50px;
   width: 48%;
-  padding: 0px 7px;
+  padding: 0px 15px;
   border-radius: 8px;
   background: #fff;
   border-width: 2px;
@@ -328,7 +328,9 @@ export const DateFieldContainer = styled.div`
 export const InputDateField = (props) => {
   return (
     <DateFieldContainer>
-      <input type="Date" defaultValue={props.initial_time} />
+      <TextNormal className="w-full">
+        <input type="Date" defaultValue={props.initial_time} className="w-full"/>
+      </TextNormal>
     </DateFieldContainer>
   );
 };
@@ -413,11 +415,11 @@ export const InputTimeField = (props) => {
   // 'useState'를 사용하여 'leftTime'의 초기값을 'props.left_time'으로 설정합니다.
 
   return (
-    <TimeFieldContainer className= "h-[50px]">
+    <TimeFieldContainer className="h-[50px]">
       <ClockIcon />
       <input
         type="number"
-        className= "w-full mx-4 px-1"
+        className="w-full mx-4 px-1"
         defaultValue={props.left_time}
         min={0} // 최소값 설정
         max={100} // 최대값 설정
