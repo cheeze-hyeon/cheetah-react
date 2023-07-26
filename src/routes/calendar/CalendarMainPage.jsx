@@ -31,17 +31,11 @@ import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
   const location = useLocation();
-  var month = location?.state?.currentMonth;
-  if (month === undefined) {
-    month = new Date();
-  } else {
-    var year = new Date();
-    month = new Date(month);
-    year.setMonth(month.getMonth());
-    month = year;
+  var backpath = location.state.selectedDate;
+  if (backpath === undefined) {
+    backpath = new Date();
   }
-  console.log("month", month);
-  const [currentMonth, setCurrentMonth] = useState(new Date(month));
+  const [currentMonth, setCurrentMonth] = useState(new Date(backpath));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
