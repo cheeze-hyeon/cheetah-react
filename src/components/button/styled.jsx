@@ -514,6 +514,7 @@ export const SLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
+  color: ${(props) => (props.color ? props.color : "#000")};
 `;
 
 export const SmallButtonActive = (props) => {
@@ -560,15 +561,15 @@ export const SlimButtonContainer = styled.div`
   height: 40px;
   padding: 0px 20px;
   border-radius: 10px;
-  background: #f19a37;
+  background: ${(props) => (props.bg ? props.bg : "#f19a37")};
   margin: auto;
 `;
 
 export const SlimButtonActive = (props) => {
   return (
-    <SlimButtonContainer>
-      <Frame>
-        <SLabel>확인</SLabel>
+    <SlimButtonContainer bg={props.bg}>
+      <Frame to={props.to}>
+        <SLabel color={props.color}>{props.text}</SLabel>
       </Frame>
     </SlimButtonContainer>
   );

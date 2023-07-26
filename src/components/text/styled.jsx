@@ -60,6 +60,6 @@ export const TextLight = styled.p`
   font-size: 13px;
   line-height: 19px;
   letter-spacing: 0px;
-  text-align: left;
-  font-weight: 400;
+  text-align: ${(props) => props ? props.text : 'left'};
+  font-weight: ${(props) => props ? props.font_weight : 400};
 `;

@@ -1,11 +1,10 @@
 import React from "react";
 
-const HeaderClose = () => {
+const HeaderClose = (props) => {
   return (
     <svg
-      className="block flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-      width={24}
-      height={24}
+      width={props.width}
+      height={props.height}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
