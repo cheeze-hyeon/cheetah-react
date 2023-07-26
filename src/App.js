@@ -6,7 +6,7 @@ import SignInPage from "./routes/SignInPage";
 import SignUpPage from "./routes/SignUpPage";
 import FindIdPage from "./routes/account/FindIdPage"
 import FindPwPage from "./routes/account/FindPwPage"
-import TodayMainPage from "./routes/today/TodayMainPage";
+import TodayPage from "./routes/today/TodayPage";
 import MyPage from "./routes/today/MyPage";
 import InfoDetailPage from "./routes/today/InfoDetailPage";
 import InfoEditPage from "./routes/today/InfoEditPage";
@@ -25,10 +25,10 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/findid" element={<FindIdPage />} />
         <Route path="/findpw" element={<FindPwPage />} />
-        <Route path="/today" element={<TodayMainPage />} />
+        <Route path="/today" element={<TodayPage />} />
         <Route path="/today/mypage" element={<MyPage />} />
         <Route path="/today/mypage/edit" element={<InfoEditPage />} />
-        <Route path="/today/mypage/info" element={<InfoDetailPage />} />
+        <Route path="/today/info" element={<InfoDetailPage />} />
         <Route path="/calendar/" element={<CalendarMainPage />} />
         <Route path="/goal/" element={<GoalMainPage />} />
         <Route path="/tag-detail" element={<TagDetail />} />
