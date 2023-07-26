@@ -158,10 +158,10 @@ export const TagDeleteAlertModal = (props) => {
           <TextNormal>정말로 삭제하시겠습니까?</TextNormal>
         </TextContainer>
         <ButtonsContainer>
-          <ButtonContainer className="bg-[#f19a37]">
+        <ButtonContainer onClick={props.onCloseModal} className="bg-[#f19a37] cursor-pointer">
             <Label className="text-[#fff]">삭제</Label>
           </ButtonContainer>
-          <ButtonContainer className="bg-[#eaeef1]">
+          <ButtonContainer onClick={props.onCloseModal} className="bg-[#eaeef1] cursor-pointer">
             <Label className="text-[#000]">취소</Label>
           </ButtonContainer>
         </ButtonsContainer>

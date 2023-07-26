@@ -3,7 +3,7 @@ import "tailwindcss/tailwind.css";
 import IconShow from "./IconShow";
 import IconHide from "./IconHide";
 import HeaderDelete from "./HeaderDelete";
-import { GoalDeleteModal } from "../styled";
+import { TagDeleteAlertModal } from "../styled";
 
 const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
   const [isHidden, setIsHidden] = useState(false);
@@ -65,7 +65,7 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick}) => {
           {isHidden ? <IconHide /> : <IconShow />}
         </button>
         <HeaderDelete className="w-[23px] h-[23px]" openGoalDeleteModal={openGoalDeleteModal}/>
-        {isModalOpen && <GoalDeleteModal onCloseModal={closeGoalDeleteModal} />}
+        {isModalOpen && <TagDeleteAlertModal onCloseModal={closeGoalDeleteModal} />}
       </div>
     </div>
   );
