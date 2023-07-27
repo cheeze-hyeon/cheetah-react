@@ -138,7 +138,7 @@ export const DueDateGoal = ({
     locale: ko,
   });
   const hours = goal.hoursperday;
-  const hour = Math.round(hours);
+  const hour = Math.floor(hours);
   var min = (hours % 1) * 60;
   min = Math.round(min);
 

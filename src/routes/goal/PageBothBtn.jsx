@@ -5,6 +5,7 @@ import HeaderBack from "./HeaderBack";
 import HeaderPlus from "./HeaderPlus";
 import { TagCreateModal } from "./Tag/TagModal";
 import { TitleHeavy, TitleNormal } from "../../components/text/styled";
+import { ModalOverlay } from "../../components/modal/styled";
 
 const PageBothBtn = ({ tag }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +34,9 @@ const PageBothBtn = ({ tag }) => {
         <HeaderPlus />
       </button>
       {isModalOpen && (
-        <TagCreateModal className="fixed bottom-0" onClose={closeModal} />
+        <ModalOverlay className="z-10">
+          <TagCreateModal className="fixed bottom-0 z-50" onClose={closeModal} />
+        </ModalOverlay>
       )}
     </div>
   );

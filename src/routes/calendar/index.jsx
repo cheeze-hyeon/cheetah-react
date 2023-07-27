@@ -112,8 +112,8 @@ export const CalendarCells = ({
       state: {
         goalsindate: goalsindate,
         historyindate: historyindate,
-        //color_speed: color_speed,
-        //color_history: color_history,
+        color_speed: color_speed,
+        color_history: color_history,
       },
     });
   };
