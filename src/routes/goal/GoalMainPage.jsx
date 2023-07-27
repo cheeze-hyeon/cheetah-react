@@ -144,7 +144,7 @@ const GoalMainPage = () => {
             )}
           </div>
         </div>
-        <FloatingButton onClick={() => showGoalCreateModal} />
+        <FloatingButton onClick={showGoalCreateModal} />
       </GoalMainRoot>
       <GoalTabBar />
       {isModalOpen && (
