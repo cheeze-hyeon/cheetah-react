@@ -570,7 +570,7 @@ export const SlimButtonContainer = styled.div`
 
 export const SlimButtonActive = (props) => {
   return (
-    <SlimButtonContainer bg={props.bg}>
+    <SlimButtonContainer bg={props.bg} onClick={props.onClick}>
       <Frame to={props.to}>
         <SLabel color={props.color}>{props.text}</SLabel>
       </Frame>
@@ -896,13 +896,13 @@ export const Color = styled.div`
   width: 27px;
   height: 27px;
   border-radius: 2px;
-  background: #dc8686;
+  background: ${(props) => props.color};
 `;
 
 export const ColorBtnDefault = (props) => {
   return (
-    <ColorBtnContainer>
-      <Color />
+    <ColorBtnContainer onClick={props.onClick}>
+      <Color color={props.color}/>
     </ColorBtnContainer>
   );
 };

@@ -4,16 +4,13 @@ import GoalDetailModalHeader from "./GoalDetailModalHeader";
 import "tailwindcss/tailwind.css";
 import TodoCheck from "./TodoCheck";
 import tags from "../../../data/tags";
-import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트를 불러옵니다.
 import {
   TextNormal,
   TextLight,
-  TextHeavy,
   TitleNormal,
 } from "../../../components/text/styled";
 import { InputTextFieldActive } from "../../../components/input/styled";
 import {
-  LargeButtonActive,
   SlimButtonActive,
 } from "../../../components/button/styled";
 import { blue, deepOrange, orange } from "@mui/material/colors";
@@ -134,7 +131,7 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
 
   const handleAddToCalendar = () => {
     // "캘린더에 추가하기" 버튼을 클릭했을 때 호출되는 함수입니다.
-    console.log("캘린더에 추가하기 버튼이 클릭되었습니다.");
+    console.log(" 버튼이 클릭되었습니다.");
     return (window.location.href = `/scheduledetailpage/${goal.id}`);
   };
   const hasTodos = todos.length > 0 || showAddTodoField == true;
