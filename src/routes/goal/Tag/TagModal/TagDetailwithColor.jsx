@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
-
+import { TextLight } from "../../../../components/text/styled";
+import tags from "../../../../data/tags"
 const colors = [
   "#dc8686",
   "#eda855",
@@ -37,17 +38,32 @@ const ColorChoose = ({ color, onSelect, isSelected }) => {
 };
 
 const TagDetailwithColor = ({ tag }) => {
-  const initialTagName = tag?.title || "태그명";
+  const initialTagName = tag?.title ;
   const [tagName, setTagName] = useState(initialTagName);
   const initialSelectedColor = tag?.color || colors[0];
   const [selectedColor, setSelectedColor] = useState(initialSelectedColor);
+  const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      const isDuplicate = checkForDuplicateTag(tagName);
+      setShowDuplicateWarning(isDuplicate);
+    }
+  };
+
+  const checkForDuplicateTag = (name) => {
+    // tag 데이터의 태그 이름과 입력된 태그 이름을 비교하여 중복을 체크합니다.
+    return tags.some((tag) => tag.title === name);
+  };
+
+
   return (
     <div className="box-border flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 w-[350px] h-[260px] gap-[18px]">
       <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
         <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[350px] gap-[5px]">
           <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5">
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[5px]">
-              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-medium text-left text-black">
+              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-normal text-left text-black">
                 태그 이름
               </p>
             </div>
@@ -56,20 +72,25 @@ const TagDetailwithColor = ({ tag }) => {
                 <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
                   <input
                     type="text"
-                    className="flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-medium text-left text-black bg-transparent outline-none"
+                    className="flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-normal text-left text-black bg-transparent outline-none"
                     placeholder="태그 이름"
                     value={tagName}
-                    onChange={(e) => setTagName(e.target.value)} // Update the state as the user types
+                    onChange={(e) => setTagName(e.target.value)}
+                    onKeyDown={handleKeyDown} /* 이제 handleKeyDown 함수를 사용하여 엔터 키 이벤트 처리 */
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 px-[5px]">
-            <p className="whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left text-[#f19a37]">
-              *같은 이름의 태그가 이미 있어요!
-            </p>
-          </div>
+          {/* 경고 메시지를 보여주기 위한 요소 */}
+          {showDuplicateWarning && (
+            <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 px-[5px]">
+              <TextLight className="text-[#f19a37]">
+                *같은 이름의 태그가 이미 있어요!
+              </TextLight>
+            </div>
+          )}
+
         </div>
       </div>
       <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5">

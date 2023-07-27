@@ -4,8 +4,8 @@ import TagListShow from "./TagListShow";
 import goals from "../../../data/goals";
 import tags from "../../../data/tags";
 import PageBothBtn from "../PageBothBtn";
-import TagCreateModal from "../Tag/TagModal/TagCreateModal";
-import TagUpdateModal from "../Tag/TagModal/TagUpdateModal";
+import { TagCreateModal, TagUpdateModal } from "./TagModal";
+import { TextLight } from "../../../components/text/styled";
 
 const TagDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,11 +21,15 @@ const TagDetail = () => {
   };
 
   const getCompletedGoalsCount = (tagId) => {
-    return goals.filter((goal) => goal.tag_id === tagId && goal.is_completed === 1).length;
+    return goals.filter(
+      (goal) => goal.tag_id === tagId && goal.is_completed === 1
+    ).length;
   };
 
   const getIncompleteGoalsCount = (tagId) => {
-    return goals.filter((goal) => goal.tag_id === tagId && goal.is_completed === 0).length;
+    return goals.filter(
+      (goal) => goal.tag_id === tagId && goal.is_completed === 0
+    ).length;
   };
 
   const getTagCount = () => {
@@ -41,22 +45,17 @@ const TagDetail = () => {
     <div>
       {isModalOpen && selectedTag && (
         <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
-          <TagUpdateModal
-            tag={selectedTag}
-            onClose={closeModal}
-          />
+          <TagUpdateModal tag={selectedTag} onClose={closeModal} />
         </div>
       )}
       {isModalOpen && !selectedTag && (
         <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
-          <TagCreateModal
-            onClose={closeModal}
-          />
+          <TagCreateModal onClose={closeModal} />
         </div>
       )}
-      <div className="w-[390px] h-screen flex flex-col">
+      <div className="w-[390px] h-full flex flex-col">
         <PageBothBtn onClose={closeModal} />
-        <p className="text-sm text-gray-500 mb-2 pl-4">{`${getTagCount()}개의 태그`}</p>
+        <TextLight className="text-sm text text-gray-500 pl-4">{`${getTagCount()}개의 태그`}</TextLight>
         {tags.map((tag) => (
           <div key={tag.id}>
             {/* Pass the handleTagClick function to TagListShow */}
