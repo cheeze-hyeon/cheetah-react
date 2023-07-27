@@ -10,12 +10,28 @@ import {
   TagDefault,
   TagLabel,
 } from "../../../components/button/styled";
+import { updateTag, deleteTag } from "../../../apis/api_calendar";
 
-const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
-  const [isHidden, setIsHidden] = useState(false);
+const TagListShow = ({
+  tag_default,
+  completedGoals,
+  incompleteGoals,
+  onClick,
+}) => {
+  const [isHidden, setIsHidden] = useState(!tag_default.is_used);
+  const [tag, setTag] = useState(tag_default);
 
   const toggleVisibility = () => {
     setIsHidden((prevState) => !prevState);
+    const updateTagAPI = async () => {
+      const response = await updateTag(tag.id, {
+        ...tag,
+        is_used: !tag.is_used,
+      });
+      console.log("updateTagAPI", response);
+    };
+    updateTagAPI();
+    setTag((prevTag) => ({ ...prevTag, is_used: !prevTag.is_used }));
   };
 
   const cardBackgroundColor = isHidden ? "#F5F5F5" : "#FFF";
@@ -60,7 +76,10 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
           openGoalDeleteModal={openGoalDeleteModal}
         />
         {isModalOpen && (
-          <TagDeleteAlertModal onCloseModal={closeGoalDeleteModal} />
+          <TagDeleteAlertModal
+            onCloseModal={closeGoalDeleteModal}
+            tag_id={tag.id}
+          />
         )}
       </div>
     </div>

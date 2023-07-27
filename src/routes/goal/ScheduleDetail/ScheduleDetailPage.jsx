@@ -73,6 +73,7 @@ const ScheduleDetailPage = () => {
       residual_time: goal.is_scheduled == 0 ? estimatedTime : residual_time,
       cumulative_time: goal.is_scheduled == 0 ? 0 : goal.cumulative_time,
       is_scheduled: goal.is_scheduled,
+      is_completed: progressRate === 100 ? 1 : 0,
       tag_id: selectedTagId,
       start_at: startDate,
       finish_at: finishDate,

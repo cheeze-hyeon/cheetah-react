@@ -3,6 +3,7 @@ import { TextNormal } from "../../components/text/styled";
 import { CheckBox, SlimButtonActive } from "../../components/button/styled";
 import { deleteGoal, deleteGoalwithCalendar } from "../../apis/api_calendar";
 import { useState } from "react";
+import { deleteTag } from "../../apis/api_calendar";
 
 export const GoalMainRoot = styled.div`
   top: 0;
@@ -208,6 +209,13 @@ export const ReturnAlertModal = (props) => {
 };
 
 export const TagDeleteAlertModal = (props) => {
+  const deleteTagAPI = async () => {
+    const response = await deleteTag(props.tag_id);
+    console.log("deleteTagAPI", response);
+    props.onCloseModal();
+    window.location.reload();
+  };
+
   return (
     <ModalContainer>
       <Frame>
@@ -217,7 +225,7 @@ export const TagDeleteAlertModal = (props) => {
         </TextContainer>
         <ButtonsContainer>
           <ButtonContainer
-            onClick={props.onCloseModal}
+            onClick={deleteTagAPI}
             className="bg-[#f19a37] cursor-pointer"
           >
             <Label className="text-[#fff]">삭제</Label>
