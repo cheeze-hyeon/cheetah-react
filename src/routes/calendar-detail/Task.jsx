@@ -5,6 +5,8 @@ import PlusIcon from "../../asset/images/plus.svg";
 import CompletedIcon from "../../asset/images/completed.svg";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
+
+//체크 표시가 있는 history 목표 블록.
 export const CompletedTask = ({
   goal,
   tag,
@@ -53,6 +55,7 @@ export const CompletedTask = ({
   );
 };
 
+//-와 +를 바꿀 수 있는 목표 블록
 export const Task = ({
   goal,
   tag,
@@ -122,6 +125,7 @@ export const Task = ({
   );
 };
 
+//마감기한에 뜨는 목표 블록
 export const DueDateGoal = ({
   goal,
   tag,
