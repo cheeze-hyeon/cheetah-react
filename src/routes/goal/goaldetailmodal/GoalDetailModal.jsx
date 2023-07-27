@@ -26,11 +26,11 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     cumulative_time,
     finish_at,
     tag_id,
+    tag,
     update_at,
     is_scheduled,
   } = goal;
 
-  const tag = tags.find((tag) => tag.id === goal.tag_id);
   const today = new Date().toLocaleDateString();
   const finishDate = new Date(finish_at).toLocaleDateString();
   const isPastDue = new Date(finishDate) < new Date(today);
@@ -42,6 +42,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     : `${finish_at} 까지 달리기`;
 
   const formatDateString = (dateString) => {
+    if (dateString === null) return dateString;
     const [year, month, day] = dateString.split("-");
     return `${month}/${day}`;
   };
@@ -109,7 +110,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
   const handleAddToCalendar = () => {
     // "캘린더에 추가하기" 버튼을 클릭했을 때 호출되는 함수입니다.
     console.log("캘린더에 추가하기 버튼이 클릭되었습니다.");
-    return window.location.href = `/scheduledetailpage/${goal.id}`;
+    return (window.location.href = `/scheduledetailpage/${goal.id}`);
   };
   const hasTodos = filteredTodos.length > 0 || showAddTodoField == true;
   return (
@@ -127,7 +128,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
               </TextLight>
             </div>
           )}
-          {is_scheduled === 0 && (
+          {is_scheduled === false && (
             <TextLight
               className="whitespace-pre-wrap text-left text-[#222b45]"
               font_weight="600"
@@ -136,17 +137,17 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
             </TextLight>
           )}
           {/* is_scheduled === 1인 경우에만 남은 시간 표시 */}
-          {is_scheduled !== 0 && (
+          {is_scheduled !== false && (
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
               <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
                 {calculateRemainingTime()}
               </TextLight>
             </div>
           )}
-          {is_scheduled !== 0 && (
+          {is_scheduled !== false && (
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
               <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                진행률 {Math.floor(progress_rate * 100)}%
+                진행률 {Math.floor(progress_rate)}%
               </TextLight>
             </div>
           )}
@@ -157,7 +158,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
           text="right"
           font_weight="600"
         >
-          {is_scheduled !== 0 && `${formattedFinishDate}까지 달리기`}
+          {is_scheduled !== false && `${formattedFinishDate}까지 달리기`}
         </TextLight>
       </div>
       <div className="w-full flex flex-col gap-[15px] pb-[20px]">
@@ -170,7 +171,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
           </div>
         )}
         {!hasTodos && (
-          <TextLight className="px-[10px]">할일이 없어요:)</TextLight>
+          <TextLight className="px-[10px]">할일이 없어요:</TextLight>
         )}
         {showAddTodoField ? (
           <div className="flex flex-row items-center w-full box-border gap-[15px]">
@@ -205,10 +206,12 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
       </div>
       <SlimButtonActive
         to={`/scheduledetailpage/${goal.id}`}
-        text={`${is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
+        text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
-        onClick={`${is_scheduled ? handleAddToCalendar : handleEditButtonClick}`}
+        onClick={`${
+          is_scheduled ? handleAddToCalendar : handleEditButtonClick
+        }`}
       ></SlimButtonActive>
     </div>
   );
