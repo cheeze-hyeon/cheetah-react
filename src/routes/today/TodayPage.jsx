@@ -8,7 +8,6 @@ import { Modal } from "../goal/styled";
 import { useEffect, useState } from "react";
 import { getUserInfo, logOut } from "../../apis/api";
 import { getCookie } from "../../utils/cookie";
-
 const TodayPage = () => {
   // useEffect = (()=>{
   //   // const [userProfile, setUserProfile] = useState("");

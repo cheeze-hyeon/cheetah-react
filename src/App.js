@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
-import {  BrowserRouter, Routes, Route } from "react-router-dom";  
+import { firebaseApp } from "./firebase";
+import "./utils/fcm";
+import { Routes, Route } from "react-router-dom";  
 import HomePage from "./routes/HomePage";
 import SignInPage from "./routes/SignInPage";
 import SignUpPage from "./routes/SignUpPage";
@@ -15,6 +17,7 @@ import GoalMainPage from "./routes/goal/GoalMainPage";
 import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
 import TagDetail from "./routes/goal/Tag/TagDetailPage";
 import ScheduleDetailPage from "./routes/goal/ScheduleDetail/ScheduleDetailPage";
+
 
 const App = () => {
   return (
@@ -46,3 +49,20 @@ const App = () => {
 };
 
 export default App;
+
+// const firebaseMessaging = firebaseApp.messaging();
+// firebaseMessaging
+//   .requestPermission()
+//   .then(() => {
+//     return firebaseMessaging.getToken(); // 등록 토큰 받기
+//   })
+//   .then(function (token) {
+//     console.log(token); //토큰 출력
+//   })
+//   .catch(function (error) {
+//     console.log("FCM Error : ", error);
+//   });
+//   firebaseMessaging.onMessage((payload) => {
+//     console.log(payload.notification.title);
+//     console.log(payload.notification.body);
+//   });

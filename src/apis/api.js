@@ -159,3 +159,8 @@ export const patchUserInfo = async (data) => {
     return response;
   }
 };
+
+export const postFCMToken = async (data) =>{
+  const response = await instanceWithToken.post("/fcmtoken/", data)
+  return response;
+}
