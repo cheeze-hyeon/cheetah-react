@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { addMonths, subMonths, format, set } from "date-fns";
+import { addMonths, subMonths, format, set, isPast } from "date-fns";
 
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
@@ -46,6 +46,7 @@ const CalendarMainPage = () => {
   const [speedhistorywithDate, setSpeedhistorywithDate] = useState([]);
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
   const [maxSpeed, setMaxSpeed] = useState(0);
+  const [isSpeedOff, setIsSpeedOff] = useState(true);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -224,6 +225,7 @@ const CalendarMainPage = () => {
     setGoalsListwithImpossibledates(goalsProcessed);
     console.log("goal with impossibledates", goalsProcessed);
   };
+
   const getHistoryinmonthAPI = async () => {
     const historyRaw = await getHistoryinmonth(format(currentMonth, "yyyy-MM"));
     var historyProcessed = [];
@@ -368,6 +370,10 @@ const CalendarMainPage = () => {
     console.log("Speed of the Past!", speedwithDate_temp);
   }, [historywithDate, maxSpeed]);
 
+  const controlSpeedButton = () => {
+    setIsSpeedOff(!isSpeedOff);
+  };
+
   return (
     <>
       <s.calendarMainRoot>
@@ -379,7 +385,14 @@ const CalendarMainPage = () => {
           />
           <s.buttonContainer>
             <t.TextNormal>치타 속도 보기 (hour/day)</t.TextNormal>
-            <SpeedButton />
+            <s.switchFrame onClick={controlSpeedButton}>
+              <s.track $isOff={isSpeedOff} />
+              <s.onOffCircle $isOff={isSpeedOff}>
+                <s.onOffText $isOff={isSpeedOff}>
+                  {isSpeedOff ? "OFF" : "ON"}
+                </s.onOffText>
+              </s.onOffCircle>
+            </s.switchFrame>
           </s.buttonContainer>
           <CalendarDays />
         </s.headerContainer>
@@ -390,6 +403,7 @@ const CalendarMainPage = () => {
           historywithDate={historywithDate}
           speedwithDate={speedwithDate}
           speedhistorywithDate={speedhistorywithDate}
+          isSpeedOff={isSpeedOff}
         />
         <FloatingButton onClick={showGoalCreateModal} />
       </s.calendarMainRoot>

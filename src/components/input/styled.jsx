@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { TextLight, TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
+import Check from "../../routes/goal/goaldetailmodal/Check";
 
 export const LabelContainer = styled.div`
   display: flex;
@@ -353,13 +353,14 @@ export const InputDateField = (props) => {
     <DateFieldContainer>
       <TextNormal className="w-full">
         <input
-        type="Date"
-//         defaultValue={props.initial_time}
-        value={props.value}
-        onChange={props.onChange}
-        placeholder={props.placeholder}
-        defaultValue={props.defaultValue}
-        className="w-full"/>
+          type="Date"
+          //         defaultValue={props.initial_time}
+          value={props.value}
+          onChange={props.onChange}
+          placeholder={props.placeholder}
+          defaultValue={props.defaultValue}
+          className="w-full"
+        />
       </TextNormal>
     </DateFieldContainer>
   );
@@ -654,7 +655,6 @@ export const NewTodoInput = styled.input`
 
 export const NewTodo = ({ todo, onDelete }) => {
   const [title, setTitle] = useState("");
-  const [isHidden, setIsHidden] = useState(false); // 추가: 숨기는 상태를 추가합니다.
 
   useEffect(() => {
     setTitle(todo.title);
@@ -672,7 +672,7 @@ export const NewTodo = ({ todo, onDelete }) => {
     <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
       <div className="box-border flex justify-between items-center flex-grow basis-full relative">
         <div className="box-border flex justify-start items-center flex-grow basis-full relative gap-[5px]">
-          <CheckFalse />
+          <Check />
           <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 w-[270px] relative gap2.5">
             <NewTodoInput
               type="text"

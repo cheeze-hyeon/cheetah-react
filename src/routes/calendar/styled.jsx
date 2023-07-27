@@ -93,7 +93,38 @@ export const DateContainer = styled.div`
   gap: 2px;
   cursor: pointer;
   flex-shrink: 0;
+  background-color: ${(props) =>
+    props.$isSpeedOff || !props.$isCurrentMonth
+      ? "#FFFFFF" // isSpeedOff가 true인 경우 배경색을 흰색으로 설정
+      : props.$isPastTask
+      ? props.$colorSpeed === 0
+        ? "var(--white)"
+        : props.$colorSpeed === 1
+        ? "var(--hist-20)"
+        : props.$colorSpeed === 2
+        ? "var(--hist-40)"
+        : props.$colorSpeed === 3
+        ? "var(--hist-60)"
+        : props.$colorSpeed === 4
+        ? "var(--hist-80)"
+        : props.$colorSpeed === 5
+        ? "var(--hist-100)"
+        : "var(--white)"
+      : props.$colorSpeed === 0
+      ? "var(--task-0)"
+      : props.$colorSpeed === 1
+      ? "var(--task-20)"
+      : props.$colorSpeed === 2
+      ? "var(--task-40)"
+      : props.$colorSpeed === 3
+      ? "var(--task-60)"
+      : props.$colorSpeed === 4
+      ? "var(--task-80)"
+      : props.$colorSpeed === 5
+      ? "var(--task-100)"
+      : "var(--white)"};
 `;
+
 export const DateWrapper = styled.div`
   display: flex;
   width: 18px;
@@ -144,7 +175,7 @@ const EventContainer = styled.div`
   width: 100%;
   height: 15px;
   padding: 1.5px 0px 2px 2px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   align-self: stretch;
   border-radius: 2px;
@@ -152,6 +183,7 @@ const EventContainer = styled.div`
   background: ${(props) => {
     return props.color;
   }};
+  opacity: ${(props) => (props.$isCurrentMonth === true ? "1" : "0.3")};
 `;
 
 const EventLabel = styled.span`
@@ -162,11 +194,12 @@ const EventLabel = styled.span`
   font-weight: 400;
   overflow: hidden;
   height: 100%;
+  padding-left: 2px;
 `;
 
 export const EventElement = (props) => {
   return (
-    <EventContainer color={props.color}>
+    <EventContainer $isCurrentMonth={props.$isCurrentMonth} color={props.color}>
       <EventLabel>{props.title}</EventLabel>
     </EventContainer>
   );
