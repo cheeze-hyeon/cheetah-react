@@ -92,11 +92,11 @@ export const headerMessageContainer = styled.div`
 
 export const headerMessageOrange = styled(TextNormal)`
   color: var(--orange);
-  font-weight: 200;
+  font-weight: 600;
 `;
 
 export const headerMessageGray = styled(TextNormal)`
-  color: var(--gray);
+  color: var(--darkgray2);
   font-weight: 200;
 `;
 

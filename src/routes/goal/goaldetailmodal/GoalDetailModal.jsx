@@ -10,9 +10,7 @@ import {
   TitleNormal,
 } from "../../../components/text/styled";
 import { InputTextFieldActive } from "../../../components/input/styled";
-import {
-  SlimButtonActive,
-} from "../../../components/button/styled";
+import { SlimButtonActive } from "../../../components/button/styled";
 import { blue, deepOrange, orange } from "@mui/material/colors";
 import {
   createTodo,
@@ -137,7 +135,11 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
   const hasTodos = todos.length > 0 || showAddTodoField == true;
   return (
     <div className="box-border flex flex-col justify-top items-start w-[357px] h-fill px-[15px] py-[10px]">
-      <GoalDetailModalHeader onCloseModal={onCloseModal} />
+      <GoalDetailModalHeader
+        goal_id={goal.id}
+        onCloseModal={onCloseModal}
+        goal_is_scheduled={goal.is_scheduled}
+      />
       <div className="flex flex-col gap-[5px] w-full">
         <div className="flex flex-row gap-[8px] items-center px-[10px]">
           {tag && (
