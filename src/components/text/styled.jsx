@@ -11,6 +11,7 @@ export const TitleHeavy = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: left;
+  color: ${(props) => props.color};
 `;
 
 export const TitleNormal = styled.p`
@@ -24,6 +25,7 @@ export const TitleNormal = styled.p`
   letter-spacing: 0px;
   font-weight: 600;
   text-align: left;
+  color: ${(props) => props.color};
 `;
 
 export const TextHeavy = styled.p`
@@ -37,6 +39,7 @@ export const TextHeavy = styled.p`
   letter-spacing: 0px;
   text-align: left;
   font-weight: 600;
+  color: ${(props) => props.color};
 `;
 
 export const TextNormal = styled.p`
@@ -50,6 +53,7 @@ export const TextNormal = styled.p`
   letter-spacing: 0px;
   font-weight: 500;
   text-align: left;
+  color: ${(props) => props.color};
 `;
 
 export const TextLight = styled.p`
@@ -60,6 +64,8 @@ export const TextLight = styled.p`
   font-size: 13px;
   line-height: 19px;
   letter-spacing: 0px;
-  text-align: left;
-  font-weight: 400;
+  color: ${(props) => props.color};
+
+  text-align: ${(props) => props ? props.text : 'left'};
+  font-weight: ${(props) => props ? props.font_weight : 400};
 `;

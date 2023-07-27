@@ -1,9 +1,9 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
 
-const CheckFalse = ({ onClick }) => {
+const Check = () => {
   return (
-    <button onClick={onClick}>
+    <div>
       <svg
         className="block flex-grow-0 flex-shrink-0 w-[25px] h-[25px] relative"
         width={25}
@@ -26,8 +26,8 @@ const CheckFalse = ({ onClick }) => {
           strokeLinejoin="round"
         />
       </svg>
-    </button>
+    </div>
   );
 };
 
-export default CheckFalse;
+export default Check;

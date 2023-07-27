@@ -3,9 +3,10 @@ import "tailwindcss/tailwind.css";
 import { useNavigate } from "react-router-dom";
 import HeaderBack from "./HeaderBack";
 import HeaderPlus from "./HeaderPlus";
-import TagCreateModal from "./Tag/TagModal/TagCreateModal";
+import { TagCreateModal } from "./Tag/TagModal";
+import { TitleHeavy, TitleNormal } from "../../components/text/styled";
 
-const PageBothBtn = ({tag}) => {
+const PageBothBtn = ({ tag }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -27,11 +28,13 @@ const PageBothBtn = ({tag}) => {
       <button className="focus:outline-none" onClick={goBack}>
         <HeaderBack />
       </button>
-      <p className="text-xl font-semibold text-black">태그 관리</p>
+      <TitleNormal>태그 관리</TitleNormal>
       <button className="focus:outline-none" onClick={openModal}>
         <HeaderPlus />
       </button>
-      {isModalOpen && <TagCreateModal className="fixed bottom-0" onClose={closeModal} />}
+      {isModalOpen && (
+        <TagCreateModal className="fixed bottom-0" onClose={closeModal} />
+      )}
     </div>
   );
 };

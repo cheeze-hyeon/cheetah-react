@@ -62,8 +62,6 @@ const InfoEditPage = () => {
         console.log("Form submission failed:", error);
       }
     }
-    // 참고 : api 연결은 아래처럼!!
-    // createPost(formData, navigate);
   };
   return (
     <div>
@@ -73,20 +71,18 @@ const InfoEditPage = () => {
           <div className="flex flex-col gap-y-[10px]">
             <TextNormal>닉네임</TextNormal>
             <InputTextFieldActive
-              placeholder="오민"
               type="text"
               name="nickname"
-              value = {formData.nickname}
+              defaultvalue = {formData.nickname}
               onChange = {handleChangeNickname}
             ></InputTextFieldActive>
           </div>
           <div className="flex flex-col gap-y-[10px]">
             <TextNormal>제한속도 (hour/day)</TextNormal>
             <InputTextFieldActive
-              defaultvalue="6"
               type="number"
               name="max_speed"
-              value = {formData.max_speed}
+              defaultvalue = {formData.max_speed}
               onChange = {handleChangeMaxSpeed}
             ></InputTextFieldActive>
             <AlertLabel>

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Ellipse from "../../asset/images/Ellipse.png";
-import FloatingBtn from "../../asset/images/floatingBtn.png";
 
 export const calendarMainRoot = styled.div`
   top: 0;
@@ -76,7 +75,7 @@ export const day = styled.div`
 
 export const daysOfWeek = styled.div`
   display: flex;
-  padding: 0px 0px;
+  padding: 5px 0px;
   justify-content: center;
   align-items: center;
   postion: fixed;
@@ -87,14 +86,45 @@ export const daysOfWeek = styled.div`
 export const DateContainer = styled.div`
   display: flex;
   width: 56px;
-  height: 95px;
+  height: 110px;
   padding: 2px;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   cursor: pointer;
   flex-shrink: 0;
+  background-color: ${(props) =>
+    props.$isSpeedOff || !props.$isCurrentMonth
+      ? "#FFFFFF" // isSpeedOff가 true인 경우 배경색을 흰색으로 설정
+      : props.$isPastTask
+      ? props.$colorSpeed === 0
+        ? "var(--white)"
+        : props.$colorSpeed === 1
+        ? "var(--hist-20)"
+        : props.$colorSpeed === 2
+        ? "var(--hist-40)"
+        : props.$colorSpeed === 3
+        ? "var(--hist-60)"
+        : props.$colorSpeed === 4
+        ? "var(--hist-80)"
+        : props.$colorSpeed === 5
+        ? "var(--hist-100)"
+        : "var(--white)"
+      : props.$colorSpeed === 0
+      ? "var(--task-0)"
+      : props.$colorSpeed === 1
+      ? "var(--task-20)"
+      : props.$colorSpeed === 2
+      ? "var(--task-40)"
+      : props.$colorSpeed === 3
+      ? "var(--task-60)"
+      : props.$colorSpeed === 4
+      ? "var(--task-80)"
+      : props.$colorSpeed === 5
+      ? "var(--task-100)"
+      : "var(--white)"};
 `;
+
 export const DateWrapper = styled.div`
   display: flex;
   width: 18px;
@@ -145,7 +175,7 @@ const EventContainer = styled.div`
   width: 100%;
   height: 15px;
   padding: 1.5px 0px 2px 2px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   align-self: stretch;
   border-radius: 2px;
@@ -153,6 +183,7 @@ const EventContainer = styled.div`
   background: ${(props) => {
     return props.color;
   }};
+  opacity: ${(props) => (props.$isCurrentMonth === true ? "1" : "0.3")};
 `;
 
 const EventLabel = styled.span`
@@ -163,11 +194,12 @@ const EventLabel = styled.span`
   font-weight: 400;
   overflow: hidden;
   height: 100%;
+  padding-left: 2px;
 `;
 
 export const EventElement = (props) => {
   return (
-    <EventContainer color={props.color}>
+    <EventContainer $isCurrentMonth={props.$isCurrentMonth} color={props.color}>
       <EventLabel>{props.title}</EventLabel>
     </EventContainer>
   );
@@ -194,9 +226,9 @@ export const week = styled.div`
 export const month = styled.div`
   position: relative;
   margin-top: 190px;
-  padding-bottom: 30px;
+  padding-bottom: 80px;
   display: flex;
-  height: 570px;
+  height: fit-content;
   flex-direction: column;
   align-items: center;
   overflow: auto;
@@ -264,21 +296,4 @@ export const onOffText = styled.p`
   font-weight: 600;
   text-align: center;
   color: ${(props) => (props.$isOff ? "#fff" : "#000")};
-`;
-
-export const floatingBtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-bottom: 30px;
-  position: relative;
-  z-index: 999;
-  left: 150px;
-  bottom: 80px;
-  cursor: pointer;
-  width: 60px;
-  height: 60px;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
-  background-image: url(${FloatingBtn});
-  background-repeat: no-repeat;
-  background-size: 60px 60px;
 `;

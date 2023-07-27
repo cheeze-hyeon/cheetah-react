@@ -1,33 +1,16 @@
 import styled from "styled-components";
-
-import userprofiles from "../../data/userprofiles";
-import goals from "../../data/goals";
-import { useEffect, useState } from "react";
-import { TextNormal } from "../../components/text/styled";
+import { styled as muiStyled } from "@mui/system";
 import {
-  HamburgerHeaderModal,
-  HeaderModal,
-} from "../../components/header/styled";
-import { Link } from "react-router-dom";
+  TextNormal,
+  TextLight,
+  TitleNormal,
+} from "../../components/text/styled";
+import Slider from "@mui/material/Slider";
 import {
-  TextBtnSmall,
-  TextBtnSmallWithLogout,
+  LargeButtonActiveContainer,
+  LargeLabel,
 } from "../../components/button/styled";
-import today_cheetah from "../../asset/images/today_cheetah.png";
-
-// Back에서 API 제작할 때 오늘에 해당하는 goals 보내줌.
-// API 명세 참고
-
-// calendarDetail 페이지 API 활용할 수도 있을 것 같습니다!
-// const [todayGoals, setTodayGoals] = useState([]);
-
-// tdoayGoals 바탕으로 useEffect 활용해서 totalHours, completedHours 업데이트하기
-// const [totalHours, setTotalHours] = useState(1.5);
-// const [completedHours, setCompletedHours] = useState(6);
-
-// export const dealt = Math.floor((completedHours / totalHours) * 100);
-
-export const dealt = Math.floor((1.8 / 6) * 100);
+import { Link } from "react-router-dom";
 
 export const Progress = styled.div`
   width: 300px;
@@ -38,7 +21,7 @@ export const Progress = styled.div`
 `;
 
 export const Dealt = styled.div`
-  background-color: #f19a37;
+  background-color: #ffb35e;
   width: ${(props) => props.dealt + "%"};
   height: 100%;
   border-radius: 5px;
@@ -77,15 +60,6 @@ export const Frame = styled(Link)`
   text-decoration: none;
 `;
 
-export const MenuList = (props) => {
-  return (
-    <MenuContainer>
-      <Frame to={props.to}>
-        <TextNormal>{props.text}</TextNormal>
-      </Frame>
-    </MenuContainer>
-  );
-};
 export const HamburgerContainer = styled.div`
   display: flex;
   justify-content: end;
@@ -98,32 +72,6 @@ export const HamburgerContainer = styled.div`
   box-shadow: -2px 0px 4px 0 rgba(0, 0, 0, 0.1);
   margin-left: 139px;
 `;
-// clickMenu={clickMenu} setClickMenu={onClickMenu}
-export const HamburgerMenu = (props) => {
-  const [cM, sCM] = useState(true);
-  const oCM = () => {
-    console.log("here!");
-    return sCM(!cM);
-  };
-  return (
-    <HamburgerContainer>
-      <div className="flex flex-col gap-[20px] mb-[473px]">
-        <HeaderModal
-          clickMenu={props.clickMenu}
-          onClickMenu={props.onClickMenu}
-        ></HeaderModal>
-        <div>
-          <MenuList to="/today/mypage" text="마이페이지"></MenuList>
-          <MenuList to="/today/mypage/info" text="계정 정보"></MenuList>
-          <MenuList text="알림 설정"></MenuList>
-        </div>
-      </div>
-      <div className="flex justify-end place-content-end mr-[24px]">
-        <TextBtnSmallWithLogout onClick = {props.onClickLogOut} to = {props.toHomePage}></TextBtnSmallWithLogout>
-      </div>
-    </HamburgerContainer>
-  );
-};
 
 export const MyContainer = styled.div`
   box-sizing: border-box;
@@ -170,12 +118,300 @@ export const SLabel = styled.p`
   text-transform: uppercase;
 `;
 
-export const MySlimButtonActive = (props) => {
+export const calendarDetailRoot = styled.div`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: var(--default-bold-body-size);
+  color: var(--black);
+  font-family: var(--font-pretendard);
+  width: 390px;
+  height: 844px;
+  background: var(--background);
+  overflow: hidden;
+`;
+
+export const headerContainer = styled.div`
+  width: 390px;
+  height: fit-content;
+  padding-top: 47px;
+  position: fixed;
+  background: var(--orange);
+`;
+
+export const calendarHeader = styled.div`
+  display: flex;
+  padding: 15px 15px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const headerTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  gap: 5px;
+`;
+
+export const titleText = styled(TitleNormal)`
+  color: var(--white);
+`;
+
+export const headerIconContainer = styled.div`
+  display: flex;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const headerMessageContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: left;
+  align-self: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  height: 49px;
+  gap: 5px;
+  padding: 15px 20px;
+  background: var(--white);
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 1px;
+  border-left-width: 0px;
+  border-color: var(--light-gray);
+  border-style: solid;
+`;
+
+export const headerMessageOrange = styled(TextNormal)`
+  color: var(--orange);
+  font-weight: 200;
+`;
+
+export const headerMessageGray = styled(TextNormal)`
+  color: var(--gray);
+  font-weight: 200;
+`;
+
+export const Container = styled.div`
+  margin-top: 176px;
+  display: flex;
+  width: 350px;
+  height: 645px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  overflow: auto;
+`;
+
+export const textContainer = styled.div`
+  display: flex;
+  padding: 0px 10px;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+`;
+
+export const goalCount = styled(TextNormal)`
+  color: var(--darkgray2);
+`;
+
+export const tasksContainer = styled.div`
+  padding-bottom: 120px;
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow: hidden;
+`;
+
+export const task = styled.div`
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 18px;
+  background: var(--white);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1);
+`;
+
+export const task_top = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+`;
+
+export const task_top_left = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
+`;
+
+export const taskTitle = styled(TextNormal)`
+  font-weight: 600;
+`;
+
+export const taskInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const tag = styled.div`
+  display: flex;
+  padding: 2px 7px;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-radius: 15px;
+  background: var(--orange-light, #ffb35e);
+
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px; /* 158.333% */
+`;
+
+export const speed = styled(tag)`
+  background: var(--light-gray);
+`;
+
+export const progress = styled(TextLight)`
+  color: var(--darkgray2);
+`;
+
+export const taskBtnContainer = styled.div`
+  cursor: pointer;
+`;
+
+export const task_bottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px; /* 146.154% */
+`;
+
+export const dueDate = styled(TextLight)`
+  opacity: ${({ $isHidden }) => ($isHidden ? "0.3" : "1")};
+`;
+
+export const TaskCompleteModalContainer = styled.div`
+  overflow: auto;
+  background: var(--white);
+  display: flex;
+  width: 357px;
+  height: 506px;
+  padding: 15px 15px 5px 15px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 15px;
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  cursor: default;
+`;
+
+export const modalElementContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex: 1 0 0;
+  align-self: stretch;
+`;
+
+export const modalCenter = styled.div`
+  margin-top: 60px;
+  display: flex;
+  height: 352px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  align-self: stretch;
+  padding: 30px 10px 0px 10px;
+  overflow: auto;
+`;
+
+export const progressLargeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  align-self: stretch;
+`;
+
+export const progressTopContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  align-self: stretch;
+  padding-right: 15px;
+`;
+
+export const ProgressSlider = muiStyled(Slider)(() => ({
+  height: 15,
+  color: "var(--orange)",
+}));
+
+export const notiBox = styled.div`
+  display: flex;
+  padding: 17px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 10px;
+  background: var(--light-gray-2, #f5f5f5);
+`;
+
+export const todosContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  align-self: stretch;
+  overflow: auto;
+`;
+
+export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
+  background: var(--orange);
+  width: 100%;
+`;
+export const CompleteButton = () => {
   return (
-    <MySlimButtonContainer color={props.color}>
-      <Frame to={"/today/mypage" + props.to}>
-        <SLabel>{props.text}</SLabel>
-      </Frame>
-    </MySlimButtonContainer>
+    <CompleteButtonContainer>
+      <LargeLabel className="text-[#fff]">완료하기</LargeLabel>
+    </CompleteButtonContainer>
   );
 };

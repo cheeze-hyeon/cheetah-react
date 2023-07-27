@@ -11,9 +11,12 @@ import CloseIcon from "../../asset/images/close.svg";
 
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
-
   const onBackBtnClick = () => {
-    navigate("/calendar");
+    navigate("/calendar", {
+      state: {
+        backpath: selectedDate,
+      },
+    });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState, React } from "react";
+import { useState, useEffect, React } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
@@ -7,21 +7,9 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
+import isPast from "date-fns/isPast";
 
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-
-export const SpeedButton = () => {
-  const [isOff, setIsOff] = useState(true);
-
-  return (
-    <s.switchFrame onClick={() => setIsOff(!isOff)}>
-      <s.track $isOff={isOff} />
-      <s.onOffCircle $isOff={isOff}>
-        <s.onOffText $isOff={isOff}>{isOff ? "OFF" : "ON"}</s.onOffText>
-      </s.onOffCircle>
-    </s.switchFrame>
-  );
-};
 
 export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
@@ -58,18 +46,21 @@ export const CalendarCells = ({
   selectedDate,
   goalsList,
   historywithDate,
-  goals,
-  tags
+  speedwithDate,
+  speedhistorywithDate,
+  isSpeedOff,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
+
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
+
   //onDateClick에는 선택한 day를 기반으로 finish_at이 day이면 무조건 포함하고 그렇지 않으면 impossible date에 해당하는 경우 true로 아닌 경우 false로 반환하도록 한다.
   const onDateClick = (day) => {
     const formattedDate = format(day, "yyyy-MM-dd");
@@ -96,6 +87,9 @@ export const CalendarCells = ({
     var historyindate = historywithDate.filter(
       (history) => history[0] === formattedDate
     );
+    if (historyindate.length === 0) {
+      historyindate = [[formattedDate, []]];
+    }
     console.log(
       "dateclick! goalsindate: ",
       goalsindate,
@@ -103,9 +97,45 @@ export const CalendarCells = ({
       historyindate
     );
 
-    navigate(`/calendar/${formattedDate}`, {
-      state: { goalsindate: goalsindate, historyindate: historyindate },
+    var color_speed = speedwithDate.filter((speed) => {
+      return speed !== undefined && speed[0] === formattedDate;
     });
+    if (color_speed.length > 0) color_speed = color_speed[0][1];
+
+    var color_history = speedhistorywithDate.filter((speed) => {
+      return speed != undefined && speed[0] === formattedDate;
+    });
+
+    if (color_history.length > 0) color_history = color_history[0][1];
+    console.log("color_speed: ", color_speed, "color_history: ", color_history);
+    navigate(`/calendar/${formattedDate}`, {
+      state: {
+        goalsindate: goalsindate,
+        historyindate: historyindate,
+        //color_speed: color_speed,
+        //color_history: color_history,
+      },
+    });
+  };
+
+  const getSpeedColor = (day) => {
+    const formattedDate = format(new Date(day), "yyyy-MM-dd");
+
+    var color_speed = speedwithDate.filter((speed) => {
+      return speed !== undefined && speed[0] === formattedDate;
+    });
+    if (color_speed.length > 0) color_speed = color_speed[0][1];
+
+    var color_history = speedhistorywithDate.filter((speed) => {
+      return speed !== undefined && speed[0] === formattedDate;
+    });
+
+    if (color_history.length > 0) color_history = color_history[0][1];
+
+    const speedOfDate = isPast(day) ? color_history : color_speed;
+
+    console.log(speedOfDate);
+    return speedOfDate;
   };
 
   while (day <= endDate) {
@@ -115,21 +145,22 @@ export const CalendarCells = ({
       const isSunday = i === 0; // 첫 번째 요일이 일요일이고 이번 달인지 확인
       const isCurrentMonth = isSameMonth(day, monthStart);
       const getEventsForDay = (day) => {
-        return goals.filter((goal) => {
-          const goalDate = new Date(goal.finish_at);
-          return isSameDay(goalDate, day); // 날짜만 비교
-        });
+        return goalsList.filter(
+          (goal) => goal.finish_at === format(day, "yyyy-MM-dd")
+        );
       };
-
-      const getTagForDay = (tags, goal) => {
-        return tags.find((tag) => tag.id === goal.tag_id);
-      };
-
       const eventsForDay = getEventsForDay(day);
       const threeEvents = eventsForDay.slice(0, 3);
 
       days.push(
-        <s.DateContainer key={day} onClick={() => onDateClick(cloneDay)}>
+        <s.DateContainer
+          key={day}
+          onClick={() => onDateClick(cloneDay)}
+          $isPastTask={isPast(day)}
+          $colorSpeed={getSpeedColor(day)}
+          $isSpeedOff={isSpeedOff}
+          $isCurrentMonth={isCurrentMonth}
+        >
           <s.EventsWrapper>
             <s.DateWrapper>
               {isSameDay(day, selectedDate) ? (
@@ -148,7 +179,8 @@ export const CalendarCells = ({
             <s.EventElement
               key={goal.id}
               title={goal.title}
-              color={getTagForDay(tags, goal).color}
+              color={goal.tag.color}
+              $isCurrentMonth={isCurrentMonth}
             />
           ))}
           {eventsForDay.length > 3 ? (

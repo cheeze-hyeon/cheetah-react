@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TextNormal } from "../text/styled";
-
+import FloatingBtn from "../../asset/images/floatingBtn.png";
 export const Frame = styled(Link)`
   box-sizing: border-box;
   display: flex;
@@ -42,7 +42,7 @@ export const LBtnActiveContainer = styled.div`
   width: 347px;
   height: 55px;
   border-radius: 8px;
-  background: #716a56;
+  background: ${(props) => props.backgroundColor || "#716a56"};
   margin: auto;
   margin-bottom: 14px;
 `;
@@ -111,7 +111,7 @@ export const LargeButtonActiveContainer = styled.div`
 export const LargeButtonNonActive = (props) => {
   return (
     <LBtnNonActiveContainer onClick={props.onClick}>
-      <Frame >
+      <Frame>
         <LBtnNonActiveLabel>{props.text}</LBtnNonActiveLabel>
       </Frame>
     </LBtnNonActiveContainer>
@@ -119,10 +119,15 @@ export const LargeButtonNonActive = (props) => {
 };
 
 export const LargeButtonActive = (props) => {
+  const buttonStyle = {
+    color: props.textColor || "#FFFFFF", // Default text color is white if not provided
+  };
   return (
-    <LBtnActiveContainer type="button" onClick={props.onClick}>
-      <Frame to={props.to}>
-        <LargeLabel className="text-[#fff]" onClick={props.onClick}>{props.text}</LargeLabel>
+    <LBtnActiveContainer onClick={props.onClick} backgroundColor={props.backgroundColor}>
+      <Frame to={props.to} style={buttonStyle}>
+        <LargeLabel className="text-[#fff]" onClick={props.onClick}>
+          {props.text}
+        </LargeLabel>
       </Frame>
     </LBtnActiveContainer>
   );
@@ -333,11 +338,12 @@ export const CheckBoxLabel = styled.p`
 export const CheckBox = (props) => {
   return (
     <CheckBoxContainer>
-      <CheckBoxInput 
-      type="checkbox" 
-      checked={props.checked}
-      name={props.name}
-      onChange={props.onChange}
+      <CheckBoxInput
+        type="checkbox"
+        checked={props.checked}
+        name={props.name}
+        id={props.id}
+        onChange={props.onChange}
       />
       <CheckBoxTextContainer>
         <CheckBoxLabel>{props.text}</CheckBoxLabel>
@@ -411,12 +417,12 @@ export const TwoButtonActiveContainer2 = styled.div`
 export const TwoButton = (props) => {
   return (
     <TwoButtonContainer>
-      <TwoButtonActiveContainer1 onClick={props.to1}>
+      <TwoButtonActiveContainer1 onClick={props.onClick1}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text1}</LargeLabel>
         </Frame>
       </TwoButtonActiveContainer1>
-      <TwoButtonActiveContainer2 onClick={props.to2}>
+      <TwoButtonActiveContainer2 onClick={props.onClick2}>
         <Frame>
           <LargeLabel className="text-[#fff]">{props.text2}</LargeLabel>
         </Frame>
@@ -511,6 +517,7 @@ export const SLabel = styled.p`
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
+  color: ${(props) => (props.color ? props.color : "#000")};
 `;
 
 export const SmallButtonActive = (props) => {
@@ -557,15 +564,15 @@ export const SlimButtonContainer = styled.div`
   height: 40px;
   padding: 0px 20px;
   border-radius: 10px;
-  background: #f19a37;
+  background: ${(props) => (props.bg ? props.bg : "#f19a37")};
   margin: auto;
 `;
 
 export const SlimButtonActive = (props) => {
   return (
-    <SlimButtonContainer>
-      <Frame>
-        <SLabel>확인</SLabel>
+    <SlimButtonContainer bg={props.bg} onClick={props.onClick}>
+      <Frame to={props.to}>
+        <SLabel color={props.color}>{props.text}</SLabel>
       </Frame>
     </SlimButtonContainer>
   );
@@ -614,36 +621,10 @@ export const TagDefault = (props) => {
       color={props.color}
       $isSelected={props.isSelected}
       onClick={props.onClick}
+      setSelected={props.setSelected}
     >
       <TagLabel $isSelected={props.isSelected}>{props.text}</TagLabel>
     </TagContainer>
-  );
-};
-
-export const TagSelectContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 63px;
-  height: 35px;
-  padding: 8px 12px;
-  border-width: 4px;
-  border-style: solid;
-  padding: 8px 12px;
-  border-radius: 20px;
-  border: 4px solid var(--white, #fff);
-  background: var(--gray, #ddd);
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
-`;
-
-export const TagSelect = (props) => {
-  return (
-    <TagSelectContainer>
-      <TextNormal>{props.text}</TextNormal>
-    </TagSelectContainer>
   );
 };
 
@@ -764,11 +745,13 @@ export const TextBtnWIconSmall = (props) => {
   );
 };
 
-export const TextBtnWResetIcon = () => {
+export const TextBtnWResetIcon = ({ onClick }) => {
   return (
-    <TextBtnWIconSmall text="되돌리기">
-      <IconReset />
-    </TextBtnWIconSmall>
+    <div onClick={onClick}>
+      <TextBtnWIconSmall text="되돌리기">
+        <IconReset />
+      </TextBtnWIconSmall>
+    </div>
   );
 };
 
@@ -783,9 +766,9 @@ export const TextBtnSmallWithicon = () => {
 
 export const TextBtnSmallWithLogout = (props) => {
   return (
-    <TextBtnSwIconContainer onClick = {props.onClick} to={props.to}>
+    <TextBtnSwIconContainer onClick={props.onClick} to={props.to}>
       <IconLogout />
-      <TextBtnWIconSmall text="로그아웃" ></TextBtnWIconSmall>
+      <TextBtnWIconSmall text="로그아웃"></TextBtnWIconSmall>
     </TextBtnSwIconContainer>
   );
 };
@@ -884,14 +867,14 @@ export const FloatingBtnContainer = styled.div`
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 `;
 
-export const FloatingBtn = () => {
-  return (
-    <FloatingBtnContainer>
-      <Ellipse4 />
-      <Shape />
-    </FloatingBtnContainer>
-  );
-};
+// export const FloatingButton = () => {
+//   return (
+//     <FloatingBtnContainer>
+//       <Ellipse4 />
+//       <Shape />
+//     </FloatingBtnContainer>
+//   );
+// };
 
 export const ColorBtnContainer = styled.div`
   box-sizing: border-box;
@@ -913,13 +896,13 @@ export const Color = styled.div`
   width: 27px;
   height: 27px;
   border-radius: 2px;
-  background: #dc8686;
+  background: ${(props) => props.color};
 `;
 
 export const ColorBtnDefault = (props) => {
   return (
-    <ColorBtnContainer>
-      <Color />
+    <ColorBtnContainer onClick={props.onClick}>
+      <Color color={props.color}/>
     </ColorBtnContainer>
   );
 };
@@ -945,3 +928,19 @@ export const ColorBtnSelect = (props) => {
     </ColorBtnContainer>
   );
 };
+
+export const FloatingButton = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 100;
+  right: 5%;
+  bottom: 12%;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+  background-image: url(${FloatingBtn});
+  background-repeat: no-repeat;
+  background-size: 60px 60px;
+`;

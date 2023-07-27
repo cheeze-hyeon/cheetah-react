@@ -5,7 +5,6 @@ import PlusIcon from "../../asset/images/plus.svg";
 import CompletedIcon from "../../asset/images/completed.svg";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
-
 export const CompletedTask = ({
   goal,
   tag,
@@ -20,6 +19,11 @@ export const CompletedTask = ({
   const completeDate = format(new Date(goal.update_at), "M/d(E)", {
     locale: ko,
   });
+  const hours = goal.hoursperday;
+  const hour = Math.round(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -28,8 +32,10 @@ export const CompletedTask = ({
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer onClick={onClickCompletedBtn}>
@@ -47,16 +53,44 @@ export const CompletedTask = ({
   );
 };
 
-export const Task = ({ goal, tag, openGoalDetailModal }) => {
+export const Task = ({
+  goal,
+  tag,
+  openGoalDetailModal,
+  hidden,
+  minusDateAPI,
+  plusDateAPI,
+  currentdate,
+}) => {
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState(hidden);
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
     locale: ko,
   });
 
-  const onClickTaskBtn = () => {
-    !isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+  const changeStateofGoals = () => {
+    if (isHidden) {
+      plusDateAPI(goal.id, currentdate);
+    } else {
+      minusDateAPI(goal.id, currentdate);
+    }
+    console.log("change!");
   };
+
+  const onClickTaskBtn = () => {
+    //!isCompleted ? setIsHidden(!isHidden) : setIsCompleted(!isCompleted);
+    if (!isCompleted) {
+      changeStateofGoals();
+      setIsHidden(!isHidden);
+    } else {
+      setIsCompleted(!isCompleted);
+    }
+  };
+  const hours = goal.hoursperday;
+  const hour = Math.floor(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -65,8 +99,11 @@ export const Task = ({ goal, tag, openGoalDetailModal }) => {
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {" "}
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer onClick={onClickTaskBtn}>
@@ -96,6 +133,12 @@ export const DueDateGoal = ({
   const completeDate = format(new Date(goal.update_at), "M/d(E)", {
     locale: ko,
   });
+  const hours = goal.hoursperday;
+  const hour = Math.round(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+
+  console.log(hours, hour, min);
 
   return (
     <s.TaskLayout>
@@ -104,8 +147,10 @@ export const DueDateGoal = ({
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>~h ~m/day</s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate * 100}%</s.Progress>
+            <s.Speed>
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer></s.TaskBtnContainer>

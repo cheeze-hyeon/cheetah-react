@@ -5,7 +5,11 @@ import {
 } from "../components/button/styled.jsx";
 import logo from "../asset/images/logo.png";
 
-import { TitleHeavy, TitleNormal } from "../components/text/styled.jsx";
+import {
+  TextHeavy,
+  TitleHeavy,
+  TitleNormal,
+} from "../components/text/styled.jsx";
 import React, { useEffect } from "react";
 import { refreshToken } from "../apis/api";
 
@@ -45,12 +49,12 @@ const HomePage = () => {
   return (
     <div className="mt-[237px] mb-[69px]">
       <div className="flex justify-center items-center flex-col mb-[165px]">
-        <img src={logo} className="mb-3.5" alte="face"></img>
+        <img src={logo} className="mb-3.5 w-[170px]" alte="face"></img>
         <div className="mb-5">
-          <TitleHeavy>CHEETHA</TitleHeavy>
+          <TitleHeavy>CHEETAH</TitleHeavy>
         </div>
         <div>
-          <TitleNormal>일정관리 자동화 서비스</TitleNormal>
+          <TextHeavy color="var(--brown)">일정관리 자동화 서비스</TextHeavy>
         </div>
       </div>
       <div>

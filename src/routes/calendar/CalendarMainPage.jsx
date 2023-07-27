@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { addMonths, subMonths, format, set } from "date-fns";
+import { useLocation } from "react-router-dom";
+import { addMonths, subMonths, format, set, isPast } from "date-fns";
 
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
@@ -15,8 +16,6 @@ import { ModalOverlay } from "../../components/modal/styled";
 import axios from "axios";
 import { getCookie } from "../../utils/cookie";
 import { GoalCreateModal } from "./goal-create/styled";
-import tags from "../../data/tags";
-import goals from "../../data/goals";
 import {
   getGoalsinmonth,
   getGoalsindate,
@@ -26,19 +25,17 @@ import {
   createGoal,
   createGoalwithCalendar,
 } from "../../apis/api_calendar";
-
-//캘린더 작업을 위한 임시//
-// import axios from "axios";
-// import { getCookie } from "../../utils/cookie";
-// import { type } from "@testing-library/user-event/dist/type";
-// import { fi } from "date-fns/locale";
-// import { create } from "@mui/material/styles/createTransitions";
-// import goals from "../../data/goals";
-// import tags from "../../data/tags";
-
+import { FloatingButton } from "../../components/button/styled";
+import { getUserInfo } from "../../apis/api";
+import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const location = useLocation();
+  var backpath = location?.state?.backpath;
+  if (backpath === undefined) {
+    backpath = new Date();
+  }
+  const [currentMonth, setCurrentMonth] = useState(new Date(backpath));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
@@ -48,6 +45,8 @@ const CalendarMainPage = () => {
   const [speedwithDate, setSpeedwithDate] = useState([]);
   const [speedhistorywithDate, setSpeedhistorywithDate] = useState([]);
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
+  const [maxSpeed, setMaxSpeed] = useState(0);
+  const [isSpeedOff, setIsSpeedOff] = useState(true);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -89,6 +88,7 @@ const CalendarMainPage = () => {
       var start_at = goal.start_at; //e.g "2023-07-18"
       var progress_rate = goal.progress_rate;
       var update_at = goal.update_at;
+      var tag = goal.tag;
       var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
@@ -102,6 +102,7 @@ const CalendarMainPage = () => {
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
+          tag: tag,
         };
       }
 
@@ -143,6 +144,7 @@ const CalendarMainPage = () => {
         finish_at: finish_at,
         update_at: update_at,
         progress_rate: progress_rate,
+        tag: tag,
       };
     });
     setGoalsList(goalsProcessed);
@@ -163,6 +165,7 @@ const CalendarMainPage = () => {
       var impossibledates_set = goal.impossibledates_set; //e.g ["2023-07-21","2023-07-22"]
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
+      var tag = goal.tag;
 
       if (progress_rate === 100) {
         return {
@@ -173,6 +176,7 @@ const CalendarMainPage = () => {
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
+          tag: tag,
         };
       }
       var dates_task_rawswet = [];
@@ -214,11 +218,14 @@ const CalendarMainPage = () => {
         update_at: update_at,
         progress_rate: progress_rate,
         impossibledates_set: impossibledates_set,
+        tag: tag,
+        residual_time: residual_time,
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
     console.log("goal with impossibledates", goalsProcessed);
   };
+
   const getHistoryinmonthAPI = async () => {
     const historyRaw = await getHistoryinmonth(format(currentMonth, "yyyy-MM"));
     var historyProcessed = [];
@@ -247,15 +254,13 @@ const CalendarMainPage = () => {
         if (history[0] === date) {
           history[1].push([
             {
-              goal_id: goal_id,
-              goal_title: goal_title,
+              id: goal_id,
+              title: goal_title,
               progress_rate: goal_progress_rate,
               finish_at: goal_finish_at,
               update_at: goal_update_at,
-              color: goal_color,
-              tag_title: goal_tag.title,
-              tag_id: goal_tag.id,
-              hours: hour,
+              tag: goal_tag,
+              hoursperday: hour,
             },
           ]);
         }
@@ -270,6 +275,12 @@ const CalendarMainPage = () => {
     //캘린더에 표시될 goalList와 날짜를 선택하면 전달될 goalListwithImpossibledates를 가져온다.
     getGoalsinmonthAPI();
     getGoalswithImpossibledatesinmonthAPI();
+    const getUserInfoAPI = async () => {
+      const userInfo = await getUserInfo();
+      setMaxSpeed(userInfo.data.max_speed);
+      console.log("userinfo", userInfo.data.max_speed);
+    };
+    getUserInfoAPI();
     ///history를 불러온다.
     getHistoryinmonthAPI();
   }, [currentMonth]);
@@ -300,9 +311,27 @@ const CalendarMainPage = () => {
       });
       return [date[0], hours];
     });
+    speedwithDate_temp2 = speedwithDate_temp2.map((date) => {
+      var newhours = (date[1] / maxSpeed) * 100;
+      newhours = Math.round(newhours);
+      if (newhours > 100) {
+        newhours = 5;
+      } else if (newhours > 80 && newhours <= 100) {
+        newhours = 4;
+      } else if (newhours > 60 && newhours <= 80) {
+        newhours = 3;
+      } else if (newhours > 40 && newhours <= 60) {
+        newhours = 2;
+      } else if (newhours > 20 && newhours <= 40) {
+        newhours = 1;
+      } else if (newhours >= 0 && newhours <= 20) {
+        newhours = 0;
+      }
+      return [date[0], newhours];
+    });
     setSpeedwithDate(speedwithDate_temp2);
-    console.log("Success");
-  }, [goalsList]);
+    console.log("Speed of the Future", speedwithDate_temp2);
+  }, [goalsList, maxSpeed]);
   //--------------------불러온 historyList를 바탕으로 speedhistorywithDate를 업데이트한다. ---------------------//
   useEffect(() => {
     if (historywithDate.length === 0) {
@@ -318,24 +347,31 @@ const CalendarMainPage = () => {
       history[1].forEach((h) => {
         hours_added += h[0].hours;
       });
+      hours_added = (hours_added / maxSpeed) * 100;
+      hours_added = Math.round(hours_added);
+      if (hours_added > 100) {
+        hours_added = 5;
+      } else if (hours_added > 80 && hours_added <= 100) {
+        hours_added = 4;
+      } else if (hours_added > 60 && hours_added <= 80) {
+        hours_added = 3;
+      } else if (hours_added > 40 && hours_added <= 60) {
+        hours_added = 2;
+      } else if (hours_added > 20 && hours_added <= 40) {
+        hours_added = 1;
+      } else if (hours_added >= 0 && hours_added <= 20) {
+        hours_added = 0;
+      }
       speedwithDate_temp.push([begin_string, hours_added]);
+
       begin.setDate(begin.getDate() + 1);
     });
     setSpeedhistorywithDate(speedwithDate_temp);
-    console.log("history added!", speedwithDate_temp);
-  }, [historywithDate]);
+    console.log("Speed of the Past!", speedwithDate_temp);
+  }, [historywithDate, maxSpeed]);
 
-  ///---------목표 추가 모달은 캘린더에 추가하지 않는 일반 목표와 캘린더에 추가하는 일정 목표로 나뉜다. 일정 목표가 추가되면 calendar mainpage를 새로고침한다.-----------------//
-
-  //1. 일반 목표 추가 data={tag:,title:,todo_list=[]}
-  const addGoal = async (data) => {
-    const goal = await createGoal(data);
-    console.log("목표 추가 완료!", goal);
-  };
-  //2. 캘린더에 추가하는 일정 목표 추가
-  const addGoalwithCalendar = async (data) => {
-    const goal = await createGoalwithCalendar(data);
-    console.log("일정에 등록된 목표 추가 완료!", goal);
+  const controlSpeedButton = () => {
+    setIsSpeedOff(!isSpeedOff);
   };
 
   return (
@@ -349,7 +385,14 @@ const CalendarMainPage = () => {
           />
           <s.buttonContainer>
             <t.TextNormal>치타 속도 보기 (hour/day)</t.TextNormal>
-            <SpeedButton />
+            <s.switchFrame onClick={controlSpeedButton}>
+              <s.track $isOff={isSpeedOff} />
+              <s.onOffCircle $isOff={isSpeedOff}>
+                <s.onOffText $isOff={isSpeedOff}>
+                  {isSpeedOff ? "OFF" : "ON"}
+                </s.onOffText>
+              </s.onOffCircle>
+            </s.switchFrame>
           </s.buttonContainer>
           <CalendarDays />
         </s.headerContainer>
@@ -358,21 +401,22 @@ const CalendarMainPage = () => {
           selectedDate={selectedDate}
           goalsList={goalsListwithImpossibledates}
           historywithDate={historywithDate}
-          goals={goals}
-          tags={tags}
+          speedwithDate={speedwithDate}
+          speedhistorywithDate={speedhistorywithDate}
+          isSpeedOff={isSpeedOff}
         />
-        <CalendarTabBar />
-        <s.floatingBtnContainer onClick={showGoalCreateModal} />
+        <FloatingButton onClick={showGoalCreateModal} />
       </s.calendarMainRoot>
+      <CalendarTabBar />
+
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
             to1={showGoalCreateModal}
-            to2={addModalStep}
+            addModalStep={addModalStep}
             step={modalStep}
-            clickBtnClose={showGoalCreateModal}
+            modalClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
-            clickCompleteBtn={showGoalCreateModal}
             tags={tags}
           ></GoalCreateModal>
         </ModalOverlay>
