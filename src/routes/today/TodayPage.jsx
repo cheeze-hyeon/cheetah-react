@@ -238,67 +238,62 @@ const onClickLogOut = async (e) => {
 
   return (
     <div>
-      {clickMenu ? (
-        <HamburgerMenu
-          clickMenu={clickMenu}
-          onClickMenu={onClickMenu}
-          onClickLogOut={onClickLogOut}
-        />
-      ) : (
-        <div>
-          <HeaderMenu
-            clickMenu={clickMenu}
-            onClickMenu={onClickMenu}
-            text="TODAY"
-          ></HeaderMenu>
-          <div className="flex flex-col items-center gap-[20px] pt-5">
-            <img src={today_cheetah} className="w-[200px]" alt="face" />
-
-            <div
-              id="cheetah_dashboard"
-              className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
-            >
-              <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
-                <div className="flex flex-row">
-                  <TextHeavy>{formData.nickname}</TextHeavy>
-                  <TextHeavy>님은 오늘</TextHeavy>
-                </div>
-                <div className="flex flex-row">
-                  <TextHeavy className="text-[#f19a37]">{parseInt(totalHour)}</TextHeavy>
-                  <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
-                  <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
-                </div>
-              </div>
+      <HeaderMenu
+        clickMenu={clickMenu}
+        onClickMenu={onClickMenu}
+        text="TODAY"
+      ></HeaderMenu>
+      <div className="flex flex-col items-center gap-[20px] pt-5">
+        <img src={today_cheetah} className="w-[200px]" alt="face" />
+        <div
+          id="cheetah_dashboard"
+          className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
+        >
+          <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
+            <div className="flex flex-row">
+              <TextHeavy>{formData.nickname}</TextHeavy>
+              <TextHeavy>님은 오늘</TextHeavy>
             </div>
-            <div id="today_goals" className="w-[330px] m-auto">
-              <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
-                <div>
-                  <TextHeavy>To Do List</TextHeavy>
-                </div>
-                <div className="flex flex-row">
+            <div className="flex flex-row">
+              <TextHeavy className="text-[#f19a37]">{parseInt(totalHour)}</TextHeavy>
+              <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
+              <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
+            </div>
+          </div>
+        </div>
+        <div id="today_goals" className="w-[330px] m-auto">
+          <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
+            <div>
+              <TextHeavy>To Do List</TextHeavy>
+            </div>
+            <div className="flex flex-row">
                   <TextLight>{incompleted_tasks.length + completed_tasks.length}</TextLight>
-                  <TextLight>개 중 </TextLight>
+              <TextLight>개 중 </TextLight>
                   <TextLight>{completed_tasks.length}</TextLight>
                   <TextLight>개 완료</TextLight>
-                </div>
-              </div>
-              {/* cheetah graph */}
-              {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
-              <div className="my-[20px]">
-                <div className="flex flex-row w-[300px] mx-auto">
-                  <Dealt dealt={dealt - 7.4} className="" />
-                  <img src={cheetah_graph} alt="face" className="w-[45px]" />
-                </div>
-                <Progress>
-                  <Dealt dealt={dealt} />
-                </Progress>
-              </div>
-              <>
+            </div>
+          </div>
+          {/* cheetah graph */}
+          {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
+          <div className="my-[20px]">
+            <div className="flex flex-row w-[300px] mx-auto">
+              <Dealt dealt={dealt - 8} className="" />
+              {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
+              {/* 치타 모습과 같은 기준으로 변화하기 */}
+              <AnimationDiv speed={totalHour} max_speed={formData.max_speed}>
+                <img src={cheetah_graph} alt="face" className="w-[45px]" />
+              </AnimationDiv>
+            </div>
+            <Progress>
+              <Dealt dealt={dealt} />
+            </Progress>
+          </div>
+          <>
       <s.CalendarDetailLayout>
         <s.GoalCountWrapper>
           <s.GoalCount>
             {`${incompleted_tasks.length}개의 목표, ${completed_tasks.length}건 완료`}
-          </s.GoalCount>
+      </s.GoalCount>
         </s.GoalCountWrapper>
         <s.TasksContainer>
           {
@@ -335,11 +330,18 @@ const onClickLogOut = async (e) => {
         </s.TasksContainer>
       </s.CalendarDetailLayout>
     </>
-            </div>
-          </div>
-          <TodayTabBar />
         </div>
+      </div>
+      {clickMenu ? (
+        <HamburgerMenu
+          clickMenu={clickMenu}
+          onClickMenu={onClickMenu}
+          onClickLogOut={onClickLogOut}
+        />
+      ) : (
+        <></>
       )}
+      <TodayTabBar />
     </div>
   );
 };

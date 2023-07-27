@@ -107,7 +107,7 @@ const GoalMainPage = () => {
       <GoalHeader text="내 목표" to="/tag-detail" />
 
       <GoalMainRoot>
-        <div className="h-full w-[390px] ">
+        <div className="h-full w-[390px] bg-[#f5f5f5]">
           <div className="flex flex-starts overflow-x-auto scrollbar-hide w-[390px]">
             <TagList
               tags={tagList}

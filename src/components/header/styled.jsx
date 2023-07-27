@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { Close } from "../input/styled";
+import HeaderClose from "../../routes/goal/goaldetailmodal/HeaderClose";
 
 export const HeaderContainer = styled.div`
   box-sizing: border-box;
@@ -293,6 +294,18 @@ export const HeaderModal = (props, onClose) => {
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
       <Close type="button" onClick={props.modalClose} />
+    </ModalContainer>
+  );
+};
+
+export const HeaderHamburgerModal = (props, onClose) => {
+  return (
+    <ModalContainer className="mr-[15px]">
+      <HeaderNone />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Button onClick={props.onClick} className="mr-[5px]">
+        <HeaderClose width={props.width} height={props.height}/>
+      </Button>
     </ModalContainer>
   );
 };
