@@ -17,8 +17,14 @@ import {
   SlimButtonActive,
 } from "../../../components/button/styled";
 import { blue, deepOrange, orange } from "@mui/material/colors";
+import {
+  createTodo,
+  getTodo,
+  updateTodo,
+  deleteTodo,
+} from "../../../apis/api_calendar";
 
-const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
+const GoalDetailModal = ({ goal, onCloseModal }) => {
   const {
     title,
     estimated_time,
@@ -30,6 +36,18 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     update_at,
     is_scheduled,
   } = goal;
+
+  const [todos, setTodos] = useState([]); // 투두 목록을 상태로 관리합니다.
+
+  const getTodoAPI = async () => {
+    const response = await getTodo(goal.id);
+    setTodos(response);
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getTodoAPI();
+  }, []);
 
   const today = new Date().toLocaleDateString();
   const finishDate = new Date(finish_at).toLocaleDateString();
@@ -67,8 +85,6 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const filteredTodos = todos.filter((todo) => todo.goal_id === goal.id);
-
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
 
   const [showAddTodoField, setShowAddTodoField] = useState(false);
@@ -91,7 +107,16 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
       };
 
       setNewTodoTitle("");
-      todos.push(newTodo);
+      const createTodoAPI = async () => {
+        const response = await createTodo({
+          goal_id: goal.id,
+          title: newTodoTitle.trim(),
+          is_completed: false,
+        });
+        newTodo.id = response.id;
+        setTodos([...todos, newTodo]); // 기존 투두 목록에 새로운 투두를 추가합니다.
+      };
+      createTodoAPI();
       setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
@@ -112,7 +137,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     console.log("캘린더에 추가하기 버튼이 클릭되었습니다.");
     return (window.location.href = `/scheduledetailpage/${goal.id}`);
   };
-  const hasTodos = filteredTodos.length > 0 || showAddTodoField == true;
+  const hasTodos = todos.length > 0 || showAddTodoField == true;
   return (
     <div className="box-border flex flex-col justify-top items-start w-[357px] h-fill px-[15px] py-[10px]">
       <GoalDetailModalHeader onCloseModal={onCloseModal} />
@@ -165,8 +190,8 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
         {hasTodos && (
           <div className="flex flex-col gap-[5px] pt-[10px]">
             {hasTodos &&
-              filteredTodos.map((todo) => (
-                <TodoCheck key={todo.id} todo={todo} />
+              todos.map((todo) => (
+                <TodoCheck key={todo.id} todo={todo} setTodos={setTodos} />
               ))}
           </div>
         )}

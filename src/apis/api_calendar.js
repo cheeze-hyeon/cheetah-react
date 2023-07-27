@@ -263,6 +263,16 @@ export const updateTodo = async (todo_id, data) => {
   return response.data;
 };
 
+export const getTodo = async (goal_id) => {
+  const response = await instanceWithToken.get("/todo/?goal=" + goal_id);
+  if (response.status === 200) {
+    console.log("GET TODO SUCCESS");
+  } else {
+    console.log("[ERROR] error while getting todo");
+  }
+  return response.data;
+};
+
 //------------------------------------------------------TAG------------------------------------------------------//
 
 //POST data={user,title,color,is_used}
