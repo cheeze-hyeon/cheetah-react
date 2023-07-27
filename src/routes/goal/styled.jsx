@@ -150,6 +150,7 @@ export const GoalDeleteModal = (props) => {
     } else {
       deleteGoalwithCalendarAPI();
     }
+    localStorage.setItem("filtered_tag_id", props.tag_id || 0);
     window.location.reload();
   };
 

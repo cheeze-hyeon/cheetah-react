@@ -5,14 +5,14 @@ import "tailwindcss/tailwind.css";
 import { TagDefault } from "../../../components/button/styled";
 
 const TagList = ({ tags, goal, onTagClick }) => {
-  const [selectedTagId, setSelectedTagId] = useState(null);
-  useEffect(()=>{
-    if(goal){
-      setSelectedTagId(goal.tag_id)
+  const [selectedTagId, setSelectedTagId] = useState(
+    Number(localStorage.getItem("filtered_tag_id")) || null
+  );
+  useEffect(() => {
+    if (goal) {
+      setSelectedTagId(goal.tag_id);
     }
-  }, [])
-
-  
+  }, []);
 
   const handleTagClick = (tagId) => {
     setSelectedTagId((prevSelectedTagId) => {
@@ -22,7 +22,7 @@ const TagList = ({ tags, goal, onTagClick }) => {
     });
     onTagClick(tagId);
   };
-  console.log(selectedTagId)
+  console.log(selectedTagId);
 
   const isSelected = (tag) => {
     return selectedTagId === tag.id;

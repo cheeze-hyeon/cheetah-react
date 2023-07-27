@@ -19,7 +19,7 @@ import {
   deleteTodo,
 } from "../../../apis/api_calendar";
 
-const GoalDetailModal = ({ goal, onCloseModal }) => {
+const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
   const {
     title,
     estimated_time,
@@ -139,6 +139,7 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
         goal_id={goal.id}
         onCloseModal={onCloseModal}
         goal_is_scheduled={goal.is_scheduled}
+        tag_id={filtered_tagId}
       />
       <div className="flex flex-col gap-[5px] w-full">
         <div className="flex flex-row gap-[8px] items-center px-[10px]">

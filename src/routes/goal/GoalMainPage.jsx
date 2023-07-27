@@ -21,7 +21,9 @@ import { getAllGoals, getFilteredTags } from "../../apis/api_calendar";
 import { set } from "date-fns";
 
 const GoalMainPage = () => {
-  const [selectedTagId, setSelectedTagId] = useState(null);
+  const [selectedTagId, setSelectedTagId] = useState(
+    Number(localStorage.getItem("filtered_tag_id")) || null
+  );
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [goalList, setGoalList] = useState([]);
   const [filteredGoals, setFilteredGoals] = useState([]);
@@ -34,6 +36,7 @@ const GoalMainPage = () => {
 
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
+    localStorage.setItem("filtered_tag_id", tagId);
   };
 
   useEffect(() => {
@@ -54,17 +57,23 @@ const GoalMainPage = () => {
       setTagList(response.map((tag) => ({ ...tag, user_id: tag.user })));
     };
     getFilteredTagsAPI();
+    localStorage.setItem("filtered_tag_id", selectedTagId);
   }, []);
 
   useEffect(() => {
     var filteredGoals_temp = [];
+    console.log("selectedTagId", selectedTagId, typeof selectedTagId);
     if (selectedTagId) {
+      console.log("filter 시도");
+      console.log("goalList", goalList);
+      if (goalList.length === 0) return;
       filteredGoals_temp = goalList
         .filter((goal) => goal.tag_id === selectedTagId)
         .map((goal) => ({
           ...goal,
           tag: tagList.find((tag) => tag.id === goal.tag_id),
         }));
+      console.log("filtered_goals_temp", filteredGoals_temp);
     } else {
       filteredGoals_temp = goalList.map((goal) => ({
         ...goal,
@@ -72,7 +81,8 @@ const GoalMainPage = () => {
       }));
     }
     setFilteredGoals(filteredGoals_temp);
-  }, [selectedTagId, goalList]);
+    console.log("filter 끝");
+  }, [selectedTagId, goalList, tagList]);
 
   const handleGoalCardClick = (goalId) => {
     const selectedGoal = goalList.find((goal) => goal.id === goalId);
@@ -144,6 +154,7 @@ const GoalMainPage = () => {
             goal={selectedGoal}
             todos={todos}
             onCloseModal={handleModalClose}
+            filtered_tagId={selectedTagId}
           />
         </div>
       )}
