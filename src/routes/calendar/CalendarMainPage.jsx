@@ -31,7 +31,7 @@ import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
   const location = useLocation();
-  var backpath = location.state.selectedDate;
+  var backpath = location?.state?.backpath;
   if (backpath === undefined) {
     backpath = new Date();
   }
