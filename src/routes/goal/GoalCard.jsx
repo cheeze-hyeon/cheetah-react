@@ -69,7 +69,7 @@ const GoalCard = ({ goal, onClick }) => {
 
   return (
     <div
-      onClick={onClick}
+      onClick={() => onClick(goal)}
       className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[111px] gap-2 overflow-y-auto px-[18px] py-[15px] rounded-[5px] bg-white border-t-0 border-r-0 border-b-0 border-l-[6px]"
       style={{
         boxShadow: "0px 1px 5px 0 rgba(0,0,0,0.1)",
