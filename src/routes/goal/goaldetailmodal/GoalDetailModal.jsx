@@ -4,19 +4,15 @@ import GoalDetailModalHeader from "./GoalDetailModalHeader";
 import "tailwindcss/tailwind.css";
 import TodoCheck from "./TodoCheck";
 import tags from "../../../data/tags";
-import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트를 불러옵니다.
 import {
   TextNormal,
   TextLight,
-  TextHeavy,
   TitleNormal,
 } from "../../../components/text/styled";
 import { InputTextFieldActive } from "../../../components/input/styled";
 import {
-  LargeButtonActive,
   SlimButtonActive,
 } from "../../../components/button/styled";
-import { blue, deepOrange, orange } from "@mui/material/colors";
 
 const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
   const {

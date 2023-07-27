@@ -2,6 +2,23 @@ import styled from "styled-components";
 import { TextNormal } from "../../components/text/styled";
 import { CheckBox, SlimButtonActive } from "../../components/button/styled";
 
+export const GoalMainRoot = styled.div`
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: var(--default-bold-body-size);
+  color: var(--black);
+  font-family: var(--font-pretendard);
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+`;
+
 export const ModalContainer = styled.div`
   display: flex;
   position: fixed;
@@ -106,22 +123,28 @@ export const Label = styled.p`
 `;
 
 export const GoalDeleteModal = (props) => {
-  console.log(props)
+  console.log(props);
   return (
     <ModalContainer>
       <Frame>
         <div>
-          <TextContainer className="mb-[10px]"> 
+          <TextContainer className="mb-[10px]">
             <TextNormal>목표를 삭제하시겠습니까?</TextNormal>
           </TextContainer>
           <CheckBox text="캘린더에서만 삭제하기"></CheckBox>
         </div>
         <ButtonsContainer>
-          <ButtonContainer onClick={props.onCloseModal} className="bg-[#f19a37] cursor-pointer">
+          <ButtonContainer
+            onClick={props.onCloseModal}
+            className="bg-[#f19a37] cursor-pointer"
+          >
             <Label className="text-[#fff]">삭제</Label>
           </ButtonContainer>
-          <ButtonContainer onClick={props.onCloseModal} className="bg-[#eaeef1] cursor-pointer">
-            <Label className="text-[#000]" >취소</Label>
+          <ButtonContainer
+            onClick={props.onCloseModal}
+            className="bg-[#eaeef1] cursor-pointer"
+          >
+            <Label className="text-[#000]">취소</Label>
           </ButtonContainer>
         </ButtonsContainer>
       </Frame>
@@ -158,10 +181,16 @@ export const TagDeleteAlertModal = (props) => {
           <TextNormal>정말로 삭제하시겠습니까?</TextNormal>
         </TextContainer>
         <ButtonsContainer>
-        <ButtonContainer onClick={props.onCloseModal} className="bg-[#f19a37] cursor-pointer">
+          <ButtonContainer
+            onClick={props.onCloseModal}
+            className="bg-[#f19a37] cursor-pointer"
+          >
             <Label className="text-[#fff]">삭제</Label>
           </ButtonContainer>
-          <ButtonContainer onClick={props.onCloseModal} className="bg-[#eaeef1] cursor-pointer">
+          <ButtonContainer
+            onClick={props.onCloseModal}
+            className="bg-[#eaeef1] cursor-pointer"
+          >
             <Label className="text-[#000]">취소</Label>
           </ButtonContainer>
         </ButtonsContainer>
