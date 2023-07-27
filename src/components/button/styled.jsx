@@ -123,7 +123,10 @@ export const LargeButtonActive = (props) => {
     color: props.textColor || "#FFFFFF", // Default text color is white if not provided
   };
   return (
-    <LBtnActiveContainer onClick={props.onClick} backgroundColor={props.backgroundColor}>
+    <LBtnActiveContainer
+      onClick={props.onClick}
+      backgroundColor={props.backgroundColor}
+    >
       <Frame to={props.to} style={buttonStyle}>
         <LargeLabel className="text-[#fff]" onClick={props.onClick}>
           {props.text}
@@ -579,6 +582,7 @@ export const SlimButtonActive = (props) => {
 };
 
 export const TagContainer = styled.div`
+  cursor: pointer;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -902,7 +906,7 @@ export const Color = styled.div`
 export const ColorBtnDefault = (props) => {
   return (
     <ColorBtnContainer onClick={props.onClick}>
-      <Color color={props.color}/>
+      <Color color={props.color} />
     </ColorBtnContainer>
   );
 };

@@ -358,10 +358,11 @@ export const InputDateField = (props) => {
           value={props.value}
           onChange={props.onChange}
           placeholder={props.placeholder}
-          defaultValue={props.defaultValue}
           className="w-full"
+          defaultValue={props.initial_time}
         />
       </TextNormal>
+      {/* <CalendarIcon /> */}
     </DateFieldContainer>
   );
 };

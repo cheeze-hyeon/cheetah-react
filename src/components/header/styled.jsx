@@ -11,7 +11,13 @@ export const HeaderContainer = styled.div`
   width: 390px;
   height: fit-content;
   position: relative;
-  padding: 20px 15px;
+  top: 0;
+  padding: 20px 15px 20px 15px;
+`;
+
+export const GoalHeaderContaier = styled(HeaderContainer)`
+  border-bottom: 1px solid var(--gray, #ddd);
+  background: var(--white, #fff);
 `;
 
 export const ModalContainer = styled.div`
@@ -250,15 +256,15 @@ export const HeaderMore = (props) => {
   );
 };
 
-export const HeaderTag = (props) => {
+export const GoalHeader = (props) => {
   return (
-    <HeaderContainer className="mt-[47px] border-b-">
+    <GoalHeaderContaier className="mt-[47px] border-b-">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
       <Button to={props.to}>
         <HeaderTagIcon />
       </Button>
-    </HeaderContainer>
+    </GoalHeaderContaier>
   );
 };
 
