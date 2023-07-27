@@ -68,7 +68,6 @@ export const GoalCreateModal = ({
     sat: true,
     sun: true,
   });
-
   // 불가능한 날짜
   const [impossibleDates, setImpossibleDates] = useState([]);
 
