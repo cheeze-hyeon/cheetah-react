@@ -3,7 +3,6 @@ import { React, useEffect, useState } from "react";
 import GoalDetailModalHeader from "./GoalDetailModalHeader";
 import "tailwindcss/tailwind.css";
 import TodoCheck from "./TodoCheck";
-import tags from "../../../data/tags";
 import {
   TextNormal,
   TextLight,

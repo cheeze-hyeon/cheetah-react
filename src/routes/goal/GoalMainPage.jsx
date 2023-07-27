@@ -136,7 +136,7 @@ const GoalMainPage = () => {
                         <GoalCard
                           key={goal.id}
                           goal={goal}
-                          onClick={() => handleGoalCardClick(goal.id)}
+                          onClick={handleGoalCardClick}
                         />
                       )
                   )}
