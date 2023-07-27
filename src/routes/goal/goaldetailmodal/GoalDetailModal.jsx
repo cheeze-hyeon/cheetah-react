@@ -17,6 +17,7 @@ import {
   getTodo,
   updateTodo,
   deleteTodo,
+  getGoaldetail,
 } from "../../../apis/api_calendar";
 
 const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
@@ -234,9 +235,9 @@ const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
         text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
-        onClick={`${
-          is_scheduled ? handleAddToCalendar : handleEditButtonClick
-        }`}
+        onClick={() =>
+          `${!is_scheduled ? handleAddToCalendar : handleEditButtonClick}`
+        }
       ></SlimButtonActive>
     </div>
   );

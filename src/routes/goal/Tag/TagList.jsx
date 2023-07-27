@@ -4,13 +4,13 @@ import "tailwindcss/tailwind.css";
 
 import { TagDefault } from "../../../components/button/styled";
 
-const TagList = ({ tags, goal, onTagClick }) => {
+const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
   const [selectedTagId, setSelectedTagId] = useState(
     Number(localStorage.getItem("filtered_tag_id")) || null
   );
   useEffect(() => {
     if (goal) {
-      setSelectedTagId(goal.tag_id);
+      setSelectedTagId(goal.tag.id);
     }
   }, []);
 
@@ -28,23 +28,30 @@ const TagList = ({ tags, goal, onTagClick }) => {
     return selectedTagId === tag.id;
   };
 
+  const is_ex = exceptAll === undefined ? true : false;
+  console.log("is_ex", is_ex);
+  console.log("exceptAll", exceptAll);
+
   return (
     <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
-      {selectedTagId == null ? (
-        <TagDefault
-          text="전체"
-          color="#DDDDDD"
-          isSelected="true"
-          onClick={() => handleTagClick(null)}
-        />
-      ) : (
-        <TagDefault
-          text="전체"
-          color="#DDDDDD"
-          onClick={() => handleTagClick(null)}
-        />
+      {is_ex && (
+        <div>
+          {selectedTagId == null ? (
+            <TagDefault
+              text="전체"
+              color="#DDDDDD"
+              isSelected="true"
+              onClick={() => handleTagClick(null)}
+            />
+          ) : (
+            <TagDefault
+              text="전체"
+              color="#DDDDDD"
+              onClick={() => handleTagClick(null)}
+            />
+          )}
+        </div>
       )}
-
       {tags.map((tag) => (
         <TagDefault
           key={tag.id}
