@@ -150,7 +150,7 @@ const GoalMainPage = () => {
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
             to1={showGoalCreateModal}
-            to2={addModalStep}
+            addModalStep={addModalStep}
             step={modalStep}
             clickBtnClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
