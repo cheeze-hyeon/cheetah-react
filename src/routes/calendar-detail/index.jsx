@@ -34,11 +34,11 @@ export const CalendarDetailHeader = ({ selectedDate }) => {
   );
 };
 
-export const HeaderMessage = () => {
+export const HeaderMessage = (props) => {
   return (
     <s.headerMessageContainer>
-      <s.headerMessageOrange>[한계속도]</s.headerMessageOrange>
-      <s.headerMessageGray>전속력으로</s.headerMessageGray>
+      <s.headerMessageOrange>{props.textOrange}</s.headerMessageOrange>
+      <s.headerMessageGray>{props.textGray}</s.headerMessageGray>
     </s.headerMessageContainer>
   );
 };

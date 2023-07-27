@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoalCard from "../goal/GoalCard";
 import TagList from "../goal/Tag/TagList";
-import goals from "../../data/goals";
-import tags from "../../data/tags";
 import "../../index.css";
+import tags from "../../data/tags";
 import todos from "../../data/todos";
 import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
 import "../../index.css";
 import GoalDetailModal from "./goaldetailmodal/GoalDetailModal";
-import { HeaderTag } from "../../components/header/styled";
+import { GoalHeader } from "../../components/header/styled";
 import { TextNormal } from "../../components/text/styled";
 import { calendarMainRoot } from "../calendar/styled";
 import * as s from "../../../src/routes/calendar/styled";
@@ -18,46 +17,76 @@ import { GoalCreateModal } from "../calendar/goal-create/styled";
 import { ModalOverlay } from "../../components/modal/styled";
 import { FloatingButton } from "../../components/button/styled";
 import { GoalMainRoot } from "./styled";
+import { getAllGoals, getFilteredTags } from "../../apis/api_calendar";
+import { set } from "date-fns";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [goalList, setGoalList] = useState([]);
+  const [filteredGoals, setFilteredGoals] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1);
+  const [tagList, setTagList] = useState([]);
+
+  const goalCount = filteredGoals.length;
 
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
   };
 
-  const filteredGoals = selectedTagId
-    ? goals
+  useEffect(() => {
+    const getAllGoalsAPI = async () => {
+      const response = await getAllGoals();
+      const goalsProcessed = response.map((goal) => ({
+        ...goal,
+        tag_id: goal.tag.id,
+      }));
+      console.log("goal", goalsProcessed);
+      setGoalList(goalsProcessed);
+    };
+    getAllGoalsAPI();
+
+    const getFilteredTagsAPI = async () => {
+      const response = await getFilteredTags();
+      console.log("tag", response);
+      setTagList(response.map((tag) => ({ ...tag, user_id: tag.user })));
+    };
+    getFilteredTagsAPI();
+  }, []);
+
+  useEffect(() => {
+    var filteredGoals_temp = [];
+    if (selectedTagId) {
+      filteredGoals_temp = goalList
         .filter((goal) => goal.tag_id === selectedTagId)
         .map((goal) => ({
           ...goal,
-          tag: tags.find((tag) => tag.id === goal.tag_id),
-        }))
-    : goals.map((goal) => ({
+          tag: tagList.find((tag) => tag.id === goal.tag_id),
+        }));
+    } else {
+      filteredGoals_temp = goalList.map((goal) => ({
         ...goal,
-        tag: tags.find((tag) => tag.id === goal.tag_id),
+        tag: tagList.find((tag) => tag.id === goal.tag_id),
       }));
-
-  const goalCount = filteredGoals.length;
+    }
+    setFilteredGoals(filteredGoals_temp);
+  }, [selectedTagId, goalList]);
 
   const handleGoalCardClick = (goalId) => {
-    const selectedGoal = goals.find((goal) => goal.id === goalId);
+    const selectedGoal = goalList.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal);
     setIsModalOpen(true);
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
 
-  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
-  const [modalStep, setModalStep] = useState(1);
-
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
+      console.log("눌리긴 함!");
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
       setModalStep(1);
     }
@@ -75,12 +104,13 @@ const GoalMainPage = () => {
 
   return (
     <>
+      <GoalHeader text="내 목표" to="/tag-detail" />
+
       <GoalMainRoot>
-        <HeaderTag text="내 목표" to="/tag-detail" />
-        <div className="h-full bg-[#f5f5f5]">
-          <div className="flex max-w-screen overflow-x-auto scrollbar-hide">
+        <div className="h-full w-[390px] ">
+          <div className="flex flex-starts overflow-x-auto scrollbar-hide w-[390px]">
             <TagList
-              tags={tags}
+              tags={tagList}
               selectedTagId={selectedTagId}
               onTagClick={handleTagClick}
             />
@@ -90,14 +120,26 @@ const GoalMainPage = () => {
               <div className="flex flex-col gap-[20px] mb-[100px]">
                 <TextNormal>{`${goalCount}개의 목표`}</TextNormal>
                 <div className="flex flex-col gap-[15px] pb-200">
-                  {filteredGoals.map((goal) => (
-                    <div key={goal.id}>
-                      {/* GoalCard를 클릭하면 handleGoalCardClick 함수가 호출되도록 합니다. */}
-                      <div onClick={() => handleGoalCardClick(goal.id)}>
-                        <GoalCard goal={goal} />
-                      </div>
-                    </div>
-                  ))}
+                  {filteredGoals.map(
+                    (goal) =>
+                      goal.is_scheduled && (
+                        <GoalCard
+                          key={goal.id}
+                          goal={goal}
+                          onClick={() => handleGoalCardClick(goal.id)}
+                        />
+                      )
+                  )}
+                  {filteredGoals.map(
+                    (goal) =>
+                      !goal.is_scheduled && (
+                        <GoalCard
+                          key={goal.id}
+                          goal={goal}
+                          onClick={() => handleGoalCardClick(goal.id)}
+                        />
+                      )
+                  )}
                 </div>
               </div>
             ) : (
@@ -122,12 +164,12 @@ const GoalMainPage = () => {
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
             to1={showGoalCreateModal}
-            to2={addModalStep}
+            addModalStep={addModalStep}
             step={modalStep}
-            clickBtnClose={showGoalCreateModal}
+            modalClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
-            tags={tags}
+            tags={tagList}
           ></GoalCreateModal>
         </ModalOverlay>
       )}

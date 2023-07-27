@@ -1,13 +1,21 @@
 import React from "react";
 
 const GoalCard = ({ goal, onClick }) => {
-  const { title, estimated_time, progress_rate, is_scheduled , finish_at, tag, update_at } = goal;
+  const {
+    title,
+    estimated_time,
+    progress_rate,
+    is_scheduled,
+    finish_at,
+    tag,
+    update_at,
+  } = goal;
   // 목표 카드를 클릭했을 때 호출되는 함수
-  const handleClick = () => {
-    if (onClick) {
-      onClick(goal);
-    }
-  };
+  // const handleClick = () => {
+  //   if (onClick) {
+  //     onClick(goal);
+  //   }
+  // };
 
   const today = new Date().toLocaleDateString();
   const finishDate = new Date(finish_at).toLocaleDateString();
@@ -17,7 +25,7 @@ const GoalCard = ({ goal, onClick }) => {
   let message = "";
   let messageColor = "";
 
-  if (is_scheduled === 0) {
+  if (is_scheduled === false) {
     message = "캘린더에 추가되지 않음";
     messageColor = "text-[#6a6a6a]";
   } else if (isPastDue) {
@@ -30,6 +38,10 @@ const GoalCard = ({ goal, onClick }) => {
   }
 
   const formatDateString = (dateString) => {
+    if (dateString === null) {
+      console.log("dateString is null");
+      return dateString;
+    }
     const [year, month, day] = dateString.split("-");
     return `${month}/${day}`;
   };
@@ -39,10 +51,15 @@ const GoalCard = ({ goal, onClick }) => {
   const calculateRemainingTime = () => {
     const estimatedTimeInMinutes = estimated_time * 60;
     const cumulativeTimeInMinutes = goal.cumulative_time * 60;
-    const remainingTimeInMinutes = estimatedTimeInMinutes - cumulativeTimeInMinutes;
+    const remainingTimeInMinutes =
+      estimatedTimeInMinutes - cumulativeTimeInMinutes;
 
-    const daysRemaining = Math.floor((new Date(finish_at) - new Date(update_at)) / (1000 * 60 * 60 * 24));
-    const dailyAllocationInMinutes = Math.floor(remainingTimeInMinutes / daysRemaining);
+    const daysRemaining = Math.floor(
+      (new Date(finish_at) - new Date(update_at)) / (1000 * 60 * 60 * 24)
+    );
+    const dailyAllocationInMinutes = Math.floor(
+      remainingTimeInMinutes / daysRemaining
+    );
 
     const hours = Math.floor(dailyAllocationInMinutes / 60);
     const minutes = dailyAllocationInMinutes % 60;
@@ -52,7 +69,7 @@ const GoalCard = ({ goal, onClick }) => {
 
   return (
     <div
-      onClick={handleClick}
+      onClick={onClick}
       className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-[111px] gap-2 overflow-y-auto px-[18px] py-[15px] rounded-[5px] bg-white border-t-0 border-r-0 border-b-0 border-l-[6px]"
       style={{
         boxShadow: "0px 1px 5px 0 rgba(0,0,0,0.1)",
@@ -73,19 +90,19 @@ const GoalCard = ({ goal, onClick }) => {
               </div>
             )}
             {is_scheduled ? (
-            <>
-            <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
-              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                {calculateRemainingTime()}
-              </p>
-            </div>
-            <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
-              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                진행률 {Math.floor(progress_rate * 100)}%
-              </p>
-            </div>
-            </>
-            ):null}
+              <>
+                <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
+                  <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
+                    {calculateRemainingTime()}
+                  </p>
+                </div>
+                <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
+                  <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
+                    진행률 {Math.floor(progress_rate)}%
+                  </p>
+                </div>
+              </>
+            ) : null}
           </div>
 
           {is_scheduled ? (
@@ -94,7 +111,7 @@ const GoalCard = ({ goal, onClick }) => {
                 ~{formattedFinishDate}
               </p>
             </div>
-          ):null}
+          ) : null}
         </div>
         <div className="box-border flex justify-start items-start flex-grow-0 flex-shrink-0 gap-[5px]">
           <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">

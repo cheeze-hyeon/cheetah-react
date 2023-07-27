@@ -63,6 +63,7 @@ const CalendarMainPage = () => {
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
+      console.log("눌리긴 함!");
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
       setModalStep(1);
     }

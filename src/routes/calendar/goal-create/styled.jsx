@@ -97,6 +97,24 @@ export const GoalCreateModal = ({
     todo_list: [],
   });
 
+  //불가능한 날짜 생성기.
+  const generateImpossibleDates = (startDate, finishDate, selectedDays) => {
+    const daysOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    const impossibleDates = [];
+
+    const currentDate = new Date(startDate);
+    const endDate = new Date(finishDate);
+
+    while (currentDate <= endDate) {
+      const dayOfWeek = daysOfWeek[currentDate.getDay()];
+      if (!selectedDays[dayOfWeek]) {
+        impossibleDates.push(format(currentDate, "yyyy-MM-dd"));
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return impossibleDates;
+  };
+
   // 입력값이 바뀔 때마다 전달할 목표 업데이트
   useEffect(() => {
     const goal = {
@@ -105,6 +123,12 @@ export const GoalCreateModal = ({
       title: title,
       todo_list: newTodos,
     };
+
+    const impossibleDates = generateImpossibleDates(
+      startDate,
+      finishDate,
+      selectedDays
+    );
 
     const goalWithCalendar = {
       ...newGoalWithCalendar,
@@ -127,31 +151,9 @@ export const GoalCreateModal = ({
     startDate,
     finishDate,
     estimatedTime,
-    impossibleDates,
     newTodos,
     selectedDays,
   ]);
-
-  useEffect(() => {
-    // 불가능한 날짜 생성하기
-    const generateImpossibleDates = () => {
-      const daysOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-      const impossibleDates = [];
-
-      const currentDate = new Date(startDate);
-      const endDate = new Date(finishDate);
-
-      while (currentDate <= endDate) {
-        const dayOfWeek = daysOfWeek[currentDate.getDay()];
-        if (!selectedDays[dayOfWeek]) {
-          impossibleDates.push(format(currentDate, "yyyy-MM-dd"));
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-      setImpossibleDates(impossibleDates);
-    };
-    generateImpossibleDates();
-  }, [selectedTagId, startDate, finishDate, selectedDays]);
 
   // 태그 불러오기
   useEffect(() => {
@@ -293,11 +295,11 @@ export const GoalCreateModal = ({
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
         {step === 1 ? (
-          <HeaderModal text="목표추가" clickBtnClose={modalClose} />
+          <HeaderModal text="목표추가" modalClose={modalClose} />
         ) : (
           <HeaderModalBack
             text="캘린더에 추가"
-            clickBtnClose={modalClose}
+            modalClose={modalClose}
             clickBtnBack={clickBtnBack}
           />
         )}

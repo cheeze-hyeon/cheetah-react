@@ -54,7 +54,7 @@ export const getGoaldetail = async (goal_id) => {
 //POST
 // 캘린더에 추가하지 않을 일반 목표 생성.
 export const createGoal = async (data) => {
-  console.log(data);
+  console.log("Goal 만들기 시도:", data);
   const response = await instanceWithToken.post("/goal/", data);
   if (response.status === 201) {
     console.log("CREATE GOAL SUCCESS");
@@ -66,6 +66,7 @@ export const createGoal = async (data) => {
 
 //캘린더에 추가할 일정을 생성
 export const createGoalwithCalendar = async (data) => {
+  console.log("Goal 만들기 시도:", data);
   const response = await instanceWithToken.post(
     "/goal/?add_calendar=true",
     data
@@ -262,6 +263,16 @@ export const updateTodo = async (todo_id, data) => {
   return response.data;
 };
 
+export const getTodo = async (goal_id) => {
+  const response = await instanceWithToken.get("/todo/?goal=" + goal_id);
+  if (response.status === 200) {
+    console.log("GET TODO SUCCESS");
+  } else {
+    console.log("[ERROR] error while getting todo");
+  }
+  return response.data;
+};
+
 //------------------------------------------------------TAG------------------------------------------------------//
 
 //POST data={user,title,color,is_used}
@@ -275,11 +286,8 @@ export const createTag = async (data) => {
   return response.data;
 };
 //GET
-export const getFilteredTags = async (data) => {
-  const response = await instanceWithToken.get(
-    "/tag/?filtered_tags=true",
-    data
-  );
+export const getFilteredTags = async () => {
+  const response = await instanceWithToken.get("/tag/?filtered_tags=true");
   if (response.status === 200) {
     console.log("GET FILTERED TAGS SUCCESS");
   } else {

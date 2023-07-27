@@ -6,13 +6,11 @@ import { TagDefault } from "../../../components/button/styled";
 
 const TagList = ({ tags, goal, onTagClick }) => {
   const [selectedTagId, setSelectedTagId] = useState(null);
-  useEffect(()=>{
-    if(goal){
-      setSelectedTagId(goal.tag_id)
+  useEffect(() => {
+    if (goal) {
+      setSelectedTagId(goal.tag_id);
     }
-  }, [])
-
-  
+  }, []);
 
   const handleTagClick = (tagId) => {
     setSelectedTagId((prevSelectedTagId) => {
@@ -22,14 +20,14 @@ const TagList = ({ tags, goal, onTagClick }) => {
     });
     onTagClick(tagId);
   };
-  console.log(selectedTagId)
+  console.log(selectedTagId);
 
   const isSelected = (tag) => {
     return selectedTagId === tag.id;
   };
 
   return (
-    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
+    <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
       {selectedTagId == null ? (
         <TagDefault
           text="전체"

@@ -10,11 +10,16 @@ import {
   TitleNormal,
 } from "../../../components/text/styled";
 import { InputTextFieldActive } from "../../../components/input/styled";
+import { SlimButtonActive } from "../../../components/button/styled";
+import { blue, deepOrange, orange } from "@mui/material/colors";
 import {
-  SlimButtonActive,
-} from "../../../components/button/styled";
+  createTodo,
+  getTodo,
+  updateTodo,
+  deleteTodo,
+} from "../../../apis/api_calendar";
 
-const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
+const GoalDetailModal = ({ goal, onCloseModal }) => {
   const {
     title,
     estimated_time,
@@ -22,11 +27,23 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     cumulative_time,
     finish_at,
     tag_id,
+    tag,
     update_at,
     is_scheduled,
   } = goal;
 
-  const tag = tags.find((tag) => tag.id === goal.tag_id);
+  const [todos, setTodos] = useState([]); // 투두 목록을 상태로 관리합니다.
+
+  const getTodoAPI = async () => {
+    const response = await getTodo(goal.id);
+    setTodos(response);
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getTodoAPI();
+  }, []);
+
   const today = new Date().toLocaleDateString();
   const finishDate = new Date(finish_at).toLocaleDateString();
   const isPastDue = new Date(finishDate) < new Date(today);
@@ -38,6 +55,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     : `${finish_at} 까지 달리기`;
 
   const formatDateString = (dateString) => {
+    if (dateString === null) return dateString;
     const [year, month, day] = dateString.split("-");
     return `${month}/${day}`;
   };
@@ -62,8 +80,6 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const filteredTodos = todos.filter((todo) => todo.goal_id === goal.id);
-
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
 
   const [showAddTodoField, setShowAddTodoField] = useState(false);
@@ -86,7 +102,16 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
       };
 
       setNewTodoTitle("");
-      todos.push(newTodo);
+      const createTodoAPI = async () => {
+        const response = await createTodo({
+          goal_id: goal.id,
+          title: newTodoTitle.trim(),
+          is_completed: false,
+        });
+        newTodo.id = response.id;
+        setTodos([...todos, newTodo]); // 기존 투두 목록에 새로운 투두를 추가합니다.
+      };
+      createTodoAPI();
       setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
@@ -107,10 +132,14 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
     console.log(" 버튼이 클릭되었습니다.");
     return (window.location.href = `/scheduledetailpage/${goal.id}`);
   };
-  const hasTodos = filteredTodos.length > 0 || showAddTodoField == true;
+  const hasTodos = todos.length > 0 || showAddTodoField == true;
   return (
     <div className="box-border flex flex-col justify-top items-start w-[357px] h-fill px-[15px] py-[10px]">
-      <GoalDetailModalHeader onCloseModal={onCloseModal} />
+      <GoalDetailModalHeader
+        goal_id={goal.id}
+        onCloseModal={onCloseModal}
+        goal_is_scheduled={goal.is_scheduled}
+      />
       <div className="flex flex-col gap-[5px] w-full">
         <div className="flex flex-row gap-[8px] items-center px-[10px]">
           {tag && (
@@ -123,7 +152,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
               </TextLight>
             </div>
           )}
-          {is_scheduled === 0 && (
+          {is_scheduled === false && (
             <TextLight
               className="whitespace-pre-wrap text-left text-[#222b45]"
               font_weight="600"
@@ -132,17 +161,17 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
             </TextLight>
           )}
           {/* is_scheduled === 1인 경우에만 남은 시간 표시 */}
-          {is_scheduled !== 0 && (
+          {is_scheduled !== false && (
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
               <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
                 {calculateRemainingTime()}
               </TextLight>
             </div>
           )}
-          {is_scheduled !== 0 && (
+          {is_scheduled !== false && (
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
               <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                진행률 {Math.floor(progress_rate * 100)}%
+                진행률 {Math.floor(progress_rate)}%
               </TextLight>
             </div>
           )}
@@ -153,20 +182,20 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
           text="right"
           font_weight="600"
         >
-          {is_scheduled !== 0 && `${formattedFinishDate}까지 달리기`}
+          {is_scheduled !== false && `${formattedFinishDate}까지 달리기`}
         </TextLight>
       </div>
       <div className="w-full flex flex-col gap-[15px] pb-[20px]">
         {hasTodos && (
           <div className="flex flex-col gap-[5px] pt-[10px]">
             {hasTodos &&
-              filteredTodos.map((todo) => (
-                <TodoCheck key={todo.id} todo={todo} />
+              todos.map((todo) => (
+                <TodoCheck key={todo.id} todo={todo} setTodos={setTodos} />
               ))}
           </div>
         )}
         {!hasTodos && (
-          <TextLight className="px-[10px]">할일이 없어요:)</TextLight>
+          <TextLight className="px-[10px]">할일이 없어요:</TextLight>
         )}
         {showAddTodoField ? (
           <div className="flex flex-row items-center w-full box-border gap-[15px]">
@@ -201,7 +230,7 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
       </div>
       <SlimButtonActive
         to={`/scheduledetailpage/${goal.id}`}
-        text={`${is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
+        text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
         onClick={`${
