@@ -5,7 +5,7 @@ import "tailwindcss/tailwind.css";
 import { Close } from "../../../components/input/styled";
 import HeaderClose from "./HeaderClose";
 import { TextLight } from "../../../components/text/styled";
-import { updateTodo } from "../../../apis/api_calendar";
+import { updateTodo, deleteTodo } from "../../../apis/api_calendar";
 
 const TodoCheck = ({ todo, setTodos }) => {
   const [isCompleted, setIsCompleted] = useState(todo.is_completed);
@@ -43,7 +43,13 @@ const TodoCheck = ({ todo, setTodos }) => {
   };
 
   const handleDeleteTodo = () => {
-    setIsHidden(true); // 삭제 버튼을 클릭하면 해당 투두를 숨기도록 상태를 업데이트합니다.
+    const deleteTodoAPI = async () => {
+      const response = await deleteTodo(todo.id);
+      setTodos((prevTodos) =>
+        prevTodos.filter((prevTodo) => prevTodo.id !== todo.id)
+      );
+    };
+    deleteTodoAPI();
   };
 
   if (isHidden) {
