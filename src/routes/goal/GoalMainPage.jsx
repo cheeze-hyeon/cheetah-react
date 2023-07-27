@@ -86,6 +86,7 @@ const GoalMainPage = () => {
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
+      console.log("눌리긴 함!");
       setisGoalCreateModalOpen(!isGoalCreateModalOpen);
       setModalStep(1);
     }
@@ -150,9 +151,9 @@ const GoalMainPage = () => {
         <ModalOverlay onClick={showGoalCreateModal}>
           <GoalCreateModal
             to1={showGoalCreateModal}
-            to2={addModalStep}
+            addModalStep={addModalStep}
             step={modalStep}
-            clickBtnClose={showGoalCreateModal}
+            modalClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
             tags={tagList}

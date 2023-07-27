@@ -295,11 +295,11 @@ export const GoalCreateModal = ({
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
         {step === 1 ? (
-          <HeaderModal text="목표추가" clickBtnClose={modalClose} />
+          <HeaderModal text="목표추가" modalClose={modalClose} />
         ) : (
           <HeaderModalBack
             text="캘린더에 추가"
-            clickBtnClose={modalClose}
+            modalClose={modalClose}
             clickBtnBack={clickBtnBack}
           />
         )}
