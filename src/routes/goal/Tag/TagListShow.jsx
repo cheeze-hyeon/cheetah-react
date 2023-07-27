@@ -3,9 +3,13 @@ import "tailwindcss/tailwind.css";
 import IconShow from "./IconShow";
 import IconHide from "./IconHide";
 import HeaderDelete from "./HeaderDelete";
-import { TagDefault } from "../../../components/button/styled";
 import { TagDeleteAlertModal } from "../styled";
-
+import { TextLight } from "../../../components/text/styled";
+import {
+  TagContainer,
+  TagDefault,
+  TagLabel,
+} from "../../../components/button/styled";
 
 const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
   const [isHidden, setIsHidden] = useState(false);
@@ -33,20 +37,17 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
       style={{ backgroundColor: cardBackgroundColor }}
     >
       <div className="box-border flex justify-start items-center flex-grow basis-full gap-[15px]">
-        <TagDefault color={tag.color} text={tag.title} isSelected="true" />
+        <TagDefault isSelected="0" color={tag.color} text={tag.title} />
+
         <div
           className="box-border flex flex-col justify-center items-start flex-grow basis-full"
           onClick={onClick}
         >
           <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
-            <p className="whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left text-black">
-              완료 목표 : {completedGoals}
-            </p>
+            <TextLight>완료 목표 : {completedGoals}</TextLight>
           </div>
           <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
-            <p className="whitespace-pre-wrap flex-grow font-['Pretendard'] text-[13px] leading-[19px] text-left text-black">
-              미완료 목표 : {incompleteGoals}
-            </p>
+            <TextLight>미완료 목표 : {incompleteGoals}</TextLight>
           </div>
         </div>
       </div>
@@ -54,8 +55,13 @@ const TagListShow = ({ tag, completedGoals, incompleteGoals, onClick }) => {
         <button onClick={toggleVisibility}>
           {isHidden ? <IconHide /> : <IconShow />}
         </button>
-        <HeaderDelete className="w-[23px] h-[23px]" openGoalDeleteModal={openGoalDeleteModal}/>
-        {isModalOpen && <TagDeleteAlertModal onCloseModal={closeGoalDeleteModal} />}
+        <HeaderDelete
+          className="w-[23px] h-[23px]"
+          openGoalDeleteModal={openGoalDeleteModal}
+        />
+        {isModalOpen && (
+          <TagDeleteAlertModal onCloseModal={closeGoalDeleteModal} />
+        )}
       </div>
     </div>
   );

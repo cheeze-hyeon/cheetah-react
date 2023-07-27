@@ -570,7 +570,7 @@ export const SlimButtonContainer = styled.div`
 
 export const SlimButtonActive = (props) => {
   return (
-    <SlimButtonContainer bg={props.bg}>
+    <SlimButtonContainer bg={props.bg} onClick={props.onClick}>
       <Frame to={props.to}>
         <SLabel color={props.color}>{props.text}</SLabel>
       </Frame>

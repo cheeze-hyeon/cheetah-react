@@ -104,8 +104,8 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
 
   const handleAddToCalendar = () => {
     // "캘린더에 추가하기" 버튼을 클릭했을 때 호출되는 함수입니다.
-    console.log("캘린더에 추가하기 버튼이 클릭되었습니다.");
-    return window.location.href = `/scheduledetailpage/${goal.id}`;
+    console.log(" 버튼이 클릭되었습니다.");
+    return (window.location.href = `/scheduledetailpage/${goal.id}`);
   };
   const hasTodos = filteredTodos.length > 0 || showAddTodoField == true;
   return (
@@ -204,7 +204,9 @@ const GoalDetailModal = ({ goal, todos, onCloseModal }) => {
         text={`${is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
-        onClick={`${is_scheduled ? handleAddToCalendar : handleEditButtonClick}`}
+        onClick={`${
+          is_scheduled ? handleAddToCalendar : handleEditButtonClick
+        }`}
       ></SlimButtonActive>
     </div>
   );
