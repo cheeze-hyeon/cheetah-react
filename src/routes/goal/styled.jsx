@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { TextNormal } from "../../components/text/styled";
 import { CheckBox, SlimButtonActive } from "../../components/button/styled";
+import { deleteGoal, deleteGoalwithCalendar } from "../../apis/api_calendar";
+import { useState } from "react";
 
 export const GoalMainRoot = styled.div`
   top: 0;
@@ -124,6 +126,33 @@ export const Label = styled.p`
 
 export const GoalDeleteModal = (props) => {
   console.log(props);
+
+  const [isChecked, setIsChecked] = useState(false);
+  console.log("isChecked", isChecked);
+
+  const changeCheckedstate = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handleDeleteGoal = () => {
+    const deleteGoalAPI = async () => {
+      const response = await deleteGoal(props.goal_id);
+      console.log("캘린더에서만 삭제", response);
+      props.onCloseModal();
+    };
+    const deleteGoalwithCalendarAPI = async () => {
+      const response = await deleteGoalwithCalendar(props.goal_id);
+      console.log("캘린더와 같이 삭제", response);
+      props.onCloseModal();
+    };
+    if (isChecked === true) {
+      deleteGoalAPI();
+    } else {
+      deleteGoalwithCalendarAPI();
+    }
+    window.location.reload();
+  };
+
   return (
     <ModalContainer>
       <Frame>
@@ -131,11 +160,16 @@ export const GoalDeleteModal = (props) => {
           <TextContainer className="mb-[10px]">
             <TextNormal>목표를 삭제하시겠습니까?</TextNormal>
           </TextContainer>
-          <CheckBox text="캘린더에서만 삭제하기"></CheckBox>
+          {props.is_scheduled && (
+            <CheckBox
+              onChange={changeCheckedstate}
+              text="캘린더에서만 삭제하기"
+            ></CheckBox>
+          )}
         </div>
         <ButtonsContainer>
           <ButtonContainer
-            onClick={props.onCloseModal}
+            onClick={handleDeleteGoal}
             className="bg-[#f19a37] cursor-pointer"
           >
             <Label className="text-[#fff]">삭제</Label>
