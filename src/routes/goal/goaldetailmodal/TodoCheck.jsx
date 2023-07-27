@@ -5,27 +5,51 @@ import "tailwindcss/tailwind.css";
 import { Close } from "../../../components/input/styled";
 import HeaderClose from "./HeaderClose";
 import { TextLight } from "../../../components/text/styled";
+import { updateTodo, deleteTodo } from "../../../apis/api_calendar";
 
-const TodoCheck = ({ todo }) => {
-  const [isCompleted, setIsCompleted] = useState(false);
+const TodoCheck = ({ todo, setTodos }) => {
+  const [isCompleted, setIsCompleted] = useState(todo.is_completed);
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(false); // 추가: 숨기는 상태를 추가합니다.
 
   useEffect(() => {
     setIsCompleted(todo.is_completed);
     setTitle(todo.title);
-  }, [todo]);
+  }, []);
 
   const handleCheckToggle = () => {
     setIsCompleted((prevIsCompleted) => !prevIsCompleted);
+    const checktodoAPI = async () => {
+      const response = await updateTodo(todo.id, {
+        ...todo,
+        is_completed: !isCompleted,
+      });
+    };
+    checktodoAPI();
   };
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
+    if (e.target.value === "") {
+      return;
+    }
+    const updatetodoAPI = async () => {
+      const response = await updateTodo(todo.id, {
+        ...todo,
+        title: e.target.value,
+      });
+    };
+    updatetodoAPI();
   };
 
   const handleDeleteTodo = () => {
-    setIsHidden(true); // 삭제 버튼을 클릭하면 해당 투두를 숨기도록 상태를 업데이트합니다.
+    const deleteTodoAPI = async () => {
+      const response = await deleteTodo(todo.id);
+      setTodos((prevTodos) =>
+        prevTodos.filter((prevTodo) => prevTodo.id !== todo.id)
+      );
+    };
+    deleteTodoAPI();
   };
 
   if (isHidden) {
@@ -40,11 +64,7 @@ const TodoCheck = ({ todo }) => {
       ) : (
         <CheckFalse onClick={handleCheckToggle} />
       )}
-      <TextLight
-        className={`${
-          isCompleted ? "text-[#a3a2a4]" : "text-black"
-        }`}
-      >
+      <TextLight className={`${isCompleted ? "text-[#a3a2a4]" : "text-black"}`}>
         <input
           type="text"
           value={title}

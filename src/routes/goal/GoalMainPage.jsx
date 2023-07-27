@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoalCard from "../goal/GoalCard";
 import TagList from "../goal/Tag/TagList";
-import goals from "../../data/goals";
-import tags from "../../data/tags";
 import "../../index.css";
+import tags from "../../data/tags";
 import todos from "../../data/todos";
 import { GoalTabBar } from "../../components/tabBar";
 import "tailwindcss/tailwind.css";
@@ -18,43 +17,72 @@ import { GoalCreateModal } from "../calendar/goal-create/styled";
 import { ModalOverlay } from "../../components/modal/styled";
 import { FloatingButton } from "../../components/button/styled";
 import { GoalMainRoot } from "./styled";
+import { getAllGoals, getFilteredTags } from "../../apis/api_calendar";
+import { set } from "date-fns";
 
 const GoalMainPage = () => {
   const [selectedTagId, setSelectedTagId] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [goalList, setGoalList] = useState([]);
+  const [filteredGoals, setFilteredGoals] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1);
+  const [tagList, setTagList] = useState([]);
+
+  const goalCount = filteredGoals.length;
 
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
   };
 
-  const filteredGoals = selectedTagId
-    ? goals
+  useEffect(() => {
+    const getAllGoalsAPI = async () => {
+      const response = await getAllGoals();
+      const goalsProcessed = response.map((goal) => ({
+        ...goal,
+        tag_id: goal.tag.id,
+      }));
+      console.log("goal", goalsProcessed);
+      setGoalList(goalsProcessed);
+    };
+    getAllGoalsAPI();
+
+    const getFilteredTagsAPI = async () => {
+      const response = await getFilteredTags();
+      console.log("tag", response);
+      setTagList(response.map((tag) => ({ ...tag, user_id: tag.user })));
+    };
+    getFilteredTagsAPI();
+  }, []);
+
+  useEffect(() => {
+    var filteredGoals_temp = [];
+    if (selectedTagId) {
+      filteredGoals_temp = goalList
         .filter((goal) => goal.tag_id === selectedTagId)
         .map((goal) => ({
           ...goal,
-          tag: tags.find((tag) => tag.id === goal.tag_id),
-        }))
-    : goals.map((goal) => ({
+          tag: tagList.find((tag) => tag.id === goal.tag_id),
+        }));
+    } else {
+      filteredGoals_temp = goalList.map((goal) => ({
         ...goal,
-        tag: tags.find((tag) => tag.id === goal.tag_id),
+        tag: tagList.find((tag) => tag.id === goal.tag_id),
       }));
-
-  const goalCount = filteredGoals.length;
+    }
+    setFilteredGoals(filteredGoals_temp);
+  }, [selectedTagId, goalList]);
 
   const handleGoalCardClick = (goalId) => {
-    const selectedGoal = goals.find((goal) => goal.id === goalId);
+    const selectedGoal = goalList.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal);
     setIsModalOpen(true);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
-  const [isGoalCreateModalOpen, setisGoalCreateModalOpen] = useState(false);
-  const [modalStep, setModalStep] = useState(1);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -78,9 +106,9 @@ const GoalMainPage = () => {
       <GoalMainRoot>
         <HeaderTag text="내 목표" to="/tag-detail" />
         <div className="h-full bg-[#f5f5f5]">
-          <div className="flex max-w-screen overflow-x-auto scrollbar-hide">
+          <div className="flex overflow-x-auto scrollbar-hide w-[390px]">
             <TagList
-              tags={tags}
+              tags={tagList}
               selectedTagId={selectedTagId}
               onTagClick={handleTagClick}
             />
@@ -127,7 +155,7 @@ const GoalMainPage = () => {
             clickBtnClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
             clickCompleteBtn={showGoalCreateModal}
-            tags={tags}
+            tags={tagList}
           ></GoalCreateModal>
         </ModalOverlay>
       )}
