@@ -530,7 +530,7 @@ export const TodoContainer = styled.div`
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 307px;
+  width: 317px;
   height: 38px;
   padding: 0px 5px;
   border-radius: 8px;

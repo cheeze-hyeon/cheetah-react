@@ -134,12 +134,22 @@ export const DateWrapper = styled.div`
   width: 18px;
   height: 20px;
   padding: 2px 3px 4px 3px;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 
+export const IconWrapper = styled.div`
+  z-index: 9;
+  position: absolute;
+  font-size: 44px;
+  padding-top: 90px;
+  padding-left: 0px;
+  opacity: 0.2;
+`;
+
 export const dateToday = styled.span`
+  z-index: 10;
   padding: 2px 3px 2px 3px;
   font-family: Pretendard;
   font-size: 11px;
@@ -154,13 +164,13 @@ export const dateToday = styled.span`
 `;
 
 export const dateNotToday = styled.span`
+  z-index: 10;
   margin: 0;
-  white-space: pre-wrap;
   top: 2px;
   left: 3px;
   font-family: Pretendard;
   font-size: 11px;
-  line-height: 125%;
+  line-height: 0%;
   letter-spacing: 0%;
   text-align: center;
   color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};
@@ -278,8 +288,11 @@ export const onOffCircle = styled.div`
   align-items: center;
   width: 34px;
   height: 26px;
+  left: 2px;
+  transform: ${(props) => (props.$isOff ? "" : "translateX(41px)")};
+  transition: all 0.2s linear;
   position: absolute;
-  left: ${(props) => (props.$isOff ? "2px" : "43px")};
+  // left: ${(props) => (props.$isOff ? "2px" : "43px")};
   top: 2px;
   overflow: hidden;
   gap: 10px;

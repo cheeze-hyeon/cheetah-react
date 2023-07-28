@@ -134,7 +134,7 @@ export const TasksContainer = styled.div`
   gap: 17px;
   flex-shrink: 0;
   align-self: stretch;
-  padding: 0px 3px;
+  padding: 20px 3px;
 `;
 
 export const TaskLayout = styled.div`
@@ -150,7 +150,7 @@ export const TaskLayout = styled.div`
 `;
 
 export const TaskTopFrame = styled.div`
-  padding-top: 3px;
+  // padding-top: 3px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -236,8 +236,9 @@ export const TaskCompleteModalContainer = styled.div`
   background: var(--white);
   display: flex;
   width: 357px;
-  height: 506px;
-  padding: 15px 15px 5px 15px;
+  height: 510px;
+  // padding: 15px 15px 5px 15px;
+  padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
   border-radius: 15px;
@@ -313,10 +314,10 @@ export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
   background: var(--orange);
   width: 100%;
 `;
-export const CompleteButton = () => {
+export const CompleteButton = (props) => {
   return (
     <CompleteButtonContainer>
-      <LargeLabel>완료하기</LargeLabel>
+      <LargeLabel className="text-white" onClick={props.onClick}>완료하기</LargeLabel>
     </CompleteButtonContainer>
   );
 };
