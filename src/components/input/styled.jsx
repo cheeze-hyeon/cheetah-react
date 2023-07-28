@@ -709,7 +709,7 @@ export const NewTodo = ({
       <TextLight className={`${isCompleted ? "text-[#a3a2a4]" : "text-black"}`}>
         <input
           type="text"
-          value={todo}
+          value={todo.title}
           className={`whitespace-pre-wrap w-[240px] mr-[5px]${
             isCompleted ? "text-[#a3a2a4] line-through" : "text-black"
           }`}

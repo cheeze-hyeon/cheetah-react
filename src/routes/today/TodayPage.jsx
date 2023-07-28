@@ -396,9 +396,11 @@ const TodayPage = () => {
               </s.GoalCount>
             </s.GoalCountWrapper>
             <s.TasksContainer>
-              {unfinishedTasksCount === 0 && (
-                <s.EmptyMessage text="달릴 목표가 없어요" />
-              )}
+              {unfinishedTasksCount === 0 &&
+                finishedTasksCount === 0 &&
+                completed_tasks.length === 0 && (
+                  <s.EmptyMessage text="달릴 목표가 없어요" />
+                )}
               {completed_tasks.map((task) => (
                 <CompletedTask
                   key={task.id}

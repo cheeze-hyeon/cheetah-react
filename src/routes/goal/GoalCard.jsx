@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import format from "date-fns/format";
 
-const   GoalCard = ({ goal, onClick }) => {
+const GoalCard = ({ goal, onClick }) => {
   const {
     title,
     estimated_time,
@@ -16,7 +17,8 @@ const   GoalCard = ({ goal, onClick }) => {
   //     onClick(goal);
   //   }
   // };
-
+  console.log("~~~~~~");
+  console.log(goal);
   const today = new Date().toLocaleDateString();
   const finishDate = new Date(finish_at).toLocaleDateString();
   const isPastDue = new Date(finishDate) < new Date(today);
@@ -25,16 +27,39 @@ const   GoalCard = ({ goal, onClick }) => {
   let message = "";
   let messageColor = "";
 
+  const getDday = (date) => {
+    // 날짜 객체로 변환
+    const startDate = new Date();
+    const endDate = new Date(date);
+
+    // 하루를 밀리초로 나타냄
+    const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+
+    // 두 날짜 사이의 일수 계산
+    const timeDifferenceInMilliseconds = endDate - startDate;
+    const daysBetweenDates = Math.round(
+      timeDifferenceInMilliseconds / oneDayInMilliseconds
+    );
+    return daysBetweenDates;
+  };
+
   if (is_scheduled === false) {
     message = "캘린더에 추가되지 않음";
-    messageColor = "text-[#6a6a6a]";
+    messageColor = "text-gray";
+  } else if (goal.is_completed === true) {
+    console.log("~~~~~~~~~~~~");
+    console.log(goal);
+    message = `${format(new Date(goal.update_at), "M/d")}에 완료`;
+    messageColor = "text-brown";
   } else if (isPastDue) {
     message = "완주기한 초과";
-    messageColor = "text-red-500";
+    messageColor = "text-orange";
   } else if (isToday) {
-    message = "오늘까지 달리기";
+    message = "🔥 오늘까지 달리기";
+    messageColor = "text-orange";
   } else {
-    message = `${finish_at} 까지 달리기`;
+    message = `⏱ ${getDday(finish_at)}일 남음`;
+    messageColor = "text-brown";
   }
 
   const formatDateString = (dateString) => {
@@ -48,23 +73,12 @@ const   GoalCard = ({ goal, onClick }) => {
 
   const formattedFinishDate = formatDateString(finish_at);
 
-  const calculateRemainingTime = () => {
-    const estimatedTimeInMinutes = estimated_time * 60;
-    const cumulativeTimeInMinutes = goal.cumulative_time * 60;
-    const remainingTimeInMinutes =
-      estimatedTimeInMinutes - cumulativeTimeInMinutes;
+  const calculateRemainingTime = (goal) => {
+    const remainingTimeInMinutes = goal.residual_time * 60;
 
-    const daysRemaining = Math.floor(
-      (new Date(finish_at) - new Date(update_at)) / (1000 * 60 * 60 * 24)
-    );
-    const dailyAllocationInMinutes = Math.floor(
-      remainingTimeInMinutes / daysRemaining
-    );
-
-    const hours = Math.floor(dailyAllocationInMinutes / 60);
-    const minutes = dailyAllocationInMinutes % 60;
-
-    return `${hours}h ${minutes}m`;
+    const hours = Math.floor(remainingTimeInMinutes / 60);
+    const minutes = Math.floor(remainingTimeInMinutes % 60);
+    return goal.is_completed === false ? `총 ${hours}h ${minutes}m` : "완료";
   };
 
   return (
@@ -93,7 +107,7 @@ const   GoalCard = ({ goal, onClick }) => {
               <>
                 <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
                   <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                    {calculateRemainingTime()}
+                    {calculateRemainingTime(goal)}
                   </p>
                 </div>
                 <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
@@ -107,7 +121,7 @@ const   GoalCard = ({ goal, onClick }) => {
 
           {is_scheduled ? (
             <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
-              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[13px] leading-[19px] font-semibold text-left text-[#a3a2a4]">
+              <p className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[13px] leading-[19px] font-semibold text-left text-brown">
                 ~{formattedFinishDate}
               </p>
             </div>

@@ -64,22 +64,12 @@ const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
 
   const formattedFinishDate = formatDateString(finish_at);
 
-  const calculateRemainingTime = () => {
-    const estimatedTimeInMinutes = estimated_time * 60;
-    const cumulativeTimeInMinutes = cumulative_time * 60;
-    const remainingTimeInMinutes =
-      estimatedTimeInMinutes - cumulativeTimeInMinutes;
+  const calculateRemainingTime = (goal) => {
+    const remainingTimeInMinutes = goal.residual_time * 60;
 
-    const daysRemaining = Math.floor(
-      (new Date(finish_at) - new Date(update_at)) / (1000 * 60 * 60 * 24)
-    );
-    const dailyAllocationInMinutes = Math.floor(
-      remainingTimeInMinutes / daysRemaining
-    );
-
-    const hours = Math.floor(dailyAllocationInMinutes / 60);
-    const minutes = dailyAllocationInMinutes % 60;
-    return `${hours}h ${minutes}m`;
+    const hours = Math.floor(remainingTimeInMinutes / 60);
+    const minutes = Math.floor(remainingTimeInMinutes % 60);
+    return goal.is_completed === false ? `총 ${hours}h ${minutes}m` : "완료";
   };
 
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
@@ -166,7 +156,9 @@ const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
             )}
             {/* is_scheduled === 1인 경우에만 남은 시간 표시 */}
             {is_scheduled !== false && (
-              <Tag color="var(--lightgray2)">{calculateRemainingTime()}</Tag>
+              <Tag color="var(--lightgray2)">
+                {calculateRemainingTime(goal)}
+              </Tag>
             )}
             {is_scheduled !== false && (
               <Tag color="var(--lightgray2)">

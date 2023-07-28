@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import MinusIcon from "../../asset/images/minus.svg";
 import PlusIcon from "../../asset/images/plus.svg";
 import CompletedIcon from "../../asset/images/complete.png";
+import CompletedNonClickIcon from "../../asset/images/complete_nonclick.png";
 import cheetah_paw from "../../asset/images/cheetah_paw.png";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
@@ -15,7 +16,7 @@ export const CompletedTask = ({
   isGoalCompleted,
   onClickCompletedBtn,
   openGoalDetailModal,
-
+  is_calendardetail,
 }) => {
   const isHidden = false;
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
@@ -33,15 +34,19 @@ export const CompletedTask = ({
     const response = await updateGoalwithRollback(goal.id);
     console.log(response);
   };
-  const onClickRollBack = async (e) => {
+  const onClickRollBack = async () => {
+    if (is_calendardetail === true) {
+      return;
+    }
     await rollBackAPI();
     window.location.reload();
   };
+  console.log("dfadwdfd", is_calendardetail, typeof is_calendardetail);
 
   return (
-    <s.TaskLayout>
+    <s.TaskLayout onClick={openGoalDetailModal}>
       <s.TaskTopFrame>
-        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={isHidden}>
+        <s.TaskTLeftFrame $isHidden={isHidden}>
           <s.TaskTitle>{goal.title}</s.TaskTitle>
           <s.TaskInfo>
             <s.Tag color={tag.color}>{tag.title}</s.Tag>
@@ -51,8 +56,16 @@ export const CompletedTask = ({
             <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
-        <s.TaskBtnContainer onClick={onClickRollBack}>
-          <img alt="button" src={CompletedIcon} className="w-[45px]"/>
+        <s.TaskBtnContainer onClick={() => onClickRollBack}>
+          {is_calendardetail === true ? (
+            <img
+              alt="button"
+              src={CompletedNonClickIcon}
+              className="w-[45px]"
+            />
+          ) : (
+            <img alt="button" src={CompletedIcon} className="w-[45px]" />
+          )}
         </s.TaskBtnContainer>
       </s.TaskTopFrame>
       <s.DueDateWrapper>
@@ -75,7 +88,6 @@ export const IncompletedTask = ({
   hidden,
   isFinished,
   currentdate,
-
 }) => {
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
     locale: ko,

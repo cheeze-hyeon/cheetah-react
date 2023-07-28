@@ -41,6 +41,7 @@ const ScheduleDetailPage = () => {
   const [tagError, setTagError] = useState(""); // 태그 선택 유효성 검사 멘트
   const [newgoal, setNewgoal] = useState(null);
   const [dateError, setDateError] = useState(""); // 날짜 선택 유효성 검사 멘트
+  const [updateDate, setUpdateDate] = useState(null);
 
   useEffect(() => {
     const getGoaldetailAPI = async () => {
@@ -53,6 +54,7 @@ const ScheduleDetailPage = () => {
       setEstimatedTime(response.estimated_time);
       setProgressRate(response.progress_rate);
       setResidual_time(response.residual_time);
+      setUpdateDate(response.update_at);
     };
     const getFilteredTagsAPI = async () => {
       const response = await getFilteredTags();
@@ -71,14 +73,20 @@ const ScheduleDetailPage = () => {
       ...goal,
       progress_rate: progressRate,
       estimated_time: estimatedTime,
-      residual_time: goal.is_scheduled == 0 ? estimatedTime : residual_time,
+      residual_time:
+        goal.is_scheduled == 0
+          ? estimatedTime
+          : progressRate === 100
+          ? 0
+          : residual_time,
       cumulative_time: goal.is_scheduled == 0 ? 0 : goal.cumulative_time,
       is_scheduled: goal.is_scheduled,
-      is_completed: progressRate === 100 ? 1 : 0,
+      is_completed: progressRate === 100 ? true : false,
       tag_id: selectedTagId,
       start_at: startDate,
       finish_at: finishDate,
-      update_at: progressRate === 100 ? format(new Date(), "yyyy-MM-dd") : null,
+      update_at:
+        progressRate === 100 ? format(new Date(), "yyyy-MM-dd") : updateDate,
     };
     setNewgoal(newgoal_temp);
     console.log("newgoal", newgoal_temp);
@@ -114,6 +122,7 @@ const ScheduleDetailPage = () => {
       newgoal.finish_at)
     ) {
       const response = await updateGoalwithCalendar(goalId, newgoal);
+      window.location.reload();
       return response;
     } else {
       console.log("실패");
@@ -139,6 +148,7 @@ const ScheduleDetailPage = () => {
       newgoal.finish_at)
     ) {
       const response = await updateGoalwithDetail(goalId, newgoal);
+      window.location.reload();
       return response;
     } else {
       console.log("실패");
@@ -209,11 +219,7 @@ const ScheduleDetailPage = () => {
             label={goal.is_scheduled ? "예상 남은시간" : "예상 소요시간"}
           >
             <InputTimeField
-              left_time={
-                goal.is_scheduled == 1
-                  ? goal.estimated_time - goal.cumulative_time
-                  : null
-              }
+              left_time={goal.is_scheduled == 1 ? goal.residual_time : null}
               value={goal.is_scheduled ? residual_time : estimatedTime}
               onChange={(e) => {
                 goal.is_scheduled
