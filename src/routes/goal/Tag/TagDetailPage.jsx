@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
 import TagListShow from "./TagListShow";
 import goals from "../../../data/goals";
-import tags from "../../../data/tags";
 import PageBothBtn from "../PageBothBtn";
 import { TagCreateModal, TagUpdateModal } from "./TagModal";
 import { TextLight } from "../../../components/text/styled";
-import { getAllTags, updateTag, deleteTag } from "../../../apis/api_calendar";
+import {
+  getAllTags,
+  updateTag,
+  deleteTag,
+  getAllGoals,
+} from "../../../apis/api_calendar";
 import { set } from "date-fns";
 import { ModalOverlay } from "../../../components/modal/styled";
 import { slideUp } from "../../../components/modal/styled";
@@ -15,7 +19,7 @@ const TagDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
   const [tagList, setTagList] = useState([]);
-
+  const [goals, setGoals] = useState([]);
   useEffect(() => {
     const getAllTagsAPI = async () => {
       const response = await getAllTags();
@@ -23,6 +27,13 @@ const TagDetail = () => {
       setTagList(response);
     };
     getAllTagsAPI();
+
+    const getGoalsAPI = async () => {
+      const response = await getAllGoals();
+      console.log("goals", response);
+      setGoals(response);
+    };
+    getGoalsAPI();
   }, []);
 
   const openModal = () => {
@@ -36,13 +47,13 @@ const TagDetail = () => {
 
   const getCompletedGoalsCount = (tagId) => {
     return goals.filter(
-      (goal) => goal.tag_id === tagId && goal.is_completed === 1
+      (goal) => goal.tag.id === tagId && goal.is_completed === true
     ).length;
   };
 
   const getIncompleteGoalsCount = (tagId) => {
     return goals.filter(
-      (goal) => goal.tag_id === tagId && goal.is_completed === 0
+      (goal) => goal.tag.id === tagId && goal.is_completed === false
     ).length;
   };
 
