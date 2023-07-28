@@ -1,6 +1,6 @@
 import React from "react";
 
-const GoalCard = ({ goal, onClick }) => {
+const   GoalCard = ({ goal, onClick }) => {
   const {
     title,
     estimated_time,

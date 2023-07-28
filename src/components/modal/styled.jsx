@@ -1,4 +1,4 @@
-import styled, {keyframes} from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const slideUp = keyframes`
 from {
@@ -13,6 +13,7 @@ to {
   opacity: 100%;
 }
 }`;
+
 
 export const brighten = keyframes`
 from {
