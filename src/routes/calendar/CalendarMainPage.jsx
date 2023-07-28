@@ -167,6 +167,8 @@ const CalendarMainPage = () => {
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
       var tag = goal.tag;
+      var is_scheduled = goal.is_scheduled;
+      var is_completed = goal.is_completed;
 
       if (progress_rate === 100) {
         return {
@@ -178,6 +180,8 @@ const CalendarMainPage = () => {
           update_at: update_at,
           progress_rate: 100,
           tag: tag,
+          is_scheduled: is_scheduled,
+          is_completed: is_completed,
         };
       }
       var dates_task_rawswet = [];
@@ -221,6 +225,8 @@ const CalendarMainPage = () => {
         impossibledates_set: impossibledates_set,
         tag: tag,
         residual_time: residual_time,
+        is_scheduled: is_scheduled,
+        is_completed: is_completed,
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
