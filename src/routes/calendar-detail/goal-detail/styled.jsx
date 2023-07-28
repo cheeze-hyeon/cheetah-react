@@ -6,7 +6,7 @@ import { TextBtnSmall } from "../../../components/button/styled";
 import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
 import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
-import { slideUp } from "../../../components/modal/styled";
+import { brighten, slideUp } from "../../../components/modal/styled";
 
 export const GoalDetialModalLight = ({
   goal,
@@ -84,7 +84,7 @@ export const GoalDetialModalLight = ({
         <GoalDetailModalHeader
           goal_id={goal.id}
           onCloseModal={onCloseGoalDetailModal}
-          goal_is_scheduled={goal.goal.is_scheduled}
+          goal_is_scheduled={goal.is_scheduled}
           goalsindate={goalsindate}
           historyindate={historyindate}
           colorHistory={colorHistory}
@@ -146,7 +146,7 @@ export const ModalLayout = styled.div`
   border-radius: 15px;
   background: #fff;
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
-  animation: ${slideUp} 0.5s ease-out 1;
+  animation: ${brighten} 0.1s ease-out 1;
 `;
 
 export const ElementsLayout = styled.div`

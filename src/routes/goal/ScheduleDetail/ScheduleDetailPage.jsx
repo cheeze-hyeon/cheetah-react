@@ -25,6 +25,7 @@ import {
 } from "../../../apis/api_calendar";
 import goals from "../../../data/goals";
 import { set } from "date-fns";
+import format from "date-fns/format";
 
 const ScheduleDetailPage = () => {
   const { goalId } = useParams(); // URL 파라미터에서 goalId 추출
@@ -77,6 +78,7 @@ const ScheduleDetailPage = () => {
       tag_id: selectedTagId,
       start_at: startDate,
       finish_at: finishDate,
+      update_at: progressRate === 100 ? format(new Date(), "yyyy-MM-dd") : null,
     };
     setNewgoal(newgoal_temp);
     console.log("newgoal", newgoal_temp);

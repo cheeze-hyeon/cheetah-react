@@ -489,7 +489,7 @@ export const GoalCreateModalContainer = styled.div`
   background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
   bottom: 0;
-  animation: ${slideUp} .5s ease-out 1;
+  animation: ${slideUp} .3s ease-out 1;
 `;
 
 export const GoalCreateModalElementContainer = styled.div`

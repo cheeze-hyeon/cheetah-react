@@ -13,6 +13,6 @@ export const TagModalContainer = styled.div`
   bottom: 0;
   left: 0;
   margin: auto;
-  animation: ${slideUp} .5s ease-out 1;
+  animation: ${slideUp}.3s ease-out 1;
 `;
 

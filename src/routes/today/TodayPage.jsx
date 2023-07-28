@@ -2,6 +2,12 @@ import { HeaderMenu } from "../../components/header/styled";
 import { TextHeavy, TextLight } from "../../components/text/styled";
 import today_cheetah from "../../asset/images/today_cheetah.png";
 import cheetah_graph from "../../asset/images/cheetah_graph.png";
+import cheetah_speed0 from "../../asset/images/cheetah_0.png";
+import cheetah_speed1 from "../../asset/images/cheetah_1-30.png";
+import cheetah_speed2 from "../../asset/images/cheetah_31-75.png";
+import cheetah_speed3 from "../../asset/images/cheetah_76-100.png";
+import cheetah_speed4 from "../../asset/images/cheetah_101-.png";
+
 import userprofiles from "../../data/userprofiles";
 import { Dealt, Progress } from "./styled";
 import { HamburgerMenu, TodayTask } from "./index";
@@ -28,7 +34,7 @@ import {
 } from "../calendar-detail/.";
 import { ModalOverlay } from "../../components/modal/styled";
 import { GoalDetialModalLight } from "../calendar-detail/goal-detail/styled";
-import { AnimationDiv } from "./styled";
+import { AnimationDiv, TodayCheetahAnimation } from "./styled";
 
 const TodayPage = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -200,15 +206,18 @@ const TodayPage = () => {
   }, [goalsListwithImpossibledates]);
 
   useEffect(() => {
+    console.log(incompleted_tasks);
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
+      console.log("hi");
       if (
         !incompleted_tasks[i].impossible &&
         !isFinished(incompleted_tasks[i].update_at)
-      )
+      ){
         studyhour += incompleted_tasks[i].hoursperday;
+        console.log(studyhour);
+      }
     }
-
     setTotalHour(studyhour);
   }, [today, incompleted_tasks]);
 
@@ -319,8 +328,151 @@ const TodayPage = () => {
       100
   );
 
+  const speedratio = parseInt(totalHour) / formData.max_speed;
+
   return (
-    <div>
+    <div className="w-[390px] relative">
+      <div className="sticky top-0 bg-white z-10">
+        <HeaderMenu
+          clickMenu={clickMenu}
+          onClickMenu={onClickMenu}
+          text="TODAY"
+        ></HeaderMenu>
+        <div className="flex flex-col items-center gap-[20px] pt-5">
+            <img
+              src={
+                speedratio > 1
+                  ? cheetah_speed4
+                  : speedratio > 0.75
+                  ? cheetah_speed3
+                  : speedratio > 0.3
+                  ? cheetah_speed2
+                  : speedratio > 0
+                  ? cheetah_speed1
+                  : cheetah_speed0
+              }
+              className="w-[200px]"
+              alt="face"
+            />
+          <div
+            id="cheetah_dashboard"
+            className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
+          >
+            <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
+              <div className="flex flex-row">
+                <TextHeavy>{formData.nickname}</TextHeavy>
+                <TextHeavy>님은 오늘</TextHeavy>
+              </div>
+              <div className="flex flex-row">
+                <TextHeavy className="text-[#f19a37]">
+                  {parseInt(totalHour)}
+                </TextHeavy>
+                <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
+                <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="today_goals"
+        className="m-auto mt-[20px] z-30 sticky bg-white px-[10px] py-[15px] rounded-t-[25px] border-t-[3px] border-[#f5f5f5]"
+      >
+        <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
+          <div>
+            <TextHeavy>To Do List</TextHeavy>
+          </div>
+          <div className="flex flex-row">
+            <TextLight>
+              {finishedTasksCount +
+                unfinishedTasksCount +
+                completed_tasks.length}
+            </TextLight>
+            <TextLight>개 중 </TextLight>
+            <TextLight>{finishedTasksCount + completed_tasks.length}</TextLight>
+            <TextLight>개 완료</TextLight>
+          </div>
+        </div>
+        {/* cheetah graph */}
+        {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
+        <div className="my-[20px]">
+          <div className="flex flex-row w-[300px] mx-auto">
+            <Dealt dealt={dealt - 8} className="" />
+            {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
+            {/* 치타 모습과 같은 기준으로 변화하기 */}
+            <AnimationDiv speedratio={speedratio}>
+              <img src={cheetah_graph} alt="face" className="w-[45px]" />
+            </AnimationDiv>
+          </div>
+          <Progress>
+            <Dealt dealt={dealt} />
+          </Progress>
+        </div>
+        {/* goals */}
+        <>
+          <TodayGoalDetailLayout>
+            <s.GoalCountWrapper>
+              <s.GoalCount>
+                {`${
+                  finishedTasksCount +
+                  unfinishedTasksCount +
+                  completed_tasks.length
+                }개의 목표, ${
+                  finishedTasksCount + completed_tasks.length
+                }건 완료`}
+              </s.GoalCount>
+            </s.GoalCountWrapper>
+            <s.TasksContainer>
+              {unfinishedTasksCount === 0 && (
+                <s.EmptyMessage text="달릴 목표가 없어요" />
+              )}
+              {completed_tasks.map((task) => (
+                <CompletedTask
+                  key={task.id}
+                  goal={task}
+                  tag={task.tag}
+                  isGoalCompleted={isGoalCompleted(task)}
+                  openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                />
+              ))}
+              {incompleted_tasks.map((task) => (
+                <IncompletedTask
+                  key={task.id}
+                  goal={task}
+                  tag={task.tag}
+                  hidden={task.impossible}
+                  openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                  openGoalFinishModal={() => openGoalFinishModal(task.id)}
+                  currentdate={today}
+                />
+              ))}
+            </s.TasksContainer>
+          </TodayGoalDetailLayout>
+          {isGoalFinishModalOpen && (
+            <ModalOverlay onClick={onCloseGoalFinishModal}>
+              <TaskCompleteModal
+                onCompleteGoalFinishModal={onCompleteGoalFinishModal}
+                onCloseGoalCompleteModal={onCloseGoalFinishModal}
+                goal={selectedFinishGoal}
+                showCompleteModal={showFinishModal}
+                progressRate={progressRate}
+                setProgressRate={setProgressRate}
+                dailyHour={dailyHour}
+                setDailyHour={setDailyHour}
+              />
+            </ModalOverlay>
+          )}
+          {isGoalDetailModalOpen && (
+            <ModalOverlay onClick={onCloseGoalDetailModal}>
+              <GoalDetialModalLight
+                onCloseGoalDetailModal={onCloseGoalDetailModal}
+                goal={selectedGoal}
+                todos={selectedGoal.todos}
+              />
+            </ModalOverlay>
+          )}
+        </>
+      </div>
       {clickMenu ? (
         <HamburgerMenu
           clickMenu={clickMenu}
@@ -457,7 +609,7 @@ const TodayPage = () => {
         </div>
       )}
       ;
-      <TodayTabBar className="z-50" />
+      <TodayTabBar className="sticky z-50" />
     </div>
   );
 };

@@ -14,6 +14,7 @@ export const tabBarContainer = styled.div`
   position: fixed;
   background: #fff;
   box-shadow: 0px -0.5px 0px 0 rgba(0, 0, 0, 0.2);
+  z-index: 50;
 `;
 
 export const tabs = styled.div`
