@@ -24,10 +24,10 @@ import {
   getHistoryinmonth,
   createGoal,
   createGoalwithCalendar,
+  getFilteredTags,
 } from "../../apis/api_calendar";
 import { FloatingButton } from "../../components/button/styled";
 import { getUserInfo } from "../../apis/api";
-import tags from "../../data/tags";
 
 const CalendarMainPage = () => {
   const location = useLocation();
@@ -47,6 +47,58 @@ const CalendarMainPage = () => {
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
   const [maxSpeed, setMaxSpeed] = useState(0);
   const storageKey = "isSpeedOff";
+  const [tagList, setTagList] = useState([]);
+  const [goalList, setGoalList] = useState([]);
+
+  const [selectedTagId, setSelectedTagId] = useState(
+    Number(localStorage.getItem("filtered_tag_id")) || null
+  );
+  useEffect(() => {
+    const getAllGoalsAPI = async () => {
+      const response = await getAllGoals();
+      const goalsProcessed = response.map((goal) => ({
+        ...goal,
+        tag_id: goal.tag.id,
+      }));
+      console.log("goal", goalsProcessed);
+      setGoalList(goalsProcessed);
+    };
+    getAllGoalsAPI();
+
+    const getFilteredTagsAPI = async () => {
+      const response = await getFilteredTags();
+      console.log("tag", response);
+      setTagList(response.map((tag) => ({ ...tag, user_id: tag.user })));
+    };
+    getFilteredTagsAPI();
+    localStorage.setItem("filtered_tag_id", selectedTagId);
+  }, []);
+  
+  useEffect(() => {
+    const getAllGoalsAPI = async () => {
+      const response = await getAllGoals();
+      const goalsProcessed = response.map((goal) => ({
+        ...goal,
+        tag_id: goal.tag.id,
+      }));
+      console.log("goal", goalsProcessed);
+      setGoalList(goalsProcessed);
+    };
+    getAllGoalsAPI();
+
+    const getFilteredTagsAPI = async () => {
+      const response = await getFilteredTags();
+      console.log("tag", response);
+      setTagList(response.map((tag) => ({ ...tag, user_id: tag.user })));
+    };
+    getFilteredTagsAPI();
+    localStorage.setItem("filtered_tag_id", selectedTagId);
+  }, []);
+
+  const handleTagClick = (tagId) => {
+    setSelectedTagId(tagId);
+    localStorage.setItem("filtered_tag_id", tagId);
+  };
 
   // 로컬 스토리지에서 값을 가져와 초기 상태로 설정
   const getInitialIsSpeedOff = () => {
@@ -446,7 +498,7 @@ const CalendarMainPage = () => {
             step={modalStep}
             modalClose={showGoalCreateModal}
             clickBtnBack={onClickModalBack}
-            tags={tags}
+            tags={tagList}
           ></GoalCreateModal>
         </ModalOverlay>
       )}

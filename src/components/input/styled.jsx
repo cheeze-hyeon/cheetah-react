@@ -699,15 +699,16 @@ export const NewTodo = ({
 
   return (
     <div className="flex flex-row w-full pr-[10px] gap-[5px] items-center">
-      {isCompleted ? (
+      {/* {isCompleted ? (
         <CheckTrue onClick={handlechangeCompleted} />
       ) : (
         <CheckFalse onClick={handlechangeCompleted} />
-      )}
+      )} */}
+      <CheckFalse />
       <TextLight className={`${isCompleted ? "text-[#a3a2a4]" : "text-black"}`}>
         <input
           type="text"
-          value={title}
+          value={todo}
           className={`whitespace-pre-wrap w-[240px] mr-[5px]${
             isCompleted ? "text-[#a3a2a4] line-through" : "text-black"
           }`}

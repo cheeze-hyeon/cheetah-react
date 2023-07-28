@@ -17,6 +17,20 @@ export const Frame = styled(Link)`
   height: 100%;
   cursor: pointer;
 `;
+export const Frame2 = styled(Link)`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  gap: 5px;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+`;
 
 export const LBtnNonActiveContainer = styled.div`
   box-sizing: border-box;
@@ -258,7 +272,7 @@ export const TextBtnSContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   flex-grow: 0;
   flex-shrink: 0;
   height: 24px;
@@ -284,9 +298,9 @@ export const TextBtnSComponent = styled.p`
 export const TextBtnSmall = (props) => {
   return (
     <TextBtnSContainer onClick={props.onClick}>
-      <Frame to={props.to}>
+      <Frame2 to={props.to}>
         <TextBtnSComponent>{props.text}</TextBtnSComponent>
-      </Frame>
+      </Frame2>
     </TextBtnSContainer>
   );
 };
