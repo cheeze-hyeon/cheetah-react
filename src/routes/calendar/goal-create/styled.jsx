@@ -492,7 +492,7 @@ export const GoalCreateModalContainer = styled.div`
   animation: ${slideUp} .5s ease-out 1;
 `;
 
-const GoalCreateModalElementContainer = styled.div`
+export const GoalCreateModalElementContainer = styled.div`
   display: flex;
   padding: 10px 0px 35px 0px;
   flex-direction: column;

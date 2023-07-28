@@ -38,6 +38,7 @@ export const ModalOverlay = styled.div`
   overflow: hidden;
   cursor: pointer;
   animation: ${brighten} 0.3s linear 1;
+  z-index: 99;
 `;
 
 export const ModalHeaderContainer = styled.div`
