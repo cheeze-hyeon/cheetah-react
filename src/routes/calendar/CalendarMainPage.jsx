@@ -167,6 +167,8 @@ const CalendarMainPage = () => {
       var today = new Date();
       var today_string = format(today, "yyyy-MM-dd");
       var tag = goal.tag;
+      var is_scheduled = goal.is_scheduled;
+      var is_completed = goal.is_completed;
 
       if (progress_rate === 100) {
         return {
@@ -178,6 +180,8 @@ const CalendarMainPage = () => {
           update_at: update_at,
           progress_rate: 100,
           tag: tag,
+          is_scheduled: is_scheduled,
+          is_completed: is_completed,
         };
       }
       var dates_task_rawswet = [];
@@ -221,6 +225,8 @@ const CalendarMainPage = () => {
         impossibledates_set: impossibledates_set,
         tag: tag,
         residual_time: residual_time,
+        is_scheduled: is_scheduled,
+        is_completed: is_completed,
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
@@ -294,10 +300,11 @@ const CalendarMainPage = () => {
     var begin = new Date(currentMonth);
     var end = new Date(currentMonth);
     var speedwithDate_temp = [];
-    begin.setDate(1);
+    begin.setMonth(begin.getMonth() - 1);
+    begin.setDate(20);
     end.setMonth(end.getMonth() + 1);
-    end.setDate(0);
-    while (begin <= end && begin.getMonth() === end.getMonth()) {
+    end.setDate(10);
+    while (begin <= end) {
       // 30일, 28일까지만 있는 달 처리
       var begin_string = format(begin, "yyyy-MM-dd");
       speedwithDate_temp.push([begin_string, 0]);
@@ -316,16 +323,18 @@ const CalendarMainPage = () => {
       var newhours = (date[1] / maxSpeed) * 100;
       newhours = Math.round(newhours);
       if (newhours > 100) {
-        newhours = 5;
+        newhours = 6;
       } else if (newhours > 80 && newhours <= 100) {
-        newhours = 4;
+        newhours = 5;
       } else if (newhours > 60 && newhours <= 80) {
-        newhours = 3;
+        newhours = 4;
       } else if (newhours > 40 && newhours <= 60) {
-        newhours = 2;
+        newhours = 3;
       } else if (newhours > 20 && newhours <= 40) {
+        newhours = 2;
+      } else if (newhours > 0 && newhours <= 20) {
         newhours = 1;
-      } else if (newhours >= 0 && newhours <= 20) {
+      } else {
         newhours = 0;
       }
       return [date[0], newhours];
@@ -351,16 +360,18 @@ const CalendarMainPage = () => {
       hours_added = (hours_added / maxSpeed) * 100;
       hours_added = Math.round(hours_added);
       if (hours_added > 100) {
-        hours_added = 5;
+        hours_added = 6;
       } else if (hours_added > 80 && hours_added <= 100) {
-        hours_added = 4;
+        hours_added = 5;
       } else if (hours_added > 60 && hours_added <= 80) {
-        hours_added = 3;
+        hours_added = 4;
       } else if (hours_added > 40 && hours_added <= 60) {
-        hours_added = 2;
+        hours_added = 3;
       } else if (hours_added > 20 && hours_added <= 40) {
+        hours_added = 2;
+      } else if (hours_added > 0 && hours_added <= 20) {
         hours_added = 1;
-      } else if (hours_added >= 0 && hours_added <= 20) {
+      } else {
         hours_added = 0;
       }
       speedwithDate_temp.push([begin_string, hours_added]);

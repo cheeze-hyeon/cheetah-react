@@ -94,7 +94,7 @@ export const DateContainer = styled.div`
   cursor: pointer;
   flex-shrink: 0;
   background-color: ${(props) =>
-    props.$isSpeedOff || !props.$isCurrentMonth
+    props.$isSpeedOff
       ? "#FFFFFF" // isSpeedOff가 true인 경우 배경색을 흰색으로 설정
       : props.$isPastTask
       ? props.$colorSpeed === 0
@@ -107,7 +107,7 @@ export const DateContainer = styled.div`
         ? "var(--hist-60)"
         : props.$colorSpeed === 4
         ? "var(--hist-80)"
-        : props.$colorSpeed === 5
+        : props.$colorSpeed === 5 || props.$colorSpeed === 6
         ? "var(--hist-100)"
         : "var(--white)"
       : props.$colorSpeed === 0
@@ -120,7 +120,7 @@ export const DateContainer = styled.div`
       ? "var(--task-60)"
       : props.$colorSpeed === 4
       ? "var(--task-80)"
-      : props.$colorSpeed === 5
+      : props.$colorSpeed === 5 || props.$colorSpeed === 6
       ? "var(--task-100)"
       : "var(--white)"};
 `;
