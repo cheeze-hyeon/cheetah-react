@@ -140,6 +140,7 @@ const CalendarDetailPage = () => {
 
   const openGoalDetailModal = (goalId) => {
     const selectedGoal = goals.find((goal) => goal.goal.id === goalId);
+    console.log("selectedGoal", selectedGoal);
     setSelectedGoal(selectedGoal || null); // selectedGoal이 존재하지 않으면 null로 설정
     setisGoalDetailModalOpen(true);
   };
@@ -342,7 +343,7 @@ const CalendarDetailPage = () => {
         <ModalOverlay onClick={onCloseGoalDetailModal}>
           <GoalDetialModalLight
             onCloseGoalDetailModal={onCloseGoalDetailModal}
-            goal={selectedGoal}
+            goal={selectedGoal.goal}
             goalsindate={goals}
             historyindate={locationState.historyindate}
             colorHistory={locationState.color_history}

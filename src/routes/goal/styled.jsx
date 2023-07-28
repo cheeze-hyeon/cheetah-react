@@ -133,7 +133,7 @@ export const Label = styled.p`
 export const GoalDeleteModal = (props) => {
   const navigate = useNavigate();
 
-  console.log(props);
+  console.log("this is props", props);
 
   const [isChecked, setIsChecked] = useState(false);
   console.log("isChecked", isChecked);
@@ -160,7 +160,7 @@ export const GoalDeleteModal = (props) => {
     }
     localStorage.setItem("filtered_tag_id", props.tag_id || 0);
     console.log(props.goalsindate);
-    const newgoalsindate = props.goalsindate.filter((goal) => {
+    const newgoalsindate = props.goalsindate?.filter((goal) => {
       return goal.goal.id !== props.goal_id;
     });
     console.log("newgoalsindate", newgoalsindate);

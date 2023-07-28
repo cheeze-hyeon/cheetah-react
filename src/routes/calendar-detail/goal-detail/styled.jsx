@@ -84,7 +84,7 @@ export const GoalDetialModalLight = ({
         <GoalDetailModalHeader
           goal_id={goal.id}
           onCloseModal={onCloseGoalDetailModal}
-          goal_is_scheduled={goal.goal.is_scheduled}
+          goal_is_scheduled={goal.is_scheduled}
           goalsindate={goalsindate}
           historyindate={historyindate}
           colorHistory={colorHistory}
