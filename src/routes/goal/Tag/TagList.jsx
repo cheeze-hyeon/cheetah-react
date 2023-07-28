@@ -34,7 +34,7 @@ const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
   console.log("exceptAll", exceptAll);
 
   return (
-    <div className="flex justify-between items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
+    <div className="flex items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[13px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
       {is_ex && (
         <div>
           {selectedTagId == null ? (

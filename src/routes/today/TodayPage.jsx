@@ -103,7 +103,7 @@ const TodayPage = () => {
   const dealt = Math.floor((3 / 4) * 100);
 
   return (
-    <div>
+    <div className="w-[390px] relative">
       <HeaderMenu
         clickMenu={clickMenu}
         onClickMenu={onClickMenu}
@@ -143,7 +143,7 @@ const TodayPage = () => {
               <Dealt dealt={dealt - 8} className="" />
               {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
               {/* 치타 모습과 같은 기준으로 변화하기 */}
-              <AnimationDiv speed={totalHour} max_speed={formData.max_speed}>
+              <AnimationDiv speedratio={totalHour/formData.max_speed}>
                 <img src={cheetah_graph} alt="face" className="w-[45px]" />
               </AnimationDiv>
             </div>
@@ -178,7 +178,7 @@ const TodayPage = () => {
       ) : (
         <></>
       )}
-      <TodayTabBar />
+      <TodayTabBar className="z-50" />
     </div>
   );
 };
