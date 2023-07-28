@@ -265,7 +265,7 @@ export const modalCenter = styled.div`
   align-items: center;
   gap: 30px;
   align-self: stretch;
-  padding: 30px 10px 0px 10px;
+  padding: 30px 0px 0px 0px;
   overflow: auto;
 `;
 
@@ -275,6 +275,7 @@ export const progressLargeContainer = styled.div`
   align-items: flex-end;
   gap: 5px;
   align-self: stretch;
+  padding: 0px 5px;
 `;
 
 export const progressTopContainer = styled.div`
@@ -282,7 +283,6 @@ export const progressTopContainer = styled.div`
   align-items: center;
   gap: 20px;
   align-self: stretch;
-  padding-right: 15px;
 `;
 
 export const ProgressSlider = muiStyled(Slider)(() => ({

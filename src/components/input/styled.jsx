@@ -13,6 +13,7 @@ export const LabelContainer = styled.div`
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
+  padding: 0px 5px;
 `;
 
 export const FieldWithLabel = (props) => (

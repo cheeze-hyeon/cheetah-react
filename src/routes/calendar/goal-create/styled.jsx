@@ -226,7 +226,7 @@ export const GoalCreateModal = ({
       const newTodo = newTodoTitle.trim();
 
       setNewTodos([...newTodos, newTodo]);
-      setNewTodoTitle("")
+      setNewTodoTitle("");
       // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
@@ -305,11 +305,12 @@ export const GoalCreateModal = ({
       const goal = await createGoalwithCalendar(data);
       console.log("일정에 등록된 목표 추가 완료!", goal);
       console.log("목표 추가 완료!", goal);
-      for(let i = 0; i < newTodos.length; i++){
-        await createTodo({"title": newTodos[i],
-      "is_completed": false,
-      "goal_id": goal.id,
-      })
+      for (let i = 0; i < newTodos.length; i++) {
+        await createTodo({
+          title: newTodos[i],
+          is_completed: false,
+          goal_id: goal.id,
+        });
       }
       window.location.reload();
       return;
@@ -396,7 +397,7 @@ export const GoalCreateModal = ({
                         }))
                       );
                     };
-                    console.log("뭐지",todo)
+                    console.log("뭐지", todo);
                     return (
                       <NewTodo
                         key={index}
@@ -420,7 +421,7 @@ export const GoalCreateModal = ({
                       />
                       <button
                         className="font-['Pretendard'] text-[13px] text-black font-medium"
-                        onClick={ handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                        onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
                       >
                         취소
                       </button>
@@ -554,7 +555,7 @@ export const GoalCreateModalContainer = styled.div`
   background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
   bottom: 0;
-  animation: ${slideUp} .3s ease-out 1;
+  animation: ${slideUp} 0.3s ease-out 1;
 `;
 
 export const GoalCreateModalElementContainer = styled.div`
@@ -583,7 +584,9 @@ const TagsWrapper = styled.div`
   align-content: flex-start;
   gap: 10px 12px;
   align-self: stretch;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  scrollbar: hide;
+  // flex-wrap: wrap;
 `;
 
 const TodosWrapper = styled.div`
@@ -594,7 +597,8 @@ const TodosWrapper = styled.div`
   align-content: flex-start;
   gap: 8px;
   align-self: stretch;
-  flex-wrap: wrap;
+  height: 100px;
+  overflow-y: auto;
 `;
 
 export const DaysWrapper = styled.div`
