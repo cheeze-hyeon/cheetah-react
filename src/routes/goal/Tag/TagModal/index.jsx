@@ -6,6 +6,7 @@ import { SlimButtonActive } from "../../../../components/button/styled";
 import { createTag, updateTag } from "../../../../apis/api_calendar";
 import { useState } from "react";
 import { TextLight } from "../../../../components/text/styled";
+import * as s from "../../../calendar/goal-create/styled";
 
 export const TagCreateModal = ({ onClose }) => {
   const [title, setTitle] = useState("");
@@ -39,7 +40,7 @@ export const TagCreateModal = ({ onClose }) => {
   return (
     <div className="fixed left-0 w-[390px] h-full flex justify-center items-center z-50">
       <div
-        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-[390px] p-10 gap-10 rounded-t-2xl bg-white shadow-xl"
+        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-[390px] pt-5 pb-10 pl-10 pr-10 gap-10 rounded-t-2xl bg-white shadow-xl"
         style={{
           borderTopLeftRadius: "25px",
           borderTopRightRadius: "25px",
@@ -91,7 +92,7 @@ export const TagUpdateModal = ({ onClose, tag }) => {
   return (
     <div className="fixed left-0 w-full h-full flex justify-center items-center z-50">
       <div
-        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full p-10 gap-10 rounded-t-2xl bg-white shadow-xl"
+        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full pt-5 pb-10 pl-10 pr-10 gap-10 rounded-t-2xl bg-white shadow-xl"
         style={{
           borderTopLeftRadius: "25px",
           borderTopRightRadius: "25px",
