@@ -2,8 +2,7 @@ import { format } from "date-fns";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
 import { TextBtnWResetIcon } from "../../components/button/styled";
-import { FieldWithLabel } from "../../components/input/styled";
-import TodoCheck from "../goal/goaldetailmodal/TodoCheck";
+import { FieldWithLabel, TodoCheck } from "../../components/input/styled";
 import { ModalHeaderContainer } from "../../components/modal/styled";
 import { ko } from "date-fns/locale"; // Import the ko locale
 import { useNavigate } from "react-router-dom";
@@ -14,9 +13,11 @@ import { getTodo, createTodo } from "../../apis/api_calendar";
 import { TextLight, TextNormal } from "../../components/text/styled";
 import { InputTextFieldActive } from "../../components/input/styled";
 import { updateGoaldaily } from "../../apis/api_calendar";
+
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
   const onBackBtnClick = () => {
+    window.localStorage.removeItem("goalsindate");
     navigate("/calendar", {
       state: {
         backpath: selectedDate,
@@ -47,6 +48,7 @@ export const HeaderMessage = (props) => {
     </s.headerMessageContainer>
   );
 };
+
 
 export const TaskCompleteModal = ({
   showCompleteModal,
@@ -142,18 +144,17 @@ export const TaskCompleteModal = ({
 
 
   const hasTodos = todos.length > 0 || showAddTodoField == true;
-
   return (
     <s.TaskCompleteModalContainer>
       <s.modalElementContainer>
         <ModalHeaderContainer>
           <s.headerIconContainer></s.headerIconContainer>
-          <t.TitleNormal>{goal.title}</t.TitleNormal>
+          <t.TitleNormal>멋사 해커톤 기획안 발표</t.TitleNormal>
           <s.headerIconContainer>
             <img
               alt="closebtn"
               className="cursor-pointer"
-              onClick={onCloseGoalCompleteModal}
+              onClick={showCompleteModal}
               src={CloseIcon}
             />
           </s.headerIconContainer>

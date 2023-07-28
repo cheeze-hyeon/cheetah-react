@@ -313,10 +313,10 @@ export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
   background: var(--orange);
   width: 100%;
 `;
-export const CompleteButton = (props) => {
+export const CompleteButton = () => {
   return (
     <CompleteButtonContainer>
-      <LargeLabel onClick={props.onClick}>완료하기</LargeLabel>
+      <LargeLabel>완료하기</LargeLabel>
     </CompleteButtonContainer>
   );
 };
