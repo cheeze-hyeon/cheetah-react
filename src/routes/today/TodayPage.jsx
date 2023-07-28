@@ -28,7 +28,7 @@ const TodayPage = () => {
   const [totalHour, setTotalHour] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [todayComment, setTodayComment] = useState("");
-
+  const [speedRate, setSpeedRate] = useState(0);
   // const location = useLocation();
   // console.log(location);
 
@@ -60,17 +60,6 @@ const TodayPage = () => {
     console.log(formData);
   }, []);
 
-  // const getGoalList = () => {
-  //   const goalList = goals.filter((goal) => {
-  //     const calendarDate = startOfDay(new Date(selectedDate));
-  //     const startDate = startOfDay(new Date(goal.start_at));
-  //     const finishDate = startOfDay(new Date(goal.finish_at));
-
-  //     return calendarDate >= startDate && calendarDate <= finishDate;
-  //   });
-  //   return goalList;
-  // };
-
   const onClickMenu = () => {
     console.log(clickMenu);
     return setClickMenu(!clickMenu);
@@ -97,7 +86,7 @@ const TodayPage = () => {
 
   useEffect(() => {
     console.log(formData);
-  }, [formData]);
+  }, []);
 
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor((3 / 4) * 100);
@@ -143,7 +132,7 @@ const TodayPage = () => {
               <Dealt dealt={dealt - 8} className="" />
               {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
               {/* 치타 모습과 같은 기준으로 변화하기 */}
-              <AnimationDiv speedratio={totalHour/formData.max_speed}>
+              <AnimationDiv speedratio={totalHour / formData.max_speed}>
                 <img src={cheetah_graph} alt="face" className="w-[45px]" />
               </AnimationDiv>
             </div>
