@@ -46,7 +46,20 @@ const CalendarMainPage = () => {
   const [speedhistorywithDate, setSpeedhistorywithDate] = useState([]);
   const [historywithDate, setHistorywithDate] = useState([]); //e.g [[date,history],[date,history]...
   const [maxSpeed, setMaxSpeed] = useState(0);
-  const [isSpeedOff, setIsSpeedOff] = useState(true);
+  const storageKey = 'isSpeedOff';
+
+  // 로컬 스토리지에서 값을 가져와 초기 상태로 설정
+  const getInitialIsSpeedOff = () => {
+    const storedValue = localStorage.getItem(storageKey);
+    return storedValue ? JSON.parse(storedValue) : false;
+  };
+
+  const [isSpeedOff, setIsSpeedOff] = useState(getInitialIsSpeedOff);
+
+  useEffect(() => {
+    // isSpeedOff 값이 변경될 때마다 로컬 스토리지에 저장
+    localStorage.setItem(storageKey, JSON.stringify(isSpeedOff));
+  }, [isSpeedOff]);
 
   const showGoalCreateModal = (e) => {
     if (e.target === e.currentTarget) {
