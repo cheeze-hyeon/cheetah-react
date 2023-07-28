@@ -490,7 +490,7 @@ export const GoalCreateModalContainer = styled.div`
   bottom: 0;
 `;
 
-const GoalCreateModalElementContainer = styled.div`
+export const GoalCreateModalElementContainer = styled.div`
   display: flex;
   padding: 10px 0px 35px 0px;
   flex-direction: column;

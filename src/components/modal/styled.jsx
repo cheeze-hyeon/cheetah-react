@@ -14,6 +14,7 @@ export const ModalOverlay = styled.div`
   align-items: center;
   overflow: hidden;
   cursor: pointer;
+  z-index: 99;
 `;
 
 export const ModalHeaderContainer = styled.div`

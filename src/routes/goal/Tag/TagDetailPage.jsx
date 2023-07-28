@@ -56,17 +56,12 @@ const TagDetail = () => {
 
   return (
     <div>
-      {/* {isModalOpen && !selectedTag && (
-        <ModalOverlay className="z-10">
-          <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
-            <TagCreateModal onClose={closeModal} />
-          </div>
-        </ModalOverlay>
-      )} */}
       {isModalOpen && selectedTag && (
-        <ModalOverlay className="z-10">
+        <ModalOverlay onClick={closeModal} className="z-10">
           <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
-            <TagUpdateModal tag={selectedTag} onClose={closeModal} />
+            <div onClick={(e) => e.stopPropagation()}>
+              <TagUpdateModal tag={selectedTag} onClose={closeModal} />
+            </div>
           </div>
         </ModalOverlay>
       )}
