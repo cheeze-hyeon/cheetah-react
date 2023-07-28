@@ -6,8 +6,16 @@ import { TextBtnSmall } from "../../../components/button/styled";
 import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
 import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
+import { slideUp } from "../../../components/modal/styled";
 
-export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
+export const GoalDetialModalLight = ({
+  goal,
+  onCloseGoalDetailModal,
+  goalsindate,
+  historyindate,
+  colorHistory,
+  selectedDate,
+}) => {
   const [todos, setTodos] = useState([]);
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
   const [showAddTodoField, setShowAddTodoField] = useState(false);
@@ -76,7 +84,11 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
         <GoalDetailModalHeader
           goal_id={goal.id}
           onCloseModal={onCloseGoalDetailModal}
-          goal_is_scheduled={goal.is_scheduled}
+          goal_is_scheduled={goal.goal.is_scheduled}
+          goalsindate={goalsindate}
+          historyindate={historyindate}
+          colorHistory={colorHistory}
+          selectedDate={selectedDate}
         />
         <TitleWrapper>
           <TitleNormal>{goal.title}</TitleNormal>
@@ -91,7 +103,7 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
                 : !showAddTodoField && (
                     <NoDataMesssageWrapper>
                       <TextLight className="text-darkgray">
-                        하위 투두가 없어요 :)
+                        하위 투두가 없어요 :
                       </TextLight>
                     </NoDataMesssageWrapper>
                   )}
@@ -134,6 +146,7 @@ export const ModalLayout = styled.div`
   border-radius: 15px;
   background: #fff;
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  animation: ${slideUp} 0.5s ease-out 1;
 `;
 
 export const ElementsLayout = styled.div`
