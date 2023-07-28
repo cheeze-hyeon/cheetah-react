@@ -103,7 +103,7 @@ export const GoalDetialModalLight = ({
                 : !showAddTodoField && (
                     <NoDataMesssageWrapper>
                       <TextLight className="text-darkgray">
-                        하위 투두가 없어요 :
+                        하위 투두가 없어요 :D
                       </TextLight>
                     </NoDataMesssageWrapper>
                   )}

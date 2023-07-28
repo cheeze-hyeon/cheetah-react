@@ -52,7 +52,7 @@ export const CompletedTask = ({
           </s.TaskInfo>
         </s.TaskTLeftFrame>
         <s.TaskBtnContainer onClick={onClickRollBack}>
-          <img alt="button" src={CompletedIcon} />
+          <img alt="button" src={CompletedIcon} className="w-[45px]"/>
         </s.TaskBtnContainer>
       </s.TaskTopFrame>
       <s.DueDateWrapper>

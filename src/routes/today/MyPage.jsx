@@ -51,7 +51,7 @@ const MyPage = () => {
             <TitleNormal>이번 달 치타가</TitleNormal>
             <TitleNormal className="text-[#f19a37]">
               {" "}
-              {formData.monthly_hour}시간
+              {parseInt(formData.monthly_hour)}시간
             </TitleNormal>
             <TitleNormal> 달렸어요!</TitleNormal>
           </div>
