@@ -83,13 +83,10 @@ export const createGoalwithCalendar = async (data) => {
 //goal의 정보를 수정한다. 1. daily_check 2. add_calendar 3. roll_back.
 
 //1. daily_check 하루에 배당된 목표를 완료한 사람이 발바닥을 클릭한 경우 daily_check를 true로 goal을 업데이트한다.
-export const updateGoaldaily = async (goal_id, param, data) => {
+export const updateGoaldaily = async (goal_id, data) => {
   const response = await instanceWithToken.patch(
-    "/goal/" + goal_id + "/",
-    data,
-    {
-      params: param,
-    }
+    "/goal/" + goal_id + "/?daily_check=true",
+    data
   );
   if (response.status === 200) {
     console.log("UPDATE GOAL SUCCESS");
