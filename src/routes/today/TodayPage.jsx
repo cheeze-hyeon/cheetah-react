@@ -81,7 +81,6 @@ const TodayPage = () => {
     const selectedFinishGoal = goalsListwithImpossibledates.find(
       (goal) => goal.id === goalId
     );
-    console.log("selectedFinishGoal: ", selectedFinishGoal);
     setSelectedFinishGoal(selectedFinishGoal);
   };
 
@@ -175,12 +174,10 @@ const TodayPage = () => {
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
-    console.log("goal Processed", goalsProcessed);
   };
 
   useEffect(() => {
     //전체 목표 리스트에서 완료된 목표, 미완료된 목표 나눠서 저장
-    console.log(goalsListwithImpossibledates);
 
     // 임시 변수를 사용하여 완료 및 미완료 목표를 저장
     const tempCompletedTasks = [];
@@ -192,7 +189,6 @@ const TodayPage = () => {
       if (goalsListwithImpossibledates[i].progress_rate === 100) {
         tempCompletedTasks.push(goalsListwithImpossibledates[i]);
       } else {
-        console.log(today, goalsListwithImpossibledates[i].update_at);
         tempIncompletedTasks.push(goalsListwithImpossibledates[i]);
         if (isFinished(goalsListwithImpossibledates[i].update_at)) {
           finishedCount++;
@@ -207,16 +203,13 @@ const TodayPage = () => {
   }, [goalsListwithImpossibledates]);
 
   useEffect(() => {
-    console.log(incompleted_tasks);
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
-      console.log("hi");
       if (
         !incompleted_tasks[i].impossible &&
         !isFinished(incompleted_tasks[i].update_at)
       ) {
         studyhour += incompleted_tasks[i].hoursperday;
-        console.log(studyhour);
       }
     }
     setTotalHour(studyhour);
@@ -232,7 +225,6 @@ const TodayPage = () => {
     const getUserInfoFromServer = async () => {
       try {
         const response = await getUserInfo();
-        console.log(response);
         setFormData({
           username: response.data.user.username,
           password: response.data.user.password,
@@ -245,23 +237,10 @@ const TodayPage = () => {
       }
     };
     getUserInfoFromServer();
-    console.log(formData);
     getGoalsindateAPI();
   }, []);
 
-  // const getGoalList = () => {
-  //   const goalList = goals.filter((goal) => {
-  //     const calendarDate = startOfDay(new Date(selectedDate));
-  //     const startDate = startOfDay(new Date(goal.start_at));
-  //     const finishDate = startOfDay(new Date(goal.finish_at));
-
-  //     return calendarDate >= startDate && calendarDate <= finishDate;
-  //   });
-  //   return goalList;
-  // };
-
   const onClickMenu = () => {
-    console.log(clickMenu);
     return setClickMenu(!clickMenu);
   };
 
@@ -309,19 +288,12 @@ const TodayPage = () => {
         nickname: "",
         max_speed: "",
       });
-      console.log(formData);
       window.location.href = "/";
     } catch (error) {
       console.log("Log Out failed:", error);
     }
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-  useEffect(() => {
-    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen);
-  }, [isGoalFinishModalOpen]);
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor(
     ((finishedTasksCount + completed_tasks.length) /
@@ -329,7 +301,7 @@ const TodayPage = () => {
       100
   );
 
-  const speedratio = parseInt(totalHour) / formData.max_speed;
+  const speedratio = totalHour / formData.max_speed;
 
   return (
     <div className="w-[390px] relative">
@@ -366,7 +338,7 @@ const TodayPage = () => {
               </div>
               <div className="flex flex-row">
                 <TextHeavy className="text-[#f19a37]">
-                  {parseInt(totalHour)}
+                  {Math.ceil(totalHour)}
                 </TextHeavy>
                 <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
                 <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
