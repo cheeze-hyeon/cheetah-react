@@ -36,6 +36,7 @@ import { is } from "date-fns/locale";
 import { debounce } from "@mui/material";
 import { useCallback } from "react";
 import { slideUp } from "../../../components/modal/styled";
+import { createTodo, getTodo } from "../../../apis/api_calendar";
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -192,14 +193,56 @@ export const GoalCreateModal = ({
     setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
   };
 
+  // const handleAddTodoEnter = (e) => {
+  //   if (e.key === "Enter" && newTodoTitle.trim() !== "") {
+  //     const newTodo = {
+  //       title: newTodoTitle.trim(),
+  //     };
+  //     setNewTodoTitle("");
+  //     setNewTodos((prevTodos) => [...prevTodos, newTodo]);
+  //     // setShowAddTodoField(false);
+  //   }
+  // };
+  // const createTodoAPI = async () => {
+  //   try {
+  //     const response = await createTodo(todo);
+  //     setTodos((prevTodos) => [...prevTodos, ...response]);
+  //     console.log(response);
+  //   } catch (error) {
+  //     // API 호출 실패 처리
+  //     console.error("Failed to fetch todos:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getTodoAPI();
+  // }, [goal.id]);
+
   const handleAddTodoEnter = (e) => {
+    // 투두 추가 텍스트 필드에서 엔터를 눌렀을 때 호출되는 함수입니다.
+    console.log("enter!!!");
     if (e.key === "Enter" && newTodoTitle.trim() !== "") {
+      // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
       const newTodo = {
+        id: Math.random().toString(),
+        goal_id: newGoal.id,
         title: newTodoTitle.trim(),
+        is_completed: false,
       };
+
       setNewTodoTitle("");
-      setNewTodos((prevTodos) => [...prevTodos, newTodo]);
-      setShowAddTodoField(false);
+
+      const createTodoAPI = async () => {
+        const response = await createTodo({
+          goal_id: newGoal.id,
+          title: newTodoTitle.trim(),
+          is_completed: false,
+        });
+        newTodo.id = response.id;
+        setNewTodos([...newTodo, newTodoTitle]); // 기존 투두 목록에 새로운 투두를 추가합니다.
+      };
+      createTodoAPI();
+      // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
 
@@ -239,6 +282,7 @@ export const GoalCreateModal = ({
   const addGoal = async (data) => {
     if (selectedTagId && title) {
       const goal = await createGoal(data);
+      setNewGoal(goal);
       console.log("목표 추가 완료!", goal);
       window.location.reload();
       return;
@@ -291,7 +335,7 @@ export const GoalCreateModal = ({
   };
   const onClick2 = debounce(onClick, 300, true);
   const onClick3 = useCallback(onClick2, [newGoal]);
-
+  console.log("밖에서 투두", newTodos);
   return (
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
@@ -337,13 +381,26 @@ export const GoalCreateModal = ({
               </FieldWithLabel>
               <FieldWithLabel label="하위 투두">
                 <TodosWrapper>
-                  {newTodos.map((todo, index) => (
-                    <NewTodo
-                      key={index}
-                      todo={todo}
-                      onDelete={handleDeleteTodo}
-                    />
-                  ))}
+                  {newTodos.map((todo, index) => {
+                    const handlechangeCompleted = () => {
+                      console.log("handle 실행");
+                      setNewTodos((prevTodos) =>
+                        prevTodos.map((todo) => ({
+                          ...todo,
+                          is_completed: !todo.is_completed,
+                        }))
+                      );
+                    };
+                    return (
+                      <NewTodo
+                        key={index}
+                        todo={todo}
+                        defaultIsCompleted={todo.is_completed}
+                        onDelete={handleDeleteTodo}
+                        handlechangeCompleted={handlechangeCompleted}
+                      />
+                    );
+                  })}
                   {showAddTodoField && (
                     <AddTodoField>
                       <NewTodoInput
@@ -489,7 +546,7 @@ export const GoalCreateModalContainer = styled.div`
   background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
   bottom: 0;
-  animation: ${slideUp} .5s ease-out 1;
+  animation: ${slideUp} 0.5s ease-out 1;
 `;
 
 export const GoalCreateModalElementContainer = styled.div`

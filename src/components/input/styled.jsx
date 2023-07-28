@@ -3,6 +3,9 @@ import { TextLight, TextNormal } from "../text/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Check from "../../routes/goal/goaldetailmodal/Check";
+import CheckFalse from "../../routes/goal/goaldetailmodal/CheckFalse";
+import { updateTodo } from "../../apis/api_calendar";
+import CheckTrue from "../../routes/goal/goaldetailmodal/CheckTrue";
 
 export const LabelContainer = styled.div`
   display: flex;
@@ -493,22 +496,22 @@ export const InputTimeField = (props) => {
   );
 };
 
-export const CheckTrue = () => {
-  return (
-    <CheckTrueSvg
-      width={30}
-      height={30}
-      viewBox="0 0 30 30"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M23.4375 2.8125H6.5625C5.56827 2.81359 4.61507 3.20902 3.91205 3.91205C3.20902 4.61507 2.81359 5.56827 2.8125 6.5625V23.4375C2.81359 24.4317 3.20902 25.3849 3.91205 26.088C4.61507 26.791 5.56827 27.1864 6.5625 27.1875H23.4375C24.4317 27.1864 25.3849 26.791 26.088 26.088C26.791 25.3849 27.1864 24.4317 27.1875 23.4375V6.5625C27.1864 5.56827 26.791 4.61507 26.088 3.91205C25.3849 3.20902 24.4317 2.81359 23.4375 2.8125ZM21.3428 10.9154L13.4678 20.2904C13.3814 20.3933 13.2739 20.4764 13.1526 20.5342C13.0313 20.5919 12.899 20.6229 12.7646 20.625H12.7488C12.6174 20.625 12.4875 20.5973 12.3675 20.5438C12.2475 20.4903 12.14 20.4122 12.0521 20.3145L8.67715 16.5645C8.59144 16.4735 8.52476 16.3664 8.48104 16.2494C8.43732 16.1323 8.41744 16.0077 8.42256 15.8829C8.42769 15.758 8.45771 15.6355 8.51088 15.5224C8.56404 15.4093 8.63928 15.308 8.73215 15.2245C8.82503 15.1409 8.93367 15.0767 9.0517 15.0357C9.16973 14.9947 9.29476 14.9777 9.41945 14.9858C9.54414 14.9938 9.66597 15.0266 9.77777 15.0824C9.88958 15.1382 9.98911 15.2158 10.0705 15.3105L12.7242 18.259L19.9072 9.70957C20.0683 9.52329 20.2963 9.40789 20.5418 9.38833C20.7873 9.36877 21.0307 9.4466 21.2193 9.60502C21.4079 9.76343 21.5265 9.9897 21.5497 10.2349C21.5728 10.4801 21.4984 10.7246 21.3428 10.9154Z"
-        fill="#A3A2A4"
-      />
-    </CheckTrueSvg>
-  );
-};
+// export const CheckTrue = () => {
+//   return (
+//     <CheckTrueSvg
+//       width={25}
+//       height={25}
+//       viewBox="0 0 25 25"
+//       fill="none"
+//       xmlns="http://www.w3.org/2000/svg"
+//     >
+//       <path
+//         d="M23.4375 2.8125H6.5625C5.56827 2.81359 4.61507 3.20902 3.91205 3.91205C3.20902 4.61507 2.81359 5.56827 2.8125 6.5625V23.4375C2.81359 24.4317 3.20902 25.3849 3.91205 26.088C4.61507 26.791 5.56827 27.1864 6.5625 27.1875H23.4375C24.4317 27.1864 25.3849 26.791 26.088 26.088C26.791 25.3849 27.1864 24.4317 27.1875 23.4375V6.5625C27.1864 5.56827 26.791 4.61507 26.088 3.91205C25.3849 3.20902 24.4317 2.81359 23.4375 2.8125ZM21.3428 10.9154L13.4678 20.2904C13.3814 20.3933 13.2739 20.4764 13.1526 20.5342C13.0313 20.5919 12.899 20.6229 12.7646 20.625H12.7488C12.6174 20.625 12.4875 20.5973 12.3675 20.5438C12.2475 20.4903 12.14 20.4122 12.0521 20.3145L8.67715 16.5645C8.59144 16.4735 8.52476 16.3664 8.48104 16.2494C8.43732 16.1323 8.41744 16.0077 8.42256 15.8829C8.42769 15.758 8.45771 15.6355 8.51088 15.5224C8.56404 15.4093 8.63928 15.308 8.73215 15.2245C8.82503 15.1409 8.93367 15.0767 9.0517 15.0357C9.16973 14.9947 9.29476 14.9777 9.41945 14.9858C9.54414 14.9938 9.66597 15.0266 9.77777 15.0824C9.88958 15.1382 9.98911 15.2158 10.0705 15.3105L12.7242 18.259L19.9072 9.70957C20.0683 9.52329 20.2963 9.40789 20.5418 9.38833C20.7873 9.36877 21.0307 9.4466 21.2193 9.60502C21.4079 9.76343 21.5265 9.9897 21.5497 10.2349C21.5728 10.4801 21.4984 10.7246 21.3428 10.9154Z"
+//         fill="#A3A2A4"
+//       />
+//     </CheckTrueSvg>
+//   );
+// };
 
 export const CheckTrueSvg = styled.svg`
   display: block;
@@ -658,8 +661,19 @@ export const NewTodoInput = styled.input`
   }
 `;
 
-export const NewTodo = ({ todo, onDelete }) => {
+export const NewTodo = ({
+  todo,
+  defaultIsCompleted,
+  onDelete,
+  handlechangeCompleted,
+}) => {
   const [title, setTitle] = useState("");
+  const [isCompleted, setIsCompleted] = useState(defaultIsCompleted);
+  // useEffect(() => {
+  //   setIsCompleted(defaultIsCompleted);
+  // }, []);
+  console.log("완료?", defaultIsCompleted);
+  console.log("투두?", todo);
 
   useEffect(() => {
     setTitle(todo.title);
@@ -672,22 +686,37 @@ export const NewTodo = ({ todo, onDelete }) => {
   const handleDeleteTodo = () => {
     onDelete(todo); // onDelete 콜백 프롭을 호출하고 삭제할 투두를 전달합니다.
   };
+  const handleCheckToggle = () => {
+    setIsCompleted((prevIsCompleted) => !prevIsCompleted);
+    const checktodoAPI = async () => {
+      const response = await updateTodo(todo.id, {
+        ...todo,
+        is_completed: !isCompleted,
+      });
+    };
+    checktodoAPI();
+  };
 
   return (
-    <div className="box-border flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 w-full h-[38px] px-2 bg-white border-t-0 border-r-0 border-b border-l-0 border-neutral-100">
-      <div className="box-border flex justify-between items-center flex-grow basis-full relative">
-        <div className="box-border flex justify-start items-center flex-grow basis-full relative gap-[5px]">
-          <Check />
-          <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 w-[270px] relative gap2.5">
-            <NewTodoInput
-              type="text"
-              value={title}
-              onChange={handleTitleChange}
-            />
-          </div>
-        </div>
-        <Close onClick={() => handleDeleteTodo} color="var(--darkgray)" />
-      </div>
+    <div className="flex flex-row w-full pr-[10px] gap-[5px] items-center">
+      {isCompleted ? (
+        <CheckTrue onClick={handlechangeCompleted} />
+      ) : (
+        <CheckFalse onClick={handlechangeCompleted} />
+      )}
+      <TextLight className={`${isCompleted ? "text-[#a3a2a4]" : "text-black"}`}>
+        <input
+          type="text"
+          value={title}
+          className={`whitespace-pre-wrap w-[240px] mr-[5px]${
+            isCompleted ? "text-[#a3a2a4] line-through" : "text-black"
+          }`}
+          onChange={handleTitleChange}
+        />
+      </TextLight>
+      <button onClick={handleDeleteTodo}>
+        <Close width="20" height="20" color="var(--darkgray)" />
+      </button>
     </div>
   );
 };
