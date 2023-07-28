@@ -19,7 +19,7 @@ export const GoalMainRoot = styled.div`
   color: var(--black);
   font-family: var(--font-pretendard);
   width: 390px;
-  height: 844px;
+  height: 100%;
   overflow: hidden;
   background: var(--background);
 `;

@@ -145,14 +145,6 @@ export const CalendarCells = ({
     return speedOfDate;
   };
 
-  const dateLabel = (day, formattedDate, isSpeedOff) => {
-    if (getSpeedColor(day) === 6 && !isSpeedOff) {
-      return `${"🔥"} ${formattedDate} ${"🔥"}`;
-    } else {
-      return formattedDate;
-    }
-  };
-
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");

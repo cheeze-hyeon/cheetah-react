@@ -956,8 +956,8 @@ export const FloatingButton = styled.div`
   align-items: center;
   position: absolute;
   z-index: 100;
-  right: 5%;
-  bottom: 12%;
+  right: 8%;
+  bottom: 100px;
   cursor: pointer;
   width: 60px;
   height: 60px;

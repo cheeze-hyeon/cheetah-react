@@ -116,22 +116,23 @@ const GoalMainPage = () => {
 
   return (
     <>
+      <GoalHeader text="내 목표" to="/tag-detail" />
+
       <GoalMainRoot>
-        <GoalHeader text="내 목표" to="/tag-detail" />
-        <div className="h-full w-[390px] bg-[#f5f5f5]">
-          <div className="flex flex-starts gap-2 overflow-x-auto scrollbar-hide w-[390px]">
+        <div className="h-full w-[390px]">
+          <div className="flex flex-starts overflow-x-auto scrollbar-hide w-[390px]">
             <TagList
               tags={tagList}
               selectedTagId={selectedTagId}
               onTagClick={handleTagClick}
             />
           </div>
-          <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[789px] pb-[200px] overflow-y-auto">
+          <div className="flex-col m-[20px] gap-[20px] max-w-screen h-[790px] pb-[200px] overflow-y-auto">
             {filteredGoals.length > 0 ? (
               <div className="flex flex-col gap-[20px] mb-[100px]">
                 <TextNormal>{`${goalCount}개의 목표`}</TextNormal>
                 <div className="flex flex-col gap-[15px] pb-200">
-                  {filteredGoals?.map(
+                  {filteredGoals.map(
                     (goal) =>
                       goal.is_scheduled && (
                         <GoalCard
@@ -141,7 +142,7 @@ const GoalMainPage = () => {
                         />
                       )
                   )}
-                  {filteredGoals?.map(
+                  {filteredGoals.map(
                     (goal) =>
                       !goal.is_scheduled && (
                         <GoalCard
