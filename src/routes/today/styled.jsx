@@ -99,7 +99,7 @@ export const HamburgerContainer = styled.div`
   background: #fff;
   box-shadow: -2px 0px 4px 0 rgba(0, 0, 0, 0.1);
   // margin-left: 139px;
-  animation: ${slideLeft} 0.3s linear 1;
+  animation: ${slideLeft} 0.2s linear 1;
 `;
 
 export const MyContainer = styled.div`
@@ -444,17 +444,19 @@ export const CompleteButton = () => {
     </CompleteButtonContainer>
   );
 };
+
 export const rotate = keyframes`
   0%{
-      transform: rotate(-10deg);
+      transform: rotate(-20deg);
   }
   50%{ 
-    transform: rotate(0deg);
+    transform: rotate(-8deg);
   }
   100%{
-      transform: rotate(10deg);
+      transform: rotate(0deg);
   }
   `;
+
 export const AnimationDiv = styled.div`
   width: 45px;
   hegiht: 45px;
@@ -479,4 +481,34 @@ export const AnimationDiv = styled.div`
       : props.speed - props.max_speed > 3
       ? 1
       : 2}s;
+`;
+
+export const cheetahRun = keyframes`
+  0%{
+      transform: rotate(-6deg);
+  }
+  50%{ 
+    transform: rotate(0deg);
+  }
+  100%{
+      transform: rotate(5deg);
+  }
+  `;
+
+export const TodayCheetahAnimation = styled.div`
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${cheetahRun} linear infinite alternate;
+  animation-duration: ${(props) =>
+    props.speedratio > 1
+      ? 0.45
+      : props.speedratio > 0.75
+      ? 0.7
+      : props.speedratio > 0.3
+      ? 0.9
+      : props.speedratio > 0
+      ? 1.2
+      : 0}s;
 `;

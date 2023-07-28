@@ -34,7 +34,7 @@ import {
 } from "../calendar-detail/.";
 import { ModalOverlay } from "../../components/modal/styled";
 import { GoalDetialModalLight } from "../calendar-detail/goal-detail/styled";
-import { AnimationDiv } from "./styled";
+import { AnimationDiv, TodayCheetahAnimation } from "./styled";
 
 const TodayPage = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -340,21 +340,21 @@ const TodayPage = () => {
           text="TODAY"
         ></HeaderMenu>
         <div className="flex flex-col items-center gap-[20px] pt-5">
-          <img
-            src={
-              speedratio > 1
-                ? cheetah_speed4
-                : speedratio > 0.75
-                ? cheetah_speed3
-                : speedratio > 0.3
-                ? cheetah_speed2
-                : speedratio > 0
-                ? cheetah_speed1
-                : cheetah_speed0
-            }
-            className="w-[200px]"
-            alt="face"
-          />
+            <img
+              src={
+                speedratio > 1
+                  ? cheetah_speed4
+                  : speedratio > 0.75
+                  ? cheetah_speed3
+                  : speedratio > 0.3
+                  ? cheetah_speed2
+                  : speedratio > 0
+                  ? cheetah_speed1
+                  : cheetah_speed0
+              }
+              className="w-[200px]"
+              alt="face"
+            />
           <div
             id="cheetah_dashboard"
             className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
@@ -375,13 +375,10 @@ const TodayPage = () => {
           </div>
         </div>
       </div>
-{/* 
-      padding: 10px 15px;
-  align-items: flex-start;
-  height: auto;
-  border-radius: 25px 25px 0px 0px; */}
-
-      <div id="today_goals" className="m-auto mt-[20px] z-50 sticky bg-white px-[10px] py-[15px] rounded-t-[25px] border-t-[3px] border-[#f5f5f5]">
+      <div
+        id="today_goals"
+        className="m-auto mt-[20px] z-30 sticky bg-white px-[10px] py-[15px] rounded-t-[25px] border-t-[3px] border-[#f5f5f5]"
+      >
         <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
           <div>
             <TextHeavy>To Do List</TextHeavy>
@@ -487,7 +484,7 @@ const TodayPage = () => {
         <></>
       )}
       ;
-      <TodayTabBar className="z-50" />
+      <TodayTabBar className="sticky z-50" />
     </div>
   );
 };

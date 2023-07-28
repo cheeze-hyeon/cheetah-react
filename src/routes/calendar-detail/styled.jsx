@@ -236,8 +236,9 @@ export const TaskCompleteModalContainer = styled.div`
   background: var(--white);
   display: flex;
   width: 357px;
-  height: 506px;
-  padding: 15px 15px 5px 15px;
+  height: 510px;
+  // padding: 15px 15px 5px 15px;
+  padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
   border-radius: 15px;
@@ -316,7 +317,7 @@ export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
 export const CompleteButton = (props) => {
   return (
     <CompleteButtonContainer>
-      <LargeLabel onClick={props.onClick}>완료하기</LargeLabel>
+      <LargeLabel className="text-white"onClick={props.onClick}>완료하기</LargeLabel>
     </CompleteButtonContainer>
   );
 };

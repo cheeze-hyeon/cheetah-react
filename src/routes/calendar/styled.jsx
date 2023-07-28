@@ -274,8 +274,11 @@ export const onOffCircle = styled.div`
   align-items: center;
   width: 34px;
   height: 26px;
+  left: 2px;
+  transform: ${(props) => (props.$isOff ? "" : "translateX(41px)")};
+  transition: all 0.2s linear;
   position: absolute;
-  left: ${(props) => (props.$isOff ? "2px" : "43px")};
+  // left: ${(props) => (props.$isOff ? "2px" : "43px")};
   top: 2px;
   overflow: hidden;
   gap: 10px;
