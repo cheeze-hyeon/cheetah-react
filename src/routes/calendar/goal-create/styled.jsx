@@ -225,7 +225,7 @@ export const GoalCreateModal = ({
       // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
       const newTodo = newTodoTitle.trim();
 
-      setNewTodos([...newTodos, newTodo]);
+      setNewTodos([...newTodos, {"title":newTodo}]);
       setNewTodoTitle("")
       // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
@@ -306,6 +306,7 @@ export const GoalCreateModal = ({
       console.log("일정에 등록된 목표 추가 완료!", goal);
       console.log("목표 추가 완료!", goal);
       for(let i = 0; i < newTodos.length; i++){
+        console.log(newTodos[i])
         await createTodo({"title": newTodos[i],
       "is_completed": false,
       "goal_id": goal.id,
@@ -400,7 +401,7 @@ export const GoalCreateModal = ({
                     return (
                       <NewTodo
                         key={index}
-                        todo={todo}
+                        todo={todo.title}
                         value={todo}
                         defaultIsCompleted={todo.is_completed}
                         onDelete={handleDeleteTodo}
