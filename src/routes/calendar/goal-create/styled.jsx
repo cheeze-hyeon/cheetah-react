@@ -35,6 +35,7 @@ import { add, set } from "date-fns";
 import { is } from "date-fns/locale";
 import { debounce } from "@mui/material";
 import { useCallback } from "react";
+import { slideUp } from "../../../components/modal/styled";
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -295,7 +296,7 @@ export const GoalCreateModal = ({
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
         {step === 1 ? (
-          <HeaderModal text="목표추가" modalClose={modalClose} />
+          <HeaderModal text="목표 추가" modalClose={modalClose} />
         ) : (
           <HeaderModalBack
             text="캘린더에 추가"
@@ -479,7 +480,7 @@ export const GoalCreateModal = ({
 export const GoalCreateModalContainer = styled.div`
   position: fixed;
   display: flex;
-  width: 389px;
+  width: 390px;
   padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
@@ -488,6 +489,7 @@ export const GoalCreateModalContainer = styled.div`
   background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
   bottom: 0;
+  animation: ${slideUp} .5s ease-out 1;
 `;
 
 const GoalCreateModalElementContainer = styled.div`

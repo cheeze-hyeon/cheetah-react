@@ -71,7 +71,7 @@ const TagDetailwithColor = ({
   };
 
   return (
-    <div className="box-border flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 w-[350px] h-[260px] gap-[18px]">
+    <div className="box-border flex flex-col justify-start flex-grow-0 flex-shrink-0 w-[350px] h-[260px] gap-[18px]">
       <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
         <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[350px] gap-[5px]">
           <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5">

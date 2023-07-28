@@ -6,6 +6,7 @@ import { TextBtnSmall } from "../../../components/button/styled";
 import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
 import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
+import { slideUp } from "../../../components/modal/styled";
 
 export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
   const [todos, setTodos] = useState([]);
@@ -133,7 +134,7 @@ export const ModalLayout = styled.div`
   gap: 10px;
   border-radius: 15px;
   background: #fff;
-  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);animation: ${slideUp} 0.5s ease-out 1;
 `;
 
 export const ElementsLayout = styled.div`

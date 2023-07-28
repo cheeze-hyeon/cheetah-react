@@ -79,7 +79,6 @@ export const HamburgerContainer = styled.div`
   width: 251px;
   height: 761px;
   position: absolute;
-  // z-index: 50;
   top: 0px;
   left: 139px;
   background: #fff;
