@@ -476,7 +476,7 @@ export const GoalCreateModal = ({
   );
 };
 
-const GoalCreateModalContainer = styled.div`
+export const GoalCreateModalContainer = styled.div`
   position: fixed;
   display: flex;
   width: 389px;

@@ -121,9 +121,11 @@ const CalendarDetailPage = () => {
   };
 
   const onCloseGoalDetailModal = (e) => {
+    e.stopPropagation();
     if (e.target === e.currentTarget) {
       setisGoalDetailModalOpen(false); // 모달을 닫을 때 false로 설정
     }
+    console.log("close");
   };
 
   const openGoalDetailModal = (goalId) => {
@@ -227,12 +229,12 @@ const CalendarDetailPage = () => {
           <CalendarDetailHeader selectedDate={parsedDate} />
           <HeaderMessage
             textOrange={
-              !isPast(new Date(selectedDate))
+              isToday(new Date(selectedDate)) || !isPast(new Date(selectedDate))
                 ? "[치타속도 " + Math.floor((speedRate / maxSpeed) * 100) + "%]"
                 : historySpeedText
             }
             textGray={
-              !isPast(new Date(selectedDate))
+              isToday(new Date(selectedDate)) || !isPast(new Date(selectedDate))
                 ? headerText + " 달리기💨"
                 : "속도로 달린 날"
             }
@@ -327,7 +329,7 @@ const CalendarDetailPage = () => {
       {isGoalDetailModalOpen && (
         <ModalOverlay onClick={onCloseGoalDetailModal}>
           <GoalDetialModalLight
-            onCloseGoalDetailModal={onCloseGoalDetailModal}
+            onCloseGoalDetailModal={(e) => onCloseGoalDetailModal(e)}
             goal={selectedGoal}
           />
         </ModalOverlay>

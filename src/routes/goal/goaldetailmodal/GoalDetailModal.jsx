@@ -17,6 +17,8 @@ import {
   updateTodo,
   deleteTodo,
 } from "../../../apis/api_calendar";
+import * as s from "../../calendar-detail/goal-detail/styled";
+import { Tag } from "../../calendar-detail/styled";
 
 const GoalDetailModal = ({ goal, onCloseModal }) => {
   const {
@@ -134,108 +136,101 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
   };
   const hasTodos = todos.length > 0 || showAddTodoField == true;
   return (
-    <div className="box-border flex flex-col justify-top items-start w-[357px] h-fill px-[15px] py-[10px]">
-      <GoalDetailModalHeader
-        goal_id={goal.id}
-        onCloseModal={onCloseModal}
-        goal_is_scheduled={goal.is_scheduled}
-      />
-      <div className="flex flex-col gap-[5px] w-full">
-        <div className="flex flex-row gap-[8px] items-center px-[10px]">
-          {tag && (
-            <div
-              className="flex flex-row item-stretch px-[7px] py-0.5 rounded-[15px] bg-${tag.color}"
-              style={{ backgroundColor: tag.color }}
-            >
-              <TextLight className="whitespace-pre-wrap leading-[19px] font-medium text-left text-[#222b45]">
-                {tag.title}
+    <s.ModalLayout>
+      <s.ElementsLayout>
+        <GoalDetailModalHeader
+          goal_id={goal.id}
+          onCloseModal={onCloseModal}
+          goal_is_scheduled={goal.is_scheduled}
+        />
+        <div className="flex flex-col gap-[5px] w-full">
+          <div className="flex flex-row gap-[8px] items-center px-[10px]">
+            {tag && (
+              <div
+                className="flex flex-row item-stretch px-[7px] py-0.5 rounded-[15px] bg-${tag.color}"
+                style={{ backgroundColor: tag.color }}
+              >
+                <TextLight className="whitespace-pre-wrap leading-[19px] font-medium text-left text-[#222b45]">
+                  {tag.title}
+                </TextLight>
+              </div>
+            )}
+            {is_scheduled === false && (
+              <TextLight
+                className="whitespace-pre-wrap text-left text-[#222b45]"
+                font_weight="600"
+              >
+                캘린더에 추가되지 않음
               </TextLight>
-            </div>
-          )}
-          {is_scheduled === false && (
-            <TextLight
-              className="whitespace-pre-wrap text-left text-[#222b45]"
-              font_weight="600"
-            >
-              캘린더에 추가되지 않음
-            </TextLight>
-          )}
-          {/* is_scheduled === 1인 경우에만 남은 시간 표시 */}
-          {is_scheduled !== false && (
-            <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
-              <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
-                {calculateRemainingTime()}
-              </TextLight>
-            </div>
-          )}
-          {is_scheduled !== false && (
-            <div className="box-border flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-[7px] py-0.5 rounded-[15px] bg-neutral-100">
-              <TextLight className="whitespace-pre-wrap flex-grow-0 flex-shrink-0 font-['Pretendard'] text-xs leading-[19px] font-medium text-left text-[#6a6a6a]">
+            )}
+            {/* is_scheduled === 1인 경우에만 남은 시간 표시 */}
+            {is_scheduled !== false && (
+              <Tag color="var(--lightgray2)">{calculateRemainingTime()}</Tag>
+            )}
+            {is_scheduled !== false && (
+              <Tag color="var(--lightgray2)">
                 진행률 {Math.floor(progress_rate)}%
-              </TextLight>
-            </div>
-          )}
+              </Tag>
+            )}
+          </div>
         </div>
-        <TitleNormal className="p-[10px]">{title}</TitleNormal>
-        <TextLight
-          className="text-[#716a56] px-[10px]"
-          text="right"
-          font_weight="600"
-        >
-          {is_scheduled !== false && `${formattedFinishDate}까지 달리기`}
-        </TextLight>
-      </div>
-      <div className="w-full flex flex-col gap-[15px] pb-[20px]">
-        {hasTodos && (
-          <div className="flex flex-col gap-[5px] pt-[10px]">
+        <s.TitleWrapper>
+          <TitleNormal>{title}</TitleNormal>
+          <TextLight color="var(--brown)" text="right" font_weight="600">
+            {is_scheduled !== false && `${formattedFinishDate}까지 달리기`}
+          </TextLight>
+        </s.TitleWrapper>
+        <s.BottomContentsContainer2>
+          <s.TodosContainer>
             {hasTodos &&
+              hasTodos &&
               todos.map((todo) => (
                 <TodoCheck key={todo.id} todo={todo} setTodos={setTodos} />
               ))}
-          </div>
-        )}
-        {!hasTodos && (
-          <TextLight className="px-[10px]">할일이 없어요:</TextLight>
-        )}
-        {showAddTodoField ? (
-          <div className="flex flex-row items-center w-full box-border gap-[15px]">
-            <InputTextFieldActive
-              width="270"
-              type="text"
-              value={newTodoTitle}
-              onChange={(e) => {
-                console.log(e.target);
-                setNewTodoTitle(e.target.value);
-              }}
-              onKeyPress={handleAddTodoEnter}
-              placeholder="할일을 입력하세요"
-            />
-            <button
-              className="font-['Pretendard'] text-[13px] text-black font-medium"
-              onClick={handleCancelAddTodo}
-            >
-              <TextNormal>취소</TextNormal>
-            </button>
-          </div>
-        ) : (
-          <button className="self-end" onClick={handleAddTodo}>
-            <TextLight
-              className="whitespace-pre-wrap text-left text-[#222b45] px-[10px]"
-              font_weight="600"
-            >
-              + 투두 추가하기
-            </TextLight>
-          </button>
-        )}
-      </div>
-      <SlimButtonActive
-        to={`/scheduledetailpage/${goal.id}`}
-        text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
-        bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
-        color={`${is_scheduled ? "#fff" : ""}`}
-        onClick={is_scheduled ? handleAddToCalendar : handleEditButtonClick}
-      />
-    </div>
+            {!hasTodos && (
+              <s.NoDataMesssageWrapper>
+                <TextLight className="text-darkgray">
+                  하위 투두가 없어요 :)
+                </TextLight>
+              </s.NoDataMesssageWrapper>
+            )}
+            {showAddTodoField ? (
+              <s.AddTodoField>
+                <s.NewTodoInput
+                  type="text"
+                  value={newTodoTitle}
+                  onChange={(e) => setNewTodoTitle(e.target.value)}
+                  onKeyPress={handleAddTodoEnter}
+                  placeholder="할일을 입력하세요"
+                />
+                <button
+                  className="font-['Pretendard'] text-[13px] text-black font-medium"
+                  onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                >
+                  취소
+                </button>
+              </s.AddTodoField>
+            ) : (
+              <button className="self-end" onClick={handleAddTodo}>
+                <TextLight
+                  className="whitespace-pre-wrap text-left text-[#222b45] px-[10px]"
+                  font_weight="600"
+                >
+                  + 투두 추가하기
+                </TextLight>
+              </button>
+            )}
+          </s.TodosContainer>
+        </s.BottomContentsContainer2>
+        <SlimButtonActive
+          to={`/scheduledetailpage/${goal.id}`}
+          text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
+          bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
+          color={`${is_scheduled ? "#fff" : ""}`}
+          onClick={is_scheduled ? handleAddToCalendar : handleEditButtonClick}
+        />
+      </s.ElementsLayout>
+    </s.ModalLayout>
   );
 };
 export default GoalDetailModal;

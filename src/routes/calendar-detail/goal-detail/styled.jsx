@@ -5,6 +5,7 @@ import TodoCheck from "../../goal/goaldetailmodal/TodoCheck";
 import { TextBtnSmall } from "../../../components/button/styled";
 import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
+import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
 
 export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
   const [todos, setTodos] = useState([]);
@@ -72,7 +73,11 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
   return (
     <ModalLayout>
       <ElementsLayout className="cursor-default">
-        <HeaderModal clickBtn={onCloseGoalDetailModal} />
+        <GoalDetailModalHeader
+          goal_id={goal.goal.id}
+          onCloseModal={onCloseGoalDetailModal}
+          goal_is_scheduled={goal.goal.is_scheduled}
+        />
         <TitleWrapper>
           <TitleNormal>{goal.goal.title}</TitleNormal>
         </TitleWrapper>
@@ -119,7 +124,7 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
   );
 };
 
-const ModalLayout = styled.div`
+export const ModalLayout = styled.div`
   display: flex;
   width: 357px;
   height: 417px;
@@ -131,9 +136,9 @@ const ModalLayout = styled.div`
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
 `;
 
-const ElementsLayout = styled.div`
+export const ElementsLayout = styled.div`
   display: flex;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -141,7 +146,7 @@ const ElementsLayout = styled.div`
   align-self: stretch;
 `;
 
-const ContentsContainer = styled.div`
+export const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -150,18 +155,16 @@ const ContentsContainer = styled.div`
   align-self: stretch;
 `;
 
-const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div`
   display: flex;
-  padding: 0px 10px;
+  padding: 10px 0px 0px 15px;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  flex: 1 0 0;
+  gap: 5px;
   align-self: stretch;
 `;
 
-const BottomContentsContainer = styled.div`
+export const BottomContentsContainer = styled.div`
   margin-top: 20px;
   display: flex;
   height: 285px;
@@ -174,16 +177,30 @@ const BottomContentsContainer = styled.div`
   overflow: auto;
 `;
 
-const TodosContainer = styled.div`
+export const BottomContentsContainer2 = styled.div`
+  display: flex;
+  height: 210px;
+  padding: 5px 0px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow: auto;
+  margin: 10px 0px;
+`;
+
+export const TodosContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 `;
 
-const NoDataMesssageWrapper = styled.div`
+export const NoDataMesssageWrapper = styled.div`
   padding-left: 10px;
 `;
 

@@ -58,7 +58,7 @@ const TodoCheck = ({ todo, setTodos }) => {
   }
 
   return (
-    <div className="flex flex-row px-[10px] gap-[5px] items-center">
+    <div className="flex flex-row w-full pr-[10px] gap-[5px] items-center">
       {isCompleted ? (
         <CheckTrue onClick={handleCheckToggle} />
       ) : (
@@ -75,7 +75,7 @@ const TodoCheck = ({ todo, setTodos }) => {
         />
       </TextLight>
       <button onClick={handleDeleteTodo}>
-        <HeaderClose width="20" height="20" />
+        <Close width="20" height="20" color="var(--darkgray)" />
       </button>
     </div>
   );

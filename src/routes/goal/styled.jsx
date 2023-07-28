@@ -28,7 +28,7 @@ export const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 200;
+  z-index: 100;
   box-sizing: border-box;
   justify-content: center;
   align-items: flex-start;
@@ -55,6 +55,8 @@ export const Frame = styled.div`
   flex-grow: 1;
   flex-basis: 100%;
   gap: 25px;
+  background: #fff;
+  z-index: 100px;
 `;
 
 export const TextContainer = styled.div`
