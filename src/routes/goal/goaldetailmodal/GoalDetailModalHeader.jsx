@@ -9,6 +9,7 @@ const GoalDetailModalHeader = ({
   onCloseModal,
   goal_id,
   goal_is_scheduled,
+  tag_id,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,6 +40,7 @@ const GoalDetailModalHeader = ({
       <button onClick={onCloseModal}>
         <HeaderClose width="24" />
       </button>
+
     </div>
   );
 };

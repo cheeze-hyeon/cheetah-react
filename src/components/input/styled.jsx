@@ -384,7 +384,11 @@ export const TwoDateFieldContainer = styled.div`
 export const TwoInputDateField = (props) => {
   return (
     <TwoDateFieldContainer>
-      <InputDateField initial_time={props.start_at}></InputDateField>
+      <InputDateField
+        value={props.value}
+        onChange={props.onChange}
+        initial_time={props.start_at}
+      ></InputDateField>
       <InputDateField initial_time={props.finish_at}></InputDateField>
     </TwoDateFieldContainer>
   );
@@ -479,6 +483,8 @@ export const InputTimeField = (props) => {
         type="number"
         className="w-full mx-4 px-1"
         defaultValue={props.left_time}
+        value={props.value}
+        onChange={props.onChange}
         min={0} // 최소값 설정
         max={100} // 최대값 설정
       />
@@ -557,8 +563,6 @@ export const TodoNormal = (props) => {
 export const Close = ({ onClick, color }) => {
   return (
     <CloseSvg
-      width={20}
-      height={20}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -682,7 +686,7 @@ export const NewTodo = ({ todo, onDelete }) => {
             />
           </div>
         </div>
-        <Close onClick={handleDeleteTodo} color="var(--darkgray)" />
+        <Close onClick={() => handleDeleteTodo} color="var(--darkgray)" />
       </div>
     </div>
   );

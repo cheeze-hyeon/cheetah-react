@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { TitleNormal } from "../text/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { Close } from "../input/styled";
+import HeaderClose from "../../routes/goal/goaldetailmodal/HeaderClose";
 
 export const HeaderContainer = styled.div`
   box-sizing: border-box;
@@ -297,6 +298,18 @@ export const HeaderModal = (props, onClose) => {
   );
 };
 
+export const HeaderHamburgerModal = (props, onClose) => {
+  return (
+    <ModalContainer className="mr-[15px]">
+      <HeaderNone />
+      <TitleNormal>{props.text}</TitleNormal>
+      <Button onClick={props.onClick} className="mr-[5px]">
+        <HeaderClose width={props.width} height={props.height}/>
+      </Button>
+    </ModalContainer>
+  );
+};
+
 export const HeaderTagModal = (props, onClose) => {
   const handleCloseModal = () => {
     onClose(); // 부모 컴포넌트에서 전달된 onClose 함수를 호출하여 모달을 닫습니다.
@@ -305,7 +318,7 @@ export const HeaderTagModal = (props, onClose) => {
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Button onClick={handleCloseModal}>
+      <Button onClick={() => handleCloseModal}>
         <Close />
       </Button>
     </ModalContainer>

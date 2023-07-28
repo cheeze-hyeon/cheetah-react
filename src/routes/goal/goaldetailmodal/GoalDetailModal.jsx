@@ -16,11 +16,12 @@ import {
   getTodo,
   updateTodo,
   deleteTodo,
+  getGoaldetail,
 } from "../../../apis/api_calendar";
 import * as s from "../../calendar-detail/goal-detail/styled";
 import { Tag } from "../../calendar-detail/styled";
 
-const GoalDetailModal = ({ goal, onCloseModal }) => {
+const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
   const {
     title,
     estimated_time,

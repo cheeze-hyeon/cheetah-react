@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 import { TextLight } from "../../../../components/text/styled";
-import tags from "../../../../data/tags"
+import { getAllTags } from "../../../../apis/api_calendar";
 const colors = [
   "#dc8686",
   "#eda855",
@@ -37,25 +37,38 @@ const ColorChoose = ({ color, onSelect, isSelected }) => {
   );
 };
 
-const TagDetailwithColor = ({ tag }) => {
-  const initialTagName = tag?.title ;
-  const [tagName, setTagName] = useState(initialTagName);
-  const initialSelectedColor = tag?.color || colors[0];
-  const [selectedColor, setSelectedColor] = useState(initialSelectedColor);
+const TagDetailwithColor = ({
+  setTitle,
+  setColor,
+  setIs_used,
+  title,
+  color,
+  is_used,
+}) => {
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    const getAllTagsAPI = async () => {
+      const response = await getAllTags();
+      console.log("tag", response);
+      setTags(response);
+    };
+    getAllTagsAPI();
+  }, []);
+
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      const isDuplicate = checkForDuplicateTag(tagName);
+      const isDuplicate = checkForDuplicateTag(title);
       setShowDuplicateWarning(isDuplicate);
     }
   };
 
   const checkForDuplicateTag = (name) => {
     // tag 데이터의 태그 이름과 입력된 태그 이름을 비교하여 중복을 체크합니다.
+    if (tags.length === 0) return false;
     return tags.some((tag) => tag.title === name);
   };
-
 
   return (
     <div className="box-border flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 w-[350px] h-[260px] gap-[18px]">
@@ -74,9 +87,11 @@ const TagDetailwithColor = ({ tag }) => {
                     type="text"
                     className="flex-grow-0 flex-shrink-0 font-['Pretendard'] text-[15px] leading-[19px] font-normal text-left text-black bg-transparent outline-none"
                     placeholder="태그 이름"
-                    value={tagName}
-                    onChange={(e) => setTagName(e.target.value)}
-                    onKeyDown={handleKeyDown} /* 이제 handleKeyDown 함수를 사용하여 엔터 키 이벤트 처리 */
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    onKeyDown={
+                      handleKeyDown
+                    } /* 이제 handleKeyDown 함수를 사용하여 엔터 키 이벤트 처리 */
                   />
                 </div>
               </div>
@@ -90,7 +105,6 @@ const TagDetailwithColor = ({ tag }) => {
               </TextLight>
             </div>
           )}
-
         </div>
       </div>
       <div className="box-border flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5">
@@ -102,22 +116,22 @@ const TagDetailwithColor = ({ tag }) => {
         <div className="box-border flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 gap-4 py-2.5 bg-white">
           <div className="box-border w-full flex justify-center items-center flex-grow-0 flex-shrink-0 gap-[25px]">
             {/* Render the color options in two rows */}
-            {colors.slice(0, 6).map((color) => (
+            {colors.slice(0, 6).map((color_) => (
               <ColorChoose
-                key={color}
-                color={color}
-                isSelected={selectedColor === color}
-                onSelect={setSelectedColor}
+                key={color_}
+                color={color_}
+                isSelected={color === color_}
+                onSelect={setColor}
               />
             ))}
           </div>
           <div className="box-border w-full flex justify-center items-center flex-grow-0 flex-shrink-0 gap-[25px]">
-            {colors.slice(6).map((color) => (
+            {colors.slice(6).map((color_) => (
               <ColorChoose
-                key={color}
-                color={color}
-                isSelected={selectedColor === color}
-                onSelect={setSelectedColor}
+                key={color_}
+                color={color_}
+                isSelected={color === color_}
+                onSelect={setColor}
               />
             ))}
           </div>

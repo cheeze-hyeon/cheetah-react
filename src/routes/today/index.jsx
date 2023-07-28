@@ -14,6 +14,7 @@ import {
 import { ModalOverlay } from "../../components/modal/styled";
 import { ModalHeaderContainer } from "../../components/modal/styled";
 import ko from "date-fns/locale/ko";
+import { HeaderHamburgerModal } from "../../components/header/styled";
 
 export const MenuList = (props) => {
   return (
@@ -31,25 +32,32 @@ export const HamburgerMenu = (props) => {
     console.log("here!");
     return sCM(!cM);
   };
+
   return (
     <s.HamburgerContainer>
-      <div className="flex flex-col gap-[20px] mb-[473px]">
-        <HeaderModal
+      <div className="flex flex-col gap-[20px] mt-[60px]">
+        <HeaderHamburgerModal
           clickMenu={props.clickMenu}
           onClick={props.onClickMenu}
-        ></HeaderModal>
+          width="30"
+          height="30"
+        ></HeaderHamburgerModal>
         <div>
           <MenuList to="/today/mypage" text="마이페이지"></MenuList>
           <MenuList to="/today/info" text="계정 정보"></MenuList>
           <MenuList text="알림 설정"></MenuList>
         </div>
-      </div>
-      <div className="flex justify-end place-content-end mr-[24px]">
         <TextBtnSmallWithLogout
           onClick={props.onClickLogOut}
           to={props.toHomePage}
         ></TextBtnSmallWithLogout>
       </div>
+
+      {/* <div className="fixed bottom-[83px] ml-[135px] mr-[24px] mb-[35px]"> */}
+      {/* <TextBtnSmallWithLogout
+          onClick={props.onClickLogOut}
+          to={props.toHomePage}
+        ></TextBtnSmallWithLogout> */}
     </s.HamburgerContainer>
   );
 };
@@ -64,7 +72,7 @@ export const MySlimButtonActive = (props) => {
   );
 };
 
-export const TodayTask = ({goal, tag}) => {
+export const TodayTask = ({ goal, tag }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isCompleteModalOpen, setisCompleteModalOpen] = useState(false);
 
