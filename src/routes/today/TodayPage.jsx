@@ -240,17 +240,6 @@ const TodayPage = () => {
     getGoalsindateAPI();
   }, []);
 
-  // const getGoalList = () => {
-  //   const goalList = goals.filter((goal) => {
-  //     const calendarDate = startOfDay(new Date(selectedDate));
-  //     const startDate = startOfDay(new Date(goal.start_at));
-  //     const finishDate = startOfDay(new Date(goal.finish_at));
-
-  //     return calendarDate >= startDate && calendarDate <= finishDate;
-  //   });
-  //   return goalList;
-  // };
-
   const onClickMenu = () => {
     return setClickMenu(!clickMenu);
   };
@@ -433,6 +422,7 @@ const TodayPage = () => {
               ))}
             </s.TasksContainer>
           </TodayGoalDetailLayout>
+          <TodayTabBar className="sticky z-50" />
           {isGoalFinishModalOpen && (
             <ModalOverlay onClick={onCloseGoalFinishModal}>
               <TaskCompleteModal
@@ -468,7 +458,6 @@ const TodayPage = () => {
       ) : (
         <></>
       )}
-      <TodayTabBar className="sticky z-50" />
     </div>
   );
 };

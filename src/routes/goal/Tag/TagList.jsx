@@ -34,23 +34,19 @@ const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
 
   return (
     <div className="flex items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[8px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
-      {is_ex && (
-        <div>
-          {selectedTagId == null ? (
-            <TagDefault
-              text="전체"
-              color="#DDDDDD"
-              isSelected="true"
-              onClick={() => handleTagClick(null)}
-            />
-          ) : (
-            <TagDefault
-              text="전체"
-              color="#DDDDDD"
-              onClick={() => handleTagClick(null)}
-            />
-          )}
-        </div>
+      {is_ex && selectedTagId == null ? (
+        <TagDefault
+          text="전체"
+          color="#DDDDDD"
+          isSelected="true"
+          onClick={() => handleTagClick(null)}
+        />
+      ) : (
+        <TagDefault
+          text="전체"
+          color="#DDDDDD"
+          onClick={() => handleTagClick(null)}
+        />
       )}
       {tags.map((tag) => (
         <TagDefault
