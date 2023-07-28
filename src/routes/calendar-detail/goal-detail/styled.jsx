@@ -7,7 +7,14 @@ import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
 import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
 
-export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
+export const GoalDetialModalLight = ({
+  goal,
+  onCloseGoalDetailModal,
+  goalsindate,
+  historyindate,
+  colorHistory,
+  selectedDate,
+}) => {
   const [todos, setTodos] = useState([]);
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
   const [showAddTodoField, setShowAddTodoField] = useState(false);
@@ -77,6 +84,10 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
           goal_id={goal.goal.id}
           onCloseModal={onCloseGoalDetailModal}
           goal_is_scheduled={goal.goal.is_scheduled}
+          goalsindate={goalsindate}
+          historyindate={historyindate}
+          colorHistory={colorHistory}
+          selectedDate={selectedDate}
         />
         <TitleWrapper>
           <TitleNormal>{goal.goal.title}</TitleNormal>
@@ -91,7 +102,7 @@ export const GoalDetialModalLight = ({ goal, onCloseGoalDetailModal }) => {
                 : !showAddTodoField && (
                     <NoDataMesssageWrapper>
                       <TextLight className="text-darkgray">
-                        하위 투두가 없어요 :)
+                        하위 투두가 없어요 :
                       </TextLight>
                     </NoDataMesssageWrapper>
                   )}

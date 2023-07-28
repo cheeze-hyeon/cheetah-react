@@ -9,6 +9,11 @@ const GoalDetailModalHeader = ({
   onCloseModal,
   goal_id,
   goal_is_scheduled,
+  setIs_updated,
+  goalsindate,
+  historyindate,
+  colorHistory,
+  selectedDate,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,6 +35,11 @@ const GoalDetailModalHeader = ({
           goal_id={goal_id}
           is_scheduled={goal_is_scheduled}
           onCloseModal={closeGoalDeleteModal}
+          setIs_updated={setIs_updated}
+          goalsindate={goalsindate}
+          historyindate={historyindate}
+          colorHistory={colorHistory}
+          selectedDate={selectedDate}
         />
       )}
       <HeaderDelete

@@ -12,6 +12,7 @@ import CloseIcon from "../../asset/images/close.svg";
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
   const onBackBtnClick = () => {
+    window.localStorage.removeItem("goalsindate");
     navigate("/calendar", {
       state: {
         backpath: selectedDate,
