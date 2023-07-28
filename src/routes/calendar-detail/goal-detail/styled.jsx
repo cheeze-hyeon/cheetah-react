@@ -139,7 +139,7 @@ export const GoalDetialModalLight = ({
 export const ModalLayout = styled.div`
   display: flex;
   width: 357px;
-  height: 417px;
+  height: full;
   padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
@@ -151,6 +151,7 @@ export const ModalLayout = styled.div`
 
 export const ElementsLayout = styled.div`
   display: flex;
+  height: full;
   padding-bottom: 10px;
   flex-direction: column;
   justify-content: center;
@@ -180,7 +181,8 @@ export const TitleWrapper = styled.div`
 export const BottomContentsContainer = styled.div`
   margin-top: 20px;
   display: flex;
-  height: 285px;
+  height: full;
+  max-height: 300px;
   padding: 10px 0px;
   flex-direction: column;
   align-items: flex-end;
@@ -192,7 +194,7 @@ export const BottomContentsContainer = styled.div`
 
 export const BottomContentsContainer2 = styled.div`
   display: flex;
-  height: 210px;
+  max-height: 210px;
   padding: 5px 0px;
   flex-direction: column;
   justify-content: flex-start;

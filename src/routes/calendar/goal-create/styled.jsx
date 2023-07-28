@@ -239,7 +239,7 @@ export const GoalCreateModal = ({
           is_completed: false,
         });
         newTodo.id = response.id;
-        setNewTodos([...newTodo, newTodoTitle]); // 기존 투두 목록에 새로운 투두를 추가합니다.
+        setNewTodos((prevTodos) => [...prevTodos, newTodo]);
       };
       createTodoAPI();
       // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
@@ -561,7 +561,7 @@ export const GoalCreateModalElementContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   width: 351px;
-  height: 390px;
+  height: full;
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
