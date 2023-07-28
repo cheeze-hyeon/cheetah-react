@@ -72,11 +72,12 @@ const TodayPage = () => {
     setSelectedGoal(selectedGoal);
   };
   const handleGoalFinishClick = (goalId) => {
-
-    const selectedFinishGoal = goalsListwithImpossibledates.find((goal) => goal.id === goalId);
-    console.log("selectedFinishGoal: ", selectedFinishGoal)
-    setSelectedFinishGoal(selectedFinishGoal)
-  }
+    const selectedFinishGoal = goalsListwithImpossibledates.find(
+      (goal) => goal.id === goalId
+    );
+    console.log("selectedFinishGoal: ", selectedFinishGoal);
+    setSelectedFinishGoal(selectedFinishGoal);
+  };
 
   const onCloseGoalDetailModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -132,6 +133,7 @@ const TodayPage = () => {
           update_at: update_at,
           progress_rate: 100,
           residual_time: residual_time,
+          impossibledates_set: impossibledates_set,
           daily_time: 0,
           tag: tag,
           todo_set: todo_set,
@@ -143,7 +145,7 @@ const TodayPage = () => {
       }
       var datedifference = Math.ceil(
         (finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-      );
+      ) + 1;
       if (datedifference + impossibledates <= 0)
         var hoursperday = residual_time;
       else var hoursperday = residual_time / (datedifference + impossibledates);
@@ -161,6 +163,7 @@ const TodayPage = () => {
         daily_time: 0,
         tag: tag,
         impossible: impossible,
+        impossibledates_set: impossibledates_set,
         todo_set: todo_set,
       };
     });
@@ -199,7 +202,10 @@ const TodayPage = () => {
   useEffect(() => {
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
-      if(!incompleted_tasks[i].impossible && !isFinished(incompleted_tasks[i].update_at))
+      if (
+        !incompleted_tasks[i].impossible &&
+        !isFinished(incompleted_tasks[i].update_at)
+      )
         studyhour += incompleted_tasks[i].hoursperday;
     }
 
@@ -232,9 +238,6 @@ const TodayPage = () => {
     console.log(formData);
     getGoalsindateAPI();
   }, []);
-  useEffect(() => {
-
-  }, [openGoalFinishModal])
 
   // const getGoalList = () => {
   //   const goalList = goals.filter((goal) => {
@@ -307,8 +310,8 @@ const TodayPage = () => {
     console.log(formData);
   }, [formData]);
   useEffect(() => {
-    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen )
-  }, [isGoalFinishModalOpen])
+    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen);
+  }, [isGoalFinishModalOpen]);
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor(
     ((finishedTasksCount + completed_tasks.length) /
@@ -344,7 +347,9 @@ const TodayPage = () => {
                   <TextHeavy>님은 오늘</TextHeavy>
                 </div>
                 <div className="flex flex-row">
-                  <TextHeavy className="text-[#f19a37]">{parseInt(totalHour)}</TextHeavy>
+                  <TextHeavy className="text-[#f19a37]">
+                    {parseInt(totalHour)}
+                  </TextHeavy>
                   <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
                   <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
                 </div>
@@ -356,9 +361,15 @@ const TodayPage = () => {
                   <TextHeavy>To Do List</TextHeavy>
                 </div>
                 <div className="flex flex-row">
-                  <TextLight>{finishedTasksCount + unfinishedTasksCount + completed_tasks.length}</TextLight>
+                  <TextLight>
+                    {finishedTasksCount +
+                      unfinishedTasksCount +
+                      completed_tasks.length}
+                  </TextLight>
                   <TextLight>개 중 </TextLight>
-                  <TextLight>{finishedTasksCount + completed_tasks.length}</TextLight>
+                  <TextLight>
+                    {finishedTasksCount + completed_tasks.length}
+                  </TextLight>
                   <TextLight>개 완료</TextLight>
                 </div>
               </div>
@@ -367,78 +378,79 @@ const TodayPage = () => {
               <div className="my-[20px]">
                 <div className="flex flex-row w-[300px] mx-auto">
                   <Dealt dealt={dealt - 7.4} className="" />
-                  <AnimationDiv speedratio={totalHour/formData.max_speed}>
-                  <img src={cheetah_graph} alt="face" className="w-[45px]" />
+                  <AnimationDiv speedratio={totalHour / formData.max_speed}>
+                    <img src={cheetah_graph} alt="face" className="w-[45px]" />
                   </AnimationDiv>
                 </div>
                 <Progress>
-              <Dealt dealt={dealt} />
+                  <Dealt dealt={dealt} />
                 </Progress>
               </div>
               <>
-      <TodayGoalDetailLayout>
-        <s.GoalCountWrapper>
-          <s.GoalCount>
-            {`${finishedTasksCount + unfinishedTasksCount + completed_tasks.length}개의 목표, ${finishedTasksCount + completed_tasks.length}건 완료`}
-          </s.GoalCount>
-        </s.GoalCountWrapper>
-        <s.TasksContainer>
-          {
-              unfinishedTasksCount ===
-              0 && <s.EmptyMessage text="달릴 목표가 없어요" />
-          }
-          {completed_tasks.map(
-            (task) =>
-              (
-                <CompletedTask
-                  key={task.id}
-                  goal={task}
-                  tag={task.tag}
-                  isGoalCompleted={isGoalCompleted(task)}
-                  openGoalDetailModal={() => openGoalDetailModal(task.id)}
-                />
-              )
-          )}
-          {incompleted_tasks.map(
-            (task) =>
-              (
-                <IncompletedTask
-                  key={task.id}
-                  goal={task}
-                  tag={task.tag}
-                  hidden={task.impossible}
-                  openGoalDetailModal={() => openGoalDetailModal(task.id)}
-                  openGoalFinishModal={() => openGoalFinishModal(task.id)}
-                  currentdate={today}
-                />
-              )
-          )}
-        </s.TasksContainer>
-      </TodayGoalDetailLayout>
-      {isGoalFinishModalOpen && (
-        <ModalOverlay onClick={onCloseGoalFinishModal}>
-          <TaskCompleteModal 
-          setisGoalFinishModalOpen = {setisGoalDetailModalOpen}
-          onCloseGoalCompleteModal = {onCloseGoalFinishModal}
-          goal={selectedFinishGoal}
-          showCompleteModal={showFinishModal}
-          progressRate={progressRate}
-          setProgressRate={setProgressRate}
-          dailyHour={dailyHour}
-          setDailyHour={setDailyHour}
-          />
-        </ModalOverlay>
-      )}
-      {isGoalDetailModalOpen && (
-        <ModalOverlay onClick={onCloseGoalDetailModal}>
-          <GoalDetialModalLight
-            onCloseGoalDetailModal={onCloseGoalDetailModal}
-            goal={selectedGoal}
-            todos={selectedGoal.todos}
-          />
-        </ModalOverlay>
-      )}
-    </>
+                <TodayGoalDetailLayout>
+                  <s.GoalCountWrapper>
+                    <s.GoalCount>
+                      {`${
+                        finishedTasksCount +
+                        unfinishedTasksCount +
+                        completed_tasks.length
+                      }개의 목표, ${
+                        finishedTasksCount + completed_tasks.length
+                      }건 완료`}
+                    </s.GoalCount>
+                  </s.GoalCountWrapper>
+                  <s.TasksContainer>
+                    {unfinishedTasksCount === 0 && (
+                      <s.EmptyMessage text="달릴 목표가 없어요" />
+                    )}
+                    {completed_tasks.map((task) => (
+                      <CompletedTask
+                        key={task.id}
+                        goal={task}
+                        tag={task.tag}
+                        isGoalCompleted={isGoalCompleted(task)}
+                        openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                      />
+                    ))}
+                    {incompleted_tasks.map((task) => (
+                      <IncompletedTask
+                        key={task.id}
+                        goal={task}
+                        tag={task.tag}
+                        hidden={task.impossible}
+                        openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                        openGoalFinishModal={() => openGoalFinishModal(task.id)}
+                        currentdate={today}
+                        isFinished={isFinished(task.update_at)}
+                      />
+                    ))}
+                  </s.TasksContainer>
+                </TodayGoalDetailLayout>
+                {isGoalFinishModalOpen && (
+                  <ModalOverlay onClick={onCloseGoalFinishModal}>
+                    <TaskCompleteModal
+                      today = {today}
+                      setisGoalFinishModalOpen={setisGoalDetailModalOpen}
+                      onCloseGoalFinishModal={onCloseGoalFinishModal}
+                      goal={selectedFinishGoal}
+                      showCompleteModal={showFinishModal}
+                      progressRate={progressRate}
+                      setProgressRate={setProgressRate}
+                      dailyHour={dailyHour}
+                      setDailyHour={setDailyHour}
+                    />
+                  </ModalOverlay>
+                )}
+                {isGoalDetailModalOpen && (
+                  <ModalOverlay onClick={onCloseGoalDetailModal}>
+                    <GoalDetialModalLight
+                      onCloseGoalDetailModal={onCloseGoalDetailModal}
+                      goal={selectedGoal}
+                      todos={selectedGoal.todos}
+                    />
+                  </ModalOverlay>
+                )}
+              </>
             </div>
           </div>
           <TodayTabBar />

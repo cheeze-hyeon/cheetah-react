@@ -2,7 +2,8 @@ import { format } from "date-fns";
 import * as s from "./styled";
 import * as t from "../../components/text/styled";
 import { TextBtnWResetIcon } from "../../components/button/styled";
-import { FieldWithLabel, TodoCheck } from "../../components/input/styled";
+import { FieldWithLabel } from "../../components/input/styled";
+import TodoCheck from "../goal/goaldetailmodal/TodoCheck";
 import { ModalHeaderContainer } from "../../components/modal/styled";
 import { ko } from "date-fns/locale"; // Import the ko locale
 import { useNavigate } from "react-router-dom";
@@ -13,11 +14,9 @@ import { getTodo, createTodo } from "../../apis/api_calendar";
 import { TextLight, TextNormal } from "../../components/text/styled";
 import { InputTextFieldActive } from "../../components/input/styled";
 import { updateGoaldaily } from "../../apis/api_calendar";
-
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
   const onBackBtnClick = () => {
-    window.localStorage.removeItem("goalsindate");
     navigate("/calendar", {
       state: {
         backpath: selectedDate,
@@ -49,8 +48,8 @@ export const HeaderMessage = (props) => {
   );
 };
 
-
 export const TaskCompleteModal = ({
+  today,
   showCompleteModal,
   goal,
   onCloseGoalCompleteModal,
@@ -58,9 +57,11 @@ export const TaskCompleteModal = ({
   setProgressRate,
   dailyHour,
   setDailyHour,
-  setisGoalFinishModalOpen,
+  onCloseGoalFinishModal,
+
 }) => {
   const [todos, setTodos] = useState([]); // 투두 목록을 상태로 관리합니다.
+  const [possibleDays, setPossibleDays] = useState(0);
 
   const getTodoAPI = async () => {
     const response = await getTodo(goal.id);
@@ -68,9 +69,37 @@ export const TaskCompleteModal = ({
     console.log(response);
   };
   useEffect(() => {
+
     getTodoAPI();
-    console.log("TaskCompleteModal's goal: ");
+
+    var impossibledays = 0;
+    var impossibledates_set = goal.impossibledates_set
+    console.log(goal)
+    if(impossibledates_set.length !== 0){
+      
+      for(var i = 0; i < impossibledates_set.length; i++){
+        if(impossibledates_set[i] > today){
+          impossibledays++;
+        }
+      }
+    }
+
+    var datedifference = Math.ceil(
+      (goal.finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    ) + 1;
+    impossibledays = impossibledays + datedifference
+    setPossibleDays(impossibledays)
   }, []);
+
+  useEffect(() => {
+    var defaultProgressRate = progressRate;
+    if(possibleDays !== 0) defaultProgressRate = defaultProgressRate + (100 - defaultProgressRate)/possibleDays;
+    else defaultProgressRate = 100;
+
+    if(defaultProgressRate/10 - parseInt(defaultProgressRate/10) < 0.5 ) defaultProgressRate = parseInt(defaultProgressRate/10)*10
+    else defaultProgressRate = (parseInt(defaultProgressRate/10) + 0.5)*10;
+    setProgressRate(defaultProgressRate)
+  }, [possibleDays])
 
   const CompleteGoalAPI = async () => {
     const response = await updateGoaldaily(goal.id, {
@@ -78,12 +107,14 @@ export const TaskCompleteModal = ({
       progress_rate: progressRate,
     });
     console.log(response);
+    
   };
 
   const onCompleteGoalFinishModal = async (e) => {
     if (e.target === e.currentTarget) {
-      onCloseGoalCompleteModal(e)
+      onCloseGoalFinishModal(e)
       await CompleteGoalAPI();
+      window.location.reload()
     }
   };
 
@@ -134,6 +165,7 @@ export const TaskCompleteModal = ({
     console.log("되돌리기 눌림");
     console.log("되돌리기 눌린 뒤", progressRate);
   };
+  
   useEffect(() => {
     var newDailyHour = 0;
     newDailyHour = goal.residual_time * (progressRate - goal.progress_rate)/ (100 - goal.progress_rate);
@@ -141,20 +173,19 @@ export const TaskCompleteModal = ({
     setDailyHour(newDailyHour);
   }, [progressRate]);
 
-
-
   const hasTodos = todos.length > 0 || showAddTodoField == true;
+
   return (
     <s.TaskCompleteModalContainer>
       <s.modalElementContainer>
         <ModalHeaderContainer>
           <s.headerIconContainer></s.headerIconContainer>
-          <t.TitleNormal>멋사 해커톤 기획안 발표</t.TitleNormal>
+          <t.TitleNormal>{goal.title}</t.TitleNormal>
           <s.headerIconContainer>
             <img
               alt="closebtn"
               className="cursor-pointer"
-              onClick={showCompleteModal}
+              onClick={onCloseGoalFinishModal}
               src={CloseIcon}
             />
           </s.headerIconContainer>

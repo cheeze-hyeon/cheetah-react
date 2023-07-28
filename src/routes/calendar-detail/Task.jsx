@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import MinusIcon from "../../asset/images/minus.svg";
 import PlusIcon from "../../asset/images/plus.svg";
-import CompletedIcon from "../../asset/images/completed.svg";
+import CompletedIcon from "../../asset/images/complete.png";
 import cheetah_paw from "../../asset/images/cheetah_paw.png";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
+import { updateGoalwithRollback } from "../../apis/api_calendar";
 
 //체크 표시가 있는 history 목표 블록.
 export const CompletedTask = ({
@@ -14,6 +15,7 @@ export const CompletedTask = ({
   isGoalCompleted,
   onClickCompletedBtn,
   openGoalDetailModal,
+
 }) => {
   const isHidden = false;
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
@@ -27,6 +29,14 @@ export const CompletedTask = ({
   var min = (hours % 1) * 60;
   min = Math.round(min);
   console.log(hours, hour, min);
+  const rollBackAPI = async () => {
+    const response = await updateGoalwithRollback(goal.id);
+    console.log(response);
+  };
+  const onClickRollBack = async (e) => {
+    await rollBackAPI();
+    window.location.reload();
+  };
 
   return (
     <s.TaskLayout>
@@ -41,7 +51,7 @@ export const CompletedTask = ({
             <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
-        <s.TaskBtnContainer onClick={onClickCompletedBtn}>
+        <s.TaskBtnContainer onClick={onClickRollBack}>
           <img alt="button" src={CompletedIcon} />
         </s.TaskBtnContainer>
       </s.TaskTopFrame>
@@ -63,9 +73,10 @@ export const IncompletedTask = ({
   openGoalDetailModal,
   openGoalFinishModal,
   hidden,
+  isFinished,
   currentdate,
+
 }) => {
-  const [isFinished, setIsFinished] = useState(false);
   const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
     locale: ko,
   });
@@ -76,26 +87,63 @@ export const IncompletedTask = ({
   min = Math.round(min);
   console.log(hours, hour, min);
 
+  const rollBackAPI = async () => {
+    const response = await updateGoalwithRollback(goal.id);
+    console.log(response);
+  };
+  const onClickRollBack = async (e) => {
+    await rollBackAPI();
+    window.location.reload();
+  };
+
   return (
     <s.TaskLayout>
       <s.TaskTopFrame>
-        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={hidden}>
-          <s.TaskTitle>{goal.title}</s.TaskTitle>
-          <s.TaskInfo>
-            <s.Tag color={tag.color}>{tag.title}</s.Tag>
-            <s.Speed>
-              {" "}
-              {hour}h {min}m
-            </s.Speed>
-            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
-          </s.TaskInfo>
-        </s.TaskTLeftFrame>
-        <s.TaskBtnContainer onClick={openGoalFinishModal}>
-          <img
-            alt="button"
-            src={isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw}
-          />
-        </s.TaskBtnContainer>
+        {isFinished ? (
+          <>
+            <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={hidden}>
+              <s.TaskTitle>{goal.title}</s.TaskTitle>
+              <s.TaskInfo>
+                <s.Tag color={tag.color}>{tag.title}</s.Tag>
+                <s.Speed>
+                  {" "}
+                  {hour}h {min}m
+                </s.Speed>
+                <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
+              </s.TaskInfo>
+            </s.TaskTLeftFrame>
+            <s.TaskBtnContainer onClick={onClickRollBack}>
+              <img
+                alt="button"
+                src={
+                  isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw
+                }
+              />
+            </s.TaskBtnContainer>
+          </>
+        ) : (
+          <>
+            <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={hidden}>
+              <s.TaskTitle>{goal.title}</s.TaskTitle>
+              <s.TaskInfo>
+                <s.Tag color={tag.color}>{tag.title}</s.Tag>
+                <s.Speed>
+                  {" "}
+                  {hour}h {min}m
+                </s.Speed>
+                <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
+              </s.TaskInfo>
+            </s.TaskTLeftFrame>
+            <s.TaskBtnContainer onClick={openGoalFinishModal}>
+              <img
+                alt="button"
+                src={
+                  isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw
+                }
+              />
+            </s.TaskBtnContainer>
+          </>
+        )}
       </s.TaskTopFrame>
       <s.DueDateWrapper>
         <s.DueDate className="text-darkgray" $isHidden={hidden}>
@@ -105,7 +153,6 @@ export const IncompletedTask = ({
     </s.TaskLayout>
   );
 };
-
 
 //-와 +를 바꿀 수 있는 목표 블록
 export const Task = ({
