@@ -9,7 +9,6 @@ const GoalDetailModalHeader = ({
   onCloseModal,
   goal_id,
   goal_is_scheduled,
-  tag_id,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,7 +23,7 @@ const GoalDetailModalHeader = ({
   };
 
   return (
-    <div className="box-border flex flex-row justify-end items-start flex-grow-0 flex-shrink-0 w-full h-fill p-2 gap-2 ">
+    <div className="box-border flex flex-row justify-end items-start flex-grow-0 flex-shrink-0 w-full h-fill p-2 gap-3 ">
       {isModalOpen && <ModalOverlay onClick={closeGoalDeleteModal} />}
       {isModalOpen && (
         <GoalDeleteModal
@@ -37,10 +36,9 @@ const GoalDetailModalHeader = ({
         className="w-[23px] h-[23px]"
         openGoalDeleteModal={openGoalDeleteModal}
       />
-      <button onClick={onCloseModal}>
-        <HeaderClose width="24" />
+      <button>
+        <HeaderClose onClick={onCloseModal} width="24" />
       </button>
-
     </div>
   );
 };
