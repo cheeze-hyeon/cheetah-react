@@ -315,6 +315,7 @@ const CalendarMainPage = () => {
       historyProcessed.push([begin_string, []]);
       begin.setDate(begin.getDate() + 1);
     }
+    console.log("히히히히", historyRaw);
     historyRaw.forEach((history) => {
       var date = history.date;
       var hour = history.hour;
