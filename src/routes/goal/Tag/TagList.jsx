@@ -32,7 +32,7 @@ const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
   console.log("is_ex", is_ex);
   console.log("exceptAll", exceptAll);
 
-  return (
+  return (=
     <div className="flex items-start self-stretch flex-grow-0 flex-shrink-0 w-full h-full gap-[8px] mt-[13px] mb-1 mx-[20px] overflow-x scrollbar-hide">
       {is_ex && (
         <div>
