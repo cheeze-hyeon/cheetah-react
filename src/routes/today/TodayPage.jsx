@@ -149,9 +149,10 @@ const TodayPage = () => {
       for (var i = 0; i < impossibledates_set.length; i++) {
         if (impossibledates_set[i] > today) impossibledates++;
       }
-      var datedifference = Math.ceil(
-        (finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-      ) + 1;
+      var datedifference =
+        Math.ceil(
+          (finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        ) + 1;
       if (datedifference + impossibledates <= 0)
         var hoursperday = residual_time;
       else var hoursperday = residual_time / (datedifference + impossibledates);
@@ -213,7 +214,7 @@ const TodayPage = () => {
       if (
         !incompleted_tasks[i].impossible &&
         !isFinished(incompleted_tasks[i].update_at)
-      ){
+      ) {
         studyhour += incompleted_tasks[i].hoursperday;
         console.log(studyhour);
       }
@@ -339,21 +340,21 @@ const TodayPage = () => {
           text="TODAY"
         ></HeaderMenu>
         <div className="flex flex-col items-center gap-[20px] pt-5">
-            <img
-              src={
-                speedratio > 1
-                  ? cheetah_speed4
-                  : speedratio > 0.75
-                  ? cheetah_speed3
-                  : speedratio > 0.3
-                  ? cheetah_speed2
-                  : speedratio > 0
-                  ? cheetah_speed1
-                  : cheetah_speed0
-              }
-              className="w-[200px]"
-              alt="face"
-            />
+          <img
+            src={
+              speedratio > 1
+                ? cheetah_speed4
+                : speedratio > 0.75
+                ? cheetah_speed3
+                : speedratio > 0.3
+                ? cheetah_speed2
+                : speedratio > 0
+                ? cheetah_speed1
+                : cheetah_speed0
+            }
+            className="w-[200px]"
+            alt="face"
+          />
           <div
             id="cheetah_dashboard"
             className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
@@ -444,6 +445,7 @@ const TodayPage = () => {
                   openGoalDetailModal={() => openGoalDetailModal(task.id)}
                   openGoalFinishModal={() => openGoalFinishModal(task.id)}
                   currentdate={today}
+                  isFinished={isFinished(task.update_at)}
                 />
               ))}
             </s.TasksContainer>
@@ -451,8 +453,9 @@ const TodayPage = () => {
           {isGoalFinishModalOpen && (
             <ModalOverlay onClick={onCloseGoalFinishModal}>
               <TaskCompleteModal
-                onCompleteGoalFinishModal={onCompleteGoalFinishModal}
-                onCloseGoalCompleteModal={onCloseGoalFinishModal}
+                today={today}
+                setisGoalFinishModalOpen={setisGoalDetailModalOpen}
+                onCloseGoalFinishModal={onCloseGoalFinishModal}
                 goal={selectedFinishGoal}
                 showCompleteModal={showFinishModal}
                 progressRate={progressRate}
@@ -480,7 +483,10 @@ const TodayPage = () => {
           onClickLogOut={onClickLogOut}
         />
       ) : (
-        <div>
+        <></>
+      )}
+
+      {/* <div>
           <HeaderMenu
             clickMenu={clickMenu}
             onClickMenu={onClickMenu}
@@ -525,8 +531,6 @@ const TodayPage = () => {
                   <TextLight>개 완료</TextLight>
                 </div>
               </div>
-              {/* cheetah graph */}
-              {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
               <div className="my-[20px]">
                 <div className="flex flex-row w-[300px] mx-auto">
                   <Dealt dealt={dealt - 7.4} className="" />
@@ -604,11 +608,11 @@ const TodayPage = () => {
                 )}
               </>
             </div>
-          </div>
-          <TodayTabBar />
+          </div> */}
+      {/* <TodayTabBar />
         </div>
       )}
-      ;
+      ; */}
       <TodayTabBar className="sticky z-50" />
     </div>
   );

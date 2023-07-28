@@ -118,6 +118,7 @@ export const IncompletedTask = ({
                 src={
                   isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw
                 }
+                className={hidden ? "" : "w-[45px]"}
               />
             </s.TaskBtnContainer>
           </>
@@ -140,6 +141,7 @@ export const IncompletedTask = ({
                 src={
                   isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw
                 }
+                className="w-[45px]"
               />
             </s.TaskBtnContainer>
           </>
