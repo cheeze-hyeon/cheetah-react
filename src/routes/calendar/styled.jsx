@@ -127,6 +127,7 @@ export const DateContainer = styled.div`
       : props.$colorSpeed === 6
       ? "var(--task-100)"
       : "var(--white)"};
+      transition: all 0.2s ease-out;
 `;
 
 export const DateWrapper = styled.div`
