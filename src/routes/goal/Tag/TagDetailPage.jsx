@@ -9,6 +9,7 @@ import { TextLight } from "../../../components/text/styled";
 import { getAllTags, updateTag, deleteTag } from "../../../apis/api_calendar";
 import { set } from "date-fns";
 import { ModalOverlay } from "../../../components/modal/styled";
+import { slideUp } from "../../../components/modal/styled";
 
 const TagDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,11 +59,11 @@ const TagDetail = () => {
     <div>
       {isModalOpen && selectedTag && (
         <ModalOverlay onClick={closeModal} className="z-10">
-          <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50">
+          {/* <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center z-50"> */}
             <div onClick={(e) => e.stopPropagation()}>
               <TagUpdateModal tag={selectedTag} onClose={closeModal} />
             </div>
-          </div>
+          {/* </div> */}
         </ModalOverlay>
       )}
       <div className="w-[390px] h-full flex flex-col z-1">

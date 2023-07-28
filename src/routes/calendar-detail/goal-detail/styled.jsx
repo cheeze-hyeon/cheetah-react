@@ -134,7 +134,8 @@ export const ModalLayout = styled.div`
   gap: 10px;
   border-radius: 15px;
   background: #fff;
-  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);animation: ${slideUp} 0.5s ease-out 1;
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  animation: ${slideUp} 0.5s ease-out 1;
 `;
 
 export const ElementsLayout = styled.div`
