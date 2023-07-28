@@ -1,13 +1,12 @@
 import React from "react";
 import "./App.css";
-import { firebaseApp } from "./firebase";
 import "./utils/fcm";
-import { Routes, Route } from "react-router-dom";  
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./routes/HomePage";
 import SignInPage from "./routes/SignInPage";
 import SignUpPage from "./routes/SignUpPage";
-import FindIdPage from "./routes/account/FindIdPage"
-import FindPwPage from "./routes/account/FindPwPage"
+import FindIdPage from "./routes/account/FindIdPage";
+import FindPwPage from "./routes/account/FindPwPage";
 import TodayPage from "./routes/today/TodayPage";
 import MyPage from "./routes/today/MyPage";
 import InfoDetailPage from "./routes/today/InfoDetailPage";
@@ -17,7 +16,6 @@ import GoalMainPage from "./routes/goal/GoalMainPage";
 import CalendarDetailPage from "./routes/calendar-detail/CalendarDetailPage";
 import TagDetail from "./routes/goal/Tag/TagDetailPage";
 import ScheduleDetailPage from "./routes/goal/ScheduleDetail/ScheduleDetailPage";
-
 
 const App = () => {
   return (

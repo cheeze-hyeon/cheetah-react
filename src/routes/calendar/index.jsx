@@ -1,7 +1,13 @@
 import { useState, useEffect, React } from "react";
 import back from "../../asset/images/back.png";
 import forward from "../../asset/images/forward.png";
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
+import {
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  isToday,
+} from "date-fns";
 import { isSameMonth, isSameDay, addDays } from "date-fns";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -132,7 +138,8 @@ export const CalendarCells = ({
 
     if (color_history.length > 0) color_history = color_history[0][1];
 
-    const speedOfDate = isPast(day) ? color_history : color_speed;
+    const speedOfDate =
+      isPast(day) && !isToday(day) ? color_history : color_speed;
 
     console.log(speedOfDate);
     return speedOfDate;
@@ -156,7 +163,7 @@ export const CalendarCells = ({
         <s.DateContainer
           key={day}
           onClick={() => onDateClick(cloneDay)}
-          $isPastTask={isPast(day)}
+          $isPastTask={isPast(day) && !isToday(day)}
           $colorSpeed={getSpeedColor(day)}
           $isSpeedOff={isSpeedOff}
           $isCurrentMonth={isCurrentMonth}
