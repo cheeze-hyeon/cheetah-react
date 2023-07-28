@@ -90,10 +90,11 @@ export const IncompletedTask = ({
             <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
           </s.TaskInfo>
         </s.TaskTLeftFrame>
-        <s.TaskBtnContainer onClick={openGoalFinishModal}>
+        <s.TaskBtnContainer onClick={openGoalFinishModal} className="relative top-0">
           <img
             alt="button"
             src={isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw}
+            className={hidden ? "" : "w-[45px]"}
           />
         </s.TaskBtnContainer>
       </s.TaskTopFrame>
@@ -105,7 +106,6 @@ export const IncompletedTask = ({
     </s.TaskLayout>
   );
 };
-
 
 //-와 +를 바꿀 수 있는 목표 블록
 export const Task = ({

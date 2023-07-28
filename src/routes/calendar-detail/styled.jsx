@@ -134,7 +134,7 @@ export const TasksContainer = styled.div`
   gap: 17px;
   flex-shrink: 0;
   align-self: stretch;
-  padding: 0px 3px;
+  padding: 20px 3px;
 `;
 
 export const TaskLayout = styled.div`
@@ -150,7 +150,7 @@ export const TaskLayout = styled.div`
 `;
 
 export const TaskTopFrame = styled.div`
-  padding-top: 3px;
+  // padding-top: 3px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

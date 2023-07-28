@@ -12,21 +12,19 @@ import {
 } from "../../components/button/styled";
 import { Link } from "react-router-dom";
 
-
 export const TodayGoalDetailLayout = styled.div`
   margin-top: 0px;
-  margin-bottom: 110px;
   display: flex;
-  padding: 0px 16px;
+  padding: 0px 13px;
   width: 100%;
-  height: 645px;
+  height: auto;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   flex-shrink: 0;
   overflow: auto;
+  margin-bottom: 60px;
 `;
-
 
 export const Progress = styled.div`
   width: 300px;
