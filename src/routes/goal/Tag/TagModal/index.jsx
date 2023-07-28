@@ -40,7 +40,7 @@ export const TagCreateModal = ({ onClose }) => {
   return (
     <div className="fixed left-0 w-[390px] h-full flex justify-center items-center z-50">
       <div
-        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-[390px] pt-5 pb-10 pl-10 pr-10 gap-10 rounded-t-2xl bg-white shadow-xl"
+        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-[390px] p-[20px] rounded-t-2xl bg-white shadow-xl"
         style={{
           borderTopLeftRadius: "25px",
           borderTopRightRadius: "25px",
@@ -92,14 +92,14 @@ export const TagUpdateModal = ({ onClose, tag }) => {
   return (
     <div className="fixed left-0 w-full h-full flex justify-center items-center z-50">
       <div
-        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full pt-5 pb-10 pl-10 pr-10 gap-10 rounded-t-2xl bg-white shadow-xl"
+        className="fixed bottom-0 left-0 box-border flex flex-col justify-center items-center w-full p-[20px] rounded-t-2xl bg-white shadow-xl"
         style={{
           borderTopLeftRadius: "25px",
           borderTopRightRadius: "25px",
           boxShadow: "0px 3px 30px 0px rgba(0, 0, 0, 0.16)",
         }}
       >
-        <TagModalHeader onClose={onClose} title="태그수정" />
+        <TagModalHeader onClose={onClose} title="태그 수정" />
         <TagDetailwithColor
           tag={tag}
           title={title}
