@@ -120,7 +120,7 @@ const GoalMainPage = () => {
 
       <GoalMainRoot>
         <div className="h-full w-[390px] bg-[#f5f5f5]">
-          <div className="flex flex-starts overflow-x-auto scrollbar-hide w-[390px]">
+          <div className="flex flex-starts gap-2 overflow-x-auto scrollbar-hide w-[390px]">
             <TagList
               tags={tagList}
               selectedTagId={selectedTagId}
