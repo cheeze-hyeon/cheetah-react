@@ -181,7 +181,6 @@ const TodayPage = () => {
   useEffect(() => {
     //전체 목표 리스트에서 완료된 목표, 미완료된 목표 나눠서 저장
     console.log(goalsListwithImpossibledates);
-
     // 임시 변수를 사용하여 완료 및 미완료 목표를 저장
     const tempCompletedTasks = [];
     const tempIncompletedTasks = [];

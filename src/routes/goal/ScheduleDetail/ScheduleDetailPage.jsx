@@ -41,6 +41,7 @@ const ScheduleDetailPage = () => {
   const [tagError, setTagError] = useState(""); // 태그 선택 유효성 검사 멘트
   const [newgoal, setNewgoal] = useState(null);
   const [dateError, setDateError] = useState(""); // 날짜 선택 유효성 검사 멘트
+  const [updateDate, setUpdateDate] = useState(null);
 
   useEffect(() => {
     const getGoaldetailAPI = async () => {
@@ -53,6 +54,7 @@ const ScheduleDetailPage = () => {
       setEstimatedTime(response.estimated_time);
       setProgressRate(response.progress_rate);
       setResidual_time(response.residual_time);
+      setUpdateDate(response.update_at);
     };
     const getFilteredTagsAPI = async () => {
       const response = await getFilteredTags();
@@ -83,7 +85,8 @@ const ScheduleDetailPage = () => {
       tag_id: selectedTagId,
       start_at: startDate,
       finish_at: finishDate,
-      update_at: progressRate === 100 ? format(new Date(), "yyyy-MM-dd") : null,
+      update_at:
+        progressRate === 100 ? format(new Date(), "yyyy-MM-dd") : updateDate,
     };
     setNewgoal(newgoal_temp);
     console.log("newgoal", newgoal_temp);

@@ -48,6 +48,14 @@ const CalendarDetailPage = () => {
   const [headerText, setHeaderText] = useState("");
   const [historySpeedText, setHistorySpeedText] = useState("");
 
+  var is_calendardetail = window.localStorage.getItem("is_calendardetail");
+  is_calendardetail = JSON.parse(is_calendardetail);
+  if (is_calendardetail === undefined) {
+    is_calendardetail = false;
+  } else {
+    is_calendardetail = true;
+  }
+
   // console.log("date", goals);
   // console.log("history", histories);
 
@@ -111,6 +119,8 @@ const CalendarDetailPage = () => {
       data.is_hidden = is_hidden;
       return data;
     });
+    var is_doubled = false;
+    incompleted_tasks_temp.filter(() => {});
     setincompleted_tasks(incompleted_tasks_temp);
     var finishdate_goals_temp = goals.filter((goal) => goal.is_finishdate);
     setfinishdate_goals(finishdate_goals_temp.map((goal) => goal.goal));
@@ -157,16 +167,11 @@ const CalendarDetailPage = () => {
 
   // 선택한 날짜가 마감기한인 경우 true
   const isDueDateGoal = (goal) => {
-    return goal.is_finishdate;
+    return goal.finish_at === selectedDate;
   };
 
   const isTaskCompleted = (task) => {
-    var id = task.id;
-    completed_tasks.forEach((goal) => {
-      if (goal.id === id) {
-        return true;
-      }
-    });
+    return task.update_at === selectedDate;
   };
 
   //+버튼을 눌렀을 때 실행되는 함수
@@ -222,7 +227,7 @@ const CalendarDetailPage = () => {
   };
 
   const getTaskCount = () => {
-    const incompleted_task_count = incompleted_tasks.filter(
+    const incompleted_task_count = incompleted_tasks?.filter(
       (task) => task.is_hidden === false
     ).length;
     const completed_task_count = completed_tasks.filter(
@@ -294,6 +299,7 @@ const CalendarDetailPage = () => {
                     tag={task.tag}
                     isGoalCompleted={isGoalCompleted(task)}
                     openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                    is_calendardetail={is_calendardetail}
                   />
                 )
             )}

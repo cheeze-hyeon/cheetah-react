@@ -69,6 +69,7 @@ export const CalendarCells = ({
 
   //onDateClick에는 선택한 day를 기반으로 finish_at이 day이면 무조건 포함하고 그렇지 않으면 impossible date에 해당하는 경우 true로 아닌 경우 false로 반환하도록 한다.
   const onDateClick = (day) => {
+    window.localStorage.setItem("is_calendardetail", JSON.stringify(true));
     const formattedDate = format(day, "yyyy-MM-dd");
     var goalsindate = goalsList.filter((goal) =>
       goal.dates_task.includes(formattedDate)

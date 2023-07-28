@@ -223,10 +223,12 @@ export const GoalCreateModal = ({
     console.log("enter!!!");
     if (e.key === "Enter" && newTodoTitle.trim() !== "") {
       // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
-      const newTodo = newTodoTitle.trim();
+      const newTodo = {
+        title: newTodoTitle.trim(),
+      };
 
       setNewTodos([...newTodos, newTodo]);
-      setNewTodoTitle("")
+      setNewTodoTitle("");
       // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
@@ -305,11 +307,12 @@ export const GoalCreateModal = ({
       const goal = await createGoalwithCalendar(data);
       console.log("일정에 등록된 목표 추가 완료!", goal);
       console.log("목표 추가 완료!", goal);
-      for(let i = 0; i < newTodos.length; i++){
-        await createTodo({"title": newTodos[i],
-      "is_completed": false,
-      "goal_id": goal.id,
-      })
+      for (let i = 0; i < newTodos.length; i++) {
+        await createTodo({
+          title: newTodos[i],
+          is_completed: false,
+          goal_id: goal.id,
+        });
       }
       window.location.reload();
       return;
@@ -396,7 +399,7 @@ export const GoalCreateModal = ({
                         }))
                       );
                     };
-                    console.log("뭐지",todo)
+                    console.log("뭐지", todo);
                     return (
                       <NewTodo
                         key={index}
@@ -420,7 +423,7 @@ export const GoalCreateModal = ({
                       />
                       <button
                         className="font-['Pretendard'] text-[13px] text-black font-medium"
-                        onClick={ handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                        onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
                       >
                         취소
                       </button>
