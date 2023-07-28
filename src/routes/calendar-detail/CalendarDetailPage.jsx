@@ -18,9 +18,17 @@ import { GoalDetialModalLight } from "./goal-detail/styled";
 
 const CalendarDetailPage = () => {
   const location = useLocation();
-
   const locationState = location.state || {}; // location.state가 null인 경우를 방지하기 위해 빈 객체로 초기화
-  const goals = locationState.goalsindate || [];
+  //Localstroage에 goalsindate가 있으면 그걸로 먼저 초기화. 없으면 locationState를 이용
+  const [goals, setGoals] = useState([]);
+  useEffect(() => {
+    var goals_temp = window.localStorage.getItem("goalsindate");
+    goals_temp = JSON.parse(goals_temp);
+    goals_temp =
+      goals_temp !== null ? goals_temp : location.state.goalsindate || [];
+    setGoals(goals_temp);
+  }, []);
+
   const histories =
     (locationState.historyindate && locationState.historyindate[0][1]) || [];
   const colorHistory = locationState.color_history || []; // 필요에 따라 초기값 설정
@@ -52,7 +60,7 @@ const CalendarDetailPage = () => {
     var finishdate_goals_temp = goals.filter((goal) => goal.is_finishdate);
     setfinishdate_goals(finishdate_goals_temp.map((goal) => goal.goal));
     setcompleted_tasks(histories.map((history) => history[0]));
-  }, []);
+  }, [goals]);
 
   console.log("finishdate_goals!", finishdate_goals);
   console.log("incompleted_tasks!", incompleted_tasks);
@@ -74,7 +82,7 @@ const CalendarDetailPage = () => {
   };
 
   const openGoalDetailModal = (goalId) => {
-    const selectedGoal = goals.find((goal) => goal.id === goalId);
+    const selectedGoal = goals.find((goal) => goal.goal.id === goalId);
     setSelectedGoal(selectedGoal || null); // selectedGoal이 존재하지 않으면 null로 설정
     setisGoalDetailModalOpen(true);
   };
@@ -242,6 +250,10 @@ const CalendarDetailPage = () => {
           <GoalDetialModalLight
             onCloseGoalDetailModal={(e) => onCloseGoalDetailModal(e)}
             goal={selectedGoal}
+            goalsindate={goals}
+            historyindate={locationState.historyindate}
+            colorHistory={locationState.color_history}
+            selectedDate={selectedDate}
           />
         </ModalOverlay>
       )}

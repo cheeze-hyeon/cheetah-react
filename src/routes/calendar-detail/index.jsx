@@ -17,6 +17,7 @@ import { updateGoaldaily } from "../../apis/api_calendar";
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
   const onBackBtnClick = () => {
+    window.localStorage.removeItem("goalsindate");
     navigate("/calendar", {
       state: {
         backpath: selectedDate,
