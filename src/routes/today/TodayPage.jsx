@@ -81,7 +81,6 @@ const TodayPage = () => {
     const selectedFinishGoal = goalsListwithImpossibledates.find(
       (goal) => goal.id === goalId
     );
-    console.log("selectedFinishGoal: ", selectedFinishGoal);
     setSelectedFinishGoal(selectedFinishGoal);
   };
 
@@ -175,12 +174,10 @@ const TodayPage = () => {
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
-    console.log("goal Processed", goalsProcessed);
   };
 
   useEffect(() => {
     //전체 목표 리스트에서 완료된 목표, 미완료된 목표 나눠서 저장
-    console.log(goalsListwithImpossibledates);
 
     // 임시 변수를 사용하여 완료 및 미완료 목표를 저장
     const tempCompletedTasks = [];
@@ -192,7 +189,6 @@ const TodayPage = () => {
       if (goalsListwithImpossibledates[i].progress_rate === 100) {
         tempCompletedTasks.push(goalsListwithImpossibledates[i]);
       } else {
-        console.log(today, goalsListwithImpossibledates[i].update_at);
         tempIncompletedTasks.push(goalsListwithImpossibledates[i]);
         if (isFinished(goalsListwithImpossibledates[i].update_at)) {
           finishedCount++;
@@ -207,16 +203,13 @@ const TodayPage = () => {
   }, [goalsListwithImpossibledates]);
 
   useEffect(() => {
-    console.log(incompleted_tasks);
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
-      console.log("hi");
       if (
         !incompleted_tasks[i].impossible &&
         !isFinished(incompleted_tasks[i].update_at)
       ) {
         studyhour += incompleted_tasks[i].hoursperday;
-        console.log(studyhour);
       }
     }
     setTotalHour(studyhour);
@@ -232,7 +225,6 @@ const TodayPage = () => {
     const getUserInfoFromServer = async () => {
       try {
         const response = await getUserInfo();
-        console.log(response);
         setFormData({
           username: response.data.user.username,
           password: response.data.user.password,
@@ -245,7 +237,6 @@ const TodayPage = () => {
       }
     };
     getUserInfoFromServer();
-    console.log(formData);
     getGoalsindateAPI();
   }, []);
 
@@ -261,7 +252,6 @@ const TodayPage = () => {
   // };
 
   const onClickMenu = () => {
-    console.log(clickMenu);
     return setClickMenu(!clickMenu);
   };
 
@@ -309,19 +299,12 @@ const TodayPage = () => {
         nickname: "",
         max_speed: "",
       });
-      console.log(formData);
       window.location.href = "/";
     } catch (error) {
       console.log("Log Out failed:", error);
     }
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-  useEffect(() => {
-    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen);
-  }, [isGoalFinishModalOpen]);
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor(
     ((finishedTasksCount + completed_tasks.length) /
@@ -329,7 +312,7 @@ const TodayPage = () => {
       100
   );
 
-  const speedratio = parseInt(totalHour) / formData.max_speed;
+  const speedratio = totalHour / formData.max_speed;
 
   return (
     <div className="w-[390px] relative">
@@ -366,7 +349,7 @@ const TodayPage = () => {
               </div>
               <div className="flex flex-row">
                 <TextHeavy className="text-[#f19a37]">
-                  {parseInt(totalHour)}
+                  {Math.ceil(totalHour)}
                 </TextHeavy>
                 <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
                 <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
@@ -485,134 +468,6 @@ const TodayPage = () => {
       ) : (
         <></>
       )}
-
-      {/* <div>
-          <HeaderMenu
-            clickMenu={clickMenu}
-            onClickMenu={onClickMenu}
-            text="TODAY"
-          ></HeaderMenu>
-          <div className="flex flex-col items-center gap-[20px] pt-5">
-            <img src={today_cheetah} className="w-[200px]" alt="face" />
-
-            <div
-              id="cheetah_dashboard"
-              className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
-            >
-              <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
-                <div className="flex flex-row">
-                  <TextHeavy>{formData.nickname}</TextHeavy>
-                  <TextHeavy>님은 오늘</TextHeavy>
-                </div>
-                <div className="flex flex-row">
-                  <TextHeavy className="text-[#f19a37]">
-                    {parseInt(totalHour)}
-                  </TextHeavy>
-                  <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
-                  <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
-                </div>
-              </div>
-            </div>
-            <div id="today_goals" className="w-[330px] m-auto">
-              <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
-                <div>
-                  <TextHeavy>To Do List</TextHeavy>
-                </div>
-                <div className="flex flex-row">
-                  <TextLight>
-                    {finishedTasksCount +
-                      unfinishedTasksCount +
-                      completed_tasks.length}
-                  </TextLight>
-                  <TextLight>개 중 </TextLight>
-                  <TextLight>
-                    {finishedTasksCount + completed_tasks.length}
-                  </TextLight>
-                  <TextLight>개 완료</TextLight>
-                </div>
-              </div>
-              <div className="my-[20px]">
-                <div className="flex flex-row w-[300px] mx-auto">
-                  <Dealt dealt={dealt - 7.4} className="" />
-                  <AnimationDiv speedratio={totalHour / formData.max_speed}>
-                    <img src={cheetah_graph} alt="face" className="w-[45px]" />
-                  </AnimationDiv>
-                </div>
-                <Progress>
-                  <Dealt dealt={dealt} />
-                </Progress>
-              </div>
-              <>
-                <TodayGoalDetailLayout>
-                  <s.GoalCountWrapper>
-                    <s.GoalCount>
-                      {`${
-                        finishedTasksCount +
-                        unfinishedTasksCount +
-                        completed_tasks.length
-                      }개의 목표, ${
-                        finishedTasksCount + completed_tasks.length
-                      }건 완료`}
-                    </s.GoalCount>
-                  </s.GoalCountWrapper>
-                  <s.TasksContainer>
-                    {unfinishedTasksCount === 0 && (
-                      <s.EmptyMessage text="달릴 목표가 없어요" />
-                    )}
-                    {completed_tasks.map((task) => (
-                      <CompletedTask
-                        key={task.id}
-                        goal={task}
-                        tag={task.tag}
-                        isGoalCompleted={isGoalCompleted(task)}
-                        openGoalDetailModal={() => openGoalDetailModal(task.id)}
-                      />
-                    ))}
-                    {incompleted_tasks.map((task) => (
-                      <IncompletedTask
-                        key={task.id}
-                        goal={task}
-                        tag={task.tag}
-                        hidden={task.impossible}
-                        openGoalDetailModal={() => openGoalDetailModal(task.id)}
-                        openGoalFinishModal={() => openGoalFinishModal(task.id)}
-                        currentdate={today}
-                        isFinished={isFinished(task.update_at)}
-                      />
-                    ))}
-                  </s.TasksContainer>
-                </TodayGoalDetailLayout>
-                {isGoalFinishModalOpen && (
-                  <ModalOverlay onClick={onCloseGoalFinishModal}>
-                    <TaskCompleteModal
-                      today = {today}
-                      setisGoalFinishModalOpen={setisGoalDetailModalOpen}
-                      onCloseGoalFinishModal={onCloseGoalFinishModal}
-                      goal={selectedFinishGoal}
-                      showCompleteModal={showFinishModal}
-                      progressRate={progressRate}
-                      setProgressRate={setProgressRate}
-                      dailyHour={dailyHour}
-                      setDailyHour={setDailyHour}
-                    />
-                  </ModalOverlay>
-                )}
-                {isGoalDetailModalOpen && (
-                  <ModalOverlay onClick={onCloseGoalDetailModal}>
-                    <GoalDetialModalLight
-                      onCloseGoalDetailModal={onCloseGoalDetailModal}
-                      goal={selectedGoal}
-                      todos={selectedGoal.todos}
-                    />
-                  </ModalOverlay>
-                )}
-              </>
-            </div>
-          </div> */}
-      {/* <TodayTabBar />
-        </div>
-      )}
-      ; */}
       <TodayTabBar className="sticky z-50" />
     </div>
   );

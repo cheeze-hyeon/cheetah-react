@@ -58,7 +58,6 @@ export const TaskCompleteModal = ({
   dailyHour,
   setDailyHour,
   onCloseGoalFinishModal,
-
 }) => {
   const [todos, setTodos] = useState([]); // 투두 목록을 상태로 관리합니다.
   const [possibleDays, setPossibleDays] = useState(0);
@@ -69,37 +68,39 @@ export const TaskCompleteModal = ({
     console.log(response);
   };
   useEffect(() => {
-
     getTodoAPI();
 
     var impossibledays = 0;
-    var impossibledates_set = goal.impossibledates_set
-    console.log(goal)
-    if(impossibledates_set.length !== 0){
-      
-      for(var i = 0; i < impossibledates_set.length; i++){
-        if(impossibledates_set[i] > today){
+    var impossibledates_set = goal.impossibledates_set;
+    console.log(goal);
+    if (impossibledates_set.length !== 0) {
+      for (var i = 0; i < impossibledates_set.length; i++) {
+        if (impossibledates_set[i] > today) {
           impossibledays++;
         }
       }
     }
 
-    var datedifference = Math.ceil(
-      (goal.finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    ) + 1;
-    impossibledays = impossibledays + datedifference
-    setPossibleDays(impossibledays)
+    var datedifference =
+      Math.ceil(
+        (goal.finish_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      ) + 1;
+    impossibledays = impossibledays + datedifference;
+    setPossibleDays(impossibledays);
   }, []);
 
   useEffect(() => {
     var defaultProgressRate = progressRate;
-    if(possibleDays !== 0) defaultProgressRate = defaultProgressRate + (100 - defaultProgressRate)/possibleDays;
+    if (possibleDays !== 0)
+      defaultProgressRate =
+        defaultProgressRate + (100 - defaultProgressRate) / possibleDays;
     else defaultProgressRate = 100;
 
-    if(defaultProgressRate/10 - parseInt(defaultProgressRate/10) < 0.5 ) defaultProgressRate = parseInt(defaultProgressRate/10)*10
-    else defaultProgressRate = (parseInt(defaultProgressRate/10) + 0.5)*10;
-    setProgressRate(defaultProgressRate)
-  }, [possibleDays])
+    if (defaultProgressRate / 10 - parseInt(defaultProgressRate / 10) < 0.5)
+      defaultProgressRate = parseInt(defaultProgressRate / 10) * 10;
+    else defaultProgressRate = (parseInt(defaultProgressRate / 10) + 0.5) * 10;
+    setProgressRate(defaultProgressRate);
+  }, [possibleDays]);
 
   const CompleteGoalAPI = async () => {
     const response = await updateGoaldaily(goal.id, {
@@ -107,14 +108,13 @@ export const TaskCompleteModal = ({
       progress_rate: progressRate,
     });
     console.log(response);
-    
   };
 
   const onCompleteGoalFinishModal = async (e) => {
     if (e.target === e.currentTarget) {
-      onCloseGoalFinishModal(e)
+      onCloseGoalFinishModal(e);
       await CompleteGoalAPI();
-      window.location.reload()
+      window.location.reload();
     }
   };
 
@@ -165,10 +165,12 @@ export const TaskCompleteModal = ({
     console.log("되돌리기 눌림");
     console.log("되돌리기 눌린 뒤", progressRate);
   };
-  
+
   useEffect(() => {
     var newDailyHour = 0;
-    newDailyHour = goal.residual_time * (progressRate - goal.progress_rate)/ (100 - goal.progress_rate);
+    newDailyHour =
+      (goal.residual_time * (progressRate - goal.progress_rate)) /
+      (100 - goal.progress_rate);
     console.log(newDailyHour);
     setDailyHour(newDailyHour);
   }, [progressRate]);
@@ -207,16 +209,32 @@ export const TaskCompleteModal = ({
             <TextBtnWResetIcon onClick={handleResetProgress} />
           </s.progressLargeContainer>
           <s.notiBox>
-            {parseInt(60 * ((goal.residual_time - dailyHour) - parseInt((goal.residual_time - dailyHour)))) !== 0 && (
+            {parseInt(
+              60 *
+                (goal.residual_time -
+                  dailyHour -
+                  parseInt(goal.residual_time - dailyHour))
+            ) >= 1 && (
               <t.TextNormal>
-                앞으로 {parseInt((goal.residual_time - dailyHour))}시간{" "}
-                {parseInt(60 * ((goal.residual_time - dailyHour) - parseInt((goal.residual_time - dailyHour))))}분 더 달려야할
-                것으로 예상돼요
+                앞으로 {Math.round(goal.residual_time - dailyHour)}시간{" "}
+                {parseInt(
+                  60 *
+                    (goal.residual_time -
+                      dailyHour -
+                      parseInt(goal.residual_time - dailyHour))
+                )}
+                분 더 달려야할 것으로 예상돼요
               </t.TextNormal>
             )}
-            {parseInt(60 * ((goal.residual_time - dailyHour) - parseInt((goal.residual_time - dailyHour)))) === 0 && (
+            {parseInt(
+              60 *
+                (goal.residual_time -
+                  dailyHour -
+                  parseInt(goal.residual_time - dailyHour))
+            ) < 1 && (
               <t.TextNormal>
-                앞으로 {parseInt((goal.residual_time - dailyHour))}시간 더 달려야할 것으로 예상돼요
+                앞으로 {Math.round(goal.residual_time - dailyHour)}시간 더
+                달려야할 것으로 예상돼요
               </t.TextNormal>
             )}
           </s.notiBox>

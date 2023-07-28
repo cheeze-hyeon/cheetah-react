@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { postFCMToken } from "../apis/api";
 import vapidconfig from "../config";
 const config = {
@@ -28,8 +28,25 @@ const token = getToken(messaging, {
       // Send the token to your server and update the UI if necessary
       // …
       console.log(currentToken);
-      postFCMToken({ token: currentToken });
-    } else {
+      const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      };
+    
+      // AccessToken과 RefreshToken을 쿠키에서 가져옵니다.
+      const accessToken = getCookie('accessToken');
+      const refreshToken = getCookie('refreshToken');
+    
+      // AccessToken과 RefreshToken이 존재할 때만 postFCMToken 함수를 실행합니다.
+      useEffect(() => {
+        if (accessToken || refreshToken) {
+          const currentToken = accessToken || refreshToken;
+          postFCMToken({ token: currentToken });
+        } else {
+          console.log('AccessToken 또는 RefreshToken이 없습니다.');
+        }
+      }, [accessToken, refreshToken]);    } else {
       // Show permission request UI
       console.log(
         "No registration token available. Request permission to generate one."
