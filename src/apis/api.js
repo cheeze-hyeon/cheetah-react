@@ -147,6 +147,7 @@ export const logOut = async (token) => {
   } else {
     console.log("[ERROR] error while refreshing token");
   }
+  localStorage.removeItem("filtered_tag_id");
 };
 
 export const patchUserInfo = async (data) => {

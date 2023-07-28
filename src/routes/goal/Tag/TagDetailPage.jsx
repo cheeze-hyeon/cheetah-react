@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
 import TagListShow from "./TagListShow";
 import goals from "../../../data/goals";
@@ -6,11 +6,23 @@ import tags from "../../../data/tags";
 import PageBothBtn from "../PageBothBtn";
 import { TagCreateModal, TagUpdateModal } from "./TagModal";
 import { TextLight } from "../../../components/text/styled";
+import { getAllTags, updateTag, deleteTag } from "../../../apis/api_calendar";
+import { set } from "date-fns";
 import { ModalOverlay } from "../../../components/modal/styled";
 
 const TagDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [tagList, setTagList] = useState([]);
+
+  useEffect(() => {
+    const getAllTagsAPI = async () => {
+      const response = await getAllTags();
+      console.log("tag", response);
+      setTagList(response);
+    };
+    getAllTagsAPI();
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,7 +46,7 @@ const TagDetail = () => {
   };
 
   const getTagCount = () => {
-    return tags.length;
+    return tagList.length;
   };
 
   const handleTagClick = (tag) => {
@@ -61,11 +73,11 @@ const TagDetail = () => {
       <div className="w-[390px] h-full flex flex-col z-1">
         <PageBothBtn onClose={closeModal} />
         <TextLight className="text-sm text text-gray-500 pl-4">{`${getTagCount()}개의 태그`}</TextLight>
-        {tags.map((tag) => (
+        {tagList.map((tag) => (
           <div key={tag.id}>
             {/* Pass the handleTagClick function to TagListShow */}
             <TagListShow
-              tag={tag}
+              tag_default={tag}
               completedGoals={getCompletedGoalsCount(tag.id)}
               incompleteGoals={getIncompleteGoalsCount(tag.id)}
               onClick={() => handleTagClick(tag)} // Pass the handleTagClick function to TagListShow

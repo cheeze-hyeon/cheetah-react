@@ -318,7 +318,7 @@ export const HeaderTagModal = (props, onClose) => {
     <ModalContainer className="m-auto">
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
-      <Button onClick={handleCloseModal}>
+      <Button onClick={() => handleCloseModal}>
         <Close />
       </Button>
     </ModalContainer>

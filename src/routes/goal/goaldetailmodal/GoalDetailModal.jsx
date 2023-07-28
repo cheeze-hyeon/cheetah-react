@@ -17,9 +17,10 @@ import {
   getTodo,
   updateTodo,
   deleteTodo,
+  getGoaldetail,
 } from "../../../apis/api_calendar";
 
-const GoalDetailModal = ({ goal, onCloseModal }) => {
+const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
   const {
     title,
     estimated_time,
@@ -139,6 +140,7 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
         goal_id={goal.id}
         onCloseModal={onCloseModal}
         goal_is_scheduled={goal.is_scheduled}
+        tag_id={filtered_tagId}
       />
       <div className="flex flex-col gap-[5px] w-full">
         <div className="flex flex-row gap-[8px] items-center px-[10px]">
@@ -233,9 +235,9 @@ const GoalDetailModal = ({ goal, onCloseModal }) => {
         text={`${!is_scheduled ? "캘린더에 추가하기" : "상세정보 수정하기"}`}
         bg={`${is_scheduled ? "#F19A37" : "#EAEEF1"}`}
         color={`${is_scheduled ? "#fff" : ""}`}
-        onClick={`${
-          is_scheduled ? handleAddToCalendar : handleEditButtonClick
-        }`}
+        onClick={() =>
+          `${!is_scheduled ? handleAddToCalendar : handleEditButtonClick}`
+        }
       ></SlimButtonActive>
     </div>
   );

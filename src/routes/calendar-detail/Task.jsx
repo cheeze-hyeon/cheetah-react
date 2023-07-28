@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import MinusIcon from "../../asset/images/minus.svg";
 import PlusIcon from "../../asset/images/plus.svg";
 import CompletedIcon from "../../asset/images/completed.svg";
+import cheetah_paw from "../../asset/images/cheetah_paw.png";
 import * as s from "./styled";
 import ko from "date-fns/locale/ko";
 
@@ -54,6 +55,57 @@ export const CompletedTask = ({
     </s.TaskLayout>
   );
 };
+
+//완료를 누를 수 있는 목표 블록
+export const IncompletedTask = ({
+  goal,
+  tag,
+  openGoalDetailModal,
+  openGoalFinishModal,
+  hidden,
+  currentdate,
+}) => {
+  const [isFinished, setIsFinished] = useState(false);
+  const formattedDueDate = format(new Date(goal.finish_at), "M/d(E)", {
+    locale: ko,
+  });
+
+  const hours = goal.hoursperday;
+  const hour = Math.floor(hours);
+  var min = (hours % 1) * 60;
+  min = Math.round(min);
+  console.log(hours, hour, min);
+
+  return (
+    <s.TaskLayout>
+      <s.TaskTopFrame>
+        <s.TaskTLeftFrame onClick={openGoalDetailModal} $isHidden={hidden}>
+          <s.TaskTitle>{goal.title}</s.TaskTitle>
+          <s.TaskInfo>
+            <s.Tag color={tag.color}>{tag.title}</s.Tag>
+            <s.Speed>
+              {" "}
+              {hour}h {min}m
+            </s.Speed>
+            <s.Progress>현재까지 {goal.progress_rate}%</s.Progress>
+          </s.TaskInfo>
+        </s.TaskTLeftFrame>
+        <s.TaskBtnContainer onClick={openGoalFinishModal}>
+          <img
+            alt="button"
+            src={isFinished ? CompletedIcon : hidden ? PlusIcon : cheetah_paw}
+          />
+        </s.TaskBtnContainer>
+      </s.TaskTopFrame>
+      <s.DueDateWrapper>
+        <s.DueDate className="text-darkgray" $isHidden={hidden}>
+          {formattedDueDate}까지 달리기
+        </s.DueDate>
+      </s.DueDateWrapper>
+    </s.TaskLayout>
+  );
+};
+
 
 //-와 +를 바꿀 수 있는 목표 블록
 export const Task = ({

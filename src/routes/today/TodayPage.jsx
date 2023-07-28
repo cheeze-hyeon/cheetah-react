@@ -10,11 +10,17 @@ import { useEffect, useState } from "react";
 import { getUserInfo, logOut } from "../../apis/api";
 import { getCookie } from "../../utils/cookie";
 import { TodayTabBar } from "../../components/tabBar";
-import { getGoalsindate } from "../../apis/api_calendar";
+import { getGoalsindate, updateGoaldaily } from "../../apis/api_calendar";
 import { useLocation } from "react-router-dom";
 import { format } from "date-fns";
 import * as s from "../calendar-detail/styled";
-import { Task, CompletedTask, DueDateGoal } from "../calendar-detail/Task";
+import { TodayGoalDetailLayout } from "./styled";
+import { Task, CompletedTask, DueDateGoal, IncompletedTask } from "../calendar-detail/Task";
+import { CalendarDetailHeader, HeaderMessage, TaskCompleteModal } from "../calendar-detail/.";
+import { ModalOverlay } from "../../components/modal/styled";
+import { GoalDetialModalLight } from "../calendar-detail/goal-detail/styled";
+
+
 
 
 
@@ -33,25 +39,46 @@ const TodayPage = () => {
 
   const today = new Date();
   const [goalsListwithImpossibledates, setGoalsListwithImpossibledates] = useState([]);
-  const [isCompleteModalOpen, setisCompleteModalOpen] = useState(false);
+  const [isFinishModalOpen, setisFinishModalOpen] = useState(false);
   const [isGoalDetailModalOpen, setisGoalDetailModalOpen] = useState(false); // 초기에는 false로 설정
+  const [isGoalFinishModalOpen, setisGoalFinishModalOpen] = useState(false); // 초기에는 false로 설정
   const [selectedGoal, setSelectedGoal] = useState(null);
-  const [incompleted_tasks, setincompleted_tasks] = useState([]);
-  const [completed_tasks, setcompleted_tasks] = useState([]);
+  const [selectedFinishGoal, setSelectedFinishGoal] = useState(null);
+  const [incompleted_tasks, setIncompleted_tasks] = useState([]);
+  const [completed_tasks, setCompleted_tasks] = useState([]);
+  const [impossible_tasks, setImpossible_tasks] = useState([]);
+  const [finishedTasksCount, setFinishiedTasksCount] = useState(0);
+  const [unfinishedTasksCount, setUnfinishiedTasksCount] = useState(0);
+  const [progressRate, setProgressRate] = useState(0); // 진행률
+  const [dailyHour, setDailyHour] = useState(0); //진행 시간
+
+
+
   
-  const showCompleteModal = (e) => { //완료 모달창
+  const showFinishModal = (e) => { //완료 모달창
     if (e.target === e.currentTarget) {
-      setisCompleteModalOpen(!isCompleteModalOpen);
+      setisFinishModalOpen(!isFinishModalOpen);
     }
   };
   const handleGoalClick = (goalId) => { // 목표 클릭시
     const selectedGoal = goalsListwithImpossibledates.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal);
   };
-  
+  const handleGoalFinishClick = (goalId) => {
+    const selectedFinishGoal = goalsListwithImpossibledates.find((goal) => goal.id === goalId);
+    console.log(selectedFinishGoal)
+    setSelectedFinishGoal(selectedFinishGoal)
+  }
+
+
   const onCloseGoalDetailModal = (e) => {
     if (e.target === e.currentTarget) {
       setisGoalDetailModalOpen(false); // 모달을 닫을 때 false로 설정
+    }
+  };
+  const onCloseGoalFinishModal = (e) => {
+    if (e.target === e.currentTarget) {
+      setisGoalFinishModalOpen(false); // 모달을 닫을 때 false로 설정
     }
   };
   
@@ -59,17 +86,13 @@ const TodayPage = () => {
     setisGoalDetailModalOpen(true); // 모달을 열 때 true로 설정하고
     handleGoalClick(goalId); // 선택한 목표 정보 설정
   };
-  const isGoalCompleted = (goal) => {
-    return goal.progress_rate === 100;
+  const openGoalFinishModal = (goalId) => {
+    setisGoalFinishModalOpen(true); // 모달을 열 때 true로 설정하고
+    handleGoalFinishClick(goalId); // 선택한 목표 정보 설정
   };
 
-  const isTaskCompleted = (task) => {
-    var id = task.id;
-    completed_tasks.forEach((goal) => {
-      if (goal.id === id) {
-        return true;
-      }
-    });
+  const isGoalCompleted = (goal) => {
+    return goal.progress_rate === 100;
   };
 
   const getGoalsindateAPI = async() => { //오늘 날짜에 포함되는 목표 가져오기
@@ -89,16 +112,21 @@ const TodayPage = () => {
       var update_at = new Date(goal.update_at);
       var tag = goal.tag;
       var impossibledates_set = goal.impossibledates_set;
+      var todo_set = goal.todo_set
 
       if(progress_rate === 100){
         return{
           id: id,
           title: title,
           hoursperday: 0,
+          start_at : start_at,
           finish_at: finish_at,
           update_at: update_at,
           progress_rate: 100,
+          residual_time: residual_time,
+          daily_time: 0,
           tag: tag,
+          todo_set: todo_set,
         }
       };
       var impossibledates = 0;
@@ -106,17 +134,24 @@ const TodayPage = () => {
         if(impossibledates_set[i] > today) impossibledates++
       }
       var datedifference = Math.ceil((finish_at.getTime() - today.getTime())/(1000 * 60 * 60 * 24))
-      var hoursperday = residual_time / (datedifference + impossibledates)
+      if(datedifference + impossibledates <= 0)
+          var hoursperday = residual_time
+      else var hoursperday = residual_time / (datedifference + impossibledates)
 
+      var impossible = isImpossible(impossibledates_set)
       return{
         id: id,
         title: title,
         hoursperday: hoursperday,
+        start_at: start_at,
         finish_at: finish_at,
         update_at: update_at,
-        progress_rate: 100,
+        progress_rate: progress_rate,
+        residual_time: residual_time,
+        daily_time: 0,
         tag: tag,
-        impossibledates_set: impossibledates_set,
+        impossible: impossible,
+        todo_set: todo_set
       };
     });
     setGoalsListwithImpossibledates(goalsProcessed);
@@ -130,35 +165,42 @@ const TodayPage = () => {
     // 임시 변수를 사용하여 완료 및 미완료 목표를 저장
     const tempCompletedTasks = [];
     const tempIncompletedTasks = [];
+    var finishedCount = 0;
+    var unfinishedCount = 0;
   
     for (var i = 0; i < goalsListwithImpossibledates.length; i++) {
-      if (goalsListwithImpossibledates[i].update_at === today) {
+      if (goalsListwithImpossibledates[i].progress_rate === 100){
         tempCompletedTasks.push(goalsListwithImpossibledates[i]);
       } else {
+        console.log(today, goalsListwithImpossibledates[i].update_at);
         tempIncompletedTasks.push(goalsListwithImpossibledates[i]);
-      }
+        if(isFinished(goalsListwithImpossibledates[i].update_at)){
+          finishedCount++;
+        }else unfinishedCount++;
     }
-  
+  }
     // 한 번에 상태를 업데이트
-    setcompleted_tasks(tempCompletedTasks);
-    setincompleted_tasks(tempIncompletedTasks);
+    setCompleted_tasks(tempCompletedTasks);
+    setIncompleted_tasks(tempIncompletedTasks);
+    setFinishiedTasksCount(finishedCount);
+    setUnfinishiedTasksCount(unfinishedCount);
   }, [goalsListwithImpossibledates]);
 
   useEffect(() => {
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
-      if (!incompleted_tasks[i].impossibledates_set.some((date) => date === today)) {
+      if(!incompleted_tasks[i].impossible && isFinished(incompleted_tasks[i].update_at))
         studyhour += incompleted_tasks[i].hoursperday;
-      }
     }
     
     setTotalHour(studyhour);
   }, [today, incompleted_tasks]);
 
-
-  const isDueDateGoal = (goal) => {
-    return goal.is_finishdate;
-  };
+  useEffect(() => {
+    if(selectedFinishGoal){
+      setProgressRate(selectedFinishGoal.progress_rate)
+    }
+  }, [isGoalFinishModalOpen])
 
   useEffect(() => {
     const getUserInfoFromServer = async () => {
@@ -201,6 +243,24 @@ const TodayPage = () => {
 const deleteCookie = (name) => {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 };
+const isFinished = (date) => {
+  return (today.getFullYear() === date.getFullYear() && 
+  today.getMonth() === date.getMonth() 
+  && today.getDate() === date.getDate());
+}
+const isImpossible = (impossible_dates_set) => {
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  // "yyyy-mm-dd" 형태의 문자열 생성
+  const formattedDate = `${year}-${month}-${day}`;
+  for(var i = 0; i < impossible_dates_set.length; i++){
+    if(formattedDate === impossible_dates_set[i]){
+      return true;
+    }
+  }
+  return false;
+}
 
 // onClickLogOut 함수에서 호출하여 쿠키들을 삭제
 const onClickLogOut = async (e) => {
@@ -234,76 +294,80 @@ const onClickLogOut = async (e) => {
   }, [formData]);
 
   // today에 따라 숫자 바뀌어야 함!
-  const dealt = Math.floor((completed_tasks.length / incompleted_tasks.length + completed_tasks.length) * 100);
+  const dealt = Math.floor(((finishedTasksCount + completed_tasks.length) / (finishedTasksCount + unfinishedTasksCount + completed_tasks.length)) * 100);
 
   return (
     <div>
-      <HeaderMenu
-        clickMenu={clickMenu}
-        onClickMenu={onClickMenu}
-        text="TODAY"
-      ></HeaderMenu>
-      <div className="flex flex-col items-center gap-[20px] pt-5">
-        <img src={today_cheetah} className="w-[200px]" alt="face" />
-        <div
-          id="cheetah_dashboard"
-          className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
-        >
-          <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
-            <div className="flex flex-row">
-              <TextHeavy>{formData.nickname}</TextHeavy>
-              <TextHeavy>님은 오늘</TextHeavy>
+      {clickMenu ? (
+        <HamburgerMenu
+          clickMenu={clickMenu}
+          onClickMenu={onClickMenu}
+          onClickLogOut={onClickLogOut}
+        />
+      ) : (
+        <div>
+          <HeaderMenu
+            clickMenu={clickMenu}
+            onClickMenu={onClickMenu}
+            text="TODAY"
+          ></HeaderMenu>
+          <div className="flex flex-col items-center gap-[20px] pt-5">
+            <img src={today_cheetah} className="w-[200px]" alt="face" />
+
+            <div
+              id="cheetah_dashboard"
+              className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
+            >
+              <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
+                <div className="flex flex-row">
+                  <TextHeavy>{formData.nickname}</TextHeavy>
+                  <TextHeavy>님은 오늘</TextHeavy>
+                </div>
+                <div className="flex flex-row">
+                  <TextHeavy className="text-[#f19a37]">{parseInt(totalHour)}</TextHeavy>
+                  <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
+                  <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-row">
-              <TextHeavy className="text-[#f19a37]">{parseInt(totalHour)}</TextHeavy>
-              <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
-              <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
-            </div>
-          </div>
-        </div>
-        <div id="today_goals" className="w-[330px] m-auto">
-          <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
-            <div>
-              <TextHeavy>To Do List</TextHeavy>
-            </div>
-            <div className="flex flex-row">
-                  <TextLight>{incompleted_tasks.length + completed_tasks.length}</TextLight>
-              <TextLight>개 중 </TextLight>
-                  <TextLight>{completed_tasks.length}</TextLight>
+            <div id="today_goals" className="w-[330px] m-auto">
+              <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
+                <div>
+                  <TextHeavy>To Do List</TextHeavy>
+                </div>
+                <div className="flex flex-row">
+                  <TextLight>{finishedTasksCount + unfinishedTasksCount + completed_tasks.length}</TextLight>
+                  <TextLight>개 중 </TextLight>
+                  <TextLight>{finishedTasksCount + completed_tasks.length}</TextLight>
                   <TextLight>개 완료</TextLight>
-            </div>
-          </div>
-          {/* cheetah graph */}
-          {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
-          <div className="my-[20px]">
-            <div className="flex flex-row w-[300px] mx-auto">
-              <Dealt dealt={dealt - 8} className="" />
-              {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
-              {/* 치타 모습과 같은 기준으로 변화하기 */}
-              <AnimationDiv speed={totalHour} max_speed={formData.max_speed}>
-                <img src={cheetah_graph} alt="face" className="w-[45px]" />
-              </AnimationDiv>
-            </div>
-            <Progress>
+                </div>
+              </div>
+              {/* cheetah graph */}
+              {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
+              <div className="my-[20px]">
+                <div className="flex flex-row w-[300px] mx-auto">
+                  <Dealt dealt={dealt - 7.4} className="" />
+                  <img src={cheetah_graph} alt="face" className="w-[45px]" />
+                </div>
+                <Progress>
               <Dealt dealt={dealt} />
-            </Progress>
-          </div>
-          <>
-      <s.CalendarDetailLayout>
+                </Progress>
+              </div>
+              <>
+      <TodayGoalDetailLayout>
         <s.GoalCountWrapper>
           <s.GoalCount>
-            {`${incompleted_tasks.length}개의 목표, ${completed_tasks.length}건 완료`}
-      </s.GoalCount>
+            {`${finishedTasksCount + unfinishedTasksCount + completed_tasks.length}개의 목표, ${finishedTasksCount + completed_tasks.length}건 완료`}
+          </s.GoalCount>
         </s.GoalCountWrapper>
         <s.TasksContainer>
           {
-              incompleted_tasks.length +
-              completed_tasks.length ===
+              unfinishedTasksCount ===
               0 && <s.EmptyMessage text="달릴 목표가 없어요" />
           }
           {completed_tasks.map(
             (task) =>
-              !isDueDateGoal(task) && (
+              (
                 <CompletedTask
                   key={task.id}
                   goal={task}
@@ -315,31 +379,47 @@ const onClickLogOut = async (e) => {
           )}
           {incompleted_tasks.map(
             (task) =>
-              !isDueDateGoal(task) &&
-              !isTaskCompleted(task) && (
-                <Task
+              (
+                <IncompletedTask
                   key={task.id}
                   goal={task}
                   tag={task.tag}
-                  hidden={task.is_hidden}
+                  hidden={task.impossible}
                   openGoalDetailModal={() => openGoalDetailModal(task.id)}
+                  openGoalFinishModal={() => openGoalFinishModal(task.id)}
                   currentdate={today}
                 />
               )
           )}
         </s.TasksContainer>
-      </s.CalendarDetailLayout>
+      </TodayGoalDetailLayout>
+      {isGoalFinishModalOpen && (
+        <ModalOverlay onClick={onCloseGoalFinishModal}>
+          <TaskCompleteModal 
+          onCloseGoalCompleteModal = {onCloseGoalFinishModal}
+          goal={selectedFinishGoal}
+          showCompleteModal={showFinishModal}
+          progressRate={progressRate}
+          setProgressRate={setProgressRate}
+          dailyHour={dailyHour}
+          setDailyHour={setDailyHour}
+          />
+        </ModalOverlay>
+      )}
+      {isGoalDetailModalOpen && (
+        <ModalOverlay onClick={onCloseGoalDetailModal}>
+          <GoalDetialModalLight
+            onCloseGoalDetailModal={onCloseGoalDetailModal}
+            goal={selectedGoal}
+            todos={selectedGoal.todos}
+          />
+        </ModalOverlay>
+      )}
     </>
+            </div>
+          </div>
+          <TodayTabBar />
         </div>
-      </div>
-      {clickMenu ? (
-        <HamburgerMenu
-          clickMenu={clickMenu}
-          onClickMenu={onClickMenu}
-          onClickLogOut={onClickLogOut}
-        />
-      ) : (
-        <></>
       )}
       <TodayTabBar />
     </div>
