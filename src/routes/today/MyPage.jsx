@@ -1,5 +1,6 @@
 import { HeaderBack } from "../../components/header/styled";
 import today_cheetah from "../../asset/images/today_cheetah.png";
+import month_cheetah from "../../asset/images/month_cheetah.png";
 import clock from "../../asset/images/clock.png";
 import { TitleHeavy, TitleNormal } from "../../components/text/styled";
 import { MySlimButtonActive } from "./index";
@@ -14,7 +15,7 @@ const MyPage = () => {
     nickname: "",
     max_speed: "",
   });
-  
+
   useEffect(() => {
     const getUserInfoFromServer = async () => {
       try {
@@ -34,11 +35,10 @@ const MyPage = () => {
     getUserInfoFromServer();
   }, []);
 
-  
   console.log("mypage", formData);
-  
+
   return (
-    <div className="h-full bg-[#f5f5f5]">
+    <div className="h-full bg-[#faf9f9]">
       <HeaderBack text="마이 페이지" to={"../"}></HeaderBack>
       <div className="flex flex-col gap-[20px]">
         <div className="bg-[#fff] w-[344px] h-[371px] m-auto rounded-[15px] py-[20px] px-[50px] flex flex-col gap-[25px]">
@@ -46,7 +46,7 @@ const MyPage = () => {
             <TitleNormal>{formData.nickname}</TitleNormal>
             <TitleNormal>님의 치타</TitleNormal>
           </div>
-          <img src={today_cheetah} alt="face" className="w-[216px] m-auto" />
+          <img src={month_cheetah} alt="face" className="w-[150px] m-auto" />
           <div className="flex flex-row m-auto">
             <TitleNormal>이번 달 치타가</TitleNormal>
             <TitleNormal className="text-[#f19a37]">
@@ -55,7 +55,6 @@ const MyPage = () => {
             </TitleNormal>
             <TitleNormal> 달렸어요!</TitleNormal>
           </div>
-          <div></div>
           <MySlimButtonActive
             color="#FFE39A"
             text="치타 꾸미러 가기😎"
