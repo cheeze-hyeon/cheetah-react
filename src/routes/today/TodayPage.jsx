@@ -227,6 +227,17 @@ const TodayPage = () => {
 
   }, [openGoalFinishModal])
 
+  // const getGoalList = () => {
+  //   const goalList = goals.filter((goal) => {
+  //     const calendarDate = startOfDay(new Date(selectedDate));
+  //     const startDate = startOfDay(new Date(goal.start_at));
+  //     const finishDate = startOfDay(new Date(goal.finish_at));
+
+  //     return calendarDate >= startDate && calendarDate <= finishDate;
+  //   });
+  //   return goalList;
+  // };
+
   const onClickMenu = () => {
     console.log(clickMenu);
     return setClickMenu(!clickMenu);
@@ -285,77 +296,14 @@ const onClickLogOut = async (e) => {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
-
+  useEffect(() => {
+    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen )
+  }, [isGoalFinishModalOpen])
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor(((finishedTasksCount + completed_tasks.length) / (finishedTasksCount + unfinishedTasksCount + completed_tasks.length)) * 100);
 
   return (
-    <div className="w-[390px] relative">
-      <HeaderMenu
-        clickMenu={clickMenu}
-        onClickMenu={onClickMenu}
-        text="TODAY"
-      ></HeaderMenu>
-      <div className="flex flex-col items-center gap-[20px] pt-5">
-        <img src={today_cheetah} className="w-[200px]" alt="face" />
-        <div
-          id="cheetah_dashboard"
-          className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-[319px] relative gap-6 px-[30px] py-5 rounded-[20px] bg-[#faf9f9] m-auto"
-        >
-          <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 w-[227px] h-[40px]">
-            <div className="flex flex-row">
-              <TextHeavy>{formData.nickname}</TextHeavy>
-              <TextHeavy>님은 오늘</TextHeavy>
-            </div>
-            <div className="flex flex-row">
-              <TextHeavy className="text-[#f19a37]">{totalHour}</TextHeavy>
-              <TextHeavy className="text-[#f19a37]">h/day </TextHeavy>
-              <TextHeavy>속도로 달려야 해요 🔥</TextHeavy>
-            </div>
-          </div>
-        </div>
-        <div id="today_goals" className="w-[330px] m-auto">
-          <div className="flex flex-row px-[10px] mt-[20px] justify-between items-start ">
-            <div>
-              <TextHeavy>To Do List</TextHeavy>
-            </div>
-            <div>
-              <TextLight>4개 중 3개 완료</TextLight>
-            </div>
-          </div>
-          {/* cheetah graph */}
-          {/* 전체 시간 중 얼마나 달렸는지에 따라 */}
-          <div className="my-[20px]">
-            <div className="flex flex-row w-[300px] mx-auto">
-              <Dealt dealt={dealt - 8} className="" />
-              {/* 바쁜 정도에 따라 치타 움직임 속도 달라지게! */}
-              {/* 치타 모습과 같은 기준으로 변화하기 */}
-              <AnimationDiv speedratio={totalHour / formData.max_speed}>
-                <img src={cheetah_graph} alt="face" className="w-[45px]" />
-              </AnimationDiv>
-            </div>
-            <Progress>
-              <Dealt dealt={dealt} />
-            </Progress>
-          </div>
-          {/* goals */}
-          {/* <div>
-                {goalList.map(
-                  (goal) =>
-                    isDueDateGoal(goal) && (
-                      <TodayTask
-                        key={goal.id}
-                        goal={goal}
-                        tag={getTagOfGoal(tags, goal)}
-                        isGoalCompleted={isGoalCompleted(goal)}
-                        isPastGoal={isPastGoal(goal)}
-                        openGoalDetailModal={() => openGoalDetailModal(goal.id)}
-                      />
-                    )
-                )}
-              </div> */}
-        </div>
-      </div>
+    <div>
       {clickMenu ? (
         <HamburgerMenu
           clickMenu={clickMenu}
