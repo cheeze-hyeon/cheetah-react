@@ -40,6 +40,7 @@ const CalendarDetailPage = () => {
   const [maxSpeed, setMaxSpeed] = useState(0);
   const [headerText, setHeaderText] = useState("");
   const [historySpeedText, setHistorySpeedText] = useState("");
+  
   useEffect(() => {
     var incompleted_tasks_temp = goals.filter((goal) => !goal.is_finishdate);
     incompleted_tasks_temp = incompleted_tasks_temp.map((goal) => {

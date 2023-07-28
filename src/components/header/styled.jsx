@@ -19,6 +19,7 @@ export const HeaderContainer = styled.div`
 export const GoalHeaderContaier = styled(HeaderContainer)`
   border-bottom: 1px solid var(--gray, #ddd);
   background: var(--white, #fff);
+  padding-top: 62px;
 `;
 
 export const ModalContainer = styled.div`
@@ -259,7 +260,7 @@ export const HeaderMore = (props) => {
 
 export const GoalHeader = (props) => {
   return (
-    <GoalHeaderContaier className="mt-[47px] border-b-">
+    <GoalHeaderContaier>
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
       <Button to={props.to}>
