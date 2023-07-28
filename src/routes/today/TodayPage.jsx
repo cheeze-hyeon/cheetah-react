@@ -19,7 +19,7 @@ import { Task, CompletedTask, DueDateGoal, IncompletedTask } from "../calendar-d
 import { CalendarDetailHeader, HeaderMessage, TaskCompleteModal } from "../calendar-detail/.";
 import { ModalOverlay } from "../../components/modal/styled";
 import { GoalDetialModalLight } from "../calendar-detail/goal-detail/styled";
-
+import { AnimationDiv } from "./styled";
 
 
 
@@ -70,7 +70,17 @@ const TodayPage = () => {
     setSelectedFinishGoal(selectedFinishGoal)
   }
 
-
+  const CompleteGoalAPI = async (goalId) => {
+    const response = await updateGoaldaily(goalId, 
+      {"daily_check" : true},
+      {"daily_time" : dailyHour,
+      "progress_rate" : progressRate, 
+      }
+    )
+    console.log(response)
+    
+  }
+  
   const onCloseGoalDetailModal = (e) => {
     if (e.target === e.currentTarget) {
       setisGoalDetailModalOpen(false); // 모달을 닫을 때 false로 설정
@@ -81,6 +91,14 @@ const TodayPage = () => {
       setisGoalFinishModalOpen(false); // 모달을 닫을 때 false로 설정
     }
   };
+  const onCompleteGoalFinishModal = (e, goal) => {
+    if (e.target === e.currentTarget) {
+      console.log(goal)
+      setisGoalFinishModalOpen(false); // 모달을 닫을 때 false로 설정
+      CompleteGoalAPI(goal);
+
+    }
+  }
   
   const openGoalDetailModal = (goalId) => {
     setisGoalDetailModalOpen(true); // 모달을 열 때 true로 설정하고
@@ -347,7 +365,9 @@ const onClickLogOut = async (e) => {
               <div className="my-[20px]">
                 <div className="flex flex-row w-[300px] mx-auto">
                   <Dealt dealt={dealt - 7.4} className="" />
+                  <AnimationDiv speedratio={totalHour/formData.max_speed}>
                   <img src={cheetah_graph} alt="face" className="w-[45px]" />
+                  </AnimationDiv>
                 </div>
                 <Progress>
               <Dealt dealt={dealt} />
@@ -396,6 +416,7 @@ const onClickLogOut = async (e) => {
       {isGoalFinishModalOpen && (
         <ModalOverlay onClick={onCloseGoalFinishModal}>
           <TaskCompleteModal 
+          onCompleteGoalFinishModal = {onCompleteGoalFinishModal}
           onCloseGoalCompleteModal = {onCloseGoalFinishModal}
           goal={selectedFinishGoal}
           showCompleteModal={showFinishModal}

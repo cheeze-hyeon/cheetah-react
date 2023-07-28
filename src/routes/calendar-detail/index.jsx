@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { getTodo, createTodo } from "../../apis/api_calendar";
 import { TextLight,  TextNormal } from "../../components/text/styled";
 import { InputTextFieldActive } from "../../components/input/styled";
+import { updateGoaldaily } from "../../apis/api_calendar";
 export const CalendarDetailHeader = ({ selectedDate }) => {
   const navigate = useNavigate();
   const onBackBtnClick = () => {
@@ -47,7 +48,7 @@ export const HeaderMessage = (props) => {
   );
 };
 
-export const TaskCompleteModal = ({ showCompleteModal, goal, onCloseGoalCompleteModal, progressRate, setProgressRate, dailyHour, setDailyHour,
+export const TaskCompleteModal = ({ onCompleteGoalFinishModal, showCompleteModal, goal, onCloseGoalCompleteModal, progressRate, setProgressRate, dailyHour, setDailyHour,
 }) => {
 
   const [todos, setTodos] = useState([]); // 투두 목록을 상태로 관리합니다.
@@ -60,6 +61,8 @@ export const TaskCompleteModal = ({ showCompleteModal, goal, onCloseGoalComplete
   useEffect(() => {
     getTodoAPI();
   }, []);
+
+
 
   const [newTodoTitle, setNewTodoTitle] = useState(""); // 추가할 투두의 제목을 상태로 관리합니다.
 
@@ -154,9 +157,9 @@ export const TaskCompleteModal = ({ showCompleteModal, goal, onCloseGoalComplete
           </s.progressLargeContainer>
           <s.notiBox>
             {parseInt(60*(dailyHour - parseInt(dailyHour))) !== 0 &&
-            <t.TextHeavy>
+            <t.TextNormal>
             앞으로 {parseInt(dailyHour)}시간 {parseInt(60*(dailyHour - parseInt(dailyHour)))}분 더 달려야할 것으로 예상돼요
-          </t.TextHeavy>
+          </t.TextNormal>
             }
             {parseInt(60*(dailyHour - parseInt(dailyHour))) === 0 &&
             <t.TextNormal>
@@ -211,7 +214,7 @@ export const TaskCompleteModal = ({ showCompleteModal, goal, onCloseGoalComplete
             </s.todosContainer>
           </FieldWithLabel>
         </s.modalCenter>
-        <s.CompleteButton />
+        <s.CompleteButton onClick = {onCloseGoalCompleteModal}/>
       </s.modalElementContainer>
     </s.TaskCompleteModalContainer>
   );

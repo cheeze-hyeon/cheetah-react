@@ -36,7 +36,10 @@ const CalendarDetailPage = () => {
   const [completed_tasks, setcompleted_tasks] = useState([]);
   console.log("date", goals);
   console.log("history", histories);
-
+  const [speedRate, setSpeedRate] = useState(0);
+  const [maxSpeed, setMaxSpeed] = useState(0);
+  const [headerText, setHeaderText] = useState("");
+  const [historySpeedText, setHistorySpeedText] = useState("");
   useEffect(() => {
     var incompleted_tasks_temp = goals.filter((goal) => !goal.is_finishdate);
     incompleted_tasks_temp = incompleted_tasks_temp.map((goal) => {
@@ -71,7 +74,7 @@ const CalendarDetailPage = () => {
   };
 
   const openGoalDetailModal = (goalId) => {
-    const selectedGoal = goals.find((goal) => goal.goal.id === goalId);
+    const selectedGoal = goals.find((goal) => goal.id === goalId);
     setSelectedGoal(selectedGoal || null); // selectedGoal이 존재하지 않으면 null로 설정
     setisGoalDetailModalOpen(true);
   };
