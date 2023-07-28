@@ -44,6 +44,7 @@ const TagDetailwithColor = ({
   title,
   color,
   is_used,
+  titleError,
 }) => {
   const [tags, setTags] = useState([]);
   useEffect(() => {
@@ -96,6 +97,9 @@ const TagDetailwithColor = ({
                 </div>
               </div>
             </div>
+            {titleError && (
+              <TextLight color="var(--orange)">{titleError}</TextLight>
+            )}
           </div>
           {/* 경고 메시지를 보여주기 위한 요소 */}
           {showDuplicateWarning && (
