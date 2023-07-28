@@ -131,7 +131,7 @@ const GoalMainPage = () => {
               <div className="flex flex-col gap-[20px] mb-[100px]">
                 <TextNormal>{`${goalCount}개의 목표`}</TextNormal>
                 <div className="flex flex-col gap-[15px] pb-200">
-                  {filteredGoals.map(
+                  {filteredGoals?.map(
                     (goal) =>
                       goal.is_scheduled && (
                         <GoalCard
@@ -141,13 +141,13 @@ const GoalMainPage = () => {
                         />
                       )
                   )}
-                  {filteredGoals.map(
+                  {filteredGoals?.map(
                     (goal) =>
                       !goal.is_scheduled && (
                         <GoalCard
                           key={goal.id}
                           goal={goal}
-                          onClick={handleGoalCardClick}
+                          onClick={() => handleGoalCardClick(goal.id)}
                         />
                       )
                   )}

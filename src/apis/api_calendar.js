@@ -86,8 +86,9 @@ export const createGoalwithCalendar = async (data) => {
 export const updateGoaldaily = async (goal_id, param, data) => {
   const response = await instanceWithToken.patch(
     "/goal/" + goal_id + "/",
-    data, {
-      params: param
+    data,
+    {
+      params: param,
     }
   );
   if (response.status === 200) {

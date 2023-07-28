@@ -107,7 +107,9 @@ export const DateContainer = styled.div`
         ? "var(--hist-60)"
         : props.$colorSpeed === 4
         ? "var(--hist-80)"
-        : props.$colorSpeed === 5 || props.$colorSpeed === 6
+        : props.$colorSpeed === 5
+        ? "var(--hist-100)"
+        : props.$colorSpeed === 6
         ? "var(--hist-100)"
         : "var(--white)"
       : props.$colorSpeed === 0
@@ -120,7 +122,9 @@ export const DateContainer = styled.div`
       ? "var(--task-60)"
       : props.$colorSpeed === 4
       ? "var(--task-80)"
-      : props.$colorSpeed === 5 || props.$colorSpeed === 6
+      : props.$colorSpeed === 5
+      ? "var(--task-100)"
+      : props.$colorSpeed === 6
       ? "var(--task-100)"
       : "var(--white)"};
 `;
@@ -130,12 +134,22 @@ export const DateWrapper = styled.div`
   width: 18px;
   height: 20px;
   padding: 2px 3px 4px 3px;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 
+export const IconWrapper = styled.div`
+  z-index: 9;
+  position: absolute;
+  font-size: 44px;
+  padding-top: 90px;
+  padding-left: 0px;
+  opacity: 0.2;
+`;
+
 export const dateToday = styled.span`
+  z-index: 10;
   padding: 2px 3px 2px 3px;
   font-family: Pretendard;
   font-size: 11px;
@@ -150,13 +164,13 @@ export const dateToday = styled.span`
 `;
 
 export const dateNotToday = styled.span`
+  z-index: 10;
   margin: 0;
-  white-space: pre-wrap;
   top: 2px;
   left: 3px;
   font-family: Pretendard;
   font-size: 11px;
-  line-height: 125%;
+  line-height: 0%;
   letter-spacing: 0%;
   text-align: center;
   color: ${(props) => (props.$isSunday ? "#f19A37" : "#252525")};

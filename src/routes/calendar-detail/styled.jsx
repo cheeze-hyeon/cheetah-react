@@ -317,7 +317,7 @@ export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
 export const CompleteButton = (props) => {
   return (
     <CompleteButtonContainer>
-      <LargeLabel className="text-white"onClick={props.onClick}>완료하기</LargeLabel>
+      <LargeLabel className="text-white" onClick={props.onClick}>완료하기</LargeLabel>
     </CompleteButtonContainer>
   );
 };

@@ -171,7 +171,7 @@ export const TaskCompleteModal = ({ onCompleteGoalFinishModal, showCompleteModal
           <FieldWithLabel label="하위 투두">
             <s.todosContainer>
             {!hasTodos && (
-          <TextLight className="px-[10px]">할일이 없어요:</TextLight>
+          <TextLight className="self-start px-[10px]">할일이 없어요 :D</TextLight>
         )}
         {hasTodos && (
           <div className="flex flex-col gap-[5px] pt-[10px]">
@@ -214,7 +214,7 @@ export const TaskCompleteModal = ({ onCompleteGoalFinishModal, showCompleteModal
             </s.todosContainer>
           </FieldWithLabel>
         </s.modalCenter>
-        <s.CompleteButton onClick = {onCloseGoalCompleteModal}/>
+        <s.CompleteButton onClick={onCloseGoalCompleteModal}/>
       </s.modalElementContainer>
     </s.TaskCompleteModalContainer>
   );
