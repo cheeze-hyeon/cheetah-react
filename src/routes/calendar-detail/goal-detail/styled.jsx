@@ -198,6 +198,7 @@ export const TodosContainer = styled.div`
   gap: 10px;
   align-self: stretch;
   padding-bottom: 20px;
+  padding-left: 10px;
 `;
 
 export const NoDataMesssageWrapper = styled.div`

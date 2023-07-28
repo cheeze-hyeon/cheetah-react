@@ -34,8 +34,13 @@ const PageBothBtn = ({ tag }) => {
         <HeaderPlus />
       </button>
       {isModalOpen && (
-        <ModalOverlay className="z-10">
-          <TagCreateModal className="fixed bottom-0 z-50" onClose={closeModal} />
+        <ModalOverlay onClick={closeModal} className="z-10">
+          <div onClick={(e) => e.stopPropagation()}>
+            <TagCreateModal
+              className="fixed bottom-0 z-50"
+              onClose={closeModal}
+            />
+          </div>
         </ModalOverlay>
       )}
     </div>
