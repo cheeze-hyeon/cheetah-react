@@ -90,8 +90,10 @@ const GoalMainPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleModalClose = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsModalOpen(false);
+    }
   };
 
   const showGoalCreateModal = (e) => {
@@ -146,7 +148,7 @@ const GoalMainPage = () => {
                         <GoalCard
                           key={goal.id}
                           goal={goal}
-                          onClick={() => handleGoalCardClick(goal.id)}
+                          onClick={handleGoalCardClick}
                         />
                       )
                   )}
@@ -161,15 +163,17 @@ const GoalMainPage = () => {
       </GoalMainRoot>
       <GoalTabBar />
       {isModalOpen && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col bg-white shadow-lg rounded-lg">
-          {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
+        <ModalOverlay onClick={handleModalClose}>
           <GoalDetailModal
             goal={selectedGoal}
-            todos={todos}
             onCloseModal={handleModalClose}
             filtered_tagId={selectedTagId}
           />
-        </div>
+        </ModalOverlay>
+        // <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col bg-white shadow-lg rounded-lg">
+        //   {/* GoalDetailModal 컴포넌트에 todos 더미데이터를 전달합니다. */}
+
+        // </div>
       )}
       {isGoalCreateModalOpen && (
         <ModalOverlay onClick={showGoalCreateModal}>
