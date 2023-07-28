@@ -36,6 +36,7 @@ import { is } from "date-fns/locale";
 import { debounce } from "@mui/material";
 import { useCallback } from "react";
 import { slideUp } from "../../../components/modal/styled";
+import { createTodo, getTodo } from "../../../apis/api_calendar";
 
 export const GoalCreateModal = ({
   clickBtnBack,
@@ -192,16 +193,55 @@ export const GoalCreateModal = ({
     setShowAddTodoField(true); // 투두 추가 텍스트 필드를 보여주도록 상태를 업데이트합니다.
   };
 
+  // const handleAddTodoEnter = (e) => {
+  //   if (e.key === "Enter" && newTodoTitle.trim() !== "") {
+  //     const newTodo = {
+  //       title: newTodoTitle.trim(),
+  //     };
+  //     setNewTodoTitle("");
+  //     setNewTodos((prevTodos) => [...prevTodos, newTodo]);
+  //     // setShowAddTodoField(false);
+  //   }
+  // };
+  // const createTodoAPI = async () => {
+  //   try {
+  //     const response = await createTodo(todo);
+  //     setTodos((prevTodos) => [...prevTodos, ...response]);
+  //     console.log(response);
+  //   } catch (error) {
+  //     // API 호출 실패 처리
+  //     console.error("Failed to fetch todos:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getTodoAPI();
+  // }, [goal.id]);
+
   const handleAddTodoEnter = (e) => {
+    // 투두 추가 텍스트 필드에서 엔터를 눌렀을 때 호출되는 함수입니다.
+    console.log("enter!!!");
     if (e.key === "Enter" && newTodoTitle.trim() !== "") {
-      const newTodo = {
-        title: newTodoTitle.trim(),
-      };
-      setNewTodoTitle("");
-      setNewTodos((prevTodos) => [...prevTodos, newTodo]);
-      setShowAddTodoField(false);
+      // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
+      const newTodo = newTodoTitle.trim();
+
+      setNewTodos([...newTodos, newTodo]);
+      setNewTodoTitle("")
+      // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
+  // console.log("진짜제발",newTodoTitle)
+  // const createTodoAPI = async () => {
+  //   const response = await createTodo({
+  //     goal_id: newGoal.id,
+  //     title: newTodoTitle.trim(),
+  //     is_completed: false,
+  //   });
+  //   newTodoTitle.id = response.id;
+  //   setNewTodos((prevTodos) => [...prevTodos, newTodoTitle.title]);
+  // };
+  // createTodoAPI();
+  // console.log("제발",newTodos)
 
   const handleCancelAddTodo = () => {
     // 취소 버튼을 누를 때 호출되는 함수입니다.
@@ -239,6 +279,8 @@ export const GoalCreateModal = ({
   const addGoal = async (data) => {
     if (selectedTagId && title) {
       const goal = await createGoal(data);
+
+      setNewGoal(goal);
       console.log("목표 추가 완료!", goal);
       window.location.reload();
       return;
@@ -263,6 +305,12 @@ export const GoalCreateModal = ({
       const goal = await createGoalwithCalendar(data);
       console.log("일정에 등록된 목표 추가 완료!", goal);
       console.log("목표 추가 완료!", goal);
+      for(let i = 0; i < newTodos.length; i++){
+        await createTodo({"title": newTodos[i],
+      "is_completed": false,
+      "goal_id": goal.id,
+      })
+      }
       window.location.reload();
       return;
     } else {
@@ -286,12 +334,13 @@ export const GoalCreateModal = ({
   const onClick3_calendarAddBtn = useCallback(onClick2_calendarAddBtn, [
     newGoalWithCalendar,
   ]);
+
   const onClick = () => {
     addGoal(newGoal);
   };
   const onClick2 = debounce(onClick, 300, true);
   const onClick3 = useCallback(onClick2, [newGoal]);
-
+  console.log("밖에서 투두", newTodos);
   return (
     <GoalCreateModalContainer>
       <GoalCreateModalElementContainer>
@@ -337,13 +386,29 @@ export const GoalCreateModal = ({
               </FieldWithLabel>
               <FieldWithLabel label="하위 투두">
                 <TodosWrapper>
-                  {newTodos.map((todo, index) => (
-                    <NewTodo
-                      key={index}
-                      todo={todo}
-                      onDelete={handleDeleteTodo}
-                    />
-                  ))}
+                  {newTodos.map((todo, index) => {
+                    const handlechangeCompleted = () => {
+                      console.log("handle 실행");
+                      setNewTodos((prevTodos) =>
+                        prevTodos.map((todo) => ({
+                          ...todo,
+                          is_completed: !todo.is_completed,
+                        }))
+                      );
+                    };
+                    console.log("뭐지",todo)
+                    return (
+                      <NewTodo
+                        key={index}
+                        todo={todo}
+                        value={todo}
+                        defaultIsCompleted={todo.is_completed}
+                        onDelete={handleDeleteTodo}
+                        handlechangeCompleted={handlechangeCompleted}
+                      />
+                    );
+                  })}
+
                   {showAddTodoField && (
                     <AddTodoField>
                       <NewTodoInput
@@ -355,7 +420,7 @@ export const GoalCreateModal = ({
                       />
                       <button
                         className="font-['Pretendard'] text-[13px] text-black font-medium"
-                        onClick={() => handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                        onClick={ handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
                       >
                         취소
                       </button>
@@ -504,7 +569,7 @@ export const GoalCreateModalElementContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   width: 351px;
-  height: 390px;
+  height: full;
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;

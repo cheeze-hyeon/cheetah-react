@@ -115,7 +115,7 @@ const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
         setTodos([...todos, newTodo]); // 기존 투두 목록에 새로운 투두를 추가합니다.
       };
       createTodoAPI();
-      setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
+      // setShowAddTodoField(false); // 투두 추가 텍스트 필드를 숨깁니다.
     }
   };
 
@@ -191,7 +191,7 @@ const GoalDetailModal = ({ goal, onCloseModal, filtered_tagId }) => {
             {!hasTodos && (
               <s.NoDataMesssageWrapper>
                 <TextLight className="text-darkgray">
-                  하위 투두가 없어요 :)
+                  하위 투두가 없어요 :D
                 </TextLight>
               </s.NoDataMesssageWrapper>
             )}
