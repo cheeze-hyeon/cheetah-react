@@ -66,20 +66,11 @@ const TodayPage = () => {
   };
   const handleGoalFinishClick = (goalId) => {
     const selectedFinishGoal = goalsListwithImpossibledates.find((goal) => goal.id === goalId);
-    console.log(selectedFinishGoal)
+    console.log("selectedFinishGoal: ", selectedFinishGoal)
     setSelectedFinishGoal(selectedFinishGoal)
   }
 
-  const CompleteGoalAPI = async (goalId) => {
-    const response = await updateGoaldaily(goalId, 
-      {"daily_check" : true},
-      {"daily_time" : dailyHour,
-      "progress_rate" : progressRate, 
-      }
-    )
-    console.log(response)
-    
-  }
+
   
   const onCloseGoalDetailModal = (e) => {
     if (e.target === e.currentTarget) {
@@ -91,14 +82,6 @@ const TodayPage = () => {
       setisGoalFinishModalOpen(false); // 모달을 닫을 때 false로 설정
     }
   };
-  const onCompleteGoalFinishModal = (e, goal) => {
-    if (e.target === e.currentTarget) {
-      console.log(goal)
-      setisGoalFinishModalOpen(false); // 모달을 닫을 때 false로 설정
-      CompleteGoalAPI(goal);
-
-    }
-  }
   
   const openGoalDetailModal = (goalId) => {
     setisGoalDetailModalOpen(true); // 모달을 열 때 true로 설정하고
@@ -207,7 +190,7 @@ const TodayPage = () => {
   useEffect(() => {
     var studyhour = 0;
     for (var i = 0; i < incompleted_tasks.length; i++) {
-      if(!incompleted_tasks[i].impossible && isFinished(incompleted_tasks[i].update_at))
+      if(!incompleted_tasks[i].impossible && !isFinished(incompleted_tasks[i].update_at))
         studyhour += incompleted_tasks[i].hoursperday;
     }
     
@@ -240,6 +223,9 @@ const TodayPage = () => {
     console.log(formData);
     getGoalsindateAPI();
   }, []);
+  useEffect(() => {
+
+  }, [openGoalFinishModal])
 
   // const getGoalList = () => {
   //   const goalList = goals.filter((goal) => {
@@ -310,7 +296,9 @@ const onClickLogOut = async (e) => {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
-
+  useEffect(() => {
+    console.log("isGoalFinishModalOpen: ", isGoalFinishModalOpen )
+  }, [isGoalFinishModalOpen])
   // today에 따라 숫자 바뀌어야 함!
   const dealt = Math.floor(((finishedTasksCount + completed_tasks.length) / (finishedTasksCount + unfinishedTasksCount + completed_tasks.length)) * 100);
 
@@ -416,7 +404,7 @@ const onClickLogOut = async (e) => {
       {isGoalFinishModalOpen && (
         <ModalOverlay onClick={onCloseGoalFinishModal}>
           <TaskCompleteModal 
-          onCompleteGoalFinishModal = {onCompleteGoalFinishModal}
+          setisGoalFinishModalOpen = {setisGoalDetailModalOpen}
           onCloseGoalCompleteModal = {onCloseGoalFinishModal}
           goal={selectedFinishGoal}
           showCompleteModal={showFinishModal}
