@@ -421,7 +421,7 @@ const onClickLogOut = async (e) => {
           <TodayTabBar />
         </div>
       )}
-      <TodayTabBar />
+      <TodayTabBar className="z-50" />
     </div>
   );
 };

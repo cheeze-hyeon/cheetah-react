@@ -18,8 +18,13 @@ import { GoalDetialModalLight } from "./goal-detail/styled";
 
 const CalendarDetailPage = () => {
   const location = useLocation();
-  const goals = location.state.goalsindate;
-  const histories = location.state.historyindate[0][1];
+
+  const locationState = location.state || {}; // location.state가 null인 경우를 방지하기 위해 빈 객체로 초기화
+  const goals = locationState.goalsindate || [];
+  const histories =
+    (locationState.historyindate && locationState.historyindate[0][1]) || [];
+  const colorHistory = locationState.color_history || []; // 필요에 따라 초기값 설정
+
   const { selectedDate } = useParams();
   const parsedDate = parse(selectedDate, "yyyy-MM-d", new Date());
   const [isCompleteModalOpen, setisCompleteModalOpen] = useState(false);
@@ -56,33 +61,19 @@ const CalendarDetailPage = () => {
       setisCompleteModalOpen(!isCompleteModalOpen);
     }
   };
-  const handleGoalClick = (goalId) => {
-    const selectedGoal = goals.find((goal) => goal.id === goalId);
-    setSelectedGoal(selectedGoal);
-  };
 
   const onCloseGoalDetailModal = (e) => {
+    e.stopPropagation();
     if (e.target === e.currentTarget) {
       setisGoalDetailModalOpen(false); // 모달을 닫을 때 false로 설정
     }
+    console.log("close");
   };
 
   const openGoalDetailModal = (goalId) => {
-    setisGoalDetailModalOpen(true); // 모달을 열 때 true로 설정하고
-    handleGoalClick(goalId); // 선택한 목표 정보 설정
-  };
-
-  // 목표의 시작일이 오늘보다 현재 혹은 미래인 경우 true
-  const isCurrentOrFuture = (startDate) => {
-    const today = new Date();
-    const due = new Date(startDate);
-    if (isSameDay(today, due)) {
-      return true;
-    } else if (today < due) {
-      return true;
-    } else {
-      return false;
-    }
+    const selectedGoal = goals.find((goal) => goal.goal.id === goalId);
+    setSelectedGoal(selectedGoal || null); // selectedGoal이 존재하지 않으면 null로 설정
+    setisGoalDetailModalOpen(true);
   };
 
   // 목표의 진행률이 100%인 경우 true
@@ -128,7 +119,6 @@ const CalendarDetailPage = () => {
           task.residual_time /
           (task.dates_task.length - task.impossibledates_set.length);
         console.log("the hours changed to", newhours, "from", task.hoursperday);
-        task.hoursperday = newhours;
         console.log("chaged task!!", task);
       }
       return task;
@@ -166,7 +156,18 @@ const CalendarDetailPage = () => {
       <s.calendarDetailRoot>
         <s.headerContainer>
           <CalendarDetailHeader selectedDate={parsedDate} />
-          <HeaderMessage />
+          <HeaderMessage
+            textOrange={
+              !isPast(new Date(selectedDate))
+                ? "[치타속도 " + Math.floor((speedRate / maxSpeed) * 100) + "%]"
+                : historySpeedText
+            }
+            textGray={
+              !isPast(new Date(selectedDate))
+                ? headerText + " 달리기💨"
+                : "속도로 달린 날"
+            }
+          />
         </s.headerContainer>
         <s.CalendarDetailLayout>
           <s.GoalCountWrapper>
@@ -236,9 +237,8 @@ const CalendarDetailPage = () => {
       {isGoalDetailModalOpen && (
         <ModalOverlay onClick={onCloseGoalDetailModal}>
           <GoalDetialModalLight
-            onCloseGoalDetailModal={onCloseGoalDetailModal}
+            onCloseGoalDetailModal={(e) => onCloseGoalDetailModal(e)}
             goal={selectedGoal}
-            todos={selectedGoal.todos}
           />
         </ModalOverlay>
       )}

@@ -3,12 +3,12 @@ import HeaderClose from "./HeaderClose";
 import HeaderDelete from "../Tag/HeaderDelete";
 import "tailwindcss/tailwind.css";
 import { GoalDeleteModal } from "../styled";
+import { ModalOverlay } from "../../../components/modal/styled";
 
 const GoalDetailModalHeader = ({
   onCloseModal,
   goal_id,
   goal_is_scheduled,
-  tag_id,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,27 +23,22 @@ const GoalDetailModalHeader = ({
   };
 
   return (
-    <div className="box-border flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-full h-fill ">
-      <div className="box-border flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-2.5">
-        <div className="box-border flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative px-2.5">
-          <button onClick={onCloseModal}>
-            <HeaderClose width="24" />
-          </button>
-          <div className="box-border flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[5px]"></div>
-          <HeaderDelete
-            className="w-[23px] h-[23px]"
-            openGoalDeleteModal={openGoalDeleteModal}
-          />
-          {isModalOpen && (
-            <GoalDeleteModal
-              goal_id={goal_id}
-              is_scheduled={goal_is_scheduled}
-              onCloseModal={closeGoalDeleteModal}
-              tag_id={tag_id || null}
-            />
-          )}
-        </div>
-      </div>
+    <div className="box-border flex flex-row justify-end items-start flex-grow-0 flex-shrink-0 w-full h-fill p-2 gap-3 ">
+      {isModalOpen && <ModalOverlay onClick={closeGoalDeleteModal} />}
+      {isModalOpen && (
+        <GoalDeleteModal
+          goal_id={goal_id}
+          is_scheduled={goal_is_scheduled}
+          onCloseModal={closeGoalDeleteModal}
+        />
+      )}
+      <HeaderDelete
+        className="w-[23px] h-[23px]"
+        openGoalDeleteModal={openGoalDeleteModal}
+      />
+      <button>
+        <HeaderClose onClick={onCloseModal} width="24" />
+      </button>
     </div>
   );
 };

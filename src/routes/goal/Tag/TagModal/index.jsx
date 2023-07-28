@@ -5,25 +5,36 @@ import TagDetailwithColor from "./TagDetailwithColor";
 import { SlimButtonActive } from "../../../../components/button/styled";
 import { createTag, updateTag } from "../../../../apis/api_calendar";
 import { useState } from "react";
+import { TextLight } from "../../../../components/text/styled";
 
 export const TagCreateModal = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("#F19A37");
   const [is_used, setIs_used] = useState(true); // 추가: 숨기는 상태를 추가합니다.
+  const [titleError, setTitleError] = useState("");
 
   const createTagAPI = async () => {
+    if (title === "") {
+      console.log("title is empty");
+      setTitleError("*제목을 입력해주세요"); // title이 비어있는 경우 오류 멘트 설정
+      return false;
+    }
     const response = await createTag({
       title: title,
       color: color,
       is_used: is_used,
     });
+    return true;
   };
 
   const handleCreateTag = () => {
-    createTagAPI();
-    onClose();
-    window.location.reload();
+    const response = createTagAPI();
+    if (title !== "") {
+      onClose();
+      window.location.reload();
+    }
   };
+  console.log("title", title);
 
   return (
     <div className="fixed left-0 w-[390px] h-full flex justify-center items-center z-50">
@@ -43,6 +54,7 @@ export const TagCreateModal = ({ onClose }) => {
           setTitle={setTitle}
           setColor={setColor}
           setIs_used={setIs_used}
+          titleError={titleError}
         />
         <SlimButtonActive
           to="/tag-detail"

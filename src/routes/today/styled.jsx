@@ -94,13 +94,14 @@ export const HamburgerContainer = styled.div`
   display: block;
   width: 251px;
   height: 761px;
-  position: fixed;
-  top: 0;
-  right: 0;
+  position: absolute;
+  // z-index: 50;
+  top: 0px;
+  left: 139px;
   background: #fff;
   box-shadow: -2px 0px 4px 0 rgba(0, 0, 0, 0.1);
-  margin-left: 139px;
-  animation: ${slideLeft} 0.6s linear 1;
+  // margin-left: 139px;
+  animation: ${slideLeft} 0.3s linear 1;
 `;
 
 export const MyContainer = styled.div`
@@ -464,5 +465,6 @@ export const AnimationDiv = styled.div`
   align-items: center;
   animation: ${rotate} linear infinite alternate;
   // 치타 속도에 따라 수정 필요! 아래는 임시..
-  animation-duration: ${(props) => (props.speed - props.max_speed > 5 ? .7 : props.speed - props.max_speed > 3 ? 1 : 2)}s;
+  animation-duration: ${(props) => (props.speedratio > 1 ? .35 : props.speedratio > .75 ? .5 : props.speedratio > .3 ? .7 : props.speedratio > 0 ? 1: 0)}s;
+  // animation-duration: ${(props) => (props.speed - props.max_speed > 5 ? .7 : props.speed - props.max_speed > 3 ? 1 : 2)}s;
 `;

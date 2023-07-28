@@ -723,7 +723,7 @@ export const TextBtnSwIconContainer = styled.div`
   height: 24px;
   gap: 5px;
   padding: 0px 10px;
-  margin-top: 390px;
+  margin-top: 300px;
   margin-left: 135px;
   margin-right: 24px;
 `;

@@ -288,7 +288,7 @@ const ButtonWrapper = styled.div`
   cursor: pointer;
 `;
 
-export const HeaderModal = (props, onClose) => {
+export const HeaderModal = (props) => {
   return (
     <ModalContainer className="m-auto">
       <HeaderNone />
@@ -304,7 +304,7 @@ export const HeaderHamburgerModal = (props, onClose) => {
       <HeaderNone />
       <TitleNormal>{props.text}</TitleNormal>
       <Button onClick={props.onClick} className="mr-[5px]">
-        <HeaderClose width={props.width} height={props.height}/>
+        <HeaderClose width={props.width} height={props.height} />
       </Button>
     </ModalContainer>
   );
