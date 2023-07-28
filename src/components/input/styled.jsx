@@ -358,10 +358,11 @@ export const InputDateField = (props) => {
           value={props.value}
           onChange={props.onChange}
           placeholder={props.placeholder}
-          defaultValue={props.defaultValue}
           className="w-full"
+          defaultValue={props.initial_time}
         />
       </TextNormal>
+      {/* <CalendarIcon /> */}
     </DateFieldContainer>
   );
 };
@@ -562,8 +563,6 @@ export const TodoNormal = (props) => {
 export const Close = ({ onClick, color }) => {
   return (
     <CloseSvg
-      width={20}
-      height={20}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

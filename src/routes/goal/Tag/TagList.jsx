@@ -11,6 +11,7 @@ const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
   useEffect(() => {
     if (goal) {
       setSelectedTagId(goal.tag.id);
+
     }
   }, []);
 
@@ -51,6 +52,7 @@ const TagList = ({ tags, goal, onTagClick, exceptAll }) => {
             />
           )}
         </div>
+
       )}
       {tags.map((tag) => (
         <TagDefault

@@ -20,6 +20,7 @@ export const GoalMainRoot = styled.div`
   width: 390px;
   height: 844px;
   overflow: hidden;
+  background: var(--background);
 `;
 
 export const ModalContainer = styled.div`

@@ -582,6 +582,7 @@ export const SlimButtonActive = (props) => {
 };
 
 export const TagContainer = styled.div`
+  cursor: pointer;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -720,10 +721,11 @@ export const TextBtnSwIconContainer = styled.div`
   flex-shrink: 0;
   width: 92px;
   height: 24px;
-  position: relative;
   gap: 5px;
   padding: 0px 10px;
-  // margin: auto;
+  margin-top: 390px;
+  margin-left: 135px;
+  margin-right: 24px;
 `;
 
 export const TextBtnSContainer2 = styled.div`

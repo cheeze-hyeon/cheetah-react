@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { styled as muiStyled } from "@mui/system";
 import {
   TextNormal,
@@ -60,17 +60,31 @@ export const Frame = styled(Link)`
   text-decoration: none;
 `;
 
+export const slideLeft = keyframes`
+from {
+  transform: translateX(100%);
+  opacity: 0%;
+}
+to {
+  transform: translateX(0%);
+  opacity: 100%;
+}
+}`;
+
 export const HamburgerContainer = styled.div`
   display: flex;
   justify-content: end;
   box-sizing: border-box;
   display: block;
   width: 251px;
-  height: 844px;
-  position: relative;
+  height: 761px;
+  position: fixed;
+  top: 0;
+  right: 0;
   background: #fff;
   box-shadow: -2px 0px 4px 0 rgba(0, 0, 0, 0.1);
   margin-left: 139px;
+  animation: ${slideLeft} 0.6s linear 1;
 `;
 
 export const MyContainer = styled.div`
@@ -415,3 +429,24 @@ export const CompleteButton = () => {
     </CompleteButtonContainer>
   );
 };
+export const rotate = keyframes`
+  0%{
+      transform: rotate(-10deg);
+  }
+  50%{ 
+    transform: rotate(0deg);
+  }
+  100%{
+      transform: rotate(10deg);
+  }
+  `;
+export const AnimationDiv = styled.div`
+  width: 45px;
+  hegiht: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotate} linear infinite alternate;
+  // 치타 속도에 따라 수정 필요! 아래는 임시..
+  animation-duration: ${(props) => (props.speed - props.max_speed > 5 ? .7 : props.speed - props.max_speed > 3 ? 1 : 2)}s;
+`;
