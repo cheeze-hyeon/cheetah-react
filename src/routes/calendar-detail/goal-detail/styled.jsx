@@ -6,6 +6,7 @@ import { TextBtnSmall } from "../../../components/button/styled";
 import { React, useState, useEffect } from "react";
 import { createTodo, getTodo } from "../../../apis/api_calendar";
 import GoalDetailModalHeader from "../../goal/goaldetailmodal/GoalDetailModalHeader";
+import { slideUp } from "../../../components/modal/styled";
 
 export const GoalDetialModalLight = ({
   goal,
@@ -21,7 +22,7 @@ export const GoalDetialModalLight = ({
 
   const getTodoAPI = async () => {
     try {
-      const response = await getTodo(goal.goal.id);
+      const response = await getTodo(goal.id);
       setTodos((prevTodos) => [...prevTodos, ...response]);
       console.log(response);
     } catch (error) {
@@ -32,7 +33,7 @@ export const GoalDetialModalLight = ({
 
   useEffect(() => {
     getTodoAPI();
-  }, [goal.goal.id]);
+  }, [goal.id]);
 
   const handleAddTodo = () => {
     // "투두 추가하기" 버튼을 누를 때 호출되는 함수입니다.
@@ -46,7 +47,7 @@ export const GoalDetialModalLight = ({
       // 엔터를 누르고 투두 제목이 비어있지 않은 경우에만 추가합니다.
       const newTodo = {
         id: Math.random().toString(),
-        goal_id: goal.goal.id,
+        goal_id: goal.id,
         title: newTodoTitle.trim(),
         is_completed: false,
       };
@@ -55,7 +56,7 @@ export const GoalDetialModalLight = ({
 
       const createTodoAPI = async () => {
         const response = await createTodo({
-          goal_id: goal.goal.id,
+          goal_id: goal.id,
           title: newTodoTitle.trim(),
           is_completed: false,
         });
@@ -81,7 +82,7 @@ export const GoalDetialModalLight = ({
     <ModalLayout>
       <ElementsLayout className="cursor-default">
         <GoalDetailModalHeader
-          goal_id={goal.goal.id}
+          goal_id={goal.id}
           onCloseModal={onCloseGoalDetailModal}
           goal_is_scheduled={goal.goal.is_scheduled}
           goalsindate={goalsindate}
@@ -90,7 +91,7 @@ export const GoalDetialModalLight = ({
           selectedDate={selectedDate}
         />
         <TitleWrapper>
-          <TitleNormal>{goal.goal.title}</TitleNormal>
+          <TitleNormal>{goal.title}</TitleNormal>
         </TitleWrapper>
         <ContentsContainer>
           <BottomContentsContainer>
@@ -144,7 +145,7 @@ export const ModalLayout = styled.div`
   gap: 10px;
   border-radius: 15px;
   background: #fff;
-  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);animation: ${slideUp} 0.5s ease-out 1;
 `;
 
 export const ElementsLayout = styled.div`
@@ -209,6 +210,7 @@ export const TodosContainer = styled.div`
   gap: 10px;
   align-self: stretch;
   padding-bottom: 20px;
+  padding-left: 10px;
 `;
 
 export const NoDataMesssageWrapper = styled.div`

@@ -41,10 +41,12 @@ const FindIdPage = () => {
 
   const handleChangeAuthNum = (e) => {
     //인증번호 입력 관리
-    const { id, value } = e.target;
+    const { name, value } = e.target;
+    const filteredValue = value.replace(/[^0-9]/g, "");
+
     setSMSAuthData((prevSMSAuthData) => ({
       ...prevSMSAuthData,
-      [id]: value,
+      [name]: filteredValue,
     }));
   };
 
@@ -77,6 +79,14 @@ const FindIdPage = () => {
     e.preventDefault();
 
     try {
+      if(isSentSMS === "" || isSentSMS === false){
+        return
+      }
+      if(SMSAuthData.auth_number === ""){
+        setIsValidAccount(false);
+        setIsValidAuthNumber(false);
+        return
+      }
       const isAuthenticated = await SMSAuthCheck(SMSAuthData);
       if (isAuthenticated.status === 200) {
         setPage(1);
@@ -164,7 +174,7 @@ const FindIdPage = () => {
                   <InputTextFieldActive
                     placeholder="인증번호 입력"
                     type="text"
-                    id="auth_number"
+                    name="auth_number"
                     onChange={handleChangeAuthNum}
                     value={SMSAuthData.auth_number}
                   ></InputTextFieldActive>

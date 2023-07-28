@@ -116,13 +116,13 @@ export const TodayTask = ({ goal, tag }) => {
   );
 };
 
-export const TaskCompleteModal = ({ showCompleteModal }) => {
+export const TaskCompleteModal = ({ showCompleteModal, goal }) => {
   return (
     <s.TaskCompleteModalContainer>
       <s.modalElementContainer>
         <ModalHeaderContainer>
           <s.headerIconContainer></s.headerIconContainer>
-          <t.TitleNormal>멋사 해커톤 기획안 발표</t.TitleNormal>
+          <t.TitleNormal>{goal.title}</t.TitleNormal>
           <s.headerIconContainer>
             <img
               alt="closebtn"
@@ -142,7 +142,7 @@ export const TaskCompleteModal = ({ showCompleteModal }) => {
           </s.progressLargeContainer>
           <s.notiBox>
             <t.TextNormal>
-              앞으로 ~시간 더 달려야할 것으로 예상돼요
+              앞으로 {goal.residual}시간 더 달려야할 것으로 예상돼요
             </t.TextNormal>
           </s.notiBox>
           <FieldWithLabel label="하위 투두">

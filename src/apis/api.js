@@ -118,12 +118,19 @@ export const changePassword = async (data) => {
 };
 
 export const refreshToken = async (token) => {
-  //토큰 재발급
   const response = await instance.post("/account/refresh/", { refresh: token });
-  if (response.status === 200) {
-    console.log("REFRESH TOKEN SUCCESS");
-  } else {
-    console.log("[ERROR] error while refreshing token");
+  try {
+    // 토큰 재발급
+    if (response.status === 200) {
+      console.log("REFRESH TOKEN SUCCESS");
+      return response;
+    } else {
+      console.log("[ERROR] error while refreshing token");
+      return response;
+    }
+  } catch (error) {
+    console.error("Token refresh failed:", error);
+    return response;
   }
 };
 
@@ -153,3 +160,8 @@ export const patchUserInfo = async (data) => {
     return response;
   }
 };
+
+export const postFCMToken = async (data) =>{
+  const response = await instanceWithToken.post("/fcmtoken/", data)
+  return response;
+}

@@ -12,6 +12,22 @@ import {
 } from "../../components/button/styled";
 import { Link } from "react-router-dom";
 
+
+export const TodayGoalDetailLayout = styled.div`
+  margin-top: 0px;
+  margin-bottom: 110px;
+  display: flex;
+  padding: 0px 16px;
+  width: 100%;
+  height: 645px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  overflow: auto;
+`;
+
+
 export const Progress = styled.div`
   width: 300px;
   height: 10px;
@@ -77,9 +93,9 @@ export const HamburgerContainer = styled.div`
   box-sizing: border-box;
   display: block;
   width: 251px;
-  height: 761px;
+  height: 890px;
   position: absolute;
-  // z-index: 50;
+  z-index: 50;
   top: 0px;
   left: 139px;
   background: #fff;
@@ -449,6 +465,20 @@ export const AnimationDiv = styled.div`
   align-items: center;
   animation: ${rotate} linear infinite alternate;
   // 치타 속도에 따라 수정 필요! 아래는 임시..
-  animation-duration: ${(props) => (props.speedratio > 1 ? .35 : props.speedratio > .75 ? .5 : props.speedratio > .3 ? .7 : props.speedratio > 0 ? 1: 0)}s;
-  // animation-duration: ${(props) => (props.speed - props.max_speed > 5 ? .7 : props.speed - props.max_speed > 3 ? 1 : 2)}s;
+  animation-duration: ${(props) =>
+    props.speedratio > 1
+      ? 0.35
+      : props.speedratio > 0.75
+      ? 0.5
+      : props.speedratio > 0.3
+      ? 0.7
+      : props.speedratio > 0
+      ? 1
+      : 0}s;
+  // animation-duration: ${(props) =>
+    props.speed - props.max_speed > 5
+      ? 0.7
+      : props.speed - props.max_speed > 3
+      ? 1
+      : 2}s;
 `;

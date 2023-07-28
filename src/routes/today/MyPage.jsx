@@ -14,6 +14,7 @@ const MyPage = () => {
     nickname: "",
     max_speed: "",
   });
+  
   useEffect(() => {
     const getUserInfoFromServer = async () => {
       try {
@@ -31,8 +32,11 @@ const MyPage = () => {
       }
     };
     getUserInfoFromServer();
-    console.log(formData);
   }, []);
+
+  
+  console.log("mypage", formData);
+  
   return (
     <div className="h-full bg-[#f5f5f5]">
       <HeaderBack text="마이 페이지" to={"../"}></HeaderBack>

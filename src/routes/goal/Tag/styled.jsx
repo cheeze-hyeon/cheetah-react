@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const TagCreateModalContainer = styled.div`
   position: fixed;
   display: flex;
-  width: 389px;
+  width: 390px;
   padding: 10px 15px;
   align-items: flex-start;
   height: auto;

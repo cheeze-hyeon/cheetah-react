@@ -11,6 +11,7 @@ import {
   TagLabel,
 } from "../../../components/button/styled";
 import { updateTag, deleteTag } from "../../../apis/api_calendar";
+import { ModalOverlay } from "../../../components/modal/styled";
 
 const TagListShow = ({
   tag_default,
@@ -76,10 +77,14 @@ const TagListShow = ({
           openGoalDeleteModal={openGoalDeleteModal}
         />
         {isModalOpen && (
-          <TagDeleteAlertModal
-            onCloseModal={closeGoalDeleteModal}
-            tag_id={tag.id}
-          />
+          <ModalOverlay onClick={closeGoalDeleteModal} className="z-10">
+            <div onClick={(e) => e.stopPropagation()}>
+              <TagDeleteAlertModal
+                onCloseModal={closeGoalDeleteModal}
+                tag_id={tag.id}
+              />
+            </div>
+          </ModalOverlay>
         )}
       </div>
     </div>
