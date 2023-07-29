@@ -57,3 +57,11 @@ instanceWithToken.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// src/apis/axios.js
+
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = "http://localhost:8000/api";
+} else {
+  axios.defaults.baseURL = "https://port-0-cheetah-django-eg4e2alkmzysff.sel4.cloudtype.app/";
+}
