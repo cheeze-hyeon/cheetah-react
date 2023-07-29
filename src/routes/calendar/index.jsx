@@ -15,7 +15,7 @@ import * as s from "./styled";
 import * as t from "../../components/text/styled";
 import isPast from "date-fns/isPast";
 
-import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+//import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 export const CalendarHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
