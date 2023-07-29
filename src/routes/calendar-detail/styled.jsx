@@ -283,6 +283,7 @@ export const progressTopContainer = styled.div`
   align-items: center;
   gap: 20px;
   align-self: stretch;
+  padding-right: 15px;
 `;
 
 export const ProgressSlider = muiStyled(Slider)(() => ({

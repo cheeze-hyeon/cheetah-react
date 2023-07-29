@@ -1,11 +1,15 @@
 {
   "name": "cheetah-react",
   "version": "0.1.0",
-  "private": true,
+  "description": "cheetah todo calendar app",
+  "main": "src/index.js",
+  "repository": "https://github.com/omin-Kwon/cheetah-react.git",
+  "author": "omin-Kwon",
+  "license": "MIT",
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.26.0.tgz",
     "@mui/material": "^5.14.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

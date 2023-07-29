@@ -194,12 +194,13 @@ const TodayPage = () => {
           console.log(goalsListwithImpossibledates[i])
           if (isFinished(goalsListwithImpossibledates[i].update_at)) {
             finishedCount++;
-        }
-
-        } else unfinishedCount++;
+        }else unfinishedCount++;
+        } 
       }
     }
     // 한 번에 상태를 업데이트
+    console.log("unfinishedCount: ", unfinishedCount)
+    console.log("finishedCount: ", finishedCount)
     setCompleted_tasks(tempCompletedTasks);
     setIncompleted_tasks(tempIncompletedTasks);
     setFinishiedTasksCount(finishedCount);
