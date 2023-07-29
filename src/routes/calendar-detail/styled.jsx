@@ -305,19 +305,23 @@ export const todosContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 5px;
+  gap: 15px;
   align-self: stretch;
   overflow: auto;
+  padding-left: 5px;
+  padding-top: 10px;
 `;
 
 export const CompleteButtonContainer = styled(LargeButtonActiveContainer)`
   background: var(--orange);
-  width: 100%;
+  width: 97%;
+  height: 45px;
+  cursor: pointer;
 `;
 export const CompleteButton = (props) => {
   return (
-    <CompleteButtonContainer>
-      <LargeLabel className="text-white" onClick={props.onClick}>완료하기</LargeLabel>
+    <CompleteButtonContainer onClick={props.onClick}>
+      <LargeLabel className="text-white">완료하기</LargeLabel>
     </CompleteButtonContainer>
   );
 };

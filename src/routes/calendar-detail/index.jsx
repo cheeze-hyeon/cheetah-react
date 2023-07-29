@@ -242,20 +242,19 @@ export const TaskCompleteModal = ({
           <FieldWithLabel label="하위 투두">
             <s.todosContainer>
               {!hasTodos && (
-                <TextLight className="self-start px-[10px]">할일이 없어요:</TextLight>
+                <TextLight className="self-start px-[10px]">
+                  할일이 없어요:
+                </TextLight>
               )}
-              {hasTodos && (
-                <div className="flex flex-col gap-[5px] pt-[10px]">
-                  {hasTodos &&
-                    todos.map((todo) => (
+              {hasTodos && 
+                  todos.map((todo) => (
                       <TodoCheck
                         key={todo.id}
                         todo={todo}
                         setTodos={setTodos}
                       />
-                    ))}
-                </div>
-              )}
+                    ))
+              }
               {showAddTodoField ? (
                 <div className="flex flex-row items-center w-full box-border gap-[15px]">
                   <InputTextFieldActive

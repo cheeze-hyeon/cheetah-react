@@ -356,177 +356,176 @@ export const GoalCreateModal = ({
             clickBtnBack={clickBtnBack}
           />
         )}
-        <InputContainer>
-          {step === 1 ? (
-            <>
-              <FieldWithLabel label="태그 선택">
-                <TagsWrapper>
-                  {Array.isArray(tags) && // tags가 배열인지 확인하고, 배열일 때에만 map 함수를 사용합니다.
-                    tags.map((tag) => (
-                      <TagDefault
-                        key={tag.id}
-                        color={tag.color}
-                        text={tag.title}
-                        isSelected={isSelected(tag)}
-                        onClick={() => handleTagClick(tag.id)}
-                      />
-                    ))}
-                </TagsWrapper>
-                {tagError && (
-                  <TextLight color="var(--orange)">{tagError}</TextLight>
-                )}
-              </FieldWithLabel>
-              <FieldWithLabel label="일정 제목">
-                <InputTextFieldActive
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="제목 입력"
-                />
-                {titleError && (
-                  <TextLight color="var(--orange)">{titleError}</TextLight>
-                )}
-              </FieldWithLabel>
-              <FieldWithLabel label="하위 투두">
-                <TodosWrapper>
-                  {newTodos.map((todo, index) => {
-                    const handlechangeCompleted = () => {
-                      console.log("handle 실행");
-                      setNewTodos((prevTodos) =>
-                        prevTodos.map((todo) => ({
-                          ...todo,
-                          is_completed: !todo.is_completed,
-                        }))
-                      );
-                    };
-                    console.log("뭐지", todo);
-                    return (
-                      <NewTodo
-                        key={index}
-                        todo={todo}
-                        value={todo}
-                        defaultIsCompleted={todo.is_completed}
-                        onDelete={handleDeleteTodo}
-                        handlechangeCompleted={handlechangeCompleted}
-                      />
-                    );
-                  })}
 
-                  {showAddTodoField && (
-                    <AddTodoField>
-                      <NewTodoInput
-                        type="text"
-                        value={newTodoTitle}
-                        onChange={(e) => setNewTodoTitle(e.target.value)}
-                        onKeyPress={handleAddTodoEnter}
-                        placeholder="할일을 입력하세요"
-                      />
-                      <button
-                        className="font-['Pretendard'] text-[13px] text-black font-medium"
-                        onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
-                      >
-                        취소
-                      </button>
-                    </AddTodoField>
-                  )}
-                  {!showAddTodoField && (
-                    <TextBtnSmall
-                      onClick={handleAddTodo}
-                      text="+ 투두 추가하기"
+        {step === 1 ? (
+          <InputContainer>
+            <FieldWithLabel label="태그 선택">
+              <TagsWrapper>
+                {Array.isArray(tags) && // tags가 배열인지 확인하고, 배열일 때에만 map 함수를 사용합니다.
+                  tags.map((tag) => (
+                    <TagDefault
+                      key={tag.id}
+                      color={tag.color}
+                      text={tag.title}
+                      isSelected={isSelected(tag)}
+                      onClick={() => handleTagClick(tag.id)}
                     />
-                  )}
-                </TodosWrapper>
-              </FieldWithLabel>
-            </>
-          ) : (
-            <>
-              <FieldWithLabel label="시작일/종료일">
-                <TwoDateFieldContainer>
-                  <DateFieldInput
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                  <DateFieldInput
-                    type="date"
-                    min={new Date(startDate).toISOString().split("T")[0]}
-                    value={finishDate}
-                    onChange={(e) => setFinishDate(e.target.value)}
-                  />
-                </TwoDateFieldContainer>
-                {dateError && (
-                  <TextLight color="var(--orange)">{dateError}</TextLight>
+                  ))}
+              </TagsWrapper>
+              {tagError && (
+                <TextLight color="var(--orange)">{tagError}</TextLight>
+              )}
+            </FieldWithLabel>
+            <FieldWithLabel label="일정 제목">
+              <InputTextFieldActive
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="제목 입력"
+              />
+              {titleError && (
+                <TextLight color="var(--orange)">{titleError}</TextLight>
+              )}
+            </FieldWithLabel>
+            <FieldWithLabel label="하위 투두">
+              <TodosWrapper>
+                {newTodos.map((todo, index) => {
+                  const handlechangeCompleted = () => {
+                    console.log("handle 실행");
+                    setNewTodos((prevTodos) =>
+                      prevTodos.map((todo) => ({
+                        ...todo,
+                        is_completed: !todo.is_completed,
+                      }))
+                    );
+                  };
+                  console.log("뭐지", todo);
+                  return (
+                    <NewTodo
+                      key={index}
+                      todo={todo}
+                      value={todo}
+                      defaultIsCompleted={todo.is_completed}
+                      onDelete={handleDeleteTodo}
+                      handlechangeCompleted={handlechangeCompleted}
+                    />
+                  );
+                })}
+
+                {showAddTodoField && (
+                  <AddTodoField>
+                    <NewTodoInput
+                      type="text"
+                      value={newTodoTitle}
+                      onChange={(e) => setNewTodoTitle(e.target.value)}
+                      onKeyPress={handleAddTodoEnter}
+                      placeholder="할일을 입력하세요"
+                    />
+                    <button
+                      className="font-['Pretendard'] text-[13px] text-black font-medium"
+                      onClick={handleCancelAddTodo} // 취소 버튼을 누르면 handleCancelAddTodo 함수가 호출됩니다.
+                    >
+                      취소
+                    </button>
+                  </AddTodoField>
                 )}
-              </FieldWithLabel>
-              <FieldWithLabel label="달릴 요일">
-                <DaysWrapper>
-                  <TagDefault
-                    key="mon"
-                    color="var(--light-gray)"
-                    text="월"
-                    isSelected={selectedDays["mon"]}
-                    onClick={() => handleDayClick("mon")}
+                {!showAddTodoField && (
+                  <TextBtnSmall
+                    onClick={handleAddTodo}
+                    text="+ 투두 추가하기"
                   />
-                  <TagDefault
-                    key="tue"
-                    color="var(--light-gray)"
-                    text="화"
-                    isSelected={selectedDays["tue"]}
-                    onClick={() => handleDayClick("tue")}
-                  />
-                  <TagDefault
-                    key="wed"
-                    color="var(--light-gray)"
-                    text="수"
-                    isSelected={selectedDays["wed"]}
-                    onClick={() => handleDayClick("wed")}
-                  />
-                  <TagDefault
-                    key="thu"
-                    color="var(--light-gray)"
-                    text="목"
-                    isSelected={selectedDays["thu"]}
-                    onClick={() => handleDayClick("thu")}
-                  />
-                  <TagDefault
-                    key="fri"
-                    color="var(--light-gray)"
-                    text="금"
-                    isSelected={selectedDays["fri"]}
-                    onClick={() => handleDayClick("fri")}
-                  />
-                  <TagDefault
-                    key="sat"
-                    color="var(--light-gray)"
-                    text="토"
-                    isSelected={selectedDays["sat"]}
-                    onClick={() => handleDayClick("sat")}
-                  />
-                  <TagDefault
-                    key="sun"
-                    color="var(--light-gray)"
-                    text="일"
-                    isSelected={selectedDays["sun"]}
-                    onClick={() => handleDayClick("sun")}
-                  />
-                </DaysWrapper>
-              </FieldWithLabel>
-              <FieldWithLabel label="예상 소요시간">
-                <TimeFieldInput
-                  type="number"
-                  min="0"
-                  value={estimatedTime}
-                  onChange={(e) => setEstimatedTime(parseFloat(e.target.value))}
-                  placeholder="숫자 입력 (ex. 12)"
+                )}
+              </TodosWrapper>
+            </FieldWithLabel>
+          </InputContainer>
+        ) : (
+          <InputContainer>
+            <FieldWithLabel label="시작일/종료일">
+              <TwoDateFieldContainer>
+                <DateFieldInput
+                  type="date"
+                  min={new Date().toISOString().split("T")[0]}
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
                 />
-                {timeError && (
-                  <TextLight color="var(--orange)">{timeError}</TextLight>
-                )}
-              </FieldWithLabel>
-            </>
-          )}
-        </InputContainer>
+                <DateFieldInput
+                  type="date"
+                  min={new Date(startDate).toISOString().split("T")[0]}
+                  value={finishDate}
+                  onChange={(e) => setFinishDate(e.target.value)}
+                />
+              </TwoDateFieldContainer>
+              {dateError && (
+                <TextLight color="var(--orange)">{dateError}</TextLight>
+              )}
+            </FieldWithLabel>
+            <FieldWithLabel label="달릴 요일">
+              <DaysWrapper>
+                <TagDefault
+                  key="mon"
+                  color="var(--light-gray)"
+                  text="월"
+                  isSelected={selectedDays["mon"]}
+                  onClick={() => handleDayClick("mon")}
+                />
+                <TagDefault
+                  key="tue"
+                  color="var(--light-gray)"
+                  text="화"
+                  isSelected={selectedDays["tue"]}
+                  onClick={() => handleDayClick("tue")}
+                />
+                <TagDefault
+                  key="wed"
+                  color="var(--light-gray)"
+                  text="수"
+                  isSelected={selectedDays["wed"]}
+                  onClick={() => handleDayClick("wed")}
+                />
+                <TagDefault
+                  key="thu"
+                  color="var(--light-gray)"
+                  text="목"
+                  isSelected={selectedDays["thu"]}
+                  onClick={() => handleDayClick("thu")}
+                />
+                <TagDefault
+                  key="fri"
+                  color="var(--light-gray)"
+                  text="금"
+                  isSelected={selectedDays["fri"]}
+                  onClick={() => handleDayClick("fri")}
+                />
+                <TagDefault
+                  key="sat"
+                  color="var(--light-gray)"
+                  text="토"
+                  isSelected={selectedDays["sat"]}
+                  onClick={() => handleDayClick("sat")}
+                />
+                <TagDefault
+                  key="sun"
+                  color="var(--light-gray)"
+                  text="일"
+                  isSelected={selectedDays["sun"]}
+                  onClick={() => handleDayClick("sun")}
+                />
+              </DaysWrapper>
+            </FieldWithLabel>
+            <FieldWithLabel label="예상 소요시간">
+              <TimeFieldInput
+                type="number"
+                min="0"
+                value={estimatedTime}
+                onChange={(e) => setEstimatedTime(parseFloat(e.target.value))}
+                placeholder="숫자 입력 (ex. 12)"
+              />
+              {timeError && (
+                <TextLight color="var(--orange)">{timeError}</TextLight>
+              )}
+            </FieldWithLabel>
+          </InputContainer>
+        )}
         {step === 1 ? (
           <TwoButton
             text1="완료하기"
@@ -552,7 +551,7 @@ export const GoalCreateModalContainer = styled.div`
   padding: 10px 15px;
   align-items: flex-start;
   gap: 10px;
-  height: 70%;
+  height: auto;
   border-radius: 25px 25px 0px 0px;
   background: var(--white);
   box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
@@ -562,7 +561,7 @@ export const GoalCreateModalContainer = styled.div`
 
 export const GoalCreateModalElementContainer = styled.div`
   display: flex;
-  padding: 10px 0px 35px 0px;
+  padding: 10px 0px 15px 0px;
   flex-direction: column;
   align-items: center;
   gap: 30px;
@@ -571,12 +570,13 @@ export const GoalCreateModalElementContainer = styled.div`
 
 const InputContainer = styled.div`
   display: flex;
-  width: 351px;
+  width: 350px;
   height: full;
   flex-direction: column;
   align-items: flex-end;
-  gap: 20px;
-  overflow: auto;
+  gap: 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const TagsWrapper = styled.div`
