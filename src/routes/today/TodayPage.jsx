@@ -189,9 +189,13 @@ const TodayPage = () => {
       if (goalsListwithImpossibledates[i].progress_rate === 100) {
         tempCompletedTasks.push(goalsListwithImpossibledates[i]);
       } else {
-        tempIncompletedTasks.push(goalsListwithImpossibledates[i]);
-        if (isFinished(goalsListwithImpossibledates[i].update_at)) {
-          finishedCount++;
+        if(!goalsListwithImpossibledates[i].impossible){
+          tempIncompletedTasks.push(goalsListwithImpossibledates[i]);
+          console.log(goalsListwithImpossibledates[i])
+          if (isFinished(goalsListwithImpossibledates[i].update_at)) {
+            finishedCount++;
+        }
+
         } else unfinishedCount++;
       }
     }
@@ -262,7 +266,8 @@ const TodayPage = () => {
     // "yyyy-mm-dd" 형태의 문자열 생성
     const formattedDate = `${year}-${month}-${day}`;
     for (var i = 0; i < impossible_dates_set.length; i++) {
-      if (formattedDate === impossible_dates_set[i]) {
+      console.log(formattedDate, impossible_dates_set[i].date)
+      if (formattedDate === impossible_dates_set[i].date) {
         return true;
       }
     }

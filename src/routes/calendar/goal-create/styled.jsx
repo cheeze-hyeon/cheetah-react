@@ -403,7 +403,7 @@ export const GoalCreateModal = ({
                     return (
                       <NewTodo
                         key={index}
-                        todo={todo.title}
+                        todo={todo}
                         value={todo}
                         defaultIsCompleted={todo.is_completed}
                         onDelete={handleDeleteTodo}
@@ -586,9 +586,7 @@ const TagsWrapper = styled.div`
   align-content: flex-start;
   gap: 10px 12px;
   align-self: stretch;
-  overflow-x: auto;
-  scrollbar: hide;
-  // flex-wrap: wrap;
+  flex-wrap: wrap;
 `;
 
 const TodosWrapper = styled.div`
@@ -599,8 +597,7 @@ const TodosWrapper = styled.div`
   align-content: flex-start;
   gap: 8px;
   align-self: stretch;
-  height: 100px;
-  overflow-y: auto;
+  flex-wrap: wrap;
 `;
 
 export const DaysWrapper = styled.div`

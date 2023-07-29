@@ -248,7 +248,7 @@ const CalendarDetailPage = () => {
           <HeaderMessage
             textOrange={
               !isPast(new Date(selectedDate)) || isToday(new Date(selectedDate))
-                ? "[치타속도 " + Math.floor((speedRate / maxSpeed) * 100) + "%]"
+                ? maxSpeed !== 0 ? "[치타속도 " + Math.floor((speedRate / maxSpeed) * 100) + "%]" : "[빛의 속도]"
                 : historySpeedText
             }
             textGray={
